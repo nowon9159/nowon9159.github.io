@@ -25,4 +25,5 @@ test.html
     </body>
 </html>
 
-#
+#css 프레임 만들기
+https://krksap.tistory.com/635
