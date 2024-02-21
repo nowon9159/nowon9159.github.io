@@ -1,4 +1,6 @@
 # SOA 시험 대비
+
+
 ## **Enhanced Networking (향상된 네트워킹)**
 
 인스턴스의 네트워크는 SR-IOV(Single Root - I/O Virtualization) 를 사용한다. 이는 더 높은 대역폭, 더 높은 PPS(초당 패킷), 낮은 지연을 제공한다.
@@ -96,7 +98,147 @@ Spread Placement Group과의 차이점은 파티션 인스턴스와 다른 파�
         -   한 파티션에 있는 랙을 다른 파티션은 공유하지 않는다.
         -   응용 프로그램이 데이터 및 서버를 파티션 간에 분산시킬 수 있는 경우 사용한다.
 
-## **스팟 인스턴스**
+## EC2 Shutdown Behavior & Termination Protection
+
+인스턴스는 중지(Stop)와 종료(Terminate)가 있음
+
+종료는 또한 종료 방지(Termination Protection) 설정을 할 수 있어서 인스턴스를 생성하거나 생성하고 나서 종료 방지 설정을 할 수 있음. 훨씬 안전함
+AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
+
+종료 설정이 되어 있어도 OS 내에서 shutdown 명령어를 내리게 되면 Terminate 된다.
+`$ sudo shutdown` 하게 되면 Terminated 되기 때문에 주의해야 함
+> 팁으로는 init 0 또는 systemctl poweroff 명령어도 동일하다.
+
+## Troubleshooting EC2 Launch Issues
+
+**InsufficientInstanceCapacity**
+리전 내에서 생성할 수 있는 최대 수치의 vCPU가 있다. 기본적으로 64GB인데 Service Quotas Request를 하게 되면 늘릴 수 있음
+
+온디맨드 또는 Spot 인스턴스는 Default로 64GB로 되어 있음. 
+
+만약 내가 Default 64GB인 상태에서 128GB의 인스턴스 타입을 선택하게 되면 인스턴스의 특정 AZ에 대해 온디맨드에 대한 특정 용량을 갖추지 못했다는 error임
+이는 AWS에서 발생하는 문제이기도 하다. 왜냐하면 AZ에서 64GB가 준비되지 않았을 수도 있으니까
+
+해결 법은
+-   몇 분 기다렸다가 다시 Request 하기
+-   한 번에 적은 인스턴스를 요청해보기. 만약 내가 5개의 인스턴스를 한꺼번에 launch 했다고 했을 때, 1개 1개씩 신청하면 된다.
+-   다른 인스턴스 형식을 요청하기. 완전 다른 인스턴스 유형을 선택 했다가 원하는 인스턴스 유형으로 스케일 업 해도 된다.
+-   Service Quotas에 대한 Request하기
+
+**InstanceTerminatesImmediately**
+인스턴스가 pending 상태에서 Terminated 상태로 즉시 변경되는 것
+
+이유는 아래와 같다.
+-   EBS 볼륨 제한을 초과했을 때
+-   EBS 스냅샷이 손상되었을 때
+-   루트 볼륨이 암호화되어 있으며, 암호 해독을 위해 KMS 키에 액세스할 수 있는 권한이 없을 때
+-   인스턴스 스토어 지원 AMI에 image.part.xx file과 같은 필수적인 부분이 누락 되었을 때
+
+정확한 이유를 찾으려면 EC2 콘솔에서 Description 탭에 있는 State를 확인하면 된다.
+
+## Troubleshooting EC2 SSH Issues
+
+### **Troubleshooting**
+-   pem 키에 400 퍼미션이 아니라면 Unprotected private key file이라는 error가 발생하게 된다.
+-   ssh 접속을 할 때 username이 맞지 않다면 "Host key not found", "Permission denied", "Connection closed by [instance] port 22" error가 발생하게 된다.
+-   "Connection timed out" error 가 발생하게 되면 네트워크 오류이다.
+    -   Security Group이 올바르게 되어있지 않은 경우
+    -   NACL이 올바르게 되어있지 않은 경우
+    -   Route table이나 subnet
+    -   인스턴스가 Public IPv4 주소를 가지고 있지 않은 경우
+    -   서버가 심각한 부하 상태여서 CPU가 100% 인 경우
+
+### **SSH vs. EC2 Instance Connect**
+-   SSH를 사용해 인스턴스에 연결하는 경우
+    -   인바운드 룰에 맞는 host ip가 제대로 SG에 등록 되어 있는지
+-   EC2 Instance Connect를 사용하는 경우
+    -   SG에 [AWS IP Range](https://ip-ranges.amazonaws.com/ip-ranges.json)를 허용 했는지
+
+
+## \[CCP/SAA/DVA] EC2 Instance Purchasing Options
+### **인스턴스 구매 옵션**
+-   On-Demand Instance 
+    -   short workload, 예측 가능한 요금, 초 단위 비용 부과
+-   Reserved (1 & 3 Year)
+    -   Reserved Instances : long workload
+    -   Convertible Reserved Instances : long workload, 어느정도 시간이 지난 후 인스턴스 유형을 변경할 경우 사용되는. 인스턴스 유형을 변경할 수 있는 Reserved Instances
+-   Savings Plans (1 & 3 Year)
+    -   특정 인스턴스 유형에 커밋하는 대신 특정 양의 사용량에 커밋해서 더욱 현대적이다.
+    -   long workload
+-   Spot instance
+    -   짧은 워크로드에 적합함.
+    -   언제든지 이 인스턴스를 잃을 수 있지만 가격이 굉장히 쌈
+-   Dedicated Hosts
+    -   전체 물리 서버를 예약하고 인스턴스 배치(Placement)를 조정 가능하다.
+-   Dedicated Instances (전용 인스턴스)
+    -   다른 고객에게 내가 사용하고자 하는 인스턴스의 하드웨어를 사용하게 하지 않는
+-   Capacity Reservations (용량 예약)
+    -   특정 AZ의 용량을 일정 시간동안 예약하는
+
+### **EC2 On Demand**
+-   Linux 나 Windows 인스턴스를 사용하게 되면 1분 후 초 단위 비용 과금이 되게 된다. 다른 OS의 경우 시간 단위 비용 과금이 된다.
+-   원가는 제일 높지만 선급도 없고 장기적인 계약도 없다.
+-   단기적이고 방해받지 않는 작업에 추천됨. 응용 프로그램이 어떻게 작동할지 예측할 수 없는 곳에 사용됨.
+
+### **Reserved Instances**
+-   온디맨드에 비해서 72% 정도 할인이 된다.
+-   Instance Type, Region, Tenancy, OS 등의 인스턴스 속성을 예약한다.
+-   더 많은 할인을 받기 위해 1년이나 3년의 예약 기간을 명시하고 선결제 없음(No Upfront), 부분 선결제(partial Upfront), 전체 선결제(All Upfront)를 정해야한다.
+-   범위 측면에서는 Regional 이거나 Zonal을 선택해야 한다. Zonal로 선택하게 되면 특정 Zone에 해당 용량을 예약할 수 있음
+-   예약 인스턴스는 DB와 같이 꾸준히 사용되는 응용 프로그램에 추천된다.
+-   예약 인스턴스를 Reserved Instance Marketplace에서 사거나 팔 수 있다.
+
+### **Convertible Reserved Instance**
+-   전환형 예약 인스턴스의 경우 EC2 instance type, instance family, OS, scope(Regional or zonal), tenancy를 변경할 수 있다.
+-   더 많은 유연성을 가질 수 있어서 할인을 조금 덜 받을 수 있다. 66%
+
+### **EC2 Savings Plans**
+-   장기 사용량에 따라 할인을 받을 수 있도록 해준다. 예약 인스턴스와 같은 72% 임.
+-   특정 type에 대한 사용량을 기준으로 약정. 예를 들면 10$/hour로 1년 또는 3년 약정을 걸 수 있다.
+-   Savings Plan 이외의 사용량은 On-demand 가격으로 청구된다.
+-   특정 인스턴스 유형에 묶이게 된다. 예를 들어 us-east-1에 M5 타입의 인스턴스를 넣는다고 가정할 때 M5.xlarge 또는 M5.2xlarge 등 가능하다.
+-   이외에 유연한 항목들은 Instance size, OS, Tenancy 가 있다.
+
+### **Spot Instance**
+-   온디맨드에 비해서 90%의 할인율을 자랑한다.
+-   max price가 spot price 보다 작아지면 인스턴스는 중지 과정에 들어간다.
+-   AWS에서 가장 비용 효율적인 인스턴스이다.
+-   실패해도 크게 문제가 없는 workload에서 유용하게 사용될 것이다. 예를 들면 batch 작업이나, 데이터 분석, 이미지 프로세싱 등 모든 종류의 분산된 작업
+-   그래서 데이터베이스나 종료되면 안되는 작업에는 적합하지 않다.
+
+### **Dedicated Hosts**
+-   물리적 서버와 EC2 인스턴스 용량을 확보해 실제 사용에 전념할 수 있다.
+-   규정 요건을 준수하고 기존 서버 바운드 소프트웨어 라이센스를 사용할 수 있도록 허용한다. (소켓 당, 코어 당, VM 당 소프트웨어 라이센스)
+-   요금의 경우 아래와 같다.
+    -   온디맨드 : 1초당 요금 부과
+    -   Reserved : 1 or 3 year (선결제 없음, 부분 선결제, 전체 선결제)
+-   가장 비싼 Instance 옵션
+-   사용 사례는 라이선스 모델이 있는 소프트웨어가 있을 때. (BYOL) , 규제 및 준수 요구가 강한 회사의 경우
+
+### **Dedicated Instances**
+-   인스턴스는 내 전용으로 할당된 하드웨어에서 실행된다. 동일 계정 내의 다른 인스턴스와 하드웨어를 공유할수도 있다.
+-   인스턴스 배치에 대한 제어는 할 수 없다.
+-   전용 인스턴스는 자체 하드웨어에서 실행되는 것을 의미하며, 전용 호스트는 물리적 서버에 직접 액세스 해 low-level의 하드웨어를 확인할 수 있다.
+
+### **EC2 Capacity Reservations**
+-   특정 AZ에 온디맨드 인스턴스를 일시적으로 예약할 수 있다. 예약 후에는 예약한 용량에 한해서 언제든지 액세스할 수 있다.
+-   유일한 기능은 용량을 예약하는 것이기 때문에 요금이 할인되지는 않는다. 할인을 받으려면 Zonal RI나 SP와 결합해야한다.
+-   인스턴스를 실행하던 실행하지 않던 온디맨드 요금이 청구된다.
+-   이것은 특정 가용 영역에 필요한 단기의 작업에 적합하다.
+
+### **정리**
+어떤 구매 옵션이 나에게 적절한지 간략하게 설명해보자. 리조트에 비유를 해보자.
+
+온디맨드는 리조트에 언제든지 들어가고 싶을 때마다 전액을 지불하는 것과 같다.
+예약 인스턴스의 경우 미리 계획을 세우고 리조트에 1, 3년 동안 오래 머물 계획일때
+Savings Plan의 경우 리조트에서 특정 금액을 지출할 것을 정확히 알고 있을 때, 예를 들어 다음 12개월 동안 매월 $300 정도를 지출할 것
+스팟 인스턴스의 경우 리조트가 임박 세일을 할 때이다. 빈 방이 있어서 사람들을 유치하려고 할 때. 그러나 스팟 인스턴스의 경우 누군가 내가 지불한 금액보다 더 많이 지불하려고 하면 언제든지 방을 비워야한다.
+전용 호스트는 리조트 전체 건물을 예약하는 것과 같다.
+용량 예약은 나는 방을 예약할 건데 언제 머물지 확실치 않지만 머물고 싶다면 언제든 머물것이라고 이야기하는 것과 같다. 
+
+시험에서는 어떤 유형의 인스턴스가 워크로드에 기반하여 적합한지 알아야한다.
+
+## **[SAA] Spot Instances & Spot Fleet**
 ### 스팟 인스턴스
 온디맨드 가격보다 저렴한 비용으로 제공되는 예비 EC2 용량을 사용하는 인스턴스
 
@@ -263,7 +405,7 @@ Unlimited는 무제한의 burst credit 잔액을 제공해 credit이 0에 도달
 -   그래서 Unlimited라는 것이 있다. Unlimited는 무제한의 credit을 제공해 CPU 사용량이 과부하 되고 크레딧을 전부 소진하더라도 추가 비용만 지불하면 CPU 성능을 보장해준다.
     -   24시간을 기준으로 인스턴스 평균 CPU 사용률이 기준 사용률을 초과하는 사용률에 대해 사용한 vCPU 당 시간 당 요금을 내게 된다.
 
-## **Elastic IP**
+## **Elastic IPs**
 
 EC2 인스턴스를 중지하고 시작하면 Public IP가 변경된다. 고정된 IP가 필요하다면 EIP가 필요하다.
 
@@ -727,4 +869,18 @@ Region 수준에서 수행할 수 있는 작업이며, EC2 인스턴스뿐만 �
 
 예를 들어 "Environment"="dev" 태그가 할당된 EC2 가 두개 있다고 했을 때 리소스 그룹을 생성해서 AWS::service::resource 형식의 리소스 유형을 선택하고 "Environment"="dev" 태그를 지정하게 되면 해당 리소스 그룹은 태그 기반으로 SSM을 직접 작업할 수 있다.
 
-## ****
+## **SSM Documents & SSM Run Command**
+
+SSM Documents는 JSON 또는 YAML로 작성될 수 있어며, 매개변수를 정의해 Documents가 무엇을 수행하는지, 즉 작업을 정의하고 특정 서비스에서 문서가 실행된다.
+
+AWS에는 이미 많은 문서가 존재하며, 우리가 하는 작업을 더 빨리 진행하기 위해 이를 활용할 수 있다.
+
+SSM을 자주 사용하기 시작하면 자체 SSM Documents를 작성할 것이다.
+
+이러한 Documents를 state manager, patch manager, automation 와 같은 다른 SSM 기능에 적용할 수 있으며, SSM Parameter Store에서 일부 데이터를 검색하여 문서가 어떻게 작동할지에 대한 일종의 모듈성과 동적성을 제공할 수 있다.
+
+SSM 은 Amazon 소유의 Documents, 내 소유의 Documents 등이 있다. 내가 소유한 Documents도 있고 다른 사람들과 Documents를 공유할 수도 있다.
+
+Documents를 적용하는 첫 번째 방법은 Run Command SSM 기능을 사용하는 것이다.
+
+Run command를 사용하여 전체 Documents를 실행하거나(EC2 인스턴스 플릿 전체에 대한 스크립트인 경우)
