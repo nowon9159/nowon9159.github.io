@@ -883,4 +883,123 @@ SSM 은 Amazon 소유의 Documents, 내 소유의 Documents 등이 있다. 내�
 
 Documents를 적용하는 첫 번째 방법은 Run Command SSM 기능을 사용하는 것이다.
 
-Run command를 사용하여 전체 Documents를 실행하거나(EC2 인스턴스 플릿 전체에 대한 스크립트인 경우)
+Run command를 사용하여 전체 Documents를 실행하거나(EC2 인스턴스 플릿 전체에 대한 스크립트인 경우) 간단히 EC2 인스턴스 플릿 전체에서 단일 명령을 실행할 수 있다.
+이를 위해 이전에 만든 리소스 그룹을 사용할 수 있다.
+
+run command에는 rate control 및 error contorl 기능이 있다. 예를 들어 1,000개의 인스턴스에 명령을 실행한다면 1,2 분 동안 다운될 것이다. 점진적으로 수행해야 하며, 오류가 발생할 경우 플릿의 명령을 중단할 수 있어야 한다.
+
+IAM & CloudTrail과 완전히 통합되어 있다. 
+그래서 누가 명령을 실행하는지 알 수 있다. 
+
+SSH가 필요 없다. 에이전트가 명령을 실행하지만 system manager는 명령을 실행하기 위해 인스턴스에 SSH 액세스 권한을 필요로 하지 않는다.
+
+명령 output은 콘솔에서 볼 수 있지만 S3 버킷이나 CloudWatch로 보낼 수도 있다.
+
+명령 실행 상태를 알려면 콘솔을 살펴볼 수도 있고 SNS로 정보를 보낼 수도 있다. 진행 중인지, 성공 했는지 실패 했는지 등을 알 수 있다.
+
+자동화와 EvnetBridge를 위한 CloudWatch Events의 실행 명령을 호출하는 데 사용될 수 있다.
+
+
+## **SSM Automation**
+Automation은 EC2 인스턴스나 다른 AWS 리소스를 위한 일반적인 유지 관리와 배포 작업을 단순화하도록 도와준다.
+
+예를 들어 Automation을 사용하면 인스턴스 재시작이나 AMI 생성, EBS 스냅샷 작업같은 걸 할 수 있다.
+
+run command의 경우 인스턴스의 내부에서 명령어를 실행했지만 automation의 경우 외부에서 실행한다.
+
+Automation Runbook의 경우 자동화 형식이 될 SSM을 위한 문서의 이름이다. 일반적으로 runbook이라고 한다.
+
+runbook은 EC2 인스턴스나 AWS 리소스에 작업을 정의하고 수행하는 것이다.
+AWS가 미리 정의한 Runbook을 사용할 수도 있고 custom runbook을 만들 수도 있다.
+
+SSM Automation은 콘솔이나 CLI, SDK를 이용해 트리거 된다.
+또한 EventBridge Rule을 이용해서 자동화 할 수 있다.
+SSM Maintenance Windows를 이용해서 특정 일정에 수행되는 자동화도 가능하다.
+AWS Config rules remediation으로 규칙에 준수되지 않는 리소스를 발견할 때마다 자동화도 가능하다.
+
+Documents가 실행될 곳을 선택할 수도 있다.
+simple execution, Rate control, Multi-account and Region, Manual execution 등이 가능하다.
+
+## **[SAA/DVA] SSM Parameter Store Overview**
+
+SSM 파라미터 스토어는 configuration과 secrets를 위한 보안 저장소이다.
+선택적으로 configuration을 KMS 서비스를 이용해서 암호화할 수도 있다.
+SSM 파라미터 스토어는 serverless이며 확장 가능하며 durable하고 사용이 쉬운 SDK가 특징이다.
+
+configuration과 secrets를 업데이트하면 버전 트래킹을하게 된다.
+
+보안은 IAM을 통해 제공된다.
+
+아마존 EventBridge로 알림을 받을 수 있다.
+
+CloudFormation과 통합될 수 있다. CloudFormation이 파라미터 스토어의 매개 변수를 stack의 input 매개 변수로 활용할 수 있다.
+
+예를 들어 Application과 SSM Parameter Store가 있을 때 일반 텍스트 구성을 저장할 수 있고, Application의 IAM 사용 권한(EC2 인스턴스 역할이나 암호화된 Configuration을 통해서 권한이 부여된)을 확인하게된다.
+이 경우 Parameter Store는 KMS로 암호화될 것이다.
+KMS 서비스는 암호화와 Devryption에 사용될 것이다.
+
+물론 Application은 기본 KMS 키에 액세스 권한이 있어야 암호화와 복호화를 실행할 수 있다.
+
+파라미터 스토어에 매개 변수를 계층 구조와 함께 저장 가능하다.
+
+예를 들어 부서를 경로로 정의할 수 있다. 그리고 부서 아래에 application 그리고 dev prod 등등 원하는 방식으로 변수를 정리할 수 있게 해준다.
+/my-department/my-app/dev/db-url/
+/my-department/my-app/dev/db-password/
+/my-department/my-app/prod/db-url/
+/my-department/my-app/prod/db-password/
+등등..
+
+그 다음 IAM 정책을 단순화해 Application이 전체 부서나 전체 앱 또는 앱 부서 환경 특정 경로에 액세스할 수 있도록 할 수 있다.
+
+파라미터 스토어를 통해 Secrets Manager에 접근할수도 있다.
+ex) /aws/reference/secretsmanager/secret_ID_in_Secrets_Manager
+
+또한 AWS가 발행하는 퍼블릭 파라미터라는 것도 사용할 수 있다.
+예를 들어, 우리 특정 Region에서 최신 AMI를 찾으려면 API 호출로서 파라미터 스토어에서 가져올 수 있다.
+ex) /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 (public)
+
+Application을 예로 들면 Dev Lambda Function은 IAM 롤이 있고, /my-department/my-app/dev/db-url 등에 액세스를 가능하게 한다.
+
+Systems Manager에는 두 종류의 매개 변수 계층이 있다.
+하나는 Standard 하나는 Advanced이다.
+
+가장 큰 차이는 최대 변수 값 크기이다. Standard는 4KB Advanced는 8KB이다.
+그리고 매개 변수 정책의 가용성도 있다. 
+
+Standard는 공짜고 Advanced는 한달에 advanced parameter 당 0.05$이다.
+
+매개 변수 정책이란 무엇인가?
+-    매개 변수에 TTL을 설정할수 있다. 만료일을 의미한다. 패스워드 같은 민감한 데이터를 업데이트하거나 삭제하도록 강요하는 것이다.
+-    한번에 여러 가지 정책을 할당할 수 있다.
+    -    예를 들어서 매개 변수가 만료되기 15일 전에 이벤트 브릿지에서 알림을 받거나, 20일 동안 매개 변수가 업데이트되지 않는다면 알림을 받는 것처럼 두 개의 알림을 한번에 받을 수도 있다.
+
+
+
+## **SSM Inventory & State Manager**
+
+SSM의 인벤토리 기능을 살펴보자.
+관리되는 인스턴스로부터 메타데이터를 수집하는 데 사용된다. EC2일수도 있고 On-premises일 수도 있다.
+
+메타데이터는 많은 것을 포함할 수 있다. 설치된 소프트웨어, OS 드라이버, configurations, 설치된 업데이트, 실행중인 서비스 등등
+
+AWS 콘솔에서 데이터를 볼 수도 있고 S3에 저장할 수도 있다. 서버리스 용 Athena를 이용해서 쿼리 후 분석할 수도 있고, 대시보드를 구축하고 싶다면 QuickSight를 이용할 수도 있다.
+
+메타데이터의 수집 간격을 지정할 수 있다. 분, 시간, 일 단위로 가능하다.
+
+여러 계정 및 Region에서 데이터를 모아 하나의 계정에서 중앙 집중형으로 쿼리를 날릴 수 있다.
+
+마지막으로, 원한다면 사용자 지정 인벤토리를 만들 수 있다. 예를들어 각각의 관리되고 있는 인스턴스의 rack 위치를 확인하거나 할 수 있다.
+
+초기에는 enable inventory를 해야 모든 인스턴스에 대한 inventory를 활성화 할수있다.
+
+State Manager는 관리되고 있는 EC2를 우리가 정의한 상태로 유지하는 프로세스를 자동화하는 데 사용된다.
+사용 사례는 소프트웨어의 인스턴스를 부트스트랩하거나, OS나 소프트웨어 업데이트를 일정에 따라 패치하는 것이다.
+
+State Manager Association을 만들어야한다.
+인스턴스가 유지되어야하는 상태를 정의한다. 예를 들어 무조건 포트 22번을 닫거나 EC2의 안티 바이러스를 설치해야 하는 등의 상태이다.
+그리고 해당 configuation이 적용 될 스케줄을 지정해준다.
+
+State Manager를 활용하려면 SSM Documents를 사용하고 Association을 생성해야한다.
+예를 들어 CloudWatch Agent를 설정하는 SSM Document를 생성할 수 있다.
+
+
