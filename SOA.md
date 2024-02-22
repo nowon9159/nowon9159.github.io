@@ -977,6 +977,7 @@ Standard는 공짜고 Advanced는 한달에 advanced parameter 당 0.05$이다.
 
 ## **SSM Inventory & State Manager**
 
+**SSM Inventory**
 SSM의 인벤토리 기능을 살펴보자.
 관리되는 인스턴스로부터 메타데이터를 수집하는 데 사용된다. EC2일수도 있고 On-premises일 수도 있다.
 
@@ -992,6 +993,7 @@ AWS 콘솔에서 데이터를 볼 수도 있고 S3에 저장할 수도 있다. �
 
 초기에는 enable inventory를 해야 모든 인스턴스에 대한 inventory를 활성화 할수있다.
 
+**State Manager**
 State Manager는 관리되고 있는 EC2를 우리가 정의한 상태로 유지하는 프로세스를 자동화하는 데 사용된다.
 사용 사례는 소프트웨어의 인스턴스를 부트스트랩하거나, OS나 소프트웨어 업데이트를 일정에 따라 패치하는 것이다.
 
@@ -1001,5 +1003,9 @@ State Manager Association을 만들어야한다.
 
 State Manager를 활용하려면 SSM Documents를 사용하고 Association을 생성해야한다.
 예를 들어 CloudWatch Agent를 설정하는 SSM Document를 생성할 수 있다.
+
+## **SSM Patch Manager and Maintenance Windows**
+
+
 
 
