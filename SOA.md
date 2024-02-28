@@ -1437,4 +1437,49 @@ ASG의 몇 가지 일반적인 문제 해결 방법
 -   키페어가 존재하지 않을 수 있다.
 -   ASG가 24시간 동안 인스턴스를 시작하는 데 문제가 있는 경우 자동으로 디버그를 위해 ASG의 자동 스케일링 프로세스를 중지한다.
 
-asdf
+## **CloudWatch for ASG**
+
+**ASG 수준 메트릭 (Opt-in)**
+-   1분마다 수집되는 ASG 수준의 메트릭.
+-   GroupMinSize: ASG 내의 최소 인스턴스 수.
+-   GroupMaxSize: ASG 내의 최대 인스턴스 수.
+-   GroupDesiredCapacity: ASG 내의 원하는 인스턴스 수.
+-   GroupInServiceInstances: "InService" 상태의 인스턴스 수.
+-   PendingInstances: "Pending" 상태의 인스턴스 수.
+-   StandbyInstances: "Standby" 상태의 인스턴스 수.
+-   TerminatingInstances: "Terminating" 상태의 인스턴스 수.
+-   TotalInstances: ASG 내의 총 인스턴스 수.
+-   참고: 이러한 메트릭에 액세스하려면 ASG 수준에서 메트릭 수집을 활성화해야 합니다.
+
+**EC2 수준 메트릭 (기본 활성화)**
+
+-   CPU Utilization: EC2 인스턴스의 CPU 사용량.
+-   Network In/Out: 네트워크 트래픽의 데이터 전송률.
+-   Disk Read/Write: 디스크 I/O 메트릭(인스턴스 스토어의 경우 해당 없음).
+-   Status Checks: EC2 인스턴스의 상태 확인.
+-   참고: 기본 모니터링은 5분 간격으로 메트릭을 제공하며, 상세 모니터링은 1분 간격으로 제공됩니다.
+
+**그룹 메트릭 수집**
+-   
+-   ASG 설정으로 이동합니다.
+-   "Enable" 버튼을 클릭하여 그룹 수준 메트릭 수집을 시작합니다.
+
+## **Auto Scaling Overview**
+-   AWS의 모든 확장 가능한 리소스에서 사용 가능하다.
+-   EC2 인스턴스를 시작하거나 종료할 수 있게 해준다.
+-   Spot Fleet 요청을 총해 Spot Fleet 요청 자체에서 인스턴스를 시작하거나 종료할 수 있다. 그리고 가격이나 용량 문제로 인해 중단된 인스턴스를 자동으로 교체할 수 있다.
+-   ECS에도 사용되어 ECS 서비스의 원하는 수를 상향 및 하향 조정한다.
+-   DynamoDB 테이블에서는 테이블이나 글로벌 보조 인덱스에 Auto Scaling을 사용해 시간에 따라 WCU(Write Capacity Units) RCU(Read Capacity Units)를 조정한다.
+-   Aurora는 Dynamic Read Replica Auto Scaling을 위해 Auto Scaling을 사용한다.
+-   Scaling Plans는 동적 스케일링을 포함한 여러 가지 스케일링 옵션을 제공한다.
+-   동적 스케일링이 없으면 시간이 지남에 따라 동일한 용량을 유지한다. 그러나 동적 스케일링에서는 시간에 따라 용량을 조정한다. 
+-   따라서 utilization을 안정화할 수 있다. 
+-   또한 가용성을 최적화할 수 있으며, 이 경우 utilization의 40%를 목표로 설정할 수 있다.
+-   또는 비용을 최적화할 수 있으며 이 경우 70%의 utilization을 목표로 삼는다.
+-   그러나 100%에 가까워질수록 스케일링은 효율적이지 않아지고, 성능 병목 지점에 도달하게 된다.
+-   자체 메트릭 또는 특정 값을 선택할 수도 있다. AWS에서는 Utilization을 권장 사항으로 제공한다.
+-   동적 스케일링의 옵션으로는 scail in 비활성화가 있고, ASG의 쿨 다운 기간과 워밍업 시간 지정이 있다.
+-   동적 스케일링의 대안으로는 예측 스케일링이 있다.
+-   예측 스케일링은 AWS에서 제공하는 머신러닝 알고리즘을 사용해 과거 로드를 분석하고 예측을 생성한 다음 해당 예측을 기반으로 자동으로 스케줄링 작업이 수행된다.
+
+## ****
