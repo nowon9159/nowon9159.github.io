@@ -145,7 +145,7 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 -   다른 인스턴스 형식을 요청하기. 완전 다른 인스턴스 유형을 선택 했다가 원하는 인스턴스 유형으로 스케일 업 해도 된다.
 -   Service Quotas에 대한 Request하기
 
-**InstanceTerminatesImmediately**
+**Instance terminates immediately**
 인스턴스가 pending 상태에서 Terminated 상태로 즉시 변경되는 것
 
 이유는 아래와 같다.
@@ -164,7 +164,7 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 -   "Connection timed out" error 가 발생하게 되면 네트워크 오류이다.
     -   Security Group이 올바르게 되어있지 않은 경우
     -   NACL이 올바르게 되어있지 않은 경우
-    -   Route table이나 subnet
+    -   Route table이나 subnet 문제 
     -   인스턴스가 Public IPv4 주소를 가지고 있지 않은 경우
     -   서버가 심각한 부하 상태여서 CPU가 100% 인 경우
 
@@ -177,7 +177,7 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 
 ## \[CCP/SAA/DVA] EC2 Instance Purchasing Options
 ### **인스턴스 구매 옵션**
--   On-Demand Instance 
+-   On-Demand Instance
     -   short workload, 예측 가능한 요금, 초 단위 비용 부과
 -   Reserved (1 & 3 Year)
     -   Reserved Instances : long workload
@@ -202,9 +202,9 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 
 ### **Reserved Instances**
 -   온디맨드에 비해서 72% 정도 할인이 된다.
--   Instance Type, Region, Tenancy, OS 등의 인스턴스 속성을 예약한다.
+-   Instance Type(예:m4.large), Region, Tenancy, OS 등의 인스턴스 속성을 예약한다.
 -   더 많은 할인을 받기 위해 1년이나 3년의 예약 기간을 명시하고 선결제 없음(No Upfront), 부분 선결제(partial Upfront), 전체 선결제(All Upfront)를 정해야한다.
--   범위 측면에서는 Regional 이거나 Zonal을 선택해야 한다. Zonal로 선택하게 되면 특정 Zone에 해당 용량을 예약할 수 있음
+-   범위 측면에서는 Regional 이거나 Zonal을 선택해야 한다. Zonal로 선택하게 되면 특정 Zone에 reserve 할 수 있고 조건이 맞을 시 할인이 됨
 -   예약 인스턴스는 DB와 같이 꾸준히 사용되는 응용 프로그램에 추천된다.
 -   예약 인스턴스를 Reserved Instance Marketplace에서 사거나 팔 수 있다.
 
@@ -214,9 +214,9 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 
 ### **EC2 Savings Plans**
 -   장기 사용량에 따라 할인을 받을 수 있도록 해준다. 예약 인스턴스와 같은 72% 임.
--   특정 type에 대한 사용량을 기준으로 약정. 예를 들면 10$/hour로 1년 또는 3년 약정을 걸 수 있다.
--   Savings Plan 이외의 사용량은 On-demand 가격으로 청구된다.
--   특정 인스턴스 유형에 묶이게 된다. 예를 들어 us-east-1에 M5 타입의 인스턴스를 넣는다고 가정할 때 M5.xlarge 또는 M5.2xlarge 등 가능하다.
+-   특정 Family에 대한 사용량을 기준으로 약정. 예를 들면 10$/hour로 1년 또는 3년 약정을 걸 수 있다.
+-   Savings Plan로 약정을 건 외의 사용량은 On-demand 가격으로 청구된다.
+-   특정 인스턴스 패밀리에 묶이게 된다. 예를 들어 us-east-1에 M5 타입의 인스턴스를 넣는다고 가정할 때 M5.xlarge 또는 M5.2xlarge 등 가능하다.
 -   이외에 유연한 항목들은 Instance size, OS, Tenancy 가 있다.
 
 ### **Spot Instance**
@@ -284,7 +284,7 @@ BlockDuration 매개변수를 사용해 인스턴스를 실행할 시간과 지�
 
 스팟 인스턴스는 주로 배치 작업, 데이터 분석, 장애에 견딜 수 있는 작업에 사용된다. 그리고 중요한 작업이나 데이터베이스에는 적합하지 않는다.
 
-***스팟 블록은 Deprecated 되었음***
+***중요 : 스팟 블록은 Deprecated 되었음***
 
 **스팟 인스턴스 가격**
 특정 Region에 대해 특정 가용 영역에 해당하는 스팟 가격이 있다. 스팟 가격은 고려 중인 가용 영역에 따라 다양하다.
@@ -304,7 +304,6 @@ BlockDuration 매개변수를 사용해 인스턴스를 실행할 시간과 지�
 
 인스턴스들을 종료하는 것은 AWS의 책임이 아닌 여전히 내 책임이다. 영구적으로 스팟 인스턴스를 종료하고 다시 시작하지 않으려면 스팟 요청을 취소한 다음 관련된 스팟 인스턴스를 종료해야 한다.
 왜냐하면 스팟 인스턴스를 먼저 종료하면 스팟 요청으로 돌아가고 스팟 요청의 개수대로 유지하기 위해 인스턴스를 다시 실행할 것이기 때문이다.
-
 https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/spot-requests.html
 
 ### 스팟 플릿 (강의 번역이 부실하여 강의 내용 기반 따로 정리함)
@@ -461,20 +460,20 @@ AWS는 EC2 인스턴스에 대한 몇 가지 메트릭을 제공하며 AWS는 �
 
 사용자 지정 메트릭을 사용할 수도 있다. 이는 사용자가 푸시하는 사용자 지정 메트릭이다. 사용자 지정 메트릭의 기본 resolution은 1분이지만 최대 1초까지의 사용자 지정 메트릭을 사용할 수 있다.
 
-EC2의 사용자 지정 메트릭을 푸시하려면 EC2 인스턴스에 CloudWatch에 메트릭을 푸시할 수 있는 권한이 있는 IAM 역할이 있어야 한다.
+EC2의 사용자 지정 메트릭을 푸시하려면 EC2 인스턴스에 CloudWatch에 메트릭을 푸시할 수 있는 권한이 있는 IAM 역할이 있어야 한다. (Agent 설정해야해서)
 
 **EC2 메트릭**
 첫번째로는 CPU 메트릭이다.
 
-CPU Utilization을 얻을 걷이며, 또한 T2 또는 T3 인스턴스와 같이 버스트가 발생하는 경우에는 버스트의 크레딧 사용량과 크레딧 잔액을 얻을 수 있다.
+CPU Utilization을 확인 가능하고, T2 또는 T3 인스턴스와 같이 버스트가 발생하는 경우에는 버스트의 크레딧 사용량과 크레딧 잔액을 확인할 수 있다.
 
 네트워크의 경우 인스턴스로 들어오고 나가는 네트워크 양을 확인할 수 있다.
 
-상태 확인은 본질적으로 인스턴스가 건강한지 여부를 확인한다.
-이는 EC2VM이 작동하는지 여부를 Amazon이 확인하고 시스템 상태는 기본 하드웨어가 작동하는지 Amazon이 확인한다.
-이것은 Amazon이 수행하는 Health Check 이므로 사용자는 이에 대한 제어권이 없지만, instance status와 system status를 구분할 수 있어야 한다.
+상태 확인(health check)은 본질적으로 인스턴스가 건강한지 여부를 확인한다.
+EC2 인스턴스가 작동하는지 여부를 Amazon이 확인하고 기본 하드웨어가 작동하는지 확인하는 시스템 상태도 Amazon이 확인한다.
+시스템 상태 확인은 Amazon이 수행하는 Health Check 이므로 사용자는 이에 대한 제어권이 없지만, instance status와 system status를 구분할 수 있어야 한다.
 
-인스턴스 스토어를 사용하는 경우에만 EC2 인스턴스에 대한 디스크 정보를 얻을 수 있다. 이 인스턴스 스토어는 디스크에 대한 읽기 및 쓰기 작업 또는 바이트를 제공한다.
+인스턴스 스토어를 사용하는 경우에만 EC2 인스턴스에 대한 디스크 정보를 얻을 수 있다. 이 인스턴스 스토어는 디스크에 대한 읽기 및 쓰기 작업 또는 바이트를 제공한다. (EBS에 대한 지표를 확인하기 위해서는 Agent를 설치해야 함)
 
 RAM은 AWS EC2 메트릭에 포함되어 있지 않는다.
 시험에 자주 CloudWatch에서 RAM 사용량을 얻을수 있는지 물어본다.
@@ -490,9 +489,8 @@ Metric에 대해 자세히 확인해보자
 디스크 읽기 및 쓰기 메트릭은 EBS 볼륨 자체에서 확인할 수 있다.
 그러나 EC2 인스턴스가 인스턴스 스토어가 있는 EC2 인스턴스인 경우 이러한 메트릭이 채워져 있는 것을 볼 수 있다.
 
-마지막으로 CPU 크레딧 사용이다. AWS 버스터블 유형의 인스턴스에 대한 것이다.
-또한 CPU 크레딧 밸런스를 확인할 수 있다. EC2 인스턴스를 사용하지 않으면 CPU 크레딧 밸런스가 시간이 지남에 따라 증가한다.
-
+AWS 버스터블 유형의 경우 CPU 크레딧 사용량을 확인할 수 있다.
+또한 CPU 크레딧 밸런스가 있다. EC2 인스턴스를 사용하지 않으면 CPU 크레딧 밸런스가 시간이 지남에 따라 증가한다.
 
 EC2 Detailed monitoring을 활성화하면 다음 과정을 거친다.
 상태 확인 -> 모니터링 -> 자세한 모니터링 관리
