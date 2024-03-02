@@ -1563,7 +1563,7 @@ CloudFormation은 자동으로 지정한 구성과 정확한 순서로 리소스
 
 CloudFormation Designer에서는 템플릿에 작성한 이러한 리소스가 다이어그램으로 보여지는 것을 알 수 있따.
 
-CloudFormation을 사용해야하는 이유는 무엇일까?
+**CloudFormation을 사용해야하는 이유는 무엇일까?**
 -   IaC를 위해서 (Infrastructure as Code)
     -   수동으로 생성된 리소스가 없다는 것을 의미하고 수동으로 관리하지 않아도 되어 제어에 뛰어나다.
     -   CloudFormation code를 Git과 같은 version control을 이용해서 관리할 수 있다.
@@ -1610,5 +1610,88 @@ CloudFormation의 기본 구성 요소
     -   Mappings: 템플릿의 정적 변수이며, 파라미터와는 차이점이 있다.
     -   Outputs: 템플릿에서 어떤 항목들이 생성되었는지에 대한 출력이다.
     -   Conditions: 리소스 생성을 수행하기 위한 조건
+
+
+
+## **[DVA] YAML Crash Course**
+CloudFormation에서 가장 자주 볼 것은 아마 YAML 템플릿일 것이다.
+
+-   YAML은 JSON과 마찬가지로 키-값 쌍을 사용한다. JSON은 많은 문자 보간 등의 이유로 CloudFomation 템플릿을 작성하는 데 좋지 않고, 가독성과 쉽게 구성할 수 있는 측면에서 YAML이 매우 좋다고 생각한다.
+-   YAML은 들여쓰기가 된 여러 키-값 쌍이 있다. 이것은 nested object라고 부르며 JSON 내에서는 nest object라고 한다.
+-   그리고 배열을 지원한다. 하나의 오브젝트 내에서 여러개의 배열을 나타내는 마이너스 기호가 있다.
+-   또한 다중 행 문자열을 지원하며 "|" 파이프 기호를 이용하면 된다.
+-   "#" 을 이용해 주석을 추가할 수도 있다.
+
+```yaml
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1a
+      ImageId: ami-0a3c3a20c09d6f377
+      InstanceType: t2.micro
+      SecurityGroups:
+        - !Ref SSHSecurityGroup
+      # we install our web server with user data
+      UserData: 
+        Fn::Base64: |
+          #!/bin/bash -xe
+          dnf update -y
+          dnf install -y httpd
+          systemctl start httpd
+          systemctl enable httpd
+          echo "<h1>Hello World from user data</h1>" > /var/www/html/index.html
+
+  # our EC2 security group
+  SSHSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: SSH and HTTP
+      SecurityGroupIngress:
+      - CidrIp: 0.0.0.0/0
+        FromPort: 22
+        IpProtocol: tcp
+        ToPort: 22
+      - CidrIp: 0.0.0.0/0
+        FromPort: 80
+        IpProtocol: tcp
+        ToPort: 80
+
+```
+
+## **[DVA] CloudFormation - Resources**
+
+Resources는 CloudForamtion 템플릿의 핵심이며 전체 CloudFormation 템플릿에서 유일하게 필수인 섹션이다.
+
+Resources는 템플릿의 일부로 생성 및 구성된 여러 AWS 구성 요소를 나타낸다.
+Resources는 선언되고 서로 참조할 수 있으며, AWS는 자원의 생성, 업데이트 및 삭제를 우리 대신 처리해준다.
+
+다양한 유형의 Resources가 있다. 700개 이상의 Resources 유형이 있어서 문서를 읽는 방법을 가르쳐준다.
+
+Resources 유형 식별자는 `service-provider::service-name::data-type-name` 의 형식으로 되어 있다.
+
+EC2의 경우 아래와 같은 형식의 yaml 파일을 갖는다.
+
+properties의 경우 key value 쌍의 목록이다.
+여러 개의 properties를 확인할 수 있으며 User guide 페이지를 확인하게 되면 여러 항목을 어떻게 사용하는 지 확인할 수 있다.
+
+```yaml
+Type: AWS::EC2::Instance
+Properties:
+  AdditionalInfo: String
+  Affinity: String
+  AvailabilityZone: String
+  ~~~
+```
+
+많은 리소스에 대해 사용 가능한 많은 속성이 있다.
+일반적으로 콘솔에서 지정할 수 있는 모든 것은 CloudFormation을 통해서도 지정할 수 있다.
+
+리소스에 대해 몇 가지 자주 묻는 질문이 있다.
+1.  동적 수의 리소스를 생성할 수 있을까?
+    -   가능하다. Cloudformation macros와 Transform을 사용해야 하지만 이 강의의 범위에 포함되지 않는다.
+2.  모든 AWS 서비스가 지원되는가?
+    -   신규 서비스를 제외하고 거의 모든 서비스가 CloudFormation을 지원한다.
+    -   CloudFormation Custom Resources를 사용하면 지원되지 않는 서비스를 처리할 수 있다.
 
 
