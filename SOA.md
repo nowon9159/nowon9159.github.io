@@ -1936,3 +1936,52 @@ EnableFeature의 파라미터와 동일하다면 true가 된다.
 
 시험에서는 Conditions를 작성하는 방법을 알 필요는 없다. 조건이 존재한다는 것을 알기만 하면 된다.
 
+## **[DVA] CloudFormation - Intrinsic Functions**
+
+Intrinsic Funtions는 무조건 알아야 할 것이 있다.
+
+-   **must know**
+    -   Ref
+    -   Fn::GetAtt
+    -   Fn::FindInMap
+    -   Fn::ImportValue
+    -   Condition Functions(Fn::If, Fn::Not, Fn::Equals etc...)
+-   일반
+    -   Fn::Join
+    -   Fn::Sub
+    -   Fn::ForEach
+    -   Fn::ToJsonString
+
+이러한 함수들은 CloudFormation 문서에서 확인 가능하다.
+
+**Ref 함수**는 매개변수에 대한 값 또는 생성된 기본 리소스(EC2 인스턴스 등)의 물리적 ID를 반환하는 데 사용될 수 있다.
+
+느낌표와 함께 항상 축약하여 사용된다. !Ref
+
+**GetAtt 함수**는 생성한 모든 리소스에 연결된다. 이 함수는 속성을 가져오는 데 사용된다.
+
+```yaml
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  myELB:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      AvailabilityZones:
+        - eu-west-1a
+      Listeners:
+        - LoadBalancerPort: '80'
+          InstancePort: '80'
+          Protocol: HTTP
+  myELBIngressGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ELB ingress group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupOwnerId: !GetAtt myELB.SourceSecurityGroup.OwnerAlias
+          SourceSecurityGroupName: !GetAtt myELB.SourceSecurityGroup.GroupName
+```
+
+예제 코드에서 볼 수 있듯이 myELB에 
