@@ -1825,3 +1825,44 @@ Mappings:
 이러한 템플릿에 대해 더 안전한 제어를 제공한다.
 
 그러나 사용자가 원하는 값이 실행 시점에 어떤 것이며 사용자에게 최대한의 자유를 제공하려면 매개 변수를 사용해야 한다.
+
+
+
+## **[DVA] CloudFormation - Outputs & Exports**
+
+Outputs는 선택 사항이며 선택적인 output 값을 선언한다.
+
+이러한 값을 선언하면 다른 스택에서 output 값을 가져올 수 있다.
+
+예를들어 네트워크 스택을 생성하고 내보낸 output이 있는 경우 해당 내보낸 output 값을 다른 애플리케이션 스택에서 참조할 수 있다.
+
+콘솔이나 AWS CLI를 사용해서 output의 값을 볼 수 있다.
+
+따라서 네트워크 스택을 정의하고 VPC ID, Subnet ID를 출력하여 다른 방식으로 재사용하는 경우에 출력이 매우 유용하다.
+
+이렇게 하면 스택 간의 협업을 수행하고 자체 스택을 처리하고 협업할 수 있다.
+
+```yaml
+Outputs:
+  PublicSubnet:
+    Description: The subnet ID to use for public web servers
+    Value:
+      Ref: PublicSubnet
+    Export:
+      Name:
+        'Fn::Sub': '${AWS::StackName}-SubnetID'
+  WebServerSecurityGroup:
+    Description: The security group ID to use for public web servers
+    Value:
+      'Fn::GetAtt':
+        - WebServerSecurityGroup
+        - GroupId
+    Export:
+      Name:
+        'Fn::Sub': '${AWS::StackName}-SecurityGroupID'
+```
+
+위 코드에서는 Output이 있다. 
+
+```yaml
+```
