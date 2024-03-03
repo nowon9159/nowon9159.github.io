@@ -1695,3 +1695,98 @@ Properties:
     -   CloudFormation Custom Resources를 사용하면 지원되지 않는 서비스를 처리할 수 있다.
 
 
+## **[DVA] CloudFormation - Parameters**
+Parameter는 템플릿에 인풋을 제공하는 방법이다.
+
+CloudFormation 템플릿이 있고 사용자에게 매개 변수 값을 제공하려면 이러한 매개 변수는 CloudFormation 템플릿의 일부로 정의된다.
+
+이전에 보안 그룹에 설명을 부여할 때 매개 변수를 이용해서 입력해주었다.
+
+매개 변수는 여러 사람이 여러 매개 변수를 제공할 수 있도록 템플릿을 여러 곳에서 재사용하려면 알아야 할 중요한 내용이다.
+
+인풋은 미리 결정할 수 없으므로 매개 변수는 강력하게 제어되고 type으로 인해 템플릿에서 오류가 발생하는 것을 방지할 수 있다.
+
+예를들어 SecurityGroupDescription 매개 변수를 설정해서 보안 그룹의 설명을 설정할 수 있다.
+
+우리는 다음과 같은 질문을 해봐야한다.
+
+이 CloudFormation 리소스 config는 미래에 변경될 가능성이 있는가?
+이러한 경우 매개 변수로 만드는 것이 좋다.
+왜냐면 해당 값을 업데이트하려면 매개 변수만 수정하면 되고 템플릿을 다시 업로드 할 필요가 없기 때문이다.
+
+또한 미리 결정할 수 없다면 매개 변수로 만들어야 한다.
+
+매개 변수에는 여러 설정이 있으며 첫 번째는 유형이다.
+String, Number, CommaDelimitedList, List, AWS-Specific Parameter, SSM Parameter 등이 있다.
+
+또 Description, ConstraintDescription(제약 조건), Min/MaxLength, Min/MaxValue, Default, AllowedValues(array), AllowedPattern(regex), NoEcho(Boolean) 등등이 있다.
+
+모든 것을 기억할 필요는 없지만 매개 변수는 단순한 문자열이 아니다.
+
+파라미터는 제약 조건과 유효성 검사를 가질 수 있어서 안전하게 사용할 수 있도록 할 수 있다.
+
+중요한 예시 두 가지를 소개하겠다.
+
+첫번째는 AllowedValues 이다.
+여기에는 InstanceType이라는 매개 변수가 있다.
+
+Type: String인 EC2 InstanceType을 선택할 수 있다.
+
+```yaml
+AllowedValues:
+    - t2.micro
+    - t2.small
+    - t2.medium
+Default: t2.micro
+```
+
+이런 형태로 있을 때 이 매개변수는 세 가지 값 중 하나만 선택할 수 있으며 선택권이 주어지지만 제어가 된다.
+기본 값이 t2.micro로 설정 되어 있기 때문에 기본적으로 t2.micro가 선택된다.
+
+
+또한 NoEcho 매개변수가 있다.
+
+예를 들어 매개 변수로 데이터베이스 암호를 입력하려고 하지만 물론 이것은 암호이므로 비밀로 유지해야한다.
+
+따라서 패스워드가 어디에서도 표시되지 않도록 NoEcho: true로 설정해 로그에서 제거한다.
+
+매개 변수를 어떻게 사용하는지 살펴보자
+
+!Ref 함수를 사용하면 매개 변수를 참조하고 템플릿으 ㅣ어디에서나 사용할 수 있다.
+
+Fn::Ref 를 사용할 수도 있지만 !Ref라는 약식 버전이 있다.
+
+이 함수는 매개 변수를 참조하는 것뿐만 아니라 템플릿 내의 다른 요소를 참조하는데 사용할 수 있다.
+
+예를들어 SecurityGroupDescription이라는 매개변수에 Description과 Type: String 을 설정하고 제약 조건이 없다고 가정해보자
+
+!Ref SecurityGroupDecription을 하게 되면 SecurityGroupDecription에 설정되어 있는 설명이 String의 형태로 참조되게 된다.
+
+
+이것이 !Ref 함수의 사용 방법이고 CloudFormation 템플릿 내에서 매개 변수를 참조하는 방법이다.
+
+!Ref 함수는 다른 위치에서도 사용된다.
+꼭 파라미터를 불러오는 것이 아니라 이미 설정 되어 있는 SecurityGroup의 리소스의 리스트를 그대로 다른 SecurityGroup에서 참조하게 할 수도 있다.
+
+따라서 매개 변수를 참조하는 데 동일한 방식이 사용되므로 리소스가 매개 변수와 동일한 이름을 가지지 않도록 주의해야 한다.
+
+Pseudo Parameter가 있다.
+
+AWS는 모든 CloudFormation 템플릿에서 Pseudo Parameter를 제공하고 있다.
+
+이러한 것들은 생성하지 않았더라도 존재하며 언제든지 사용할 수 있으며 기본적으로 활성화되어 있다.
+
+예를들어 아래와 같은 Pseudo Parameter가 있다.
+
+-   AWS::AccountId
+    -   실제 계정 ID를 자동으로 확인할 수 있다.
+-   AWS::Region
+    -   템플릿이 위치한 리전 값
+-   AWS::StackId
+    -   스택 ID
+-   AWS::StackName
+    -   스택 이름
+-   AWS::NotificationARNs
+    -   알람 ARN 값
+-   AWS::NoValue
+    -   아무 값도 리턴하지 않는 것
