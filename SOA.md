@@ -1865,4 +1865,74 @@ Outputs:
 위 코드에서는 Output이 있다. 
 
 ```yaml
+Resources:
+  WebServerInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-a1b23456
+      NetworkInterfaces:
+        - GroupSet:
+            - Fn::ImportValue: 
+              'Fn::Sub': '${NetworkStackNameParameter}-SecurityGroupID'
+          AssociatePublicIpAddress: 'true'
+          DeviceIndex: '0'
+          DeleteOnTermination: 'true'
+          SubnetId: Fn::ImportValue: 
+            'Fn::Sub': '${NetworkStackNameParameter}-SubnetID'
 ```
+
+Fn::ImportValue 함수를 이용하면 다른 스택에서 내보낸 값을 가져올 수 있다.
+
+두 개의 다른 CloudFormation 템플릿을 연결할 수 있는데, 연결된 상황에서 첫 번째 스택이 내보낸 값을 더 이상 참조하지 않을 때까지 첫 번째 스택을 삭제할 수 없다. **증요**
+
+
+## **[DVA] CloudFormation - Conditions**
+
+Condition은 특정 조건에 기반하여 리소스 또는 output의 생성을 제어하는 데 사용된다.
+
+예를 들어 개발 환경에서만 생성되어야하는 몇 가지 항목이 있을 수 있다. dev 또는 prod 스택 처럼 특정 환경에서만 생성되어야 하는 항목이 예다.
+예를 들어 차이점을 두어 하나는 EBS 볼륨을 가지고 있고 다른 하나는 그렇지 않은 경우이다.
+
+따라서 조건을 원하는 대로 만들 수 있다.
+
+그러나 일반적으로는 개발, 테스트 및 프로덕션과 같은 환경에 따라 조건을 만드는 것이 흔하다. 또는 Region 또는 매개변수 값에 따라 조건을 만들수도 있다.
+
+각 Condition은 서로를 참조하고 매개변수 값이나 매핑을 참조할 수 있다.
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation Condition 예제
+Parameters:
+  EnableFeature:
+    Type: String
+    AllowedValues: ['true', 'false']
+    Description: 특정 기능을 활성화할지 여부를 선택합니다.
+Conditions:
+  EnableFeatureCondition: !Equals [!Ref EnableFeature, 'true']
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Condition: EnableFeatureCondition
+    Properties:
+      BucketName: MyEnabledBucket
+Outputs:
+  OutputMessage:
+    Description: |
+      조건에 따라 S3 버킷이 생성되었습니다.
+    Value: !If
+      - EnableFeatureCondition
+      - "Enabled 기능이 활성화되었습니다."
+      - "Enabled 기능이 비활성화되었습니다."
+```
+
+예를 들어 위에서는 EnableFeatureCondition 이라는 조건 값을 정의하고 여기에서 Equal을 이용해 EnableFeature의 파라미터와 동일한 값인지 확인한다.
+
+EnableFeature의 파라미터와 동일하다면 true가 된다.
+
+조건을 만들려면 And, Equals, If, Not, Or과 같은 모든 함수를 사용할 수 있고 이런 방식으로 조건을 만들 수 있다.
+
+조건을 리소스에 적용하지만 출력 등에도 적용할 수 있다.
+
+시험에서는 Conditions를 작성하는 방법을 알 필요는 없다. 조건이 존재한다는 것을 알기만 하면 된다.
+
