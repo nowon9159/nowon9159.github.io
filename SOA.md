@@ -2045,7 +2045,7 @@ EnableFeature의 파라미터와 동일하다면 true가 된다.
 
 ## **[DVA] CloudFormation - Intrinsic Functions**
 
-Intrinsic Funtions는 무조건 알아야 할 것이 있다.
+Intrinsic Funtions(내장 함수)는 무조건 알아야 할 것이 있다.
 
 -   **must know**
     -   Ref
@@ -2065,7 +2065,7 @@ Intrinsic Funtions는 무조건 알아야 할 것이 있다.
 
 느낌표와 함께 항상 축약하여 사용된다. !Ref
 
-**GetAtt 함수**는 생성한 모든 리소스에 연결된다. 이 함수는 속성을 가져오는 데 사용된다.
+**GetAtt 함수**는 템플릿에서 생성한 모든 리소스에 연결된다. 이 함수는 속성을 가져오는 데 사용된다.
 
 ```yaml
 AWSTemplateFormatVersion: 2010-09-09
@@ -2091,4 +2091,15 @@ Resources:
           SourceSecurityGroupName: !GetAtt myELB.SourceSecurityGroup.GroupName
 ```
 
-예제 코드에서 볼 수 있듯이 myELB에 
+예제 코드에서 볼 수 있듯이 myELB에 !GetAtt 함수를 이용해서 myELB.SourceSecurityGroup.OwnerAlias 해당 속성 값을 가져오게 된다.
+
+예를 들어 "EC2Instance" EC2 인스턴스를 생성하고 "EC2Instance"라는 이름의 인스턴스에서 가용 영역을 가져오려면 `!GetAtt EC2Instance.AvailabilityZone`을 사용하면 속성을 가져올 수 있다.
+
+FindInMap 함수는 특정 맵에서 특정 키의 값을 가져오는 데 사용된다. 주로 매필을 사용할 때 사용된다.
+
+ImportValue 함수는 다른 스택에서 내보낸 값을 가져오는 데 사용된다.
+
+Base64 함수는 문자열을 Base64 표현으로 변환하는 데 사용된다. 주로 EC2 인스턴스의 Userdata에 데이터를 전달할 때 사용된다.
+
+이런 식으로 내장 함수들은 템플릿 내에서 동적이고 유연한 작업을 수행하는 데 중요한 도구이다.
+
