@@ -1336,7 +1336,7 @@ Scalability와 고가용성
 ## **[SAA/DVA] Elastic Load Balancer - SSL Certificates**
 -   SSL 인증서는 클라이언트와 로드 밸런서 간의 트래픽을 전송 중에 암호화할 수 있게 한다. 이를 "In-flight encryption"이라고 한다. 데이터가 네트워크를 통과하는 동안 암호화되고 보내는 사람 및 수신자만 해독할 수 있다.
 -   SSL은 Secure Sockets Layer의 약자이며 전송 연결을 암호화하는 데 사용된다. TLS는 SSL의 최신 버전으로 Transport Layer Security를 나타낸다.
--   Public SSL 인증서는 Certificate Authorities(인증 기관)에 의해서 발금되며, Letsencrypt/symantec/GoDaddy/Digicert 등이 포함된다.
+-   Public SSL 인증서는 Certificate Authorities(인증 기관)에 의해서 발급되며, CA는 Letsencrypt/symantec/GoDaddy/Digicert 등이 있다.
 -   Public SSL 인증서를 로드 밸런서에 연결해 클라이언트와 로드 밸런서 간의 연결을 암호화할 수 있다.
 -   SSL 인증서는 설정한 만료 날짜를 가지고 정기적으로 갱신되어야 한다.
 -   인증서의 만료일은 ACM(AWS Certificate Manager)을 사용하여 AWS에서 관리할 수 있으며, 필요한 경우 ACM에 직접 인증서를 업로드할 수도 있다.
@@ -1350,7 +1350,7 @@ Scalability와 고가용성
 -   CLB를 사용하는 경우 Connection Draining 이라고 하지만 ALB 또는 NLB를 사용하는 경우 Deregistration Delay 라고 불린다.
 -   인스턴스가 Deregestration 즉, 등록 해제되거나 Unhealthy 상태로 표시될 때 In-flight 요청 또는 active 요청을 완료할 충분한 시간을 제공하는 것이다.
 -   인스턴스가 Drain 되어서 연결이 드레인되면, ELB는 인스턴스가 Deregistration되는 동안 드레인 중인 EC2 인스턴스로 요청을 보내지 않는다.
--   deregistration_delay.timeout_seconds 파라미터 값이 존재하는 데 이는 기본값 300초로 5분이며, 값이 0으로 설정되면 Drain이 발생하지 않는다. 최소 1에서 최대 3,600 사이의 값을 설정할 수 있다.
+-   deregistration_delay.timeout_seconds 파라미터 값이 존재하는 데 이는 기본값 300초(5분)이며, 값이 0으로 설정되면 Drain이 발생하지 않는다. 최소 1에서 최대 3,600 사이의 값을 설정할 수 있다.
 -   애플리케이션의 요청이 짧은 경우(ex:1초 미만) 매개변수를 30초로 설정하는 것이 좋다. 이렇게 하면 EC2 인스턴스가 매우 빨리 드레인되고 오프라인으로 전환된다. 업로드 또는 긴 지속 요청이 있는 경우 값을 높게 설정하는 대신에 인스턴스가 빨리 사라지지는 않을 것이다.
 
 ## **Elastic Load Balancer - Health Checks**
@@ -1383,15 +1383,15 @@ Scalability와 고가용성
 -   다음으로 2XX, 3XX, 4XX, 5XX 가 있다.
 -   클라이언트에게 요청을 얼마나 빨리 받아올 수 있는지에 대한 정보인 latency 정보가 있다.
 -   로드 밸런서의 전체 요청 횟수를 나타내는 RequestCounts
--   평균적으로 얼마나 많은 EC2 인스턴스가 요청을 받는지에 대한 RequqestCountPerTartet
+-   평균적으로 얼마나 많은 EC2 인스턴스가 요청을 받는지에 대한 RequestCountPerTarget
 -   대기 중이며 Healthy한 인스턴스로 라우팅되는 총 요청 수이며, ASG를 확장하는 데 도움이 될 수 있는 SurgeQueueLength. 최대 값은 1000이며, 큰 요청 대기열이 필요가 없기 때문에 이 대기열이 0에 가깝게 유지 되도록 해야한다.
 -   SpilloverCount는 대기열이 가득 차서 거부된 요청의 수이다. 0보다 큰 값을 갖는 것을 절대로 피해야한다. 0보다 크다면 백엔드를 확장해 추가 요청을 처리하고 클라이언트가 일부 요청을 잃고 있는지 확인해야 한다.
 
 **예시**
 -   메트릭을 사용해 문제를 해결하려면 다음과 같다.
--   400 Bad Request는 클라이언트가 잘못된 요청을 보냈다는 것을 의미한다.
--   503은 로드 밸런서에 사용가능한 healthy한 인스턴스가 없다는 것을 의미하므로 HealthyHostCount 메트릭 및 CloudWatch를 확인할 수 있다.
--   504는 게이트웨이 시간 초과다. EC2 인스턴스의 keep-alive 설정이 활성화되어 있는지 확인하고, keep-alive timeout이 로드 밸런서의 idle timeout 설정보다 큰지 확인해야한다.
+    -   400 Bad Request는 클라이언트가 잘못된 요청을 보냈다는 것을 의미한다.
+    -   503은 로드 밸런서에 사용가능한 healthy한 인스턴스가 없다는 것을 의미하므로 HealthyHostCount 메트릭 및 CloudWatch를 확인할 수 있다.
+    -   504는 게이트웨이 시간 초과다. EC2 인스턴스의 keep-alive 설정이 활성화되어 있는지 확인하고, keep-alive timeout이 로드 밸런서의 idle timeout 설정보다 큰지 확인해야한다.
 
 전반적으로 로드 밸런서에대한 Alarm을 설정하고 문서 기반의 문제 해결을 해야한다.
 
