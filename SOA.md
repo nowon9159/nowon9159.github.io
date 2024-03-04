@@ -2121,4 +2121,16 @@ CloudFormation 생성 로그를 확인하여 실패 이유를 이해할 수 있�
 
 디폴트인 상태에서 실패하면 모든 것이 삭제되지만 Preserve successfully provisioned resources로 설정하게되면 일부가 남아있기 때문에 필요에 따라 문제를 해결할 수 있다. 허나 삭제되지 않은 잔여물을 제거하려면 스택을 삭제해야 한다.
 
+## **[DVA] CloudFormation - Service Role**
+
+CloudFormation은 서비스 역할을 사용할 수 잇따. 서비스 역할은 CloudFormation 전용으로 만든 IAM 역할로, CloudFormation이 실제로 나를 대신해 스택 리소스를 생성, 업데이트 및 삭제할 수 있게 한다.
+
+따라서 사용자에게 리소스와 직접 작업할 수 있는 권한이 없지만 스택 리소스를 생성, 업데이트 및 삭제할 수 있는 능력을 부여하려면 서비스 역할을 사용한다.
+
+예를 들어 사용자는 템플릿을 생성 가능한 cloudformation에 대한 모든 권한과 PassRole이 있다.
+CloudFormation에 할당할 Service Role을 생성하고, 해당 역할은 버킷을 생성, 업데이트 및 삭제할 수 있는 권한을 갖게되면
+
+사용자가 CloudFormation에 PassRole을 이용해서 역할을 전달할 수 있기 때문에 CloudFormation은 이 서비스 역할을 사용해 S3 버킷을 생성할 수 있다.
+
+보안을 위한 사용 사례로는 최소 권한 원칙을 실현하고 사용자에게 스택 리소스를 생성할 수 있는 모든 권한을 부여하지 않고 CloudFormation에서 서비스 역할을 호출할 수 있는 권한만 부여하려는 경우가 있다. 이를 위해 사용자는 iam:PassRole이라는 권한을 가지고 있어야 한다.
 
