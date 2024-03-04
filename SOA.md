@@ -867,6 +867,14 @@ System Manager는 확장 가능한 EC2 Fleet 인스턴스와 온프레미스 서
 
 또한 Config와 통합되어 있으며 무료 서비스이고 사용하는 리소스 또는 생성하는 리소스에 대해서만 비용이 발생한다.
 
+**정리**
+-   System Manager는 확장 가능한 EC2 Fleet 인스턴스와 온프레미스 서버를 관리하는데 도움이 된다.
+-   시험에서는 패치를 적용하거나 실행 중인 모든 종류의 서버에 대해 자동화하는 작업에 System Manager를 이용한다.
+-   Window 및 Linux 운영체제 모두에서 작동하며 CloudWatch Metric, CloudWatch 대시보드와 완전히 통합되어 있다.
+-   System Manager는 무료 서비스이고, 사용하는 리소스 또는 생성하는 리소스에 해당해서만 비용이 부과된다.
+
+
+
 ## **AWS Tags & SSM Resource Groups**
 
 태그와 리소스 그룹에 대해 알아보자
@@ -887,9 +895,17 @@ Region 수준에서 수행할 수 있는 작업이며, EC2 인스턴스뿐만 �
 
 예를 들어 "Environment"="dev" 태그가 할당된 EC2 가 두개 있다고 했을 때 리소스 그룹을 생성해서 AWS::service::resource 형식의 리소스 유형을 선택하고 "Environment"="dev" 태그를 지정하게 되면 해당 리소스 그룹은 태그 기반으로 SSM을 직접 작업할 수 있다.
 
+**정리**
+-   태그는 많은 리소스에 적용할 수 있는 Key Value 쌍이다. 다양한 리소스에서 사용된다.
+-   일반적으로 "Environment":"prod", "Team":"Infra" 등의 태그로 많이 정의된다.
+-   태그는 리소스 그룹화, 자동화, 보안 및 비용 할당으로 많이 사용된다. 일반적으로 적은 태그보다 많은 태그를 가지는 것이 더 좋다.
+-   태그를 사용해 리소스 그룹을 생성하고 여러 리소스를 그룹화할 수 있다.
+-   동일한 태그를 사용해 리소스를 그룹화하면 태그 기반으로 그룹화된 SSM 작업을 할 수 있다.
+
+
 ## **SSM Documents & SSM Run Command**
 
-SSM Documents는 JSON 또는 YAML로 작성될 수 있어며, 매개변수를 정의해 Documents가 무엇을 수행하는지, 즉 작업을 정의하고 특정 서비스에서 문서가 실행된다.
+SSM Documents는 JSON 또는 YAML로 작성될 수 있으며, 매개변수를 정의해 Documents가 무엇을 수행하는지, 즉 작업을 정의하고 특정 서비스에서 문서가 실행된다.
 
 AWS에는 이미 많은 문서가 존재하며, 우리가 하는 작업을 더 빨리 진행하기 위해 이를 활용할 수 있다.
 
@@ -917,6 +933,20 @@ SSH가 필요 없다. 에이전트가 명령을 실행하지만 system manager�
 
 자동화와 EvnetBridge를 위한 CloudWatch Events의 실행 명령을 호출하는 데 사용될 수 있다.
 
+**정리**
+-   SSM Documents는 JSON 또는 YAML로 작성될 수 있고, Document에 작업을 정의해 특정 서비스에서 정의된 매개변수와 함께 Document를 수행할 수 있다.
+-   AWS에서는 미리 정의된 제공되는 Documents가 있으며, 사용자가 자체적으로 SSM Documents를 작성할 수도 있다. 또한 다른 사용자에게 내 Documents를 공유할 수도 있다.
+-   Documents는 State Manager, Patch Manager, Automation 등의 다른 SSM 기능에 적용 가능하고 SSM Parameter Store에서 일부 데이터를 검색해 문서에 대한 일종의 모듈성과 동적성을 제공할 수 있다.
+-   SSM Run Command를 사용하면 Documents를 적용할 수 있다.
+-   Run Command를 사용해 이전에 만든 리소스 그룹(EC2 인스턴스 플릿 전체)을 활용하여 단일 명령을 실행할 수 있다.
+-   Run Command에는 Rate Control 또는 Error Control이 있다.
+    -   Rate Control은 말그대로 한 번에 수행해야 할 인스턴스의 비율이다. 예를 들어 1,000개의 인스턴스에 한번에 명령어를 수행한다면 문제가 발생할 수 있으니 점진적으로 수행하는 기능이다.
+    -   Error Control은 명령어 수행 중 에러가 발생할 경우 Run Command 자체를 중단하는 기능이다. 예를들어 10개의 인스턴스가 있는 리소스 그룹에 대해 10%의 비율을 설정하게 되면 1개 이상의 Error가 발생하면 Command를 중단하는 것이다.
+-   IAM & CloudTrail과 통합되어 있어 누가 명령을 실행하는 지 알 수 있다.
+-   Output을 출력받아 콘솔에서 확인하거나 S3 또는 CloudWatch로 Export 가능하다.
+-   명령 수행 상태를 확인하려면 콘솔을 살펴보거나 SNS로 정보를 보내 진행 중인지 성공 했는지 실패 했는지 등을 알 수 있다.
+-   EventBridge나 CloudWatch Events를 연동해 Run Command를 호출할 수도 있다.
+
 
 ## **SSM Automation**
 Automation은 EC2 인스턴스나 다른 AWS 리소스를 위한 일반적인 유지 관리와 배포 작업을 단순화하도록 도와준다.
@@ -937,6 +967,15 @@ AWS Config rules remediation으로 규칙에 준수되지 않는 리소스를 �
 
 Documents가 실행될 곳을 선택할 수도 있다.
 simple execution, Rate control, Multi-account and Region, Manual execution 등이 가능하다.
+
+**정리**
+-   Automation은 EC2 인스턴스나 다른 AWS 리소스를 위한 일반적인 유지 관리와 배포 작업을 단순화한다.
+-   Run Command와의 다른 점은 Run Command는 단일 명령어 및 스크립트를 수행하는데, Automation은 여러 작업을 단계적으로 수행하거나 Task의 형태로 나누어 수행 가능하다.
+-   Automation Runbook의 경우 자동화 형식이 될 문서의 이름이다. Runbook은 EC2 인스턴스나 AWS 리소스에 작업을 정의하고 수행하는 것이다. SSM Run Command로 비교하면 Documents == Runbook인 느낌
+-   Runbook의 경우 AWS가 미리 정의한 Runbook도 있고 Custom Runbook을 만들 수도 있다.
+-   Automation은 콘솔이나 CLI, SDK를 이용해 트리거 된다. EventBridge Rule을 이용해서 자동화할 수도 있다. 
+-   SSM Maintenance Windows를 이용해서 특정 일정에 수행되는 자동화도 가능하다.
+-   AWS Config rules remediation으로 규칙에 준수되지 않는 리소스를 발견할 때마다 수행하는 자동화도 가능하다.
 
 ## **[SAA/DVA] SSM Parameter Store Overview**
 
@@ -991,7 +1030,32 @@ Standard는 공짜고 Advanced는 한달에 advanced parameter 당 0.05$이다.
 -    한번에 여러 가지 정책을 할당할 수 있다.
     -    예를 들어서 매개 변수가 만료되기 15일 전에 이벤트 브릿지에서 알림을 받거나, 20일 동안 매개 변수가 업데이트되지 않는다면 알림을 받는 것처럼 두 개의 알림을 한번에 받을 수도 있다.
 
-
+**정리**
+-   SSM Parameter Store는 configuration과 secrets를 위한 보안 저장소이다. 파라미터 스토어는 Serverless이며, 확장 가능하고 사용이 쉬운 SDK가 특징이다.
+-   선택적으로 configuration을 KMS 서비스를 이용해 암호화할 수도 있다.
+-   CloudFormation과 통합해서 CloudFormation이 파라미터 스토어의 매개변수를 Stack의 input 매개 변수로 활용할 수 있다.
+-   파라미터 스토어 매개 변수를 계층 구조와 함께 저장 가능하다.
+    -   예를 들어 특정 부서별 db를 관리하고 있고 해당 db에 대한 url과 패스워드 값을 파라미터로 저장해 특정 부서 경로에 액세스할 수 있도록 IAM 정책을 구성하면 부서 별 파라미터 접근 권한을 관리할 수 있다.
+    -   /infra-department/my-app/dev/db-url
+    -   /infra-department/my-app/dev/db-password
+    -   /dev-department/my-app/dev/db-url
+    -   /dev-department/my-app/dev/db-password 등등..
+-   파라미터 스토어를 통해 secrets Manager에 접근할수도 있다.
+    -   /aws/reference/secretsmanager/secret_ID_in_Secrets_Manager
+-   AWS가 관리하는 퍼블릭 파라미터를 사용할 수도 있다.
+    -   예를 들어 특정 Region에서 최신 AMI를 찾으려면 파라미터 스토어에서 값을 가져올 수 있다.
+    -   /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+-   Parameter Store에는 두 종류의 매개 변수 Tier가 있다.
+    -   Standard
+        -   무료 요금
+        -   Standard의 경우 매개 변수 정책을 설정할 수 없다.
+    -   Advanced
+        -   한달에 parameter 당 0.05$
+        -   매개 변수 정책 설정 가능
+-   매개 변수 정책
+    -   매개 변수에 TTL을 설정해서 매개 변수가 만료되는 시점을 설정할 수 있다. 패스워드 같은 민감 데이터를 업데이트하거나 삭제하도록 강제하는 것이다.
+    -   한번에 여러 정책을 설정할 수 있다.
+        -   예를 들어 매개 변수가 만료되기 15일 전 이벤트 브릿지에서 알람을 받고, 20일 동안 매개 변수가 업데이트되지 않는다면 알람을 받아 두 개의 알람을 한 번에 받을수도 있다.
 
 ## **SSM Inventory & State Manager**
 
@@ -1022,6 +1086,21 @@ State Manager Association을 만들어야한다.
 State Manager를 활용하려면 SSM Documents를 사용하고 Association을 생성해야한다.
 예를 들어 CloudWatch Agent를 설정하는 SSM Document를 생성할 수 있다.
 
+**정리**
+-   SSM Inventory는 관리되는 인스턴스(EC2, 온프레미스)로부터 메타데이터를 수집하는 데 사용된다.
+    -   메타데이터에는 많은 것이 포함된다. 설치된 소프트웨어, OS 드라이버, Configurations, 설치된 업데이트, 실행중인 서비스 등등
+    -   AWS 콘솔에서 데이터를 보거나 S3에 데이터를 저장해 Athena를 이용해 쿼리 후 분석하거나 QuickSight를 이용해 데이터 대시보드를 구축할 수도 있다.
+    -   수집 간격은 분, 시간, 일 단위로 가능하다.
+    -   여러 계정 및 Region에서 데이터를 모아 하나의 계정에서 중앙 집중형으로 쿼리를 날릴 수 있다.
+    -   사용자 지정 인벤토리를 만들 수도 있으며, 설정 초기에 Click here to enable inventory on all instances 를 해주면 모든 인스턴스에 대한 inventory를 활성화 할 수 있다.
+-   SSM State Manager는 관리되는 EC2를 우리가 정의한 상태로 유지하는 데 사용된다.
+    -   사용 사례는 소프트웨어의 인스턴스를 부트스트랩하거나, OS나 소프트웨어 업데이트를 일정에 따라 패치하는 것이다.
+    -   State Manager Association을 만들어 인스턴스가 유지되어야하는 상태를 정의할 수 있다. 예를 들어 무조건 포트 22번을 닫거나 EC2에 안티 바이러스를 설치해야 한느 등의 상태. 
+    -   그리고 해당 Configuration이 적용 될 스케줄을 지정해줄수 있다.
+    -   State manager를 활용하려면 SSM Documents를 사용하고 Association을 생성해야한다.
+
+
+
 ## **SSM Patch Manager and Maintenance Windows**
 
 SSM 패치 매니저 개요
@@ -1049,7 +1128,6 @@ SSM 패치 매니저 개요
     -   또한 사용자 지정 또는 대체 파치 저장소를 지정할 수 있다.
 
 **Maintenance Windows**
-**개요**
 -   인스턴스에서 작업을 수행할 일정을 정의할 때 사용된다.
 -   OS 패치, 드라이버 업데이트 및 소프츠웨어 설치 등의 작업을 할 수 있으며, 특정 시간 및 기간에 수행 가능하다. (03:00 ~ 05:00 등)
 -   Maintenance window는 일정과 기간 그리고 등록된 인스턴스의 집합 그리고 수행되어야할 태스크 등이 포함되어 있다.
@@ -1057,6 +1135,9 @@ SSM 패치 매니저 개요
 **시험 관점에서 알아야할 내용**
 -   패치 매니저가 인스턴스에 패치를 적용하는 데 사용된다는 것
 -   필요하다면 특정 Maintenance Windows에서 특정 rate control도 가능하다.
+
+**정리**
+-   
 
 ## **SSM Session Manager Overview**
 **개요**
