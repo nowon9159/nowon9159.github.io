@@ -2134,3 +2134,29 @@ CloudFormation에 할당할 Service Role을 생성하고, 해당 역할은 버�
 
 보안을 위한 사용 사례로는 최소 권한 원칙을 실현하고 사용자에게 스택 리소스를 생성할 수 있는 모든 권한을 부여하지 않고 CloudFormation에서 서비스 역할을 호출할 수 있는 권한만 부여하려는 경우가 있다. 이를 위해 사용자는 iam:PassRole이라는 권한을 가지고 있어야 한다.
 
+## **[DVA] CloudFormation - Capabilities**
+
+**CAPABILITY_NAMED_IAM**과 **CAPABILITY_IAM**이 있다.
+
+이것은 CloudFormation 템플릿이 IAM 리소스를 생성하거나 업데이트할 때 CloudFormation에 부여해야 하는 기능이다.
+
+예를 들어 IAM 사용자, 역할, 그룹, 정책 등을 CloudFormation 템플릿을 통해 생성할 때이다.
+
+리소스에 사용자가 부여한 이름이 지정된 경우 CAPABILITY_NAMED_IAM을 지정하고 그렇지 않으면 단순히 CAPABILITY_IAM을 사용한다.
+
+이렇게 하는 이유는 CloudFormation이 IAM 리소스를 생성할 것임을 명시적으로 인식하려는 것이다. 
+
+**CAPABILITY_AUTO_EXPAND**도 있다.
+
+이는 CloudFormation 템플릿이 매크로와 Nested 스택(스택 내의 스택)을 포함할 때 사용된다.
+템플릿이 배포되기 전에 변경될 수 있다는 사실을 명시적으로 인식하고 있다.
+
+결과적으로 CAPABILITY_NAMED_IAM, CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND 는 위 상황에 맞게끔 필수적으로 넣어줘야 하는 매개변수 같은 걸로 이해하면 된다. 없으면 스택 생성하거나 업데이트할 때 충돌이 발생함!
+
+InsufficientCapabilitiesException는 템플릿을 시작할 때 CloudFormation 템플릿이 Capabilities를 요청했지만 사용자가 이를 인증하지 않았다는 것을 의미한다. 
+결국 템플릿을 다시 만들고, 업로드하고, Capabilities를 꼭 넣어줘야 한다.
+
+API 호출의 추가 인수이거나 AWS 콘솔에서는 선택하는 확인란으로 나타난다.
+
+## **[DVA] CloudFormation - Deletion Policy**
+
