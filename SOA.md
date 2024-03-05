@@ -2264,3 +2264,30 @@ Resources:
         -   EBS 볼륨, ElastiCache 클러스터, ElastiCache ReplicationGroup, RDS DBInstance, DB 클러스터, Redshift, Neptune, DocumentDB 의 경우 Snapshot 옵션을 지원한다.
         -   Snapshot의 경우 리소스를 삭제하기 이전에 마지막으로 스냅샷을 생성하고 리소스를 삭제한다.
 
+## **[DVA] CloudFormation - Stack Policy**
+
+기본적으로 CloudFormation 스택을 업데이트할 때 모든 리소스에 대해 모든 작업이 허용된다.
+
+그래서 스택을 원하는대로 변경할 수 있지만 때로는 전체 스택 또는 일부 스택을 업데이트로부터 보호하고 싶을 수도 있다.
+
+스택 정책은 JSON 문서로 스택 업데이트 중에 특정 리소스에서 허용되는 업데이트 작업을 정의한다.
+
+```json
+{
+  "Statement" : [
+  {
+    "Effect" : "Allow",
+    "Principal" : "*",
+    "Action" : "Update:*",
+    "Resource" : "*",
+  }
+  ]
+}
+```
+
+위와 같은 형식의 JSON 문서로 구성되며 Effect가 Allow라면 모든 것에 대한 업데이트를 허용한다는 이야기이다.
+
+스택 정책은 의도하지 않은 업데이트로부터 리소스를 보호하는 것이며, 스택 정책을 설정하면 기본적으로 모든 리소스가 보호된다.
+업데이트를 허용하려는 리소스에 대해 명시적으로 "Allow"가 필요하다
+
+
