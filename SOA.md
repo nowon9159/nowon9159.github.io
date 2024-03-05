@@ -2297,3 +2297,25 @@ Resources:
 
 Termination Protection이 활성화되어 있으면 먼저 Termination Protection을 비활성화해야 스택을 삭제할수 있다고 출력이 될 것이다.
 
+## **[DVA] CloudFormation - Custom Resources**
+
+CloudFormation에서 지원하지 않거나 CloudFormation 외부에서 사용자 정의 프로비저닝 로직을 정의하려면 사용자 정의 리소스가 필요하다.
+
+예를들면 온프레미스 리소스나 Third-party 리소스, 또는 CloudFormation 스택의 생성, 업데이트 및 삭제 단계에서 Lambda 함수를 통해 사용자 지정 스크립트를 실행하려는 경우이다.
+
+예를들어 Lambda 함수를 실행해 S3 버킷을 삭제하기 전에 비우는 스크립트를 설정할 수 있다. (시험에 자주 등장하는 케이스의 문제)
+
+사용자 정의 리소스를 정의하려면 템플릿에서 정의하면 되고, AWS::CloudFormation::CustomResource 또는 Custom::MyCustomResourceTypeName 로 정의하면 된다.
+
+먼저 Lmabda 사용자 정의 리소스이다. 가장 일반적인 방법이다.
+
+Lambda를 설정할 때 속성에서 서비스 토큰이 있는데 이 서비스 토큰은 Lambda 함수 ARN 또는 SNS ARN을 기입하면 된다.
+
+```yaml
+Type: AWS::CloudFormation::CustomResource
+Properties:
+  ServiceToken: String
+```
+
+(재작성 필요)
+
