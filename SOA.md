@@ -2325,6 +2325,14 @@ Dynamic References는 지정된 참조 값을 생성, 업데이트 또는 삭제
 
 예를 들어 Secrets Manager에서 RDS 데이터베이스 인스턴스의 마스터 암호를 검색하려고 할 수 있다.
 
+CloudFormation을 이용하면 3가지 유형의 키를 사용해 Parameter Store 또는 Secrets Manager에서 값을 가져올 수 있다.
+
+1.  Systems Manager Parameter Store에 저장된 평문 값을 나타내는 ssm
+2.  Systems Manager Parameter Store에 저장된 보안 문자열을 나타내는 ssm-secure
+3.  그리고 Secrets Manager 서비스에 저장된 비밀 값을 나타내는 secretsmanager
+
+{{resolve:service-name:reference-key}} 아래와 같은 형태로 값을 불러올 수 있고 ssm 의 경우 {{resolve:ssm:parameter-name:version}}이다.
+
 ```yaml
   MyRDSInstance:
     Type: 'AWS::RDS::DBInstance'
@@ -2337,3 +2345,12 @@ Dynamic References는 지정된 참조 값을 생성, 업데이트 또는 삭제
       MasterUserPassword: '{{resolve:secretsmanager:MyRDSSecret:SecretString:password}}'
 ```
 
+위 예문에서는 secretsmanager에 있는 사용자 이름과 암호를 동적 참조를 사용해 불러온다.
+
+RDS DB 클러스터 또는 aurora를 생성하는 스택을 만들면 ManageMasterUserPassword가 True로 설정되어 Secrets에 암호가 암시적으로 생성된다. 
+
+즉, RDS 서비스 자체가 Secrets Manager에 마스터 사용자 비밀번호 및 rotation을 관리하기 위한 비밀을 생성한다.
+
+Secret ARN의 값을 얻으려면 GetAtt 함수를 사용해 MasterUser의 secret에서 secret ARN을 가져와야 한다.
+
+(재작성 필요)
