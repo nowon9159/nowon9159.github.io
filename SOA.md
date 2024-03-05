@@ -2354,3 +2354,31 @@ RDS DB 클러스터 또는 aurora를 생성하는 스택을 만들면 ManageMast
 Secret ARN의 값을 얻으려면 GetAtt 함수를 사용해 MasterUser의 secret에서 secret ARN을 가져와야 한다.
 
 (재작성 필요)
+
+## **CloudFormation - User Data**
+
+CloudFormation을 이용해서 EC2 인스턴스에 User Data를 전달할 수 있다.
+
+User data는 EC2 인스턴스 시작을 위한 스크립트로 사용될 수 있으며, 콘솔로 설정할 수도 있지만 CloudFormation 템플릿을 통해 동일한 작업을 수행할 수도 있다.
+
+중요한 것은 스크립트 전체를 Base64라는 함수를 통해 전달하는 것이다.
+
+User data 스크립트는 /var/log/cloud-init-output.log 라는 파일에도 저장된다.
+이 파일을 통해 어떤 일이 발생했는지 어떤 문제가 있었는지 확인 가능하다.
+
+```yaml
+    UserData: 
+        Fn::Base64: |
+          #!/bin/bash -xe
+          dnf update -y
+          dnf install -y httpd
+          systemctl start httpd
+          systemctl enable httpd
+          echo "<h1>Hello World from user data</h1>" > /var/www/html/index.html
+```
+
+위와 같은 userdata를 사용하는 웹 서버를 시작한다고 가정해보자
+Fn::Base64: | 에서 파이프 기호("|")는 이 전체 스크립트를 사용자 데이터로 전달한다는 것을 의미한다.
+
+인스턴스가 실행되고 userdata및 결과를 확인하려면 /var/log/cloud-init-output.log 파일을 확인해 clouds-init의 로그를 확인하면 명령과 결과를 확인할 수 있다.
+
