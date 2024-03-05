@@ -2102,7 +2102,7 @@ EnableFeature의 파라미터와 동일하다면 true가 된다.
 
 ## **[DVA] CloudFormation - Intrinsic Functions**
 
-Intrinsic Funtions는 무조건 알아야 할 것이 있다.
+Intrinsic Funtions(내장 함수)는 무조건 알아야 할 것이 있다.
 
 -   **must know**
     -   Ref
@@ -2122,7 +2122,7 @@ Intrinsic Funtions는 무조건 알아야 할 것이 있다.
 
 느낌표와 함께 항상 축약하여 사용된다. !Ref
 
-**GetAtt 함수**는 생성한 모든 리소스에 연결된다. 이 함수는 속성을 가져오는 데 사용된다.
+**GetAtt 함수**는 템플릿에서 생성한 모든 리소스에 연결된다. 이 함수는 속성을 가져오는 데 사용된다.
 
 ```yaml
 AWSTemplateFormatVersion: 2010-09-09
@@ -2148,4 +2148,72 @@ Resources:
           SourceSecurityGroupName: !GetAtt myELB.SourceSecurityGroup.GroupName
 ```
 
-예제 코드에서 볼 수 있듯이 myELB에 
+예제 코드에서 볼 수 있듯이 myELB에 !GetAtt 함수를 이용해서 myELB.SourceSecurityGroup.OwnerAlias 해당 속성 값을 가져오게 된다.
+
+예를 들어 "EC2Instance" EC2 인스턴스를 생성하고 "EC2Instance"라는 이름의 인스턴스에서 가용 영역을 가져오려면 `!GetAtt EC2Instance.AvailabilityZone`을 사용하면 속성을 가져올 수 있다.
+
+FindInMap 함수는 특정 맵에서 특정 키의 값을 가져오는 데 사용된다. 주로 매필을 사용할 때 사용된다.
+
+ImportValue 함수는 다른 스택에서 내보낸 값을 가져오는 데 사용된다.
+
+Base64 함수는 문자열을 Base64 표현으로 변환하는 데 사용된다. 주로 EC2 인스턴스의 Userdata에 데이터를 전달할 때 사용된다.
+
+이런 식으로 내장 함수들은 템플릿 내에서 동적이고 유연한 작업을 수행하는 데 중요한 도구이다.
+
+## **[DVA] CloudFormation - Rollbacks**
+**Stack failure options**
+스택을 생성하고 스택 생성이 실패하면 두 가지 옵션이 있다.
+
+첫 번째는 기본 옵션으로 모든 것이 롤백되어 삭제된다.
+
+CloudFormation 생성 로그를 확인하여 실패 이유를 이해할 수 있지만 리소스를 확인할 수는 없다.
+
+두번째는 리소스 중 하나에 문제가 있고 나머지는 유지하고 싶다면 롤백을 비활성화하여 스택 생성 중에 무엇이 발생했는지 문제 해결할 수 있다. (Preserve successfully provisioned resources)
+
+스택 업데이트의 문제인 경우 기본적으로 스택은 자동으로 마지막으로 알려진 작동 중인 상태로 롤백된다. 다시 말해 새롭게 업데이트로 생성된 모든 리소스들이 삭제된다.
+생성된 모든 것이 삭제되었을 때 로그를 확인해 오류 메시지를 확인할 수 있다.
+
+롤백 실패의 경우 스택 업데이트 중 롤백이 실패한 경우이다. 이는 스택에 문제가 있으며 수동으로 변경된 리소스가 있을 가능성이 높다. 이 경우 수동으로 리소스를 수정해야 한다.
+그 다음 콘솔이나 API를 통해 ContinueUpdateRollback을 호출해 CloudFormation에 다시 롤백을 시도하라고 알릴 수 있다.
+
+디폴트인 상태에서 실패하면 모든 것이 삭제되지만 Preserve successfully provisioned resources로 설정하게되면 일부가 남아있기 때문에 필요에 따라 문제를 해결할 수 있다. 허나 삭제되지 않은 잔여물을 제거하려면 스택을 삭제해야 한다.
+
+## **[DVA] CloudFormation - Service Role**
+
+CloudFormation은 서비스 역할을 사용할 수 있다. 서비스 역할은 CloudFormation 전용으로 만든 IAM 역할로, CloudFormation이 실제로 나를 대신해 스택 리소스를 생성, 업데이트 및 삭제할 수 있게 한다.
+
+따라서 사용자에게 리소스와 직접 작업할 수 있는 권한이 없지만 스택 리소스를 생성, 업데이트 및 삭제할 수 있는 능력을 부여하려면 서비스 역할을 사용한다.
+
+예를 들어 사용자는 템플릿을 생성 가능한 cloudformation에 대한 모든 권한과 PassRole이 있다.
+CloudFormation에 할당할 Service Role을 생성하고, 해당 역할은 버킷을 생성, 업데이트 및 삭제할 수 있는 권한을 갖게되면
+
+사용자가 CloudFormation에 PassRole을 이용해서 역할을 전달할 수 있기 때문에 CloudFormation은 이 서비스 역할을 사용해 S3 버킷을 생성할 수 있다.
+
+보안을 위한 사용 사례로는 최소 권한 원칙을 실현하고 사용자에게 스택 리소스를 생성할 수 있는 모든 권한을 부여하지 않고 CloudFormation에서 서비스 역할을 호출할 수 있는 권한만 부여하려는 경우가 있다. 이를 위해 사용자는 iam:PassRole이라는 권한을 가지고 있어야 한다.
+
+## **[DVA] CloudFormation - Capabilities**
+
+**CAPABILITY_NAMED_IAM**과 **CAPABILITY_IAM**이 있다.
+
+이것은 CloudFormation 템플릿이 IAM 리소스를 생성하거나 업데이트할 때 CloudFormation에 부여해야 하는 기능이다.
+
+예를 들어 IAM 사용자, 역할, 그룹, 정책 등을 CloudFormation 템플릿을 통해 생성할 때이다.
+
+리소스에 사용자가 부여한 이름이 지정된 경우 CAPABILITY_NAMED_IAM을 지정하고 그렇지 않으면 단순히 CAPABILITY_IAM을 사용한다.
+
+이렇게 하는 이유는 CloudFormation이 IAM 리소스를 생성할 것임을 명시적으로 인식하려는 것이다. 
+
+**CAPABILITY_AUTO_EXPAND**도 있다.
+
+이는 CloudFormation 템플릿이 매크로와 Nested 스택(스택 내의 스택)을 포함할 때 사용된다.
+템플릿이 배포되기 전에 변경될 수 있다는 사실을 명시적으로 인식하고 있다.
+
+결과적으로 CAPABILITY_NAMED_IAM, CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND 는 위 상황에 맞게끔 필수적으로 넣어줘야 하는 매개변수 같은 걸로 이해하면 된다. 없으면 스택 생성하거나 업데이트할 때 충돌이 발생함!
+
+InsufficientCapabilitiesException는 템플릿을 시작할 때 CloudFormation 템플릿이 Capabilities를 요청했지만 사용자가 이를 인증하지 않았다는 것을 의미한다. 
+결국 템플릿을 다시 만들고, 업로드하고, Capabilities를 꼭 넣어줘야 한다.
+
+API 호출의 추가 인수이거나 AWS 콘솔에서는 선택하는 확인란으로 나타난다.
+
+## **[DVA] CloudFormation - Deletion Policy**
+
