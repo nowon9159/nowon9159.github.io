@@ -362,11 +362,10 @@ BlockDuration 매개변수를 사용해 인스턴스를 실행할 시간과 지�
 https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/spot-requests.html
 
 ### 스팟 플릿 (강의 번역이 부실하여 강의 내용 기반 따로 정리함)
-스팟 플릿은 사용자가 지정한 기준에 따라 시작되는 스팟 인스턴스의 집합이며 온드맨드 인스턴스도 선택적으로 집합을 구성할수 있다.
+스팟 플릿은 사용자가 지정한 기준에 따라 시작되는 스팟 인스턴스의 집합이며 온디맨드 인스턴스도 선택적으로 집합을 구성할수 있다.
 
 스팟 플릿은 사용자의 요구 사항을 충족하는 스팟 용량 풀을 선택하고 플릿에 대한 목표 용량을 충족하는 스팟 인스턴스를 시작한다.
 * 스팟 용량 풀은 인스턴스 유형, 운영 체제, 가용 영역, 네트워크 플랫폼(EC2-Classic 또는 EC2-VPC)이 동일한 미사용 EC2 인스턴스의 집합입니다. 각 스팟 용량 풀은 수요와 공급에 따라 가격이 달라질 수 있습니다.
-
 
 기본적으로 스팟 플릿은 스팟 인스턴스가 종료된 후 대체 인스턴스를 시작하여 target capacity를 유지하도록 설정되어 있다. 스팟 플릿 인스턴스가 종료된 후에 유지되지 않는 일회성 request로 제출할 수도 있다. 스팟 플릿 request에 온디맨드 인스턴스 요청을 포함할 수 있다.
 
@@ -421,6 +420,7 @@ launch configuration은 스팟 플릿이 스팟 인스턴스를 시작할 수 �
 -   Spot Fleet
     -   스팟 플릿은 사용자가 지정한 기준에 따라 시작되는 스팟 인스턴스의 집합이다. 선택적으로 스팟 인스턴스 외에 온디맨드 인스턴스도 구성 가능하다.
     -   스팟 플릿은 사용자 요구 사항을 충족하는 스팟 용량 풀을 선택하고 플릿에 대한 목표 용량을 충족하는 스팟 인스턴스를 시작한다.
+    -   스팟 용량 풀: 스팟 용량 풀은 인스턴스 유형, 운영 체제, 가용 영역, 네트워크 플랫폼(EC2-Classic 또는 EC2-VPC)이 동일한 미사용 EC2 인스턴스의 집합입니다. 각 스팟 용량 풀은 수요와 공급에 따라 가격이 달라질 수 있습니다.
     -   기본적으로 스팟 플릿은 target capacity를 유지하도록 설정 돼 있다. 스팟 인스턴스가 종료되어도 대체 인스턴스를 시작한다.
     -   스팟 플릿 인스턴스가 종료된 후에 유지되지 않는 일회성 request로 제출할 수도 있다.
     -   요청 유형은 request와 maintain이 있다.
@@ -638,15 +638,13 @@ EC2는 우리 눈에는 보이지 않는 과정을 거친다. 우리가 EC2 인�
 자동으로 복구하고 CloudWatch 메트릭을 확인하는 방법도 있다.
 StatusCheckFailed_System, StatusCheckFailed_Instance 또는 이러한 두 메트릭을 하나의 메트릭으로 그룹화한 StatusCheckFailed이 있다.
 
-옵션 1의 방법이다.
-
-CloudWatch Alarm으로 복구하는 방법이 있다. 이 Alarm에는 인스턴스를 복구하는 recover instance라는 작업(Action)이 있다.
+첫번째로는 CloudWatch Alarm으로 복구하는 방법이 있다. 이 Alarm에는 인스턴스를 복구하는 recover instance라는 작업(Action)이 있다.
 작업이 수행되면 인스턴스는 동일한 Private IP, 동일한 Public IP, 동일한 EIP, 동일한 메타데이터 및 동일한 배치 그룹을 사용해 인스턴스를 복구한다.
 
 또한 CloudWatch Alarm이므로 SNS와 같은 곳으로 알림을 보낼 수도 있다.
 EC2 인스턴스는 CloudWatch 메트릭을 통해 상태 확인이 실패한 경우를 모니터링하고 복구할 수 있다.
 
-또한 다른 방법 옵션 2도 있다. 덜 일반적인 방법이다.
+또한 두번째로는 다른 방법 옵션 2도 있다. 덜 일반적인 방법이다.
 
 auto scaling group min max와 desired 1을 설정하는 것이다.
 그리고 상태 확인을 통해 EC2 인스턴스의 상태 확인을 확인한다.
@@ -766,7 +764,7 @@ AMI는 어떤 프로세스로 EC2 인스턴스에서 동작하는 가? 먼저 EC
 -   AMI는 Amazon Machine Image의 약자로서 인스턴스의 사용자 정의를 나타낸다.
 -   AMI는 소프트웨어 구성뿐만 아니라 운영 체제를 정의하고 설정하며 모니터링 도구를 설정할 수 있다.
 -   직접 AMI를 생성하거나 AWS에서 제공해주는 AMI를 사용할 수 있다.
--   특정 Region에 대해 AMI를 생성할 수 있고 원한다면 다른 Region으로 복사할 수 있다.
+-   특정 Region에 대해 AMI를 생성할 수 있고 원한다면 다른 Region 또는 계정으로 복사할 수 있다.
 -   AWS Marketplace AMI에서 EC2를 시작할 수도 있다. 이는 다른 사람이 만든 AMI로서 판매되는 AMI이다.
     -   자체 소프트웨어를 설정하고 판매하는 벤더가 자체 AMI를 생성해 Marketplace에서 판매하는 것이 일반적이다.
 -   AMI는 먼저 구성된 인스턴스가 있으면 데이터 무결성이 올바르게 유지 되도록 중지하고, 이 인스턴스를 기반으로 AMI를 작성할 수 있으며 EBS 스냅샷이 생성된다. 생성된 AMI를 기반으로 인스턴스를 시작할 수 있다.
@@ -825,8 +823,7 @@ AMI를 공유할 수 있는 경우는 두 가지이다.
 
 예를들어 기본 EBS 스냅샷을 공유하고 대상 계정에 KMS 키 권한을 부여한다. 대상 계정은 CMK-A를 사용해 암호를 해독하고 CMK-B 및 자체 계정을 사용해 다시 암호화할 수 있는 복사 명령을 실행할 수 있다. 이렇게하면 대상 계정 B가 소유하는 자체 암호화 매커니즘을 사용하는 사용자 정의 AMI가 생성된다.
 
-정리하자면
-AMI를 복사하려면 복사를 위해 AMI 소유자가 되어야한다. 그리고 소스 AMI의 소유자는 대상 AMI의 EBS 스냅샷에 대한 읽기 권한을 부여해야한다.
+정리하자면 AMI를 복사하려면 복사를 위해 AMI 소유자가 되어야한다. 그리고 소스 AMI의 소유자는 대상 AMI의 EBS 스냅샷에 대한 읽기 권한을 부여해야한다.
 
 AMI가 공유된 경우 해당 AMI를 복사하여 소유자가 되는 대신 복사를 통해 자체 계정에서 AMI를 소유할 수 있다.
 
@@ -2216,4 +2213,54 @@ InsufficientCapabilitiesException는 템플릿을 시작할 때 CloudFormation �
 API 호출의 추가 인수이거나 AWS 콘솔에서는 선택하는 확인란으로 나타난다.
 
 ## **[DVA] CloudFormation - Deletion Policy**
+
+Deletion Policy는 템플릿에서 리소스에 적용할 수 있는 설정으로 리소스가 CloudForamtion 템플릿에서 제거되거나 CloudFormation 스택이 삭제될 때 리소스에 대해 어떤 작업을 수행할지를 제어할 수 있게 해준다.
+
+리소스를 보존하고 백업하는 방법으로 사용된다.
+
+기본적으로 CloudFormation 템플릿을 삭제하면 내부의 모든 리소스가 삭제된다. 이는 기본적으로 DeletionPolicy가 delete로 설정되어 있어서이다.
+
+템플릿 내에 S3가 있을 경우 S3는 제외이다. S3는 버킷이 비어있을 경우에만 DeletionPolicy가 작동된다.
+
+DeletionPolicy: Retain는 템플릿에서 보존하려는 리소스를 지정하는 것이다.
+
+DeletionPolicy: Snapshot이 있다. 이는 리소스를 삭제하기 전에 마지막 스냅샷을 생성하는 것이다. 
+EBS 볼륨, ElastiCache 클러스터, ElastiCache ReplicationGroup, RDS DBInstance, DB 클러스터, Redshift, Neptune, DocumentDB 등에서 지원된다.
+
+백업 및 안전성 목적으로 매우 유용하다.
+
+```yaml
+# Does not exist DeletionPolicy
+Resources:
+  SGroup1:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: EC2 Instance access
+
+# Retain
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  myS3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+
+# Snapshot
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  myvol:
+    Type: AWS::EC2::Volume
+    DeletionPolicy: Snapshot
+```
+
+**정리**
+-   DeletionPolicy는 템플릿에서 리소스에 적용할 수 있는 설정으로 템플릿을 삭제할 때 리소스를 보존하고 백업하는 방법으로 사용된다.
+-   기본적으로는 템플릿을 삭제하면 내부의 모든 리소스가 삭제 되지만 DeletionPolicy를 설정해주면 삭제되지 않는다.
+-   옵션은 아래와 같다.
+    -   DeletionPolicy: 없음
+        -   DeletionPolicy가 Resource에 따로 지정되어 있지 않다면 리소스를 삭제한다는 이야기이다.
+    -   DeletionPolicy: Retain
+        -   Retain으로 지정하는 경우 리소스를 보존한다는 의미다.
+    -   DeletionPolicy: Snapshot
+        -   EBS 볼륨, ElastiCache 클러스터, ElastiCache ReplicationGroup, RDS DBInstance, DB 클러스터, Redshift, Neptune, DocumentDB 의 경우 Snapshot 옵션을 지원한다.
+        -   Snapshot의 경우 리소스를 삭제하기 이전에 마지막으로 스냅샷을 생성하고 리소스를 삭제한다.
 
