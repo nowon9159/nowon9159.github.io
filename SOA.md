@@ -2382,3 +2382,75 @@ Fn::Base64: | 에서 파이프 기호("|")는 이 전체 스크립트를 사용�
 
 인스턴스가 실행되고 userdata및 결과를 확인하려면 /var/log/cloud-init-output.log 파일을 확인해 clouds-init의 로그를 확인하면 명령과 결과를 확인할 수 있다.
 
+## **CloudFormation - cfn-init**
+
+Userdata는 몇 가지 문제가 있다.
+
+인스턴스 구성이 매우 커서 스크립트가 많아지는 경우는 어떻게 해야 하는가? 그리고 Userdata는 인스턴스 첫 시작에만 적용되어 EC2 인스턴스를 종료하고 새로 만들지 않고도 어떻게 userdata를 실행할 수 있을까? userdata를 더 읽기 쉽게 만들려면 어떻게 해야하며 userdata 스크립트가 성공했는지 여부를 어떻게 알수 있을까?
+
+CloudFormation helper scripts를 사용하면 된다.
+
+script는 Python 스크립트이고 Amazon Linux AMI와 함께 제공되거나 yum이나 dnf를 사용해 설치할 수 있다.
+
+그 중에서도 cfn-init, cfn-signal, cfn-get-metadata, cfn-hup 네 가지 중요한 스크립트가 있다.
+
+CloudFormation init 은 리소스 내에서 메타데이터 블록에 속하는 config 블록으로 여러 구성 요소로 되어 있다.
+
+```yaml
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1a
+      ImageId: ami-0a3c3a20c09d6f377
+      InstanceType: t2.micro
+      SecurityGroups:
+        - !Ref SSHSecurityGroup
+      # we install our web server with user data
+      UserData: 
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -xe
+            # Get the latest CloudFormation package
+            dnf update -y aws-cfn-bootstrap
+            # Start cfn-init
+            /opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyInstance --region ${AWS::Region} || error_exit 'Failed to run cfn-init'
+    Metadata:
+      Comment: Install a simple Apache HTTP page
+      AWS::CloudFormation::Init:
+        config:
+          packages:
+            yum:
+              httpd: []
+          files:
+            "/var/www/html/index.html":
+              content: |
+                <h1>Hello World from EC2 instance!</h1>
+                <p>This was created using cfn-init</p>
+              mode: '000644'
+          commands:
+            hello:
+              command: "echo 'hello world'"
+          services:
+            sysvinit:
+              httpd:
+                enabled: 'true'
+                ensureRunning: 'true'
+```
+
+packages는 MySQL, PHP 등과 같은 미리 패키지화된 앱 및 구성 요소를 다운로드하고 설치하는 데 사용된다.
+
+파일을 다운로드하고 EC2 인스턴스에 배치하는 데 사용되는 sources:
+EC2 인스턴스에 파일을 생성하는 데 사용되는 files:
+일련의명령을 실행하는 데 사용되는 commands:
+서비스를 시작하는 데 사용되는 services가 있다.
+
+cfn-init 스크립트를 사용하면 복잡한 EC2 구성을 읽기 쉽게 만들 수 있다. 
+작동 과정은 EC2 인스턴스는 init 데이터를 얻기 위해 CloudFormation 서비스에 쿼리를 날리고, CloudFormation은 EC2 인스턴스를 시작하고 인스턴스는 cfn-init 스크립트를 실행하며 init 데이터를 CloudFormation에서 직접 검색한다.
+
+CloudFormation init 블록을 리소스의 메타데이터에 정의해야한다.
+
+이러한 작업에 대한 모든 로그는 /var/log/cfn-init.log 파일에 기록된다.
+
+예제 UserData에 `/opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyInstance --region ${AWS::Region}` 명령어가 있는데 -s 인수로 StackId를 전달하고 -r 인수로 어떤 리소스에 메타데이터가 첨부되어 있는지를 찾을지 정해주는 것이다.
+
