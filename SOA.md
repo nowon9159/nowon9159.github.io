@@ -2325,3 +2325,15 @@ Dynamic References는 지정된 참조 값을 생성, 업데이트 또는 삭제
 
 예를 들어 Secrets Manager에서 RDS 데이터베이스 인스턴스의 마스터 암호를 검색하려고 할 수 있다.
 
+```yaml
+  MyRDSInstance:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBName: MyRDSInstance
+      AllocatedStorage: '20'
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+      MasterUsername: '{{resolve:secretsmanager:MyRDSSecret:SecretString:username}}'
+      MasterUserPassword: '{{resolve:secretsmanager:MyRDSSecret:SecretString:password}}'
+```
+
