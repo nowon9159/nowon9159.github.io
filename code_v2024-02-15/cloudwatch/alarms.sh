@@ -1,1 +1,0 @@
-aws cloudwatch set-alarm-state --alarm-name "CPUUtilizationTerminateInstance" --state-reason "Testing" --state-value ALARM
