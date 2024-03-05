@@ -2291,3 +2291,9 @@ Resources:
 업데이트를 허용하려는 리소스에 대해 명시적으로 "Allow"가 필요하다
 
 
+## **[DVA] CloudFormation - Termination Protection**
+
+스택이 실수로 삭제되는 것을 방지하려면 Termination Protection을 사용해야한다.
+
+Termination Protection이 활성화되어 있으면 먼저 Termination Protection을 비활성화해야 스택을 삭제할수 있다고 출력이 될 것이다.
+
