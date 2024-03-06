@@ -2367,20 +2367,27 @@ User data 스크립트는 /var/log/cloud-init-output.log 라는 파일에도 저
 이 파일을 통해 어떤 일이 발생했는지 어떤 문제가 있었는지 확인 가능하다.
 
 ```yaml
-    UserData: 
-        Fn::Base64: |
-          #!/bin/bash -xe
-          dnf update -y
-          dnf install -y httpd
-          systemctl start httpd
-          systemctl enable httpd
-          echo "<h1>Hello World from user data</h1>" > /var/www/html/index.html
+    Properties:
+        UserData: 
+            Fn::Base64: |
+            #!/bin/bash -xe
+            dnf update -y
+            dnf install -y httpd
+            systemctl start httpd
+            systemctl enable httpd
+            echo "<h1>Hello World from user data</h1>" > /var/www/html/index.html
 ```
 
 위와 같은 userdata를 사용하는 웹 서버를 시작한다고 가정해보자
 Fn::Base64: | 에서 파이프 기호("|")는 이 전체 스크립트를 사용자 데이터로 전달한다는 것을 의미한다.
 
 인스턴스가 실행되고 userdata및 결과를 확인하려면 /var/log/cloud-init-output.log 파일을 확인해 clouds-init의 로그를 확인하면 명령과 결과를 확인할 수 있다.
+
+**정리**
+-   콘솔에서 인스턴스를 생성할 때 Userdata를 작성하듯이 CloudFormation에서 UserData를 작성할 수 있다.
+-   UserData는 EC2 인스턴스를 정의하는 템플릿에서 Properties 밑에 작성해야 하며, 꼭 Base64 함수를 이용해 인코딩 후 전달해야 한다.
+-   스크립트는 실행된 EC2 인스턴스 내에 /var/log/cloud-init-output.log 파일에도 저장되고 파일을 확인하면 전체 로그가 남아 있다.
+-   파이프 기호("|")는 전체 스크립트를 사용자 데이터로 다중 문자열로 전달한다는 것을 의미한다.
 
 ## **CloudFormation - cfn-init**
 
@@ -2453,6 +2460,25 @@ CloudFormation init 블록을 리소스의 메타데이터에 정의해야한다
 이러한 작업에 대한 모든 로그는 /var/log/cfn-init.log 파일에 기록된다.
 
 예제 UserData에 `/opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyInstance --region ${AWS::Region}` 명령어가 있는데 -s 인수로 StackId를 전달하고 -r 인수로 어떤 리소스에 메타데이터가 첨부되어 있는지를 찾을지 정해주는 것이다.
+
+**정리**
+-   일반적으로 Userdata를 작성하는 데에는 문제가 있을 수 있다.
+    -   인스턴스 구성이 커서 스크립트가 많아지는 경우
+    -   Userdata는 인스턴스 첫 시작에만 적용 돼 Userdata를 다시 적용하려면 인스턴스를 종료하고 새로 만들어야 함
+    -   UserData를 더 읽기 쉽게 만들려면 어떻게 해야하는가?
+    -   UserData 스크립트 성공 여부를 어떻게 알 수 있을까?
+-   위와 같은 문제가 있어서 CloudFormation helper scripts를 사용한다. script는 Python 스크립트이고 Amazon Linux AMI와 함께 제공되거나 yum이나 dnf를 사용해 설치 가능하다. cfn-init은 그 중 하나의 중요한 스크립트이다.
+-   cfn-init은 Resources 내에서 Metadata 블록에 속하는 Config 블록으로 여러 구성 요소로 되어 있다.
+    -   packages는 MySQL, PHP 등과 같이 미리 패키지화 된 앱 및 구성 요소를 다운로드하고 설치하는 데 사용된다.
+    -   sources는 파일을 다운로드하고 EC2 인스턴스에 배치하는데 사용된다.
+    -   files는 EC2 인스턴스에 파일을 생성하는데 사용된다.
+    -   commands는 일련의 명령을 실행하는 데 사용된다.
+    -   services는 서비스를 시작하는데 사용된다.
+-   cfn-init 스크립트를 사용하면 EC2 구성을 읽기 쉽게 만들 수 있다.
+-   작동 과정은 이렇다. 
+    EC2 인스턴스는 init 데이터를 얻기위해 ClouFormation 서비스에 쿼리 전송 -> CloudFormation은 EC2 인스턴스를 시작하고 인스턴스는 cfn-init 스크립트 실행 -> init 데이터를 CloudFormation에서 직접 검색
+
+
 
 ## **CloudFormation - cfn-signal & Wait Condition**
 
@@ -2545,6 +2571,14 @@ WaitCondition에서 Count 1 에 해당하는 신호를 받는데까지 대기하
 
 최종적으로 정리하자면 /opt/aws/bin/cfn-init 스크립트를 실행하고 실행한 결과를 변수화 해 /opt/aws/bin/cfn-signal 스크립트에서 사용해 CloudFormation으로 전송하며, WaitCondition은 /opt/aws/bin/cfn-signal 에서 정상적인 신호를 받을 때까지 기다리는 것이다. 
 
+**정리**
+-   cfn-signal 스크립트는 cfn-init 스크립트를 실행한 후 올바르게 구성 되었는지 여부를 알 수 있는 방법이다.
+-   cfn-init 스크립트가 실행된 직후 cfn-signal 스크립트를 실행하고 리소스 생성이 성공했는지 실패했는지 CloudFormation에 알려준다.
+-   필수적으로 WaitCondition을 정의해야 하는데 이는 템플릿이 cfn-signal로부터 신호를 받을때까지 기다린다.
+    -   CreationPolicy와 Type을 WaitCondition으로 지정해주어 하나 이상의 성공 신호를 확인해 2분의 타임아웃 시간동안 스크립트가 정상적으로 수행 되었는지 확인하는 것이다.
+-   최종적으로 cfn-signal 스크립트는 cfn-init 스크립트를 실행하고 실행한 결과를 cfn-signal 스크립트에서 사용하고 CloudFormation으로 전송하고 WaitCondition은 cfn-signal에서 정상적인 신호를 받을 때까지 기다린다.
+
+
 ## **CloudFormation - cfn-signal Failures**
 
 ```yaml
@@ -2604,7 +2638,7 @@ WaitCondition이 EC2 인스턴스로부터 필요한 수의 신호를 수신하�
 또한 cfn-init 및 cfn-signal 명령의 출력도 확인해야 한다. 몇 개의 로그 파일을 통해 이 명령어들이 어떻게 실행되었는지에 대한 많은 정보를 얻을 수 있다.
 
 인스턴스에 액세스하려면 먼저 CloudFormation의 롤백 기능을 비활성화해야한다.
-비활성화 하지 않는다면 실패한 EC2 인스턴스가 실패 상태과 되자마자 자동으로 CloudFormation이 삭제 상태가 되어 삭제되기 때문에 실제로 무슨 일이 발생했는지 파악하기 위함이다.
+비활성화 하지 않는다면 실패한 EC2 인스턴스가 실패 상태가 되자마자 자동으로 CloudFormation이 삭제 상태가 되어 삭제되기 때문에 실제로 무슨 일이 발생했는지 파악하기 위함이다.
 
 또한 EC2 인스턴스가 인터넷에 액세스할 수 있는지 확인해야 한다.
 
@@ -2613,6 +2647,15 @@ WaitCondition이 EC2 인스턴스로부터 필요한 수의 신호를 수신하�
 상태코드 0이 아닌 1을 반환하므로 cfn-init 명령어는 1의 코드를 갖고 있게 되고 INIT_STATUS 변수에 1이 저장되며 CloudFormation에는 1 오류 상태를 전달하게되어 CloudFormation이 실패하게 될 것이다.
 
 앞서 말했듯이 위와 같은 실패 상황에서 디버깅을 위해선 rollback 설정을 해제해야한다.
+
+**정리**
+-   cfn-signal에서 WaitCondition이 EC2 인스턴스로부터 필요한 수의 신호를 받지 못했다는 문제가 시험에서 많이 나온다고 한다.
+-   아래의 이유로 신호를 받지 못한다.
+    -   사용 중인 AMI에 CloudFormation helper scripts가 설치되지 않은 경우
+    -   EC2 인스턴스가 인터넷에 액세스할 수 있는지
+    -   특정 이유로 상태 코드가 0이 아닌 경우
+-   cfn-init 및 cfn-signal 명령의 출력을 확인해보면 원인을 찾을 수 있다. 두 파일 모두 명령어들이 어떻게 실행되었는지 확인할 수 있다.
+-   또한 인스턴스에서 실제로 무슨 일이 발생했는 지 확인하려면 CloudFormation Rollback 설정을 해제해야 한다.
 
 ## **CloudFormation - Nested Stacks**
 
@@ -2665,6 +2708,14 @@ Outputs:
 
 CAPABILITY_AUTO_EXPAND는 중첩스택을 사용하는 스택을 생성할 때 반드시 필요하니 유의해야한다.
 
+**정리**
+-   Nested Stack은 다른 스택 안에 있는 스택이다.
+-   반복되는 패턴과 공통 구성 요소를 별도의 스택에서 분리한 다음 다른 스택에서 호출하기 위해 중첩된 스택을 사용한다.
+-   중첩된 스택을 업데이트하려면 항상 상위 스택을 업데이트 해야한다.
+-   중첩된 스택안에 다시 중첩된 스택을 넣을 수 있어 매우 깊게 들어갈 수 있다.
+-   교차 스택이라는 개념도 있다. 교차 스택은 스택의 수명 주기가 다를 때 매우 유용하다.
+-   예를 들어 VPC 스택의 일부 변수를 출력으로 내보내 Applicaion 스택으로 내보내는 것과 같이 한 스택의 출력을 다른 스택에서 사용하는 경우 편리하다.
+-   CAPABILITY_AUTO_EXPAND는 중첩 스택을 사용하는 스택을 생성할 때 반드시 필요하니 반드시 유의해야한다.
 
 ## **CloudFormation - Depends On**
 
@@ -2699,6 +2750,11 @@ EC2 인스턴스가 생성 완료되자마자 MyBucket이 생성될 것이다.
 생성된 역순으로 삭제가 된다. 
 S3 버킷이 삭제된 이후에 인스턴스가 삭제될 것이다.
 
+**정리**
+-   DependsOn은 리소스 생성을 위한 특정 순서를 지정할 수 있다. 예를 들어 특정 리소스가 먼저 생성되어야만 다음 리소스를 생성할 수 있게 설정할 수 있다.
+-   사실 Intrinsic Function을 사용하면 CloudFormation은 특정 리소스에 대해 의존적이게 만들 수 있다. 예를 들어 !Ref 나 !GetAtt 함수를 사용해 특정 리소스들을 연결한다면 의존적이다.
+-   DependsOn은 삭제에서도 똑같이 동작한다. 의존적인 리소스부터 의존을 받고있는 리소스로의 순서로 삭제된다.
+
 ## **CloudFormation - StackSets**
 스택셋은 한 번의 작업으로 여러 계정과 Region에 걸쳐 스택을 배포할 수 있는 방법이다.
 
@@ -2712,10 +2768,13 @@ S3 버킷이 삭제된 이후에 인스턴스가 삭제될 것이다.
 
 그래서 관리자 계정과 대상 계정 모두 신뢰 관계(Trust Relationship)가 있는 IAM 역할을 만들어 놓고 해당 역할을 이용해 CloudFormation 템플릿을 대상 계정에 배포할 수 있다.
 
-따라서 관리자 계정에는 모든 대상 계정의 모든 AWS CloudFormation StackSet 실행 역할과 신뢰 관계를 갖는 AWS CloudFormation StackSet 관리 역할이 있다.
+따라서 관리자 계정에는 모든 대상 계정의 모든 AWSCloudFormationStackSetExecutionRole과 신뢰 관계를 갖는 AWS AWSCloudFormationStackSetAdministrationRole 역할이 있다.
 실행 역할 - 관리 역할 두 역할이 있다고 생각하면 된다.
 
 AWS Organization을 사용하지 않는 경우 이러한 역할을 수동으로 생성해야 함.
+
+수동으로 생성하는 경우 관리자 계정에서 역할을 생성할 때 AWSCloudFormationStackSetAdministrationRole라는 명확한 이름을 가진 역할을 생성해야하고 신뢰 관계도 설정해주어야한다.
+또한 대상 계정에서 AWSCloudFormationStackSetExecutionRole라는 명확한 이름을 가진 역할을 생성하고 해당 역할에서 CloudFormation이 실행할 수 있는 모든 정책을 허용해줘야한다.
 
 Organization을 사용하는 경우 자동으로 Organization이 사용자를 대신해 IAM 역할을 생성한다.
 
@@ -2725,7 +2784,15 @@ Organization을 사용하는 경우 자동으로 Organization이 사용자를 �
 
 보안 및 거버넌스 목적으로 Organization의 특정 구성원 계정에 스택 셋 관리를 위임할수도 있다. 위임된 관리자가 Organization에서 관리하는 계정에 배포할 수 있도록 조직 내에서 trusted access를 활성화 해야한다.
 
-## **CloudFormation - StackSets**
+**정리**
+-   스택 셋은 한 번의 작업으로 여러 계정과 Region에 걸쳐 스택을 배포할 수 있는 방법이다.
+-   관리자 계정에서 스택 셋을 만들고 대상 계정은 스택 셋에서 인스턴스와 같은 자원을 생성, 적용 및 삭제하는 데만 사용하도록 할 수 있다. 업데이트 또한 동일하게 관리자 계정에서만 해주면 모든 대상 계정이 업데이트를 받게 된다.
+-   하나의 스택이 생성되는 즉시 모든 계정에 스택을 자동으로 배포하도록 설정할 수도 있다.
+-   AWS Organization을 사용하면 관리자 계정과 대상 계정에 대한 권한 관리를 쉽게 할 수 있다. 관리자 계정이 조직 내의 모든 기능을 수행하려면 "Trusted access"를 사용하도록 설정해야 한다.
+-   Organization을 사용해주지 않으면 수동으로 IAM 역할을 생성해야한다.
+-   보안 및 거버넌스 목적으로 Organization의 특정 구성원 계정에 스택 셋 관리를 위임할 수도 있다. 이 또한 위임된 관리자가 대상 계정에 배포할 수 있도록 "Trusted access"를 사용하도록 해야한다.
+
+## **CloudFormation - Troubleshooting**
 
 DELETE_FAILED 상태에서 확인해야할 사항이 있다.
 
@@ -2755,3 +2822,24 @@ CloudFormation 외부에서 변경된 리소스, 충분하지 않은 IAM 권한,
 예를 들어 관리자 계정이 대상 계정과 필요한 신뢰 관계가 없을 수 있다.
 
 또는 StackSets는 동일한 스택을 여러 계정에 배포하기 때문에 권한, 할당량, 리소스 이름 등에 따라 일부 계정에서 작동하지 않을 수 있어 더 고려해봐야 한다.
+
+**정리**
+-   스택이 DELETE_FAILED가 발생하면 확인해야할 사항이 있다.
+    -   S3 버킷과 같이 삭제 전에 반드시 비워져야하는 일부 리소스를 확인해야한다. S3 버킷을 수동으로 지우거나 Lambda 함수와 함께 Custom Resources를 사용해 S3 버킷을 비워야한다.
+    -   Stack 내부에 없는 인스턴스가 Stack 내부의 보안 그룹을 사용 중인 경우 보안 그룹을 삭제할 수 없다.
+-   UPDATE_ROLLBACK_FAILED가 발생하면 업데이트가 실패하고 롤백이 시도 되었지만 롤백도 실패했음을 의미한다.
+    -   CloudFormation 외부에서 변경된 리소스, 충분하지 않은 IAM 권한, 충반한 signal을 받지 못한느 Auto Scaling Group이 이유가 될 수 있다.
+    -   위와 같은 경우 오류를 수동으로 수정하여 해결하고 이것이 작동하는지 확인해야 한다. 보통 이벤트 로그가 힌트를 제공해줄 것이다.
+    -   모든 오류를 수정하면 ContinueUpdateRollback이라는 API 호출을 해야한다. 롤백이 계속 진행되고 오류가 수정된 경우 롤백이 성공할 것이다.
+-   특정 리소스를 삭제하는 데 문제가 있는 경우 DeletionPolicy=Retain을 사용해 해당 리소스의 삭제를 건너뛰고 문제를 찾아볼 수 있다.
+-   StackSets에도 문제가 발생한다.
+    -   스택 상태가 OUTDATED로 나타날 수 있다.
+    -   이 경우 템플릿에서 지정된 리소스를 생성하는 데 필요한 대상 계정의 충분한 권한이 없어서 발생하는 문제일 수 있다.
+    -   템플릿이 전역 리소스를 생성하려 하지만 S3 버킷의 이름처럼 고유해야 하는 경우 리소스가 생성이 안될 수도 있다.
+    -   Trusted Relationship에 문제가 있을 수 있다. 대상 계정에 관리자 계정에 대한 신뢰 관계가 제대로 설정되어 있지 않을 수 있다.
+    -   StackSets는 동일한 스택을 여러 계정에 배포하기 때문에 권한, Quota, 리소스 이름에 따라 일부 계정에서 작동하지 않을 수 있어 꼼꼼히 고려해야 한다.
+   
+
+
+## **Lambda - Overview**
+
