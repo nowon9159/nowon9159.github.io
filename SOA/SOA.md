@@ -2521,6 +2521,33 @@ Metadata:
 예를 들어 CloudFormation은 EC2 인스턴스를 시작하고 WaitCondition이 발생할 것이다. EC2 인스턴스는 cfn-init을 실행할 것이고 init 데이터를 검색하지만, init 데이터 바로 뒤에 cfn-signal에서 신호를 수행하여 WaitCondition에서 데이터를 다시 CloudFormation으로 전달한다.
 
 ```yaml
+UserData: 
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -x
+            # Get the latest CloudFormation package
+            dnf update -y aws-cfn-bootstrap
+            # Initialize EC2 Instance
+            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource MyInstance --region ${AWS::Region}
+            # Get result of last command
+            INIT_STATUS=$?
+            # send result back using cfn-signal
+            /opt/aws/bin/cfn-signal -e $INIT_STATUS --stack ${AWS::StackName} --resource SampleWaitCondition --region ${AWS::Region}
+            # exit the script
+            exit $INIT_STATUS
+```
+
+여기 스크립트가 조금 다른 yaml 파일이 있다. 이전과 마찬가지로 cfn-init을 실행하는데, 마지막 명령의 결과를 INIT_STATUS라는 변수에 저장한다. 그래서 cfn-init이 성공했다면 변수는 0이 될것이다. 실패할 경우 0이 아닌 다른 오류 코드 가 될 것이다.
+
+cfn-signal 스크립트에 INIT_STATUS를 전달하고 최종적으로 CloudFormation에 결과를 전송한다.
+
+WaitCondition에서 Count 1 에 해당하는 신호를 받는데까지 대기하는 시간(타임아웃)은 2분이다. 2분 내에 아무것도 받지 못하면 실패하고 성공 또는 실패 시그널을 받는다.
+
+최종적으로 정리하자면 /opt/aws/bin/cfn-init 스크립트를 실행하고 실행한 결과를 변수화 해 /opt/aws/bin/cfn-signal 스크립트에서 사용해 CloudFormation으로 전송하며, WaitCondition은 /opt/aws/bin/cfn-signal 에서 정상적인 신호를 받을 때까지 기다리는 것이다. 
+
+## **CloudFormation - cfn-signal Failures**
+
+```yaml
 # 실패 스크립트
 UserData: 
         Fn::Base64:
@@ -2567,10 +2594,23 @@ Metadata:
     Type: AWS::CloudFormation::WaitCondition
 ```
 
-여기 스크립트가 조금 다른 yaml 파일이 있다. 이전과 마찬가지로 cfn-init을 실행하는데, 마지막 명령의 결과를 INIT_STATUS라는 변수에 저장한다. 그래서 cfn-init이 성공했다면 변수는 0이 될것이다. 실패할 경우 0이 아닌 다른 오류 코드 가 될 것이다.
+WaitCondition이 EC2 인스턴스로부터 필요한 수의 신호를 수신하지 못했다는 문제가 일반적으로 많이 나온다.
 
-cfn-signal 스크립트에 INIT_STATUS를 전달하고 최종적으로 CloudFormation에 결과를 전송한다.
+여기에 몇 가지 이유가 있다.
 
-Count 1 에 해당하는 신호를 받는데까지 대기하는 시간(타임아웃)은 2분이다. 2분 내에 아무것도 받지 못하면 실패하고 성공 또는 실패 시그널을 받는다.
+사용 중인 AMI에 CloudFormation helper scripts가 설치되지 않았을 수 있다.
+스크립트가 포함되어 있지 않다면 인스턴스에 설치하면 된다.
 
-결국 /opt/aws/bin/cfn-init 스크립트를 실행하고 실행한 결과를 변수화 해 /opt/aws/bin/cfn-signal 스크립트에서 사용해 CloudFormation으로 전송하며, WaitCondition은 /opt/aws/bin/cfn-signal 에서 정상적인 신호를 받을 때까지 기다리는 것이다. 
+또한 cfn-init 및 cfn-signal 명령의 출력도 확인해야 한다. 몇 개의 로그 파일을 통해 이 명령어들이 어떻게 실행되었는지에 대한 많은 정보를 얻을 수 있다.
+
+인스턴스에 액세스하려면 먼저 CloudFormation의 롤백 기능을 비활성화해야한다.
+비활성화 하지 않는다면 실패한 EC2 인스턴스가 실패 상태과 되자마자 자동으로 CloudFormation이 삭제 상태가 되어 삭제되기 때문에 실제로 무슨 일이 발생했는지 파악하기 위함이다.
+
+또한 EC2 인스턴스가 인터넷에 액세스할 수 있는지 확인해야 한다.
+
+그리고 오류 발생 여부를 확인해야 한다. 위 예제에서 볼 수 있듯이 `commands: ` 항목을 확인해보면 echo boom 뒤에 exit 1을 실행한다.
+
+상태코드 0이 아닌 1을 반환하므로 cfn-init 명령어는 1의 코드를 갖고 있게 되고 INIT_STATUS 변수에 1이 저장되며 CloudFormation에는 1 오류 상태를 전달하게되어 CloudFormation이 실패하게 될 것이다.
+
+앞서 말했듯이 위와 같은 실패 상황에서 디버깅을 위해선 rollback 설정을 해제해야한다.
+
