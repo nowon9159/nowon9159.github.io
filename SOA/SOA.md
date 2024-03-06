@@ -2666,3 +2666,61 @@ Outputs:
 CAPABILITY_AUTO_EXPAND는 중첩스택을 사용하는 스택을 생성할 때 반드시 필요하니 유의해야한다.
 
 
+## **CloudFormation - Depends On**
+
+DependsOn은 리소스 생성을 위한 특정 순서를 지정할 수 있는 방법이다.
+
+예를들어 EC2 인스턴스와 RDS 데이터베이스를 템플릿에 기재해놓고 DependsOn DBInstance를 추가한다면 DB 인스턴스가 먼저 성공적으로 생성되어야만 EC2 인스턴스가 생성된다.
+
+사실 intrinsic function(내장 함수)를 사용하면 CloudFormation은 특정 리소스에 대해 의존적이게 만들 수 있다.
+
+예를 들어 EC2 인스턴스를 생성할 때 특정 보안 그룹을 !Ref 내장 함수로서 불러오게끔 하면 특정 보안 그룹을 먼저 생성한 뒤 EC2 인스턴스를 생성하게 된다.
+
+그러나 Ref 함수나 GetAtt 함수를 사용해 연결하지 않는 경우에는 DependsOn 속성을 사용해 연결할 수 있으며, 이는 모든 리소스에서 작동한다.
+
+```yaml
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0a3c3a20c09d6f377
+      InstanceType: t2.micro
+
+  MyBucket:
+    Type: AWS::S3::Bucket
+    DependsOn: MyEC2Instance
+```
+
+위와 같은 예제 코드에서 Mybucket을 생성할 때 DependsOn 속성이 MyEC2Instance로 할당되어 있어 MyEC2Instance가 생성되지 않는 한 S3는 생성되지 않는다.
+
+EC2 인스턴스가 생성 완료되자마자 MyBucket이 생성될 것이다.
+
+그리고 DependsOn 속성은 삭제에서도 똑같이 작용된다.
+생성된 역순으로 삭제가 된다. 
+S3 버킷이 삭제된 이후에 인스턴스가 삭제될 것이다.
+
+## **CloudFormation - StackSets**
+스택셋은 한 번의 작업으로 여러 계정과 Region에 걸쳐 스택을 배포할 수 있는 방법이다.
+
+관리자 계정으로 스택 셋을 만들고 대상 계정은 스택 셋에서 인스턴스를 생성, 적용 및 삭제하는 데만 사용하도록 할 수 있다.
+
+관리자 계정에서 스택 셋을 업로드하고 업데이트하면 모든 대상 계정이 모든 리전에서 이 업데이트를 받게 된다.
+
+또한 대상 계정과 관리자 계정을 정의하기 위해 AWS Organization 내의 계정에 이를 적용할 수도 있다.
+
+관리자 계정과 대상 계정의 개념이 있기 때문에 두 계정 모두 권한이 있어야한다. 
+
+그래서 관리자 계정과 대상 계정 모두 신뢰 관계(Trust Relationship)가 있는 IAM 역할을 만들어 놓고 해당 역할을 이용해 CloudFormation 템플릿을 대상 계정에 배포할 수 있다.
+
+따라서 관리자 계정에는 모든 대상 계정의 모든 AWS CloudFormation StackSet 실행 역할과 신뢰 관계를 갖는 AWS CloudFormation StackSet 관리 역할이 있다.
+실행 역할 - 관리 역할 두 역할이 있다고 생각하면 된다.
+
+AWS Organization을 사용하지 않는 경우 이러한 역할을 수동으로 생성해야 함.
+
+Organization을 사용하는 경우 자동으로 Organization이 사용자를 대신해 IAM 역할을 생성한다.
+
+이러한 작업을 하려면 Organization 및 모든 기능 내에서 "trusted access"를 사용하도록 설정해야 하며, 향후 조직의 새 계정을 포함해 모든 새 계정에 자동으로 배포할 수 있다.
+
+하나의 스택이 생성되는 즉시 모든 계정에 스택을 자동으로 배포하도록 설정할 수도 있다.
+
+보안 및 거버넌스 목적으로 Organization의 특정 구성원 계정에 스택 셋 관리를 위임할수도 있다. 위임된 관리자가 Organization에서 관리하는 계정에 배포할 수 있도록 조직 내에서 trusted access를 활성화 해야한다.
