@@ -2305,23 +2305,30 @@ CloudFormation에서 지원하지 않거나 CloudFormation 외부에서 사용�
 
 예를들어 Lambda 함수를 실행해 S3 버킷을 삭제하기 전에 비우는 스크립트를 설정할 수 있다. (시험에 자주 등장하는 케이스의 문제)
 
-사용자 정의 리소스를 정의하려면 템플릿에서 정의하면 되고, AWS::CloudFormation::CustomResource 또는 Custom::MyCustomResourceTypeName 로 정의하면 된다.
-
-먼저 Lmabda 사용자 정의 리소스이다. 가장 일반적인 방법이다.
-
-Lambda를 설정할 때 속성에서 서비스 토큰이 있는데 이 서비스 토큰은 Lambda 함수 ARN 또는 SNS ARN을 기입하면 된다.
+사용자 정의 리소스를 정의하려면 템플릿에서 정의하면 되고, AWS::CloudFormation::CustomResource 또는 Custom::MyCustomResourceTypeName(추천) 로 정의하면 된다.
 
 ```yaml
-Type: AWS::CloudFormation::CustomResource
-Properties:
-  ServiceToken: String
+Resources:
+  MyCustomResourceUsingLambda:
+    Type: Custom::MyCustomResourceTypeName
+    properties:
+      ServiceToken: arn:aws:lambda:REGION:ACCOUNT_ID:function:RUNCTION_NAME
+      ExampleProperty: "ExampleValue"
 ```
 
-(재작성 필요)
+위 예제에서 볼 수 있듯이 Type 항목을 Custom::MyCustomResourceTypeName 로 지정했다. 예를 들어 Custom::MyLambdaResource 로 지정할수도 있다.
+
+ServiceToken은 Lamgda 함수의 ARN이나 SNS의 ARN을 기입하면 된다.
+
+사용 사례는 S3 버킷에서 오브젝트를 삭제하는 게 있다.
+왜냐하면 비어 있지 않은 S3는 CloudFormation에서 삭제할 수 없기 때문이다.
+
+그래서 보통 유저가 delete stack을 할 때 Custom resource로 S3 버킷을 비우는 람다 함수를 생성해 사용한다.
 
 ## **[DVA] CloudFormation - Dynamic References**
 
-Dynamic References는 지정된 참조 값을 생성, 업데이트 또는 삭제 작업 중에 검색할 수 있다.
+System Manager Parameter store에 값을 저장하거나 Secrets Manager에 시크릿을 저장할 수 있다.
+이 값을 CloudFormation 템플릿에 참조할 수 있다. 템플릿 생성, 업데이트 또는 삭제 작업 중에 CloudFormation이 지정된 참조의 값을 검색한다는 개념
 
 예를 들어 Secrets Manager에서 RDS 데이터베이스 인스턴스의 마스터 암호를 검색하려고 할 수 있다.
 
@@ -2347,13 +2354,68 @@ CloudFormation을 이용하면 3가지 유형의 키를 사용해 Parameter Stor
 
 위 예문에서는 secretsmanager에 있는 사용자 이름과 암호를 동적 참조를 사용해 불러온다.
 
-RDS DB 클러스터 또는 aurora를 생성하는 스택을 만들면 ManageMasterUserPassword가 True로 설정되어 Secrets에 암호가 암시적으로 생성된다. 
-
+AWS::RDS::DBCluster 예를 들어 aurora를 생성하는 스택을 만들면 ManageMasterUserPassword가 True로 설정되어 Secrets Manager에 마스터 사용자의 비밀번호가 암시적으로 생성된다. 
 즉, RDS 서비스 자체가 Secrets Manager에 마스터 사용자 비밀번호 및 rotation을 관리하기 위한 비밀을 생성한다.
 
-Secret ARN의 값을 얻으려면 GetAtt 함수를 사용해 MasterUser의 secret에서 secret ARN을 가져와야 한다.
+```yaml
+Resources:
+  MyCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      Engine: aurora-mysql
+      MasterUsername: masteruser
+      ManageMasterUserPassword: true
 
-(재작성 필요)
+Outputs:
+  Secret:
+    Value: !GetAtt Mycluster.MasterUserSecret.SecretArn
+```
+
+그래서 Secrets의 ARN을 가져오기 위해서는 Output에서 !GetAtt Mycluster.MasterUserSecret.SecretArn 등을 사용해 Secret을 가져와야한다.
+
+다른 방법은 동적 참조를 이용하는 방법이다.
+
+```yaml
+Resources:
+  MyDatabaseSecret:
+    Type: AWS::SecretsManager::Secret
+    properties:
+      Name: MyDatabaseSecret
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "admin"}'
+        GenerateStringKey: "password"
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\'
+```
+
+이번에는 !GetAtt 로 가져오는 것이 아니라 비밀번호를 직접 생성하는 GenerateSecretString을 사용한다.
+CloudFormation 내에서 자동으로 비밀번호를 생성한다.
+
+```yaml
+MyDBInstance:
+  Type: AWS::RDS::DBInstance
+  Properties:
+    DBName: mydatabase
+    AllocatedStorage: 20
+    DBInstanceClass: db.t2.micro
+    Engine: mysql
+    MasterUsername: '{{resolve:secretsmanager:MyDatabaseSecret:SecretString:username}}'
+    MasterUserPassword: '{{resolve:secretsmanager:MyDatabaseSecret:SecretString:password}}'
+```
+
+그 다음으로는 DB 인스턴스가 있는데, 이 데이터베이스 인스턴스는 resolve 함수를 활용해 RDS 데이터베이스 인스턴스에서 비밀을 참조할 것이다. (실제로 값은 Secrets Manager에 저장)
+즉, 데이터베이스 인스턴스가 Secrets Manager에서 시크릿을 활용하게 된다.
+
+```yaml
+SecretRDSAttachment:
+  Type: AWS::SecretsManager::SecretTargetAttachment
+  properties:
+    SecretId: !Ref MyDatabaseSecret
+    TargetId: !Ref MyDBInstance
+    TargetType: AWS::RDS::DBInstance
+```
+
+마지막으로 위 두 가지를 서로 연결하고 비밀번호 Rotation이 있는지 확인하기 위해 SecretTargetAttachement를 만들어 데이터베이스에 Secrets Manager에서 이 Secret에 연결해야 한다는 것을 알려주면 시간이 지나면 Secret이 Rotate되고 RDS 데이터베이스가 자동으로 업데이트될 수 있다.
 
 ## **CloudFormation - User Data**
 
