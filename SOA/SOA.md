@@ -2454,3 +2454,123 @@ CloudFormation init 블록을 리소스의 메타데이터에 정의해야한다
 
 예제 UserData에 `/opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyInstance --region ${AWS::Region}` 명령어가 있는데 -s 인수로 StackId를 전달하고 -r 인수로 어떤 리소스에 메타데이터가 첨부되어 있는지를 찾을지 정해주는 것이다.
 
+## **CloudFormation - cfn-signal & Wait Condition**
+
+EC2 인스턴스를 cfn-init 스크립트를 실행한 후 올바르게 구성되었는지 여부를 알 수 있는 방법에 대해 이야기 해보자
+
+이를 위해서 cfn-signal 스크립트를 사용한다.
+
+일반적으로 cfn-init 스크립트 바로 다음에 cfn-signal 스크립트를 실행한다.
+
+그리고 이 스크립트는 리소스 생성이 성공했는지 실패했는지 CloudFormation에 알려줄 것이다.
+
+이를 위해 우리는 CloudFormation에서 WaitCondition이라고 불리는 것을 정의해야한다.
+
+WaitCondition은 이름에서 알 수 있듯이 템플릿이 cfn-signal로부터 신호를 받을때까지 기다린다.
+
+```yaml
+# 성공 스크립트
+UserData: 
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -x
+            # Get the latest CloudFormation package
+            dnf update -y aws-cfn-bootstrap
+            # Initialize EC2 Instance
+            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource MyInstance --region ${AWS::Region}
+            # Get result of last command
+            INIT_STATUS=$?
+            # send result back using cfn-signal
+            /opt/aws/bin/cfn-signal -e $INIT_STATUS --stack ${AWS::StackName} --resource SampleWaitCondition --region ${AWS::Region}
+            # exit the script
+            exit $INIT_STATUS
+
+Metadata:
+      Comment: Install a simple Apache HTTP page
+      AWS::CloudFormation::Init:
+        config:
+          packages:
+            yum:
+              httpd: []
+          files:
+            "/var/www/html/index.html":
+              content: |
+                <h1>Hello World from EC2 instance!</h1>
+                <p>This was created using cfn-init</p>
+              mode: '000644'
+          commands:
+            hello:
+              command: "echo 'hello world'"
+          services:
+            sysvinit:
+              httpd:
+                enabled: 'true'
+                ensureRunning: 'true'
+
+  SampleWaitCondition:
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT3M
+        Count: 1
+    Type: AWS::CloudFormation::WaitCondition
+```
+
+위 예제에서 timeout과 count를 포함하는 생성 정책이 있다.
+우리가 하나 이상으로 카운트를 정의하면 하나 이상의 리소스가 CloudFormation에게 성공 신호를 전달하는 것이다.
+
+예를 들어 CloudFormation은 EC2 인스턴스를 시작하고 WaitCondition이 발생할 것이다. EC2 인스턴스는 cfn-init을 실행할 것이고 init 데이터를 검색하지만, init 데이터 바로 뒤에 cfn-signal에서 신호를 수행하여 WaitCondition에서 데이터를 다시 CloudFormation으로 전달한다.
+
+```yaml
+# 실패 스크립트
+UserData: 
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -x
+            # Get the latest CloudFormation package
+            dnf update -y aws-cfn-bootstrap
+            # Initialize EC2 Instance
+            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource MyInstance --region ${AWS::Region}
+            # Get result of last command
+            INIT_STATUS=$?
+            # send result back using cfn-signal
+            /opt/aws/bin/cfn-signal -e $INIT_STATUS --stack ${AWS::StackName} --resource SampleWaitCondition --region ${AWS::Region}
+            # exit the script
+            exit $INIT_STATUS
+
+Metadata:
+      Comment: Install a simple Apache HTTP page
+      AWS::CloudFormation::Init:
+        config:
+          packages:
+            yum:
+              httpd: []
+          files:
+            "/var/www/html/index.html":
+              content: |
+                <h1>Hello World from EC2 instance!</h1>
+                <p>This was created using cfn-init</p>
+              mode: '000644'
+          commands:
+            hello:
+              command: "echo 'boom' && exit 1"
+          services:
+            sysvinit:
+              httpd:
+                enabled: 'true'
+                ensureRunning: 'true'
+
+   SampleWaitCondition:
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT3M
+        Count: 1
+    Type: AWS::CloudFormation::WaitCondition
+```
+
+여기 스크립트가 조금 다른 yaml 파일이 있다. 이전과 마찬가지로 cfn-init을 실행하는데, 마지막 명령의 결과를 INIT_STATUS라는 변수에 저장한다. 그래서 cfn-init이 성공했다면 변수는 0이 될것이다. 실패할 경우 0이 아닌 다른 오류 코드 가 될 것이다.
+
+cfn-signal 스크립트에 INIT_STATUS를 전달하고 최종적으로 CloudFormation에 결과를 전송한다.
+
+Count 1 에 해당하는 신호를 받는데까지 대기하는 시간(타임아웃)은 2분이다. 2분 내에 아무것도 받지 못하면 실패하고 성공 또는 실패 시그널을 받는다.
+
+결국 /opt/aws/bin/cfn-init 스크립트를 실행하고 실행한 결과를 변수화 해 /opt/aws/bin/cfn-signal 스크립트에서 사용해 CloudFormation으로 전송하며, WaitCondition은 /opt/aws/bin/cfn-signal 에서 정상적인 신호를 받을 때까지 기다리는 것이다. 
