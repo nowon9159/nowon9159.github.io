@@ -2210,7 +2210,7 @@ CloudFormation에 할당할 Service Role을 생성하고, 해당 역할은 버�
 InsufficientCapabilitiesException는 템플릿을 시작할 때 CloudFormation 템플릿이 Capabilities를 요청했지만 사용자가 이를 인증하지 않았다는 것을 의미한다. 
 결국 템플릿을 다시 만들고, 업로드하고, Capabilities를 꼭 넣어줘야 한다.
 
-API 호출의 추가 인수이거나 AWS 콘솔에서는 선택하는 확인란으로 나타난다.
+이 capability들은 CLI나 SDK를 사용할 경우 API 호출의 추가 매개변수이고, AWS 콘솔에서는 선택하는 체크박스로 나타난다.
 
 ## **[DVA] CloudFormation - Deletion Policy**
 
@@ -2613,4 +2613,56 @@ WaitCondition이 EC2 인스턴스로부터 필요한 수의 신호를 수신하�
 상태코드 0이 아닌 1을 반환하므로 cfn-init 명령어는 1의 코드를 갖고 있게 되고 INIT_STATUS 변수에 1이 저장되며 CloudFormation에는 1 오류 상태를 전달하게되어 CloudFormation이 실패하게 될 것이다.
 
 앞서 말했듯이 위와 같은 실패 상황에서 디버깅을 위해선 rollback 설정을 해제해야한다.
+
+## **CloudFormation - Nested Stacks**
+
+Nested Stack(중첩 스택)은 다른 스택 안에 있는 스택이다.
+
+중첩 스택을 사용하면 반복되는 패턴과 공통 구성 요소를 별도의 스택에서 분리한 다음 다른 스택에서 호출할 수 있다.
+
+예를 들어 재사용되는 로드 밸런서 구성이 있는 경우 이를 중첩 스택으로 구성할 수 있다. 
+
+중첩된 스택을 업데이트하기 위해서는 항상 상위 스택을 업데이트 해야한다. 루트 스택과 중첩된 스택은 그 자체 안에 중첩된 스택을 가질수 있다. 중첩된 스택안에 중첩된 스택을 다시 넣을수 있어 매우 깊이 들어갈 수 있다.
+
+Cross Stack(교차 스택)이라는 개념도 있다. 교차 스택의 경우 스택의 수명 주기가 다를 때 매우 유용하다.
+
+예를 들어 VPC 스택이 있고 일부 변수를 출력으로 내보내 Application 스택으로 내보내는 경우 즉, 스택 간에 값을 전달해야 할 때 매우 편리하다.
+
+중첩 스택의 경우 재사용해야 하는 컴포넌트가 있는 경우 유용하다. 예를 들어 한 애플리케이션 스택을 구성할 때 RDS 스택, ASG 스택, ELB 스택을 생성해야 할 경우 또 다른 인스턴스를 생성하게 되면 이전에 생성했던 것과는 다른 각각의 RDS 스택, ASG 스택, ELB 스택을 생성하게 된다.
+
+상황에 따라 교차 스택과 중첩 스택을 다르게 사용해야한다.
+
+```yaml
+Resources:
+  MyKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: DemoKeyPair
+      KeyType: rsa
+
+  myStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/cloudformation-templates-us-east-1/LAMP_Single_Instance.template
+      Parameters:
+        KeyName: !Ref MyKeyPair
+        DBName: "mydb"
+        DBUser: "user"
+        DBPassword: "pass"
+        DBRootPassword: "passroot"
+        InstanceType: t2.micro
+        SSHLocation: "0.0.0.0/0"
+
+Outputs:
+  StackRef:
+    Value: !Ref myStack
+  OutputFromNestedStack:
+    Value: !GetAtt myStack.Outputs.WebsiteURL
+```
+
+중첩 스택의 경우 Resources 안에 스택을 지정해서 사용한다. 
+위 예제에서는 스택의 위치를 TemplateURL로 지정하고 해당 스택에 있는 파라미터를 불러온다.
+
+CAPABILITY_AUTO_EXPAND는 중첩스택을 사용하는 스택을 생성할 때 반드시 필요하니 유의해야한다.
+
 
