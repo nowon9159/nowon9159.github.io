@@ -3003,3 +3003,37 @@ S3 Event Notification은 일반적으로 몇 초 안에 이벤트를 전달하�
 S3 버킷에 새 파일 이벤트가 Lambda로 전송된다.
 그리고 Lambda 함수는 해당 파일을 처리해 해당 데이터를 DynamoDB 테이블 또는 RDS 데이터베이스의 테이블에 삽입할 수도 있다.
 
+## **Lambda Permissions - IAM Roles & Resource Policies**
+
+람다 실행 역할과 권한에 대해 이야기 해보자
+
+람다 함수에 IAM 역할을 연결해야하고, 이렇게 하면 람다 함수에 AWS 서비스 및 리소스에 액세스할 수 있는 권한이 부여된다.
+
+그리고 관리형 정책을 사용할수도 있다.
+
+예를들어
+- AWSLambdaBasicExecutionRole 을 이용해서 CloudWatch에 Log를 업로드하거나,
+- AWSLambdaKinesisExecutionRole 를 이용해서 Kinesis에서 읽어오거나
+- AWSLambdaDynamoDBExecutionRole 를 이용해서 DynamoDB 스트림에서 읽어 오거나
+- AWSLambdaSQSQueueExecutionRole 를 이용해서 SQS에서 읽어오거나
+- AWSLambdaVPCAccessExecutionRole 를 이용해서 VPC 내부에 Lambda 함수를 배포할 수 있게 하거나
+- AWSXRayDaemonWriteAccess 를 이용해서 trace data를 X-Ray에 업로드하는
+
+여러가지의 관리형 정책이 있다. 람다에 대한 자체 정책을 만들 수도 있다.
+
+따라서 이벤트 소스 매핑을 사용해 함수를 호출하는 것을 사용할 때 람다는 실행 역할을 사용해서 이벤트 데이터를 읽어온다. 그래서 이벤트 데이터를 읽으려면 실행 역할을 사용해야 한다.
+
+반면에 Lambda 함수는 통상 다른 서비스에서 호출되므로 특정 권한이 있는 특정 IAM 역할이 필요하지 않다.
+
+그런데 함수당 하나의 람다 실행 역할을 만드는 것이 가장 좋은 방법이다.
+
+이벤트 소스 매핑을 위한 것이거나 람다 함수가 실제로 다른 서비스를 호출해야 하지만 다른 서비스에서 람다 하수를 호출하는 경우에 리소스 기반 정책을 사용하는데, 이것은 다른 계정이나 다른 AWS 서비스에 람다 리소스를 사용할 수 있는 권한을 부여해 함수에서 이를 호출하는 것이며, 이것은 Amazon S3 버킷의 S3 버킷 정책과 매우 유사하다.
+
+따라서 다음 두 가지 중 하나에 해당하는 경우 IAM 원칙에 따라 Lambda 함수에 액세스할 수 있다.
+
+첫째로는 principal에 연결된 IAM 정책이 승인한다.
+예를 들어 IAM 사용자가 있고 전체 권한을 가지고 있어 관리자 액세스 정책 덕분에 람다 함수에 액세스할 수 있다.
+
+두번째로는 리소스 기반 정책을 통해 람다 함수에 대한 액세스 권한을 부여하는 경우 서비스 대 서비스 액세스 권한이 있을 때 더 유용하다.
+
+Amazon S3와 같은 다른 AWS 서비스에서 람다 함수를 호출하려는 경우 리소스 기반 정책을 통해 액세스 권한을 부여해야 한다.
