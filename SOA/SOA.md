@@ -3037,3 +3037,31 @@ S3 버킷에 새 파일 이벤트가 Lambda로 전송된다.
 두번째로는 리소스 기반 정책을 통해 람다 함수에 대한 액세스 권한을 부여하는 경우 서비스 대 서비스 액세스 권한이 있을 때 더 유용하다.
 
 Amazon S3와 같은 다른 AWS 서비스에서 람다 함수를 호출하려는 경우 리소스 기반 정책을 통해 액세스 권한을 부여해야 한다.
+
+## **Lambda Monitoring & X-Ray Tracing**
+
+Lambda가 로깅, 모니터링 및 Tracing을 수행하는 방법에 대해 이야기 해보자
+
+모든 Lambda 실행 로그가 CloudWatch Logs에 자동으로 저장되기 때문에 Lambda는 cloudWatch Logs와 통합되어 있다는 것을 알 수 있다.
+
+Lambda 함수에 올바른 IAM 정책이 있는 실행 역할이 있고, 이 역할은 Lambda 기본 실행 역할에 포함되어 있는 경우, Lambda 함수가 CloudWatch Logs에 쓸수 있는 권한을 부여한다.
+
+CloudWatch 메트릭이 있다.
+
+호출, 기간, 동시 실행, 오류 횟수, 성공률, 스로틀, 비동기 전송 실패에 대한 정보를 나타낸다.
+
+그리고 Kinesis 또는 DynamoDB 스트림에서 읽는 경우 Iterator Age라는 항목이 있는데 스트림 읽기가 얼마나 지연되고 있는지를 의미하는 것도 나타낸다.
+
+Lambda 함수에서 X-Ray 로 Tracing을 수행할 수 있다.
+Lambda configuration에서 활성화하기만 하면 되는데, 이를 액티브 트레이싱이라고 한다. 활성화 하면 엑스레이 데몬이 자동으로 실행된다.
+
+우리가 해야할 일은 코드에서 엑스레이 SDK를 사용하기만 하면 된다. Lambda 함수에 X-Ray에 쓸 수 있는 올바른 IAM 실행 역할이 있는지 확인해야 한다.
+AWSXRayDaemonWriteAccess라는 관리형 정책을 사용할 수 있다.
+
+X-Ray와 통신하기 위해 환경 변수를 설정해야 한다.
+이 환경 변수는 미리 예약되어 있어 함수 구성에서 설정할 수 없다.
+
+- _X_AMZN_TRACE_ID: X-Ray 추적 헤더이다. 간접 호출할 때마다 환경변수가 변경된다.
+- AWS_XRAY_CONTEXT_MISSING: 기본적으로 필요한 변수이다. LOG_ERROR로 설정하면 된다.
+- AWS_XRAY_DAEMON_ADDRESS: 람다 함수와 관련해 엑스레이 데몬의 IP와 포트가 실행되는 위치를 알려주는 데몬 주소이다. IP_ADDRESS:PORT의 형태로 알려준다.
+
