@@ -2973,5 +2973,12 @@ S3에 새 이미지가 업로드 되면 S3 이벤트 알림을 통해 Lambda 함
 
 굉장히 싼 요금 부과 정책이다.
 
-##
+## **Lambda & CloudWatch Events / EventBridge**
+
+CloudWatch Events 또는 EventBridge를 Lambda와 통합하는 방법에 대해 이야기 해보자
+
+첫 번째는 서버리스 Cron 또는 Rate 기반 EventBridge Rule을 사용하는 것이다.
+예를 들어 EventBridge 규칙을 생성해 1시간마다 람다 함수가 작업을 수행하도록 트리거하는 것이다.
+
+또는 코드 파이프라인 상태가 변경될 때마다 감지하고 상태 변경시 Lambda 함수를 호출하여 작업을 수행하도록 하는 CodePipeline EventBridge 규칙을 만들 수도 있다.
 
