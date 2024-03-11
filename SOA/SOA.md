@@ -3762,3 +3762,24 @@ Action 중 GetObject의 경우 Resource의 path 가 *로 되어야 모든 object
 ListBucket의 경우 해당 Bucket의 이름만 기재해줘도 된다.
 
 MultiFactorAuthPresent 를 이용해서 MFA에 인증된 경우에만 객체를 가져올 수 있도록 한다.
+
+## **[CCP/SAA/DVA] S3 Website Overview**
+
+S3를 사용해서 웹사이트를 만들수 있다.
+
+S3는 정적 웹사이트를 호스팅하고 이를 인터넷에서 액세스할 수 있도록 제공할 수 있다. 웹사이트의 URL은 AWS Region에 따라 달라진다.
+
+버킷에 HTML 파일이나 이미지와 같은 파일이 들어 있을 것이다.
+
+이 버킷을 Static Website Hosting 옵션을 활성화하게 되면 버킷의 이름에 따라
+http://bucket-name.s3-website-Region.amazonaws.com 또는
+http://bucket-name.s3-website.Region.amazonaws.com 등의 이름으로 나타날 것이고, 사용자가 우리의 S3 버킷에 액세스할 수 있을 것이다.
+
+그러나 우리의 S3 버킷에 Public 읽기 권한이 없으면 작동하지 않는다.
+
+그래서 버킷 정책을 공개적으로 읽기 위해 활성화 하면 된다.
+403 에러가 발생하게 된다면 버킷이 공개되지 않았다는 의미이다.
+
+
+
+## **[CCP/SAA/DVA] S3 Versioning**
