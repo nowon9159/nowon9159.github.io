@@ -3599,3 +3599,24 @@ EFS는 라이프사이클 정책을 활성화하거나 IA로 전환하거나 IA 
 
 또한 EFS를 암호화하거나 암호화를 변경하려면 DataSync를 사용해야한다.
 
+## **EFS - CloudWatch Metrics**
+
+EFS 는 여러 CloudWatch Metric이 있다.
+
+- PercentIOLimit
+  - 이 메트릭은 General Purpose의 I/O 제한에 도달하는데 얼마나 가까운지에 대한 정보를 제공한다.
+  - 만약 매우 높은 백분율을 얻거나 100%에 가까워진다면, 권장 사항은 Max I/O로 전환하여 EFS 파일 시스템의 I/O 용량을 증가시키는 것이다. (DataSync 서비스를 이용하여)
+- BurstCreditBalance
+  - 일반적인 목적의 EFS 파일 시스템을 사용하면 높은 처리량 수준을 달성하기 위해 사용할 수 있는 Burst credit이 있다.
+  - 그러나 처리량이 100%에 도달하고 모든 크레딧을 사용하면 크레딧 잔액이 0이 될 것이고, 다시 사용할 수 있을 때까지 기다려야 한다.
+- StorageBytes
+  - 바이트 단위로 측정된 파일 시스템의 크기이며, 15분마다 업데이트된다.
+  - 여러 Demension이 있어서 Standard 클래스에 저장된 양, IA 클래스에 저장된 양, 전체는 Standard 및 IA의 합계이다.
+
+모든 모니터링 메트릭에는 파일 시스템을 클릭하고 Monitoring을 클릭해 직접 액세스할 수 있다.
+
+여기에서 Throughput은 75% 이상일 때 경고가 표시된다.
+
+IOPS 유형 별, 유형 별 Throughput, PercentIOLimit, 현재 EFS 파일 시스템에 연결된 클라이언트 수, EFS 파일 시스템에서 사용중인 스토리지 양 등이 있다.
+
+실시간 정보를 얻으려면 시계열 또는 단일 값으로 선택할 수 있다.
