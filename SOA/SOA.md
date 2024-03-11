@@ -3671,3 +3671,76 @@ S3 버킷은 명명 규칙이 있다.
 
 버킷에 버전 관리를 활성화한 경우 객체에 버전 ID가 있을 수도 있다.
 
+## **[CCP/SAA/DVA] S3 Security: Bucket Policy**
+
+S3의 보안 정책에 대해 이야기 해보자
+
+S3는 사용자 기반 보안이 있다. 특정 IAM 사용자에 대해 허용되어야 하는 API 호출을 권한 부여하는 IAM 정책을 갖리 수 있다.
+
+또한 리소스 기반 보안이 있다. S3 Bucket Policy를 사용할 수 있으며 S3 콘솔에서 직접 할당할 수 있는 Bucket 전체 규칙이다.
+
+이를 통해 특정 사용자가 들어오거나 다른 계정의 사용자(교차 계정)가 S3 버킷에 액세스할 수 있다.
+
+다음으로 object Access Control List(ACL)이 있다. 이는 비활성화될 수 있다.
+
+Bucket 수준에서도 Bucket ACL을 가질 수 있다.
+Bucket ACL이 훨씬 덜 일반적이고 비활성화될 수 있다.
+
+현재 Amazon S3 버킷에서 일반적으로 보안을 구현하는 방법은 Bucket Policy를 사용하는 것이다.
+
+IAM 권한이 허용하거나 리소스 정책이 허용해 명시적으로 거부된 작업이 없으면 IAM 원칙은 지정된 API 호출에서 S3 객체에 액세스할 수 있다.
+
+마지막으로 S3에서 보안을 구현하는 방법은 암호화 키를 사용해 객체를 암호화하는 것이다.
+
+S3 Bucket Policy는 실제로 JSON 기반의 정책이며 읽기가 상당히 쉽다.
+
+아래는 예시이다.
+```json
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Principal":{
+            "AWS":"arn:aws:iam::111122223333:role/JohnDoe"
+         },
+         "Effect":"Allow",
+         "Action":[
+            "s3:GetObject",
+            "s3:GetObjectVersion"
+         ],
+         "Resource":"arn:aws:s3:::DOC-EXAMPLE-BUCKET/*",
+         "Condition":{
+            "StringEquals":{
+               "s3:ExistingObjectTag/environment":"production"
+            }
+         }
+      }
+   ]
+}
+```
+
+Resource 블록의 경우 정책이 적용되는 버킷 및 객체를 알려준다.
+
+Effect 의 경우 Allow 또는 Deny가 있다.
+
+Action은 Effect를 적용할 작업이다.
+
+Principal은 계정 또는 사용자를 나타낸다. 이 정책을 적용할 대상을 의미한다.
+
+S3 Bucket Policy를 사용해서 Bucket에 대한 공개 액세스를 부여하거나 객체를 업로드할 때 객체를 강제로 암호화하거나 다른 계정에 액세스 권한을 부여할 수 있다.
+
+사용자가 계정 내에 있는 경우(IAM 사용자) S3에 액세스하려는 경우 해당 사용자에게 IAM Policy를 부여해 S3 버킷에 액세스할 수 있다.
+
+그러나 EC2 인스턴스에서 S3 버킷으로의 액세스를 제공하려면 IAM 사용자가 적절하지 않고 IAM 역할을 사용해야 한다.
+
+따라서 올바른 IAM 구너한이 있는 EC2 인스턴스 역할을 생성하면 해당 EC2 인스턴스는 S3 버킷에 액세스할 수 있다.
+
+Cross-Account 액세스를 허용하려면 Bucket 정책을 사용해야 한다.
+
+다른 AWS 계정에 있는 IAM 사용자가 있고 해당 특정 IAM 사용자에 대한 Cross-Account 액세스를 허용하는 Bucket Policy를 생성하면 IAM 사용자는 우리의 S3 버킷으로 API 호출을 수행할 수 있다.
+
+또한 S3 버킷은 Block Public Access 설정이 있다.
+버킷을 생성할 때 설정할 수 있고 데이터 누출을 방지하기 위한 보안의 추가적인 레이어이다.
+
+S3 버킷 정책으로 버킷을 공개적으로 만드는 설정이 있더라도 Block Public Access이 활성화 된 경우 버킷은 절대로 공개되지 않는다.
+
