@@ -3934,3 +3934,46 @@ S3 Intelligent-Tiering은 객체를 이동시키는 동안 우리가 해야할 �
 
 스토리지 클래스의 내구성은 어디서나 11 nines를 얻고 가용성은 내려갈수록 Zone이 줄어든다.
 
+## **[SAA/DVA] S3 Lifecycle Rules (with S3 Analytics)**
+
+여러 스토리지 클래스 간에 객체를 이동하고 전환하는 방법에 대해 이야기 해보자
+
+보통은 Standard로 시작해서 Standard-IA 그리고 Intelligent Tiering으로 그리고 One-Zone IA로 이동, One-Zone IA에서는 Flexible Retrieval이나 Deep Archive로 이동할 수 있다.
+(One-Zone IA에서 Glacier Instant Retrieval로 못가는 것 빼고는 나머지는 다 각자 클래스로 이동 가능하다.)
+
+객체가 드물게 액세스될 것으로 예상된다면 Standard IA로 이동하고, 객체를 아카이빙할 것으로 예상된다면 Glacier 티어나 Deep Archive 티어로 이동해라
+
+이러한 객체 이동은 수동으로 수행할 수 있지만 우리는 Lifecycle Rule을 이용해서 자동화할 수 있따.
+
+Lifecycle Rule은 여러 구성 요소로 이루어져 있다.
+
+Transition Actions: 객체를 다른 스토리지 클래스로 전환할 수 있도록 하는 작업
+- 예를 들어, 60일이 지난 객체를 Standard IA 클래스로 이동하거나, 
+- 6개월이 지난 객체를 Glacier로 이동할 수 있다.
+
+Expiration Actions: 객체를 만료하는 만료 작업
+- 예를 들어 액세스 로그 파일은 365일 후에 삭제하려면 만료 작업을 설정할 수 있다.
+- 버전 관리를 활성화했다면 오래된 파일 버전을 삭제하는 데 Expiration 작업을 사용할 수 있다.
+- 또한 만약 Multi-Part upload가 2주 이상 지난 경우에는 불완전한 멀티파트 업로드를 삭제하는 데 이를 사용할 수 있다.
+
+규칙은 특정 접두사에 대해 지정될 수 있으므로, 전체 버킷이나 버킷 내의 특정 경로에 적용될 수 있다.
+또한 특정 객체 태그에 대해 지정할 수도 있다. 예를 들어 "Department":"Finance" 에 대한 룰만 적용하려면 가능하다.
+
+예를 들어보자
+
+회사의 규칙 중 하나가 30일 동안은 삭제된 S3 객체를 즉시 복원할 수 있어야 하며, 30일 동안에는 삭제된 객체를 48시간 내에 복구할 수 있어야 한다고 명시되어 있다면 삭제된 객체를 숨기기 위해 S3 Vesioning을 활성화 해 객체 버전을 유지하고 가져올 수 있다.
+이렇게 하면 객체가 사실은 Deletion Marker에 의해 숨겨지고 나중에 복구할 수 있게 된다.
+그런 다음 현재 버전이 아닌 객체를 Standard IA로 전환하는 규칙을 만든다.
+그 후에 현재 버전이 아닌 객체를 아카이빙 목적으로 Glacier Deep Archive로 전환한다.
+
+그런데 어떻게 하면 객체를 한 클래스에서 다른 클래스로 전환할 최적 일 수를 결정할 수 있을까?
+여기에 Amazon S3 Analytics를 활용할 수 있다.
+
+Standard 형 및 Standard IA 형이 있다.
+
+One-Zone IA 또는 Glacier과 함께 작동하지는 않는다. 
+
+이 기능은 권장 사항과 통계를 담은 CSV 보고서를 생성할 것이며, 보고서는 매일 업데이트되며 데이터 분석 결과를 보려면 24 ~ 48 시간이 걸릴 수 있다.
+
+따라서 합리적인 라이프 사이클 규칙을 만들거나 개선하는데 도움을 줄 수 있다.
+
