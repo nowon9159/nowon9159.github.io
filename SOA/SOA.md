@@ -3842,3 +3842,95 @@ SRR의 경우 로그를 여러 S3 버킷에 집계하거나 프로덕션 및 테
 예를 들어 버킷 1에서 버킷 2로 복제되고, 버킷 2가 버킷 3으로 복제된 경우 버킷 1의 객체는 버킷 3으로 복제되지 않는다.
 
 
+## **[CCP/SAA/DVA] S3 Storage Classes Overview**
+S3는 다양한 Storage Class 가 있다.
+
+- Amazon S3 Standard - General Purpose
+- Amazon S3-Infrequent Access
+- Amazon S3 One Zone-Infrequent Access
+- Glacier Instant Retrieval
+- Glacier Flexible Retrieval
+- Glacier Deep Archive
+- Amazon S3 Intelligent Tiering
+
+가 있다.
+
+모든 클래스에 대해 시험에서 알고 있어야 한다.
+S3에 개체를 만들 때 해당 클래스를 선택할 수 있으며 수동으로 스토리지 클래스를 수정하거나 S3 Lifecycle을 사용하여 개체를 자동으로 스토리지 클래스 간 이동할 수도 있다.
+
+클래스에 들어가기 전에 내구성(durability) 및 가용성(availability)에 대해 정의해보자
+
+내구성은 S3에서 객체가 얼마나 자주 손실될 것인지를 나타낸다. S3는 매우 높은 내구성을 가지고 있으며 11nines로 표현된다. 즉, 99.999999999% 이다. 이는 평균적으로 10 백만개의 객체를 Amazon S3에 저장할 때 한 객체가 10,000년에 한 번 손실될 것으로 예상할 수 있음을 의미한다. 내구성은 Amazon S3의 모든 스토리지 클래스에 대해 동일하다.
+
+가용성은 서비스가 얼마나 즉시 사용 가능한지를 나타낸다. 이는 스토리지 클래스에 따라 다르다. 예를 들어, S3 Standard는 99.99%의 가용성을 가지고 이싿. 이는 연간 약 53분 동안 서비스가 사용 불가능하다는 것을 의미한다. 이것은 서비스를 다룰 때 일부 오류가 발생할 수 있음을 의미하므로 응용 프로그램을 개발할 때 이를 고려해야 한다.
+
+S3 Standard는 99.99%의 가용성을 가지고 있고 빈번하게 액세스되는 데이터에 사용된다.
+기본적으로 사용하는 저장소 유형이며, 지연 시간이 낮고 처리량이 높다.
+
+AWS 측면에서 두 가용 영역의 장애를 견딜 수 있다.
+
+사용 사례로는 대규모 데이터 분석, 모바일 및 게임 응용 프로그램, 콘텐츠 배포 등이 있다.
+
+
+다음으로 Amazon S3 Infrequent Access 가 있다.
+
+이는 덜 자주 액세스되는 데이터이지만 필요할 때 빠른 액세스가 필요한 데이터이다.
+
+S3 Standard보다 낮은 비용이 들지만 검색에 비용이 발생한다.
+
+S3 Standard-IA의 가용성은 99.9% 이며, 사용 사례로는 재해 복구 및 백업이 있다.
+
+Amazon S3 One Zone-Infrequent Access, One Zone-IA는 단일 가용 영역 내에서 고 내구성을 가지며 AZ가 파괴되면 데이터가 손실된다. 또한 가용성이 99.5%로 더 낮다.
+
+S3 One Zone-IA의 사용 사례는 예를 들어 온프레미스 데이터 또는 다시 생성할 수 있는 데이터의 백업의 보조 복사본을 저장하는 것이다.
+
+다음은 Glacier 스토리지 클래스가 있다. 
+
+Glacier는 아카이빙 및 백업을 위한 저렴한 객체 저장소이다.
+
+가격은 저장소 비용과 검색 비용을 지불해야 한다.
+
+Glacier는 Amazon S3 Glacier Instant Retrieval이 있다. 이는 분기마다 액세스되는 데이터에 적합한 미리 측정된 검색을 제공한다. 최소 저장 기간은 90일이다.
+
+그래서 이것은 백업이지만 밀리초 내에 액세스해야 한다.
+
+다음은 Glacier Flexible Retrieval 이다. 이전에는 S3 Glacier라 불렀지만 계층이 추가됨에 따라 이름을 바꿔주었다.
+
+Amazon Glacier Flexible Retrieval에는 세 가지 Flexible이 있다.
+
+- Expedited로 데이터를 1분에서 5분 사이에 가져올 수 있다.
+- Standard로 데이터를 3시간에서 5시간 사이에 가져올 수 있다.
+- Bulk는 무료이며 데이터를 5시간에서 12시간 사이에 가져올 수 있다.
+
+Flexible은 최소 저장 기간이 90일이다.
+
+여기서 Instant는 데이터를 즉시 검색하고 Flexible은 데이터를 검색하는 데 최대 12시간까지 기다릴 수 있는 의미이다.
+
+다음 장기 저장을 위한 Glacier Deep Archive가 있다.
+
+검색에 대한 두 가지 티어가 있다.
+- Standard는 12시간이고,
+- Bulk는 48시간이다.
+
+데이터를 검색하는 데 많은 시간을 기다릴 수 있지만 가장 낮은 비용을 제공한다.
+최소 저장 기간은 180일이다.
+
+S3 Intelligent-Tiering이라는 스토리지 클래스가 있다.
+
+이는 사용 패턴을 기반으로 개체를 액세스 티어 간에 이동할 수 있게 해준다.
+
+이를 위해 매달 작은 Monitoring 요금, 자동 티어링 수수료가 발생한다.
+
+S3 Intellignet-Tiering에서는 액세스 비용이 발생하지 않는다.
+
+Tier는 아래와 같다.
+- Frequent Access tier: 기본 tier
+- Infrequent Access tier: 30일 동안 액세스되지 않은 개체에 대한
+- Archive Instant Access: 90일 동안 액세스되지 않은 개체에 대한
+- Archive Access(optional): 옵션으로 추가할 수있는 Tier이고, 90일부터 700일 이상까지 구성할 수 있다.
+- Deep Archive Access(optional): 180일부터 700일 이상까지 액세스되지 않은 개체에 대해 구성할 수 있다.
+
+S3 Intelligent-Tiering은 객체를 이동시키는 동안 우리가 해야할 것은 없다.
+
+스토리지 클래스의 내구성은 어디서나 11 nines를 얻고 가용성은 내려갈수록 Zone이 줄어든다.
+
