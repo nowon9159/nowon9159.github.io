@@ -3744,3 +3744,21 @@ Cross-Account 액세스를 허용하려면 Bucket 정책을 사용해야 한다.
 
 S3 버킷 정책으로 버킷을 공개적으로 만드는 설정이 있더라도 Block Public Access이 활성화 된 경우 버킷은 절대로 공개되지 않는다.
 
+
+## **S3 Security: Bucket Policy Advanced**
+***시험에서는 알 필요 없다.***
+
+S3 Bucket Policy를 사용하면 버킷에 대한 공개 액세스를 허용하거나 업로드 시 객체를 강제로 암호화하거나 다른 Region 및 교차 계정에 액세스 권한을 부여하거나 공개 IP 또는 Elastic IP에 대한 조건을 지정하거나(Private IP에 대한 조건은 적용되지 않는다.), Source VPC 또는 Source VPC 엔드포인트, CloudFront 원본 ID, MFA 강제 등 여러가지 작업이 가능하다.
+
+유용한 예제를 살펴보자
+
+aws:PrincipalOrgID 를 이용해서 S3 버킷에 대한 액세스를 AWS Organization에 속한 모든 주체에게 제한한다.
+
+s3:x-amz-server-sideencryption를 이용해서 암호화되지 않은 객체의 업로드를 방지한다.
+
+NotIpAddress를 이용해서 SourceIp에서 제공한 IP 범위 내에 IP가 해당하지 않으면 업로드를 거부할 수 있다.
+
+Action 중 GetObject의 경우 Resource의 path 가 *로 되어야 모든 object에 대한 권한을 얻게 되고
+ListBucket의 경우 해당 Bucket의 이름만 기재해줘도 된다.
+
+MultiFactorAuthPresent 를 이용해서 MFA에 인증된 경우에만 객체를 가져올 수 있도록 한다.
