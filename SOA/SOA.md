@@ -4202,3 +4202,69 @@ CLI 또는 SDK를 사용해서 멀티파트 업로드를 활용할 수 있다.
 
 LifeCycle Rule을 만들 수 있으며 라이프 사이클을 이용해서 만료된 삭제 마커 또는 멀티파트 업로드가 불완전하게 진행된 파일들을 삭제할 수도 있다.
 
+## **[SAA] Athena**
+
+Ahena는 S3 버킷에 저장된 데이터를 분석하는 데 도움이 되는 서버리스 쿼리 서비스이다.
+
+데이터를 분석하기 위해 표준 SQL 언어를 사용해 파일을 쿼리하며, Presto 엔진을 기반으로 하고 있다. 이 엔진은 SQL 언어를 사용한다.
+
+Athena는 서버리스이며 S3 버킷에 있는 데이터를 직접 분석한다.
+
+CSV, JSON, ORC, Avro, Parquet과 같은 다양한 형식을 지원하며 가격은 데이터를 스캔할 때마다 TB 기준 5.00 달러의 비용을 지불한다.
+
+Athena는 종종 QuickSight라는 도구와 함께 사용되어 리포트 및 대시 보드를 생성한다.
+QuickSight는 Athena와 그리고 S3와 연결된다.
+
+Athena의 사용 사례는 향상된 쿼리, 비즈니스 인텔리전스, 분석, 보고 및 AWS 서비스에서 기원하는 모든 종류의 로그를 분석 및 쿼리하는 것이다.
+
+예를 들어 VPC Flow Log, Load Balancer Log, CloudTrail 등이 될 수 있다.
+
+시험에서는 S#에서 서버리스 SQL 엔진을 사용해 데이터를 분석해야 할 때 Athena를 고려할 수 있다.
+
+Athena는 **성능 향상**을 할 수 있다.
+데이터 스캔할 때 테라바이트 당 비용을 지불하므로 더 적은 데이터를 스캔할 유형의 데이터를 사용해야 한다.
+
+이를 위해 비용 절감을 위해 Column 데이터 형식을 사용할 수 있으며, 필요한 열만 스캔하게 된다.
+따라서 Athena에 권장되는 형식은 Apache Parquet 및 ORC이며, 이는 매우 큰 성능 향상을 제공할 것이다.
+
+또한 Apache Parquet 또는 ORC 형식으로 파일을 변환하려면 Glue와 같은 서비스를 사용해야 한다.
+
+Glue는 ETL 작업으로 데이터를 변환하는 데 매우 유용할 수 있다. 
+
+또한 더 적은 데이터를 스캔하려면 데이터를 압축해야 한다. 여러 가지 압축 메커니즘이 있다.
+
+특정 열에서 항상 쿼리를 실행할 것으로 알고 있다면 데이터 세트를 파티션화할 수 있다.
+
+데이터를 파티션화하면 S3 버킷에 전체 경로가 슬래시로 나뉘며 각 슬래시는 다른 열 이름 및 특정 값이 된다.
+따라서 S3에서 어떤 폴더와 경로에서 데이터를 스캔해야 하는지 정확하게 알 수 있도록 데이터를 S3에 파티션으로 구성한다.
+
+예시: s3://~~~PathtoTable/<PARTITION_COLUMN_NAME>=<VALUE>
+non hive style 예시: elb/plaintext/2015/01/01/part-r-00000-ce65fca5-d6c6-40e6-b1f9-190cc4f93814.txt
+hive style 예시: s3://athena-examples/flight/parquet/year=1991/month=1/day=1/
+
+Athena에서 쿼리를 실행하고 특정 연도, 특정 월 및 특정 일에 대한 필터를 설정하면 Amazon S3에서 데이터를 가져올 정확한 폴더를 알 수 있으며, 따라서 데이터의 일 부분만 검색한다. 이는 매우 효과적인 파티셔닝을 갖게 된다.
+
+또한 너무 작은 파일은 사용하지 않는 것이다.
+
+S3에 많은 작은 파일이 있는 경우 더 큰 파일(128 MB 이상)이 있는 경우보다 성능이 좋지 않다.
+
+더 큰 파일은 스캔 및 검색이 더 쉬워 선능이 향상된다.
+
+Athena의 또 다른 기능은 **연합 쿼리(Federated Query)**이다.
+
+Athena는 S3의 데이터를 쿼리하는 것 외에 실제로는 어디에서나 데이터를 쿼리할 수 있다.
+예를 들어 관계형 또는 비관계형 데이터베이스, 객체 및 사용자 지정 데이터 소스 등 AWS 또는 온프레미스에서 쿼리할 수 있다.
+
+Data Source Connector를 사용해서 위와 같은 작업이 가능하다.
+이는 람다 함수이며 해당 람다 함수는 다른 서비스에서 Federated Query를 실행한다.
+
+한 번 호출로 인해 여러 데이터 원본에 걸쳐 통합 SQL 쿼리를 실행하는 것.
+
+예를 들어 CloudWatch Logs, DynamoDB, RDS 등이 될 수 있다.
+
+실제로 구성을 보면 Athena - Lambda(Data Source Connector) - ElastiCache, DocumentDB, DynamoDB 등의 서비스이다.
+
+Federated Query는 ElastiCache, DocumentDB, DynamoDB, RedShift, Aurora, SQL server, MySQL, EMR 서비스의 HBase 또는 온프레미스 데이터베이스를 포함한 쿼리를 실행할 수 있다.
+
+실행한 쿼리의 결과물은 다시 S3로 저장할 수 있다.
+
