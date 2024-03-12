@@ -4091,3 +4091,22 @@ S3 Inventory 및 S3 Select를 사용해서 원하는 객체의 필터링 된 목
 Batch Operation으로 필터링 된 목록의 객체를 처리한다.
 
 다시 말해서 주요 사용 사례 중 하나는 S3 Inventory를 사용해서 암호화되지 않은 모든 객체를 찾고 S3 Batch Operations를 사용해 한꺼번에 모두 암호화하는 것이다.
+
+
+## **S3 Inventory**
+
+S3 Inventory Job을 사용해서 S3 버킷의 모든 객체와 해당 메타데이터를 나열할 수 있다.
+S3 List API 를 이용해서 모든 객체를 나열하고 연결된 모든 메타데이터를 가져오는 것보다 더 나은 방법이다.
+
+S3 인벤토리의 사용 예시로는 모든 객체의 복제 및 암호화 상태에 대한 감사 및 보고서를 생성하는 것, S3 버킷의 객체 수를 얻거나 S3 Inventory는 모든 객체 버전을 나열할 수 있기 때문에 버킷의 이전 객체 버전의 총 량을 식별할 수 있다.
+
+출력 파일은 CSV, ORC 또는 Apache Parquet이다.
+
+Inventory는 매일 또는 매주 생성할 수 있다.
+
+이 모든 데이터는 Athena, Redshift, Presto, Hive, Spark와 같은 유명한 도구를 사용해 쿼리할 수 있다.
+
+Presto, Hive 및 Spark는 AWS 내부에 있지 않아도 외부에서 사용할 수 있으며 S3 Select를 사용해 필터링된 보고서를 생성하고 해당 보고서를 S3 Batch Operations에 사용할 수 있다.
+
+Inventory는 비즈니스, 규정 준수 및 규정 요구에 사용을 한다.
+
