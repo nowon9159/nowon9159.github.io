@@ -4268,3 +4268,5 @@ Federated Query는 ElastiCache, DocumentDB, DynamoDB, RedShift, Aurora, SQL serv
 
 실행한 쿼리의 결과물은 다시 S3로 저장할 수 있다.
 
+## **[SAA/DVA] S3 Encryption**
+
