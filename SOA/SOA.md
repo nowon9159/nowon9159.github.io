@@ -4354,3 +4354,19 @@ Encryption in flight 는 SSL/TLS라고도 불린다.
 S3 버킷에 버킷 정책을 첨부하고 Condition이 "aws:SecureTransport": "false" 인 경우 GetObject 작업을 거부하도록 하는 정책을 첨부하면 된다.
 
 
+## **[SAA/DVA] S3 Default Encryption**
+
+Default 암호화와 버킷 정책에 대해 간단히 알아보자
+
+모든 버킷에는 기본적으로 SSE-S3 암호화가 적용된다.
+
+새로운 객체 또는 버킷에도 자동으로 적용된다.
+
+그러나 SSE-KMS와 같은 다른 기본 암호화로 변경할 수도 있다.
+
+그럼에도 불구하고 버킷 정책을 사용해 올바른 암호화 헤더 없이 S3 객체를 넣는 모든 API 호출을 거부해 강제로 암호화 할수도 있다.
+
+예를 들어 SSE-KMS 또는 SSE-C의 경우이다.
+
+버킷 정책은 항상 기본 암호화 설정보다 먼저 평가된다.
+
