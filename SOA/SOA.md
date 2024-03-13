@@ -4769,4 +4769,25 @@ NetApp ONTAP에서 파일의 중복 항목을 찾을 수 있다.
 
 시점 별 즉시 복제를 지원하여 새로운 워크로드를 테스트하는 데 매우 유용하다.
 
-## **[SAA/SAP] Amazon FSx**
+## **FSx for SysOps**
+
+FSx for Windows는 Single-AZ 및 Multi-AZ 옵션이 있다.
+
+Single-AZ의 경우 단일 가용 영역 파일 시스템이며, 해당 AZ 내에서만 데이터 복제가 자동으로 수행된다.
+
+Single-AZ는 두 가지 세대가 있다.
+
+Single-AZ 1은 SSD만 있고, Single-AZ 2 는 SSD 및 HDD가 있다.
+
+Multi-AZ를 사용하려면 FSx for Windows Multi-AZ 옵션을 사용하는 것이다.
+
+두 가용 영역이 있고, 두 파일 시스템 간에 동기 복제가 수행된다.
+
+이는 AZ 간에 데이터가 자동으로 복제된다.
+동기적이며, 문제가 발생할 경우 자동 장애 조치가 발생한다.
+
+따라서 한 파일 시스템이라도 실패하면 대기 복제로 자동 장애 조치가 수행된다.
+
+FSx for Windows는 2개의 Single-AZ를 사용하고 자체 복제를 수행하는 대신 항상 Multi-AZ를 사용하는 것이 좋다. 장애 조치를 원하는 경우에는 항상 Multi-AZ를 선택해야한다. (시험에 나옴)
+
+
