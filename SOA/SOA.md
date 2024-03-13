@@ -4913,3 +4913,36 @@ Cache Miss가 발생하면 S3 버킷에서 데이터를 다시 가져와야 할 
 
 캐시 효율성을 높이는 한 가지 옵션은 캐시 디스크를 더 크게 만드는 것이다. 이 경우 볼륨을 복제해 더 큰 크기의 볼륨을 만들어야 한다. 그런 다음 새 디스크를 볼륨 게이트웨이의 Cached 볼륨으로 선택해야 한다.
 
+## **[SAA/DVA] CloudFront Overview**
+
+CloudFront 는 콘텐츠 전송 네트워크 CDN이다.
+CloudFront는 웹 사이트의 콘텐츠를 다양한 엣지 위치에서 캐싱하여 읽기 성능을 향상시킨다.
+
+콘텐츠가 전 세계적으로 캐싱되어 있기 때문에 전 세계의 사용자가 낮은 지연 시간을 갖게 되며 이는 사용자 경험을 향상시킨다.
+
+CloudFront는 216개의 지점으로 이루어져 있으며, 전 세계의 Edge Location에 해당한다. Location은 계속해서 추가되고 있다.
+
+또한 콘텐츠를 전 세계적으로 분산하여 DDos 보호를 받게 된다.
+
+Shield 및 WAF라는 것을 사용해 보호 되기도 한다.
+
+실제 사용 사례는 아래와 같다.
+호주에 S3 버킷과 웹 사이트를 만들었지만 미국에 사용자가 있다고 가정하면, 사용자는 CloudFront를 사용하여 미국의 Edge Location에서 콘텐츠를 요청하고 CloudFront가 호주에서 콘텐츠를 가져올 수 있다.
+
+중국에 사용자가 있다면 중국의 Location으로 연결되어 S3 버킷으로 리디렉션되고 콘텐츠가 Edge에 캐싱된다.
+
+CloudFront에는 여러 유형의 Origin이 있다.
+
+그리고 CloudFront 만이 S3 버킷에 액세스할 수 있도록 보장하기 위해 Origin Access Control(OAC)라는 것을 사용할 수 있다.
+
+CloudFront는 또한 데이터를 S3 버킷으로 보낼 수 있다.
+S3에 파일을 업로드하는 것을 의미한다.
+
+사용자 정의 Origin HTTP 백엔드 앞에 CloudFront를 사용할 수도 있다.
+
+고수준에서 CloudFront는 전 세계의 Edge Location이 있으며, Origin에 연결된다. Origin은 S3 버킷이나 HTTP 서버일 수 있다.
+
+클라이언트가 연결하여 Edge Location으로 HTTP 요청을 하면 Edge location은 캐시에 대항 항목이 있는 지 확인하고 캐시에 해당 항목이 없으면 Origin으로 이동해 요청 결과를 가져온다.
+
+다른 클라이언트가 동일 Edge location에서 동일한 콘텐츠를 요청할 때 Origin으로 이동할 필요가 없다.
+
