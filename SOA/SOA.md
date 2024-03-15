@@ -5920,3 +5920,74 @@ CloudWatch 대시보드는 메트릭을 표시할 수 있다.
 - 대시보드에서 타임 존 및 시간 범위를 변경할 수 있으며 자동 새로 고침을 설정할 수 있다.
 - AWS 계정이 없는 사람들과 대시보드를 공유할 수 있다.
 - 가격은 무료로 최대 3개의 대시보드와 최대 50개의 메트릭을 무료로 제공하며 이후에는 대시보드 당 월 3달러를 지불해야 한다.
+
+## **CloudWatch Logs**
+
+CloudWatch Logs는 AWS에서 응용 프로그램 로그를 저장하는 이상적인 장소이다.
+
+이를 위해 먼저 로그 그룹을 정의해야 한다. 이 그룹은 원하는대로 이름을 지정할 수 있지만, 일반적으로 응용 프로그램 중 하나를 나타낸다.
+
+그런 다음 로그 그룹 내에서 여러 로그 스트림이 있다. 이는 응용 프로그램 내의 로그 인스턴스나 특정 로그 파일 또는 클러스터의 일부로써 특정 컨테이너를 나타낸다.
+
+그런 다음 로그 expiration policies를 정의한다. 이 정책을 사용해 로그를 영구적으로 보존하거나 만료시킬 수 있다. 만료 기간은 1일부터 10년 그리고 삭제 안함이 있다.
+
+CloudWatch Logs를 다양한 대상으로 보낼 수 있다. 예를 들어 S3로 일괄적으로 내보내거나 Kinesis Data Streams, Kinesis Data Firehose, AWS Lambda, OpenSearch로 스트림을 전송할 수 있다.
+
+모든 로그는 기본적으로 암호화되며, 필요한 경우 자체 키를 사용해 KMS 기반 암호화를 설정할 수 있다.
+
+어떤 Resource의 로그 데이터를 보낼 수 있나?
+- SDK 또는 CloudWatch Logs Agent 또는 CloudWatch 통합 Agent를 사용해 로그를 전송할 수 있다. CloudWatch 통합 Agent는 로그를 CloudWatch로 보내며, CloudWatch Logs Agent는 이제 deprecated 되었다.
+- Elastic Beanstalk는 응용 프로그램에서 직접 로그를 수집해 CloudWatch에 보낸다.
+- ECS는 컨테이너에서 직접 로그를 CloudWatch로 조낸다.
+- Lambda는 함수 자체에서 로그를 보낸다.
+- VPC Flow Logs는 VPC 메타데이터 네트워크 트래픽에 특정 로그를 보낸다.
+- API GW는 API GW에 대한 모든 요청을 CloudWatch Logs로 보낸다.
+- CloudTrail은 필터를 기반으로 직접 로그를 보낼 수 있다.
+- Route53은 서비스에 대한 DNS 쿼리를 모두 로깅한다.
+
+CloudWatch Logs Insights를 사용하면 Logs에서 로그를 쿼리할 수 있다.
+
+Logs Insights는 Logs 내 쿼리 기능으로, 쿼리를 작성하고 적용할 시간 범위를 지정한 다음 자동으로 시각화된 결과를 얻을 수 있다.
+
+또한 이 시각화를 생성하는 데 사용된 특정 로그 라인을 볼 수 있다.
+
+이 시각화는 결과로 내보낼 수도 있으며 원하는 때마다 다시 실행할 수 있도록 대시보드에 추가할 수도 있다.
+
+CloudWatch Logs Insights 콘솔의 일부로 제공되는 간단한 쿼리가 많이 있다. 예를 들어 가장 최근 25개의 이벤트를 찾거나 로그에 "예외" 또는 "오류"가 있는 이벤트의 수를 살펴볼 수 있다. 또는 특정 IP를 찾을 수 있다.
+
+목적에 부합하는 쿼리 언어를 제공한다. 
+- CloudWatch Logs에서 쿼리를 작성하는 데 필요한 모든 필드가 자동으로 감지되어 조건에 따라 필터링할 수 있다.
+- 통계를 계산하고 이벤트를 정렬하고 이벤트의 수를 제한할 수 있다.
+- 쿼리를 저장하고 CloudWatch 대시보드에 추가할 수도 있다.
+
+여러 로그 그룹을 한 번에 쿼리할 수 있으며, 이들이 다른 계정에 속해 있더라도 쿼리할 수 있다.
+
+CloudWatch Logs Insights 는 실시간 엔진이 아닌 쿼리 엔진이다. 따라서 쿼리를 실행할 때에만 historical 데이터를 쿼리한다.
+
+CloudWatch Logs는 대상이 여러개 있다.
+
+첫째로는 S3이다.
+- 모든 로그를 S3로 일괄적으로 내보내는 것이며, 최대 12시간이 걸릴 수 있다.
+- Export를 시작하는 API 호출은 CreateExportTask이다. 이것은 batch로 내보내는 것이므로 실시간 또는 Almost-realtime이 아니다. 실시간으로 하고 싶다면 CloudWatch Logs Subscription을 사용해야 한다.
+
+CloudWatch Logs Subscription
+- 로그 이벤트의 실시간 스트림을 받을 수 있으며, 처리 및 분석을 수행할 수 있다.
+- 이 데이터를 Kinesis Data Stream, Kinesis Data Firehose 또는 Lambda와 같은 여러 위치로 보낼 수 있다.
+- Subscription Filter를 지정해 목적지로 전달할 로그 이벤트 유형을 지정할 수 있다.
+  - Kinesis Data Stream으로 데이터를 보내고 Kinesis Data Firehose, Kinesis Data Analytics, Amazon EC2 또는 Lambda 와의 통합을 사용하려는 경우 좋은 선택이 될 것이다.
+  - Kinesis Data Firehose로 직접 보낼 수도 있다. 데이터를 거의 실시간으로 S3 똔느 OpenSearch Service로 보낼 수 있다.
+  - 사용자 정의 Lambda 함수를 작성하거나 OpenSearch Service로 실시간 데이터를 보내는 관리형 Lambda 함수를 사용할 수 있다.
+
+구독 필터를 사용하면 여러 CloudWatch Logs에서 데이터를 다른 계정 및 다른 리전으로 집계하여 하나의 특정 계정에 있는 Kinesis Data Stream과 같은 공통 목적지로 데이터를 집계하는 것이 가능하다. 그리고 거의 실시간으로 S3로 이동한다.
+
+Logs Subscription을 수행하는 방법의 핵심은 목적지를 사용해야 한다는 것이다.
+
+예를 들어 보내는 계정과 받는 계정이 있을 때 Subscription Filter를 생성하고 이를 받는 계정의 Kinesis Data Stream의 구독 목적지로 전송한다.
+
+그런 다음 첫 번째 계정이 실제로 이 목적지로 데이터를 보낼 수 있도록 목적지 액세스 정책(Destination Access Policy)을 첨부한다.
+
+그런 다음 받는 계정에 Kinesis Data Stream으로 레코드를 보낼 수 있는 권한이 있는 IAM 역할을 생성하고 이 역할이 첫 번째 계정에 의해 assume될 수 있도록 확인한다.
+
+이런 모든 사항이 갖춰지면 하나의 계정의 CloudWatch Logs에서 다른 계정의 목적지로 데이터를 보낼 수 있다.
+
+
