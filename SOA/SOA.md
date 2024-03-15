@@ -5868,11 +5868,24 @@ Memcached의 자동 탐지(Auto Discovery)란 무엇인가?
 
 ## **CloudWatch Metrics**
 
-CloudWatch 메트릭은 AWS의 모든 서비스에 대한 메트릭을 제공하며, 메트릭의 이름이 해당 메트릭이 의미하는 것을 대략적으로 알려준다.
+CloudWatch 메트릭
+- AWS의 모든 서비스에 대한 메트릭을 제공
+- 메트릭의 이름이 해당 메트릭이 의미하는 것을 대략적으로 알려준다. (CPUUtilization, NetworkIn 등...)
+- 메트릭은 Namespace에 속함
+- 메트릭의 속성인 dimension을 가진다. (Instance id, environment 등...)
+- 한 메트릭 당 최대 30개의 Dimension을 선택할 수 있다.
+- 메트릭에는 타임 스탬프가 포함되며, 
+- CloudWatch 대시보드를 사용해 메트릭을 볼 수 있다.
 
-메트릭은 Namespace에 속하며 Instance id, environment 등과 같은 메트릭의 속성인 dimension을 가진다.
+EC2 Detailed Monitoring
+- 기본적으로 EC2 인스턴스의 메트릭은 5분마다 수집되지만, 비용 추가로 EC2 Detailed 모니터링을 활성화하면 1분마다 메트릭 데이터를 얻을 수 있다.
+- 이를 활성화하면 EC2 인스턴스의 메트릭 변화에 더 빠르게 대응할 수 있으며, ASG에 대한 이점을 얻을 수 있다.
+- EC2 Detailed Monitoring은 10개까지 Free Tier이다.
+- RAM 사용량은 기본적으로 푸시되지 않으며, 인스턴스에서 사용자 정의 메트릭으로 푸시해야 한다.
 
-한 메트릭 당 최대 30개의 Dimension을 선택할 수 있다.
+콘솔에서 봤을 때 CloudWatch 대시보드에서 Metric 탭이 있으며 All Metric을 확인해보면 여러가지 서비스를 기준으로 네임스페이스 별 메트릭을 볼 수 있다.
 
-메트릭에는 타임 스탬프가 포함되며, CloudWatch 대시보드를 사용해 메트릭을 볼 수 있다.
+CloudWatch 메트릭은 시간 범위를 선택하고 다양한 방식으로 필터링하여 사용할 수 있다.
+
+필터링, 대시보드에 추가, CSV로 다운로드, 공유 등 다양한 작업을 수행할 수 있으며 리전, Dimension, 리소스 등을 기준으로 메트릭을 필터링할 수 있다.
 
