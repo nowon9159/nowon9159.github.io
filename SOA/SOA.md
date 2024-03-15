@@ -5866,4 +5866,13 @@ Memcached의 자동 탐지(Auto Discovery)란 무엇인가?
 - FreeableMemory
   - 호스트에서 사용 가능한 메모리의 양
 
-  
+## **CloudWatch Metrics**
+
+CloudWatch 메트릭은 AWS의 모든 서비스에 대한 메트릭을 제공하며, 메트릭의 이름이 해당 메트릭이 의미하는 것을 대략적으로 알려준다.
+
+메트릭은 Namespace에 속하며 Instance id, environment 등과 같은 메트릭의 속성인 dimension을 가진다.
+
+한 메트릭 당 최대 30개의 Dimension을 선택할 수 있다.
+
+메트릭에는 타임 스탬프가 포함되며, CloudWatch 대시보드를 사용해 메트릭을 볼 수 있다.
+
