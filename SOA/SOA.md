@@ -6410,3 +6410,27 @@ Config는 로드 밸런서의 보안 그룹 규칙을 추적할 수 있다. 누�
 CloudTrail은 API 호출을 총해 로드 밸런서에 대한 변경 사항을 추적한다.
 
 따라서 보안 그룹 규칙을 변경한 사람이나 SSL 인증서를 제거한 사람 등을 알 수 있다.
+
+## **AWS Health Dashboard - Overview**
+
+AWS Health Dashboard에 대해 이야기 해보자
+
+Service History와 Account 두 부분으로 나눠져 있다.
+
+Service Health Dashboard의 경우 모든 리전 및 서비스의 Health Status를 보여준다.
+따라서 어떤 서비스에 문제가 있었는지, 해당 서비스가 어떻게 동작했는지를 현재 리전 기준으로 파악할 수 있다.
+그리고 이력을 살펴볼 수 있다. 매일매일의 정보가 남으며, 구독할 수 있는 RSS 피드가 있다.
+
+다음으로 계정을 위한 AWS Account Health Dashboard가 있다.
+
+AWS가 우리에게 직접 영향을 주는 이벤트가 발생할 때 알람 및 개선 지침을 제공한다.
+Service Health Dashboard의 경우 모든 서비스의 일반적인 상태를 표시하는 반면, Account Health Dashboard는 우리의 계정과 리소스에서 실제로 사용 중인 서비스의 성능과 가용성에 대한 View를 제공한다.
+
+관련된 및 시의적절한 정보를 제공하며 스케줄된 유지 보수 활동에 대한 사전 통보를 받는다.
+
+그리고 이 Account 대시보드에서 내 전체 Organization에 대한 데이터를 집계할 수 있다.
+
+그리고 Global 서비스이며, 직접 우리에게 영향을 미치는 장애를 보여준다.
+과거 이벤트를 볼 수 있는 Event Log를 제공한다. 
+
+예정된 변경 사항뿐만 아니라 예정된 활동에 대한 사전 통지, 경보, 개선 정보를 받게 된다.
