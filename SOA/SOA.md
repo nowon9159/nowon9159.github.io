@@ -6258,3 +6258,39 @@ AssumeRole은 IAM 서비스의 API이며, 따라서 CloudTrail에 의해 로깅�
 
 이러한 호출은 다시 한번 CloudTrail에 의해 기록되며, 그런 다음 EventBridge에 나타나고, SNS에서 알림을 트리거할 수 있다.
 
+## **CloudTrail for SysOps**
+
+시험을 준비할 때 CloudTrail에 대해 알아야 할 몇가지 사항이 있다.
+
+첫 번째로 로그 파일 무결성 유효성 검사가 있다.
+
+AWS 내에서 API 호출을 수행할 때마다 CloudTrail에서 이를 로그로 기록할 수 있으며, 이 로그를 매 시간마다 Amazon S3로 전송할 수 있다.
+
+그러나 추가로 Diget File이라는 것도 생성할 수 있다.
+- Digest 파일은 지난 1시간 동안의 모든 로그 파일을 참조하고 각 로그 파일의 해시를 포함하는 파일이다.
+- 이는 로그 파일이 CloudTrail에 의해 전달된 후에 수정되거나 삭제되었는지를 확인하는 데 도움이 된다.
+- 따라서 로그 파일 해시가 Digest 파일 해시와 일치하면 해당 로그 파일이 수정되지 않았음을 확신할 수 있다.
+- 이는 규정 준수 목적으로 매우 유용하며, 해시는 SHA-256 알고리즘을 사용한다.
+- Digest를 사용하여도 여전히 S3 버킷 내 파일이 안전하게 유지되도록 Bucket Policy, Versioning, MFA Delete Protection, encryption, object lock을 사용해야 한다. 그러나 규정 준수적인 관점에서 object가 수정되지 않았음을 보여주고 싶다면 CloudTrail의 Digest 파일을 사용하면 된다.
+- CloudTrail이 로그 파일을 계속해서 S3로 전달할 수 있도록 CloudTrail을 IAM으로 보호해야 한다.
+
+또한 CloudTrail을 EventBridge와 통합할 수 있다.
+
+CloudTrail은 계정 내 수행된 모든 API 호출에 대해 EventBridge를 트리거할 수 있으며, 이를 통해 Lambda/SNS/SQS 등을 사용해 원하는 종류의 Integration을 수행할 수 있다.
+
+만약 EventBridge에서 처리되지 않은 API 호출이 CloudTrail에 로그로 남는다면 이를 이용해 EventBridge와 Integration하여 CloudTrail에서 남은 API 호출을 EventBridge로 전송하고 EventBridge에서 다른 서비스와 통합해 원하는 작업을 할 수 있다.
+
+CloudTrail은 실시간이 아니다.
+
+이벤트는 API 호출 후 15분 이내에 전달되며 로그 파일의 이벤트는 5분 마다 S3로 전달된다.
+
+그래서 API 호출에 대한 실시간 자동화는 아니지만, CloudTrail에서 EventBridge로 전달될 때의 이벤트를 기반으로 한 일종의 Integration을 얻을 수 있다.
+
+마지막으로 Organization Trail을 설정할 수 있다.
+
+Management 계정과 다른 Member 계정이 있다고 가정했을 때 조직 내 모든 회원 계정의 모든 API 호출 이벤트를 조직 전반에 걸쳐 대상 S3 버킷에 기록한다.
+
+이는 계정 관리에 매우 편리하다. 모든 이벤트가 로깅되므로 Management 계정과 Member 계정 모두 포함이다.
+
+모든 계정에 대해 Trail name은 동일하게 설정되며 Member 계정은 Organization Trail을 제거하거나 수정할 수 없다. 이는 규정 준수에 좋다.
+
