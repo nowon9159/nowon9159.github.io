@@ -6239,3 +6239,22 @@ CloudTrial Insight를 기반으로 자동화하려면 아래와 같다.
 S3에 기록된 로그들은 Athena를 이용해 분석하면 된다.
 
 
+## **[SAA/DVA] CloudTrail - EventBridge Integration**
+
+CloudTrail과 EventBridge와의 Integration 중 하나는 DeleteTable API 호출을 통해 DynamoDB에서 테이블을 삭제할 때마다 SNS 알림을 수신하고자 하는 것이다.
+
+AWS에서 API 호출을 할때 CloudTrail뿐만 아니라 EventBridge에서도 이벤트로 기록된다.
+따라서 우리는 매우 구체적인 테이블 삭제 API 호출을 찾아 이를 기준으로 규칙을 생성할 수 있으며, 이 규칙은 목적지로 Amazon SNS를 갖게 되어 알람을 생성할 수 있다.
+
+EventBridge 와 CloudTrail은 또한 아래와 같은 사용 사례가 있다.
+
+사용자가 계정에서 AssumeRole 할 때마다 알림을 받고 싶다고 가정해보자
+AssumeRole은 IAM 서비스의 API이며, 따라서 CloudTrail에 의해 로깅될 것이다.
+
+그리고 EventBridge Integration을 사용해 SNS 주제로 메시지를 트리거할 수 있다.
+
+마찬가지로 보안 그룹 인바운드 규칙을 변경하는 API 호출도 가로챌 수 있다.
+보안 그룹 호출을 AutorizeSecurityGroupIngress이고, 이는 EC2 API 호출이다.
+
+이러한 호출은 다시 한번 CloudTrail에 의해 기록되며, 그런 다음 EventBridge에 나타나고, SNS에서 알림을 트리거할 수 있다.
+
