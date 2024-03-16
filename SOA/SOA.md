@@ -6175,3 +6175,67 @@ AWS가 SaaS와 같은 파트너와 통합되어 있으며 파트너가 직접 �
 
 
 
+## **[SAA/DVA] CloudTrail**
+CloudTrail에 대해 이야기 해보자
+
+CloudTrail은 AWS 계정의 거버넌스, 컴프라이언스 및 감사를 위한 방법이다.
+CloudTrail은 기본적으로 활성화되어 있으며, 이를 통해 AWS 계정 내에서 콘솔/SDK/CLI/기타 AWS의 서비스 등을 통해 수행된 모든 이벤트와 API 호출의 이력을 얻을 수 있다.
+
+CloudTrail의 로그를 CloudWatch Logs 또는 Amazon S3로 전송할 수도 있다.
+
+모든 리전에 적용할 수 있는 트레일을 생성하거나 단일 리전에 적용할 수도 있으며, 모든 리전에서 축적된 모든 이벤트 이력을 한 개의 특정 S3 버킷으로 모을 수 있다.
+
+CloudTrail을 사용하면 AWS에서 무언가를 삭제한 사람이 누구인지 알아낼 수 있다.
+예를 들어 EC2 인스턴스가 종료되었을 때 누가 그렇게 했는지 알아보려면 CloudTrail을 확인하면 된다.
+
+CloudTrail에는 해당 API 호출이 포함되어 있으며, 누가 어떤 작업을 수행했는지 이해할 수 있다.
+
+CloudTrail에는 세 가지 유형의 이벤트가 있다.
+1. 관리 이벤트 (Management Events)
+  - 이는 AWS 계정의 리소스에 수행되는 작업을 나타낸다.
+  - 예를 들어 누군가 보안을 구성할 때 IAM AttachRolePolicy라는 API 호출을 사용할 것이다. 이러한 작업은 CloudTrail에 기록된다. EC2 CreateSubnet이나 CloudTrail CreateTrail 등의 작업도 기본적으로 기록된다.
+  - 기본적으로 트레일은 모든 관리 이벤트를 기록하도록 구성된다.
+  - 관리 이벤트는 두 가지 유형으로 분리할 수 있다.
+    - 리소스를 수정하지 않는 읽기 이벤트
+    - 리소스를 수정할 수 있는 쓰기 이벤트
+2.  데이터 이벤트 (Data Events)
+  - 기본적으로 로깅되지 않는다. 이벤트가 고용량이기 때문에
+  - 데이터 이벤트는 S3 객체 수준의 활동이 포함된다. 
+  - 읽기 및 쓰기 이벤트를 분리할 수 있는 옵션이 있다. 읽기 이벤트는 GetObject이며 쓰기 이벤트는 DeleteObject 또는 PutObject가 될 것이다.
+  - 또한 AWS Lambda 함수 실행 활동이 있다. 이는 누군가 Invoke API를 사용할 때마다 Lambda 함수가 몇 번 호출되었는지에 대한 통찰력을 얻을 수 있다.
+3.  CloudTrail Insights 이벤트
+
+CloudTrail Insight에 대해 자세히 알아보자
+
+모든 종류의 서비스에서 많은 관리 이벤트와 계정에서 빠르게 발생하는 다양한 API가 있을 때 이를 감지하거나 비정상적으로 보이는지 여부를 이해하는 것은 꽤 어려운 일이다.
+
+CloudTrail Insights를 사용하면 이벤트를 분석하고 계정에서 이상 활동을 감지하려고 노력한다.
+
+예를 들어 아래와 같은 이상 활동을 감지한다.
+- 부정확한 리소스 프로비저닝 
+- 서비스 Limit 초과
+- AWS IAM 작업의 급증 
+- 주기적인 유지 관리 활동의 간격 등을 감지할 수 있다.
+
+작동 방식은 CloudTrail이 정상적인 Management Event가 어떻게 보이는지를 분석하여 기준선을 생성한 다음 올바른 유형의 이벤트를 계속 분석해 비정상적인 Write 패턴을 감지하는 것이다.
+
+Management 이벤트는 CloudTrail Insights에 의해 계속 분석되며, 이상 활동이 감지되면 이 이벤트는 CloudTrail 콘솔에 나타난다.
+
+이상 활동 이벤트는 필요하다면 Amazon SNS에도 전송되고, 이벤트브릿지 이벤트로 전송된다.
+
+CloudTrial Insight를 기반으로 자동화하려면 아래와 같다.
+1. Management Event 발생
+2. CloudTrail Insight에서 분석
+3. Insight Event 생성
+4. CloudTrail 콘솔에 출력 또는 Amazon S3로 로그 전송 또는 EventBridge Event로 전송
+
+마지막으로 CloudTrail 이벤트의 Retention에 대해 이야기 해보자
+
+기본적으로 CloudTrail에는 이벤트가 90일 동안 저장되며 그 후에 삭제된다.
+
+그러나 경우에 따라 감사 목적으로 1년 전에 발생한 사건으로 돌아가고 싶은 경우가 있다.
+90일 이상으로 이벤트를 유지하려면 이를 S3에 기록해야 한다.
+
+S3에 기록된 로그들은 Athena를 이용해 분석하면 된다.
+
+
