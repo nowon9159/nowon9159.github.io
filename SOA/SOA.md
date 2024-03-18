@@ -6958,3 +6958,20 @@ Macie는 AWS에서 기밀 데이터를 발견하고 보호하기 위해 머신�
 S3 버킷에 PII 데이터가 있다고 하면 Macie가 데이터를 분석해 PII로 분류될수 있는 데이터를 발견한다.
 발견 사항을 EventBridge를 통해 알려준다. 
 
+## **[CCP/SAA] Trusted Advisor**
+
+Trusted Advisor는 계정에 대한 고수준의 평가를 제공한다.
+
+예를 들어, EBS Public 스냅샷이 있는지, RDS Public 스냅샷이 있는지, 계정에 루트 계정을 사용하는지 등을 확인한다.
+
+Trusted Advisor는 여섯 가지 범주로 그룹화되어 위와같은 사항들을 확인한다.
+- 비용 최적화
+- 성능
+- 보안
+- 내결함성
+- 서비스 제한
+- 운영 우수성
+
+Business 와 Enterprise Support Plan을 사용한다면 AWS Support API를 통해 Trusted Advisor에 대한 프로그래밍 액세스를 얻을 수 있다.
+그리고 전체 확인 항목에 대해 액세스할 수 있다.
+
