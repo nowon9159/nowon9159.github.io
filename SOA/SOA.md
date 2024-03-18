@@ -6510,3 +6510,17 @@ SCP에는 블록 목록 또는 허용 목록 두 가지 전략이 있다.
 
 허용 목록은 "특정 서비스 외에 허용하지 않는다."
 따라서 예를 들어 EC2와 CloudWatch만이 SCP가 첨부되었다면 첨부된 해당 계정에서 사용할 수 있으며 다른 서비스는 명시적 허용이 필요하기 때문에 사용할 수 없다.
+
+## **[CCP] AWS Control Tower Overview**
+Control Tower는 Best Practice에 따라 안전하고 규정 준수되는 다중 계정 AWS 환경을 설정하고 관리하기 위한 간편한 방법이다.
+
+Organization을 수동으로 생성하고 보안 정책을 적용하는 대신 Control Tower를 사용해 몇 번의 클릭으로 다중 계정 AWS 환경을 만들 수 있다.
+
+Guardrail을 사용하면 지속적인 정책 관리를 자동화할 수 있다. 또한 정책 위반을 감지하고 해결할 수 있다.
+대화형 대시보드를 통해 규정 준수를 모니터링할 수 있다.
+
+Control Tower는 Organization 위에서 실행된다.
+즉, 계정을 구성하는 데 Organization을 자동으로 설정한다.
+
+Guardrail이 효과적으로 작동하는지 확인하기 위해 SCP를 자동으로 구현한다.
+
