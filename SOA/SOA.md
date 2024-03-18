@@ -6673,3 +6673,20 @@ AWS에서 생성한 태그는 자동으로 생성되어 AWS에서 생성된 리�
 
 매일 S3로 보고서를 내보낼 수도 있으며, 이 데이터를 Athena, Redshift 또는 QuickSight를 사용해 분석할 수 있다.
 
+
+
+## **[CCP] AWS Compute Optimizer Overview**
+
+
+Compute Optimizer는 워크로드에 대해 최적의 AWS 리소스를 추천하여 비용을 절감하고 성능을 향상시킨다.
+
+이는 EC2 인스턴스 및 ASG 등의 분석을 수행해 과다 배치되거나 부적절하게 배치된 것을 식별하고 최적화를 제안합니다.
+
+그런 다음 이러한 최적화를 구현하여 비용 및 성능을 개선할 수 있다.
+
+이를 위해 Compute Optimizer는 리소스 구성을 분석하고 인스턴스의 활용도를 이해하기 위해 머신러닝을 사용한다.
+
+Compute Optimizer에서 지원하는 리소스에는 EC2 인스턴스, ASG, EBS 볼륨, Lambda 함수 등이 포함된다.
+
+추천 사항은 S3로 내보낼 수 있다.
+
