@@ -6731,3 +6731,26 @@ DataSync 서비스를 사용하고 데이터뿐만 아니라 메타데이터도 
 DataSync는 거의 모든 것을 동기화할 수 있지만 지속적으로 동기화하는 것은 아니고, 일회성으로 예약된 작업을 수행하는 것이다.
 그리고 NFS 또는 SMB 서버에 연결하는 경우 DataSync 에이전트를 실행해야 한다.
 
+
+## **[SAA] AWS Backup**
+
+AWS 백업은 매니지드 서비스로, 모든 AWS 서비스에 대한 백업을 중앙에서 관리하고 자동화할 수 있다.
+
+사용되는 서비스는 매우 다양하다. EC2, S3, RDS 및 모든 데이터베이스 엔진(Aurora, DynamoDB, DocumentDB, Amazon Neptune), EFS, FSx(Lustre 포함), Windows 파일 서버 등이 포함된다.
+
+AWS 백업은 교차 리전 백업을 지원한다. 재해 복구 전략을 위해 백업을 다른 리전으로 이동할 수 있다. 또한 교차 계정 백업도 지원된다.
+
+지원되는 서비스의 경우 Point-in-time recovery를 지원하며, 온디맨드 및 예약 백업을 지원한다.
+
+Prod로 태그가 지정된 리소스만 백업하는 태그 기반 백업 정책도 있다.
+
+백업 계획이라고 알려진 backup 정책을 생성할 수 있다.
+- 주기 (매 12시간마다, 매일, 매 주, 매 월, Cron 표현식)
+- Backup window (백업 기간)
+- 백업을 Cold Storage로 전환. 보관 기간을 지정할 수 있다. (Never, Days, Weeks, Months, Years)
+
+AWS 백업 계획을 생성한 다음 특정 AWS 리소스를 할당한다. 할당이 완료되면 데이터가 자동으로 AWS Backup에 특정한 내부 버킷에 백업된다.
+
+Vault Lock 기능이 있다. 이를 사용하면 WORM(Write Once Read Many) 정책이 적용되어 백업 볼트에 저장된 모든 백업을 삭제할 수 없다.
+
+Vault Lock 정책을 지정하면 루트 사용자조차도 백업을 삭제할 수 없다. 백업의 안전성에 대한 강력한 보증을 제공한다.
