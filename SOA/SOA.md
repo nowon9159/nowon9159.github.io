@@ -7166,3 +7166,76 @@ KMS 키 삭제가 있다.
 - 그 다음 CloudTrail은 로그를 CloudWatch Logs로 보내고 메트릭 필터를 설정해 키가 삭제 대기 중인지 확인한다. 이 메트릭 필터가 한 번 이상 발생하면 CloudWatch Alert를 설정해 SMS 알림이나 이메일 알림을 받을 수 있다.
 - 이러한 스케줄에 따라 CMK를 삭제하고 위와같은 과정을 구현하면 CMK를 사용하려는 경우 알림을 받아 해당 CMK가 여전히 다른 사용자에 의해 사용 중임을 파악할 수 있다.
 
+## **[DVA] CloudHSM Overview**
+
+CloudHSM에 대해 알아보자
+
+KMS의 경우 AWS가 암호화를 위한 소프트웨어를 관리하고 암호화 키에 대한 제어권을 가지게 된다.
+그러나 CloudHSM의 경우 AWS가 암호화 하드웨어를 프로비저닝 한다.
+
+이것은 HSM(Hardware Security Module) 장치라고 불리는 전용 하드웨어이며, AWS가 아닌 우리가 암호화 키를 완전히 관리하게 된다. 따라서 우리는 암호화 키에 대한 완전한 제어권을 갖게 된다.
+
+CloudHSM 장치는 AWS의 클라우드 내에서 설정될 것이지만, FIPS 140-2 Level 3 규정을 준수하는 방식으로 침입 저항성을 가지고 있어, 누군가가 HSM 장치에 수동으로 액세스하려고 하면 차단된다.
+
+CloudHSM 장치는 대칭 및 비대칭 암호화 키를 모두 지원한다.
+따라서 SSL 및 TLS 키와 같은 것들도 사용할 수 있다. 
+
+Free tier가 없다.
+
+CloudHSM 장치를 사용하려면 클라이언트 소프트웨어를 사용해야 하며, 이는 상당히 복잡하며 현재 범위를 벗어난다.
+
+RedShift와 CloudHSM 간에 통합이 있다.
+이것을 통해 데이터베이스 암호화와 키 관리를 위해 CloudHSM을 활용할 수 있다.
+
+CloudHSM은 예를들어 S3 위에 SSE-C 유형의 암호화를 구현하려는 경우에 매우 좋은 후보이다.
+왜냐하면 우리가 암호화 키를 직접 관리하고 이를 CloudHSM에 저장하기 때문이다.
+
+CloudHSM을 사용하면 AWS가 하드웨어를 관리하고 서비스 자체는 사용자의 것으로 사용할 수 있다.
+
+CloudHSM Client 는 CloudHSM 서비스에 연결하기 위해 사용해야 하며, 그런 다음 전체적으로 키를 관리한다.
+
+IAM 권한은 HSM 클러스터를 생성하고, 업데이트하고, 삭제하는 데 사용될 것이다.
+그러나 키 및 사용자에 대한 권한을 관리하기 위해서는 CloudHSM 소프트웨어를 사용해야 한다.
+KMS의 경우와 다른 것이 KMS의 경우 모든 것을 IAM을 사용하여 관리한다.
+
+CloudHSM 클러스터는 고가용성을 가질 수 있으며 여러 가용 영역에 분산되어 있으므로 HA이다. 이것을 이애하는 것이 매우 중요하다.
+따라서 두 가용 영역을 가질 수 있다. 하나는 다른 곳에서 복제되며 HSM 클라이언트는 양쪽 중 하나에 연결할 수 있다.
+
+그렇다면 AWS 서비스 암호화에서 CloudHSM을 투명하게 어떻게 활용할 수 있을까?
+CloudHSM과 KMS 간의 서비스 통합이 있다.
+
+KMS에서 KMS Custom Key Store를 정의하면 CloudHSM이 된다. 이렇게 하면 EBS, S3, RDS 등에 대한 CloudHSM 암호화를 얻을 수 있다.
+
+어떻게 작동되는가?
+CloudHSM 클러스터를 생성하고 CloudHSM 클러스터에 연결된 KMS 사용자 지정 키 저장소를 정의한다.
+이렇게 하면 KMS 암호화를 사용해 암호화된 EBS 볼륨을 가진 RDS 데이터베이스 인스턴스를 생성할 때 내부적으로 CloudHSM 클러스터 내의 암호화 키를 활용한다.
+
+이렇게 하면 두 가지 이점이 있다.
+1.  우리는 실제로 우리의 CloudHSM 클러스터를 사용한다.
+2.  우리의 CloudHSM 클러스터에 도달하는 KMS를 통한 모든 API 호출은 CloudTrail에 로그된다.
+
+따라서 CloudHSM과 KMS를 비교하면, KMS는 다중 테넌트이며 CloudHSM은 단일 테넌트이다.
+둘은 모두 같은 표준을 갖고 있다.
+
+KMS의 마스터 키는 AWS Owned, AWS Managed, Customer Managed CMK 세 가지 종류가 있다.
+반면 CloudHSM의 경우 AWS가 사용자의 HSM 장치에 액세스할 수 없기 때문에 고객 관리형 CMK만 있다.
+
+키 유형에 대해서는 대칭, 비대칭은 동일하게 있고, KMS의 경우 디지털 서명 CloudHSM의 경우 디지털 서명 및 해싱이 있다.
+
+그리고 비대칭 키를 import하려면 CloudHSM에서만 가능하다.
+따라서 온프레미스 키 관리 시스템이 비대칭 키를 사용하고 이를 AWS로 가져오고 싶다면 유일한 옵션은 AWS CloudHSM을 사용하는 것이다.
+
+키 접근성 측면에서 KMS는 여러 리전에서 접근할 수 있지만 CloudHSM은 VPC에 배포되기 때문에 VPC Peering을 사용해 여러 VPC 간에 공유할 수 있다. 필요하면 여러 리전에서 접근할 수 있다는 이야기이다.
+
+Cryptographic Acceleratio 측면에서는 KMS에서는 설정 없이도 가능하지만 CloudHSM에서는 SSL 및 TLS Acceleration을 사용할 수 있으며, 로드 밸런스 수준에서 사용할 수 있다.
+
+또한 CloudHSM은 Oracle 기반의 데이터베이스에 대해 Oracle 및 TDE Acceleration을 사용할 수도 있다.
+
+액세스 및 인증 측면에서 KMS에는 IAM을 사용하고 CloudHSM에서는 사용자 및 권한 및 키를 관리하기 위한 독자적인 보안 메커니즘이 있다.
+
+마지막으로 고가용성 측면에서 KMS는 관리형 서비스이며 항상 사용 가능하며 CloudHSM은 여러 가용 영역에 걸쳐 여러 HSM 장치를 갖는다.
+
+다른 기능으로는 KMS의 경우 CloudTrail 및 CloudWatch가 있고 CloudHSM에는 MFA가 지원된다.
+
+마지막으로, KMS는 AWS의 Free Tier이지만 CloudHSM은 아니다.
+
