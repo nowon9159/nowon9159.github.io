@@ -6848,3 +6848,27 @@ WAF에서 Web ACL 을 정의할 수 있으며, 이 ACL의 규칙에는 IP 주소
 
 요약하면, Shield, WAF, CloudFront, Route 53의 조합이 완전한 DDoS 보호를 제공할 것이다.
 
+## **[CCP] Penetration testing on AWS**
+
+클라우드 상에서의 침투 테스트에 대해 이야기 해보자
+
+침투 테스트란 자체 인프라에 대한 보안을 테스트하기 위해 인프라를 공격하는 것을 말한다.
+
+AWS의 고객은 8개의 서비스에 대해 사전 승인 없이 자체 인프라에 대한 보안 평가 및 침투 테스트를 수행할 수 있다.
+
+이 서비스들은 EC2, NAT GW, ELB, RDS, CloudFront, Aurora, API GW, Lambda 및 Lambda Edge, Lightsail 리소스 및 Elastic Beanstalk 환경이다.
+
+위 서비스에 대해서는 사전 승인이 필요하지 않으나 금지된 다른 유형의 활동을 수행하려면 승인이 필요하다.
+
+예를 들어 
+- Route 53 호스팅 영역을 통한 zone walking을 수행할 수 없다.
+- 시스템에 DDoS를 수행할 수 없으며, DoS, 시뮬레이트된 DoS, 시뮬레이트된 DDoS도 수행할 수 없다.
+- 자체 인프라에 대한 서비스 거부 공격을 수행할 수 없다.
+- 포트 플러딩
+- 프로토콜 플러딩
+- login Request 플러딩, API Request 플러딩 등 Request 플러딩도 수행할 수 없다.
+
+이 밖에도 AWS의 보안 팀에 문의하여 승인을 받아야한다.
+
+시험 관점에서는 일부는 승인되지만 특정 승인되지 않은 침투 테스트는 거부된다. AWS의 관점에서는 자신의 인프라를 공격하려는 것으로 보이기 때문이다.
+
