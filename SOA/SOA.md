@@ -7361,6 +7361,31 @@ Edge-Optimized 엔드포인트의 경우 요청이 CloudFront를 통해 라우�
 Regional 엔드포인트의 경우 API GW와 동일한 리전의 클라이언트를 대상으로 하므로 API GW에서 TLS 인증서를 Import 해와야 한다.
 이도 동일하게 Route53에서 CNAME 또는 Alias 레코드를 설정해 DNS를 가리킨다.
 
+## **[SAA/DVA] Secrets Manager Overview**
 
+Secrets Manager는 Secret을 저장하기 위해서 고안된 최신 서비스이며 SSM 파라미터 스토어와 다르다.
 
+Secrets Manager에서는 secert을 X일마다 강제로 Rotation 할 수 있어 더 나은 Secret 관리 일정을 갖게 된다.
+
+또한 Secrets Manager 내부에서 Secret의 생성과 Rotation을 자동화할 수 있다.
+이를 위해 새로운 Secret을 생성할 Lambda 함수를 정의해야 한다.
+
+Secrets Manager는 AWS의 다양한 서비스와 높은 통합성을 갖고 있다.
+예를 들어 Amazon RDS에서는 MySQL, PostgreSQL, SQL, Aurora를 비롯한 다양한 데이터베이스와 통합되어 있다.
+
+이것은 데이터베이스에 접근하기 위한 사용자 이름과 비밀번호가 직접 Secrets Manager에 저장되어 Rotation될 수 있다는 것을 의미한다.
+
+Secret은 KMS 서비스를 사용하여 암호화될 수 있다.
+
+그래서 시험에서 Secrets, 또는 RDS 또는 Aurora의 Secrets Integration을 볼 때마다 Secrets Manager를 고려해야 한다.
+
+우리가 알아야 할 또 다른 기능은 멀티 리전 Secrets 이다.
+이것은 여러 AWS 리전에 걸쳐 Secrets를 복제할 수 있으며, Secrets Manager 서비스가 기본 Secrets와 동기화를 유지할 것이다.
+
+주요 리전에서 Secrets을 생성하고 이를 보조 리전으로 동일한 Secret으로 복제한다.
+이유는 특정 리전에서 문제가 발생한 경우 복제 Secret을 독립적인 Secret으로 승격시킬 수 있다.
+
+그리고 복제 Secret이 여러 리전에 걸쳐 복제되어 있기 때문에 멀티 리전 앱을 구축할 수 있다.
+
+또한 재해 복구 전략을 가질 수 있으며, 하나의 리전에서 다른 리전으로 복제되는 RDS 데이터베이스가 있다면 해당 리전의 해당 데이터베이스에 액세스하기 위해 동일한 Secret을 사용할 수 있다.
 
