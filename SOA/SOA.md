@@ -6921,3 +6921,30 @@ CVE 데이터베이스가 업데이트 되면 Amazon Inspector가 자동으로 �
 로그를 매우 오래 보관해야 하는 경우, 이러한 로그를 비용 절감을 위해 Glacier로 이동해야한다. Glacier 보관 로그는 7년간이나 일정 기간 동안 로그를 접근할 수 없게 만들 수 있다.
 
 AWS에 존재하는 로깅의 범위를 기본적으로 이해하고 있으며, 어떻게 분석할지, 어떻게 저장할지, 비용을 절감하고 규정을 준수하는 방법을 알고 있으면 된다.
+
+## **[CCP/SAA/SAP] Amazon GuardDuty**
+
+GuardDuty는 AWS 계정을 보호하기 위해 지능적인 위협 탐지를 지원한다.
+
+머신러닝 알고리즘을 사용하여 이상 징후를 탐지하고, 이상 징후를 찾기 위해 타사 데이터를 활용한다.
+
+활성화하기 위해서는 클릭 한번만으로 가능하고, 30일 동안 무료로 소프트웨어 설치 없이 사용할 수 있다.
+
+GuardDuty는 CloudTrail 이벤트 로그와 같은 다양한 입력 데이터를 검토하여 비정상적인 API 호출이나 무단 배포 등을 탐지한다.
+
+입력 데이터는 아래와 같다.
+CloudTrail Events Logs (비정상적 API 호출, 권한 없는 배포)
+- CloudTrail Management Event
+  - VPC 서브넷 생성 이벤트 등을 검토
+- CloudTrail S3 Data Event
+  - get object, list object, delete object 등을 검토한다.
+- VPC Flow Logs: 비정상적인 인터넷 트래픽과 비정상적인 IP 주소를 살펴본다.
+- DNS Logs: EC2 인스턴스가 DNS 쿼리 내에서 인코딩된 데이터를 보내는지 확인해 침해 여부를 판단.
+- Optional Features: EKS Audit Logs, RDS 및 Aurora 로그인 이벤트, EBS, Lambda 및 S3 Data Events와 같은 입력 데이터 원본을 분석할 수도 있다.
+
+또한 발견된 사항이 있을 경우 이를 자동으로 알릴 수 있도록 EventBridge 규칙을 설정할 수 있다. 이 규칙은 AWS Lambda 또는 SNS와 같은 EventBridge가 대상으로 등록할 수 있는 것들을 지정할 수 있다.
+
+GuardDuty는 암호화폐 공격에 대비하여 매우 좋은 도구이다.
+이에 대한 전용 발견 사항이 있다.
+
+GuardDuty는 이러한 input 데이터를 분석하고 암호화폐 공격이 있음을 감지할 수 있다.
