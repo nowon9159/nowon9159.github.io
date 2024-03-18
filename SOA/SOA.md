@@ -6577,3 +6577,20 @@ TagOption을 사용하면 포트폴리오의 특정 Product에서 스택을 시�
 
 TagOption은 다른 계정이나 조직과 공유할 수도 있다.
 
+## **AWS Billing Alarms**
+
+Billing Data는 하나의 리전에만 저장된다. us-east-1이며, CloudWatch에 저장된다.
+
+이 데이터는 us-east-1의 리전 데이터만 있는 것은 아니고 리전 전체를 나타낸다.
+
+그리고 이는 계정에 발생한 실제 비용을 나타낸다.
+
+Alarm을 생성할 때는 일단 Billing 에서 실제로 알람을 활성화 해줘야한다.
+Billing Preferences -> Receive Billing Alerts 
+
+활성화 시 사용량 요금 및 수수료를 모니터링하는 것을 가능하게 한다.
+
+활성화 하고 2~3 시간 정도 기다리면 CloudWatch Metric에서 청구 데이터를 살펴볼 수 있다.
+
+이 Metric 데이터를 이용해서 CloudWatch Alert를 설정하고 SNS 주제로 보내도록 할수도 있다.
+
