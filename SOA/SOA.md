@@ -7389,3 +7389,51 @@ Secret은 KMS 서비스를 사용하여 암호화될 수 있다.
 
 또한 재해 복구 전략을 가질 수 있으며, 하나의 리전에서 다른 리전으로 복제되는 RDS 데이터베이스가 있다면 해당 리전의 해당 데이터베이스에 액세스하기 위해 동일한 Secret을 사용할 수 있다.
 
+## **Secrets Manager - Monitoring & Troubleshooting**
+
+Secrets Manager 모니터링에 대한 간단한 강의이다.
+
+알아야 할 두 가지가 있다.
+
+첫 째는 CloudTrail이 Secrets Manager API로 발생한 API 호출을 캡처하지만 다른 관련 이벤트도 캡처한다
+
+이러한 이벤트는 보안이나 규정 준수에 영향을 줄 수 있거나 운영 문제 해결에 도움이 되는 것들이다.
+
+이러한 이벤트를 non-API 서비스 이벤트라고 하며 Secrets Manager에 특화되어 있다.
+
+그래서 CloudTrail은 API 호출과 non-API 이벤트를 모두 캡쳐한다.
+
+이 non-API 서비스 이벤트는 어떤 것인가?
+
+RotationStarted 이벤트이다.
+- Rotation이 시작될 때마다 이벤트가 CloudTrail에 등록된다.
+RotationSucceeded 이벤트
+- 성공적인 Rotation을 의미한다.
+RotationFailed 이벤트는 매우 중요하다
+- 실패한 Rotation을 의미한다.
+RotationAbandoned
+- Auto Rotation이 아닌 대상 Secrets에 대한 수동 변경이 있는 경우이다.
+StartSecretVersionDelete 이벤트, CancelSecretVersionDelete 이벤트 및 EndSecretVersionDelete 이벤트도 있다.
+
+이런 모든 것들은 Secret Manager 내에서 무언가 발생할 때 CloudTrail에 기록된다.
+이는 매우 중요한 이벤트이다.
+
+Rotation이 실패하면 RotationFailed와 같은 이런 중요한 이벤트에 대한 Alert를 생성하기 위해 CloudWatch Logs 및 CloudWatch Alert 자동화를 결합할 수 있다.
+Secrets Manager의 문제 또는 중요한 사항이 발생했음을 인식하는 한 가지 방법이다.
+
+Rotation 자체의 문제를 해결하는 방법은 Rotation 그 자체를 해결하는 것이다.
+
+따라서 Rotation이 실패한 경우 Secrets Manager는 모든 API 호출 및 non-API 이벤트를 CloudTrail에 저장한다.
+그리고 Secrets Manager는 Secrets의 Rotation 진행 중 Rotation을 수행하는 Lambda 함수를 호출하려고 할 것이다.
+
+이 Lambda 함수는 예를 들어 Amazon RDS 데이터베이스의 Secret을 변경하는 대상을 가질 수 있다.
+
+오류가 발생하여 Rotation이 작동하지 않았을 때 이를 디버그하기 위해 CloudTrail이나 Lambda 함수 로그를 확인해야 한다.
+
+분명히 봐야할 좋은 장소는 Lambda 함수 로그이다.
+
+왜냐하면 실제 코드 실행을 포함하고 있으며 실행 중에 발생한 실제 오류 메시지를 제공하기 때문이다.
+
+이 모든 로그는 CloudWatch Logs에 있으며, 관리자로서 Rotation 문제를 해결하는 데 도움이 된다.
+Rotation이 실패했음을 알리려면 CloudTrail을 확인하거나 Lambda 함수 실패율에 대한 경고를 설정할 수도 있다.
+
