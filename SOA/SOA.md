@@ -7437,3 +7437,33 @@ Rotation 자체의 문제를 해결하는 방법은 Rotation 그 자체를 해�
 이 모든 로그는 CloudWatch Logs에 있으며, 관리자로서 Rotation 문제를 해결하는 데 도움이 된다.
 Rotation이 실패했음을 알리려면 CloudTrail을 확인하거나 Lambda 함수 실패율에 대한 경고를 설정할 수도 있다.
 
+## **[DVA] SSM Parameter Store vs Secrets Manager**
+
+SSM Parameter Store 와 Secrets Manager와의 차이를 알아보자
+
+Secrets Manager
+- 비용이 더 많이 들고, Lambda 함수를 사용해 Secret의 회전을 자동화할 수 있다. 
+- Lambda 함수 중 일부는 RDS, RedShift 또는 DocumentDB와 같은 강력한 Secrets Manager 통합을 갖춘 상태로 제공된다.
+- 시크릿에 대해 KMS 암호화가 필수적이며 CloudFormation과 통합할 수 있다.
+Parameter Store
+- 더 넓은 유형의 사용 사례를 갖추고 있으며 비용이 덜 든다.
+- 간단한 API를 제공한다.
+- Secret Rotation 기능이 없다
+- EventBridge로 트리거된 람다 함수를 사용해 자체적으로 Rotation을 활성화할 수는 있다.
+- 선택 사항으로 KMS 암호화를 사용할 수 있다. 파라미터 저장소는 기본즉어르 파라미터만 저장할 수 있기 때문이다.
+- 파라미터 저장소 API를 이용해서 Secrets Manager에서 시크릿을 가져올 수 있다. 
+
+SSM Parameter Store 와 Secrets Manager 간의 Secert rotation을 살펴보자.
+
+먼저 Secerts Manager의 경우 RDS 데이터베이스의 암호를 Rotation 시키려면 매 30일마다 Lambda 함수를 자동으로 호출하도록 설정할 것이다.
+
+이 Lambda 함수는 RDS의 경우 AWS에서 제공되며 AWS에 의해 계정에 배포된다.
+우리는 Secrets Manager를 사용하기만 하면 된다. 그러면 자동으로 데이터베이스의 암호를 변경할 것이다.
+
+Secrets Manager 를 사용하지 않는 경우 Rotation 기능이없다.
+그래서 자체 람다 함수를 작성해야한다.
+
+RDS 데이터베이스 암호를 Parameter Store에 저장하는 경우 30일 마다 호출되는 Amazon EventBridge 규칙을 생성하고 자체적으로 작성해야 하는 Lambda 함수를 호출하면 된다.
+
+이 Lambda 함수는 RDS 데이터베이스의 암호를 변경하고 SSM Parameter Store에 저장된 값도 변경할 것이다.
+
