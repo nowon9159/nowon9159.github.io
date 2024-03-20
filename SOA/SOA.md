@@ -7751,3 +7751,22 @@ Cognito Idnetity Pool은 인증된 사용자와 게스트 사용자 모두를 �
 }
 ```
 
+
+## **[DVA] Cognito User Pools vs Cognito Identity Pools**
+
+Cognito User Pools와 Identity Pool 간의 차이를 이해해보자
+
+Cognito User Pools
+- 인증 즉, 신원 확인에 사용된다. 그래서 웹 및 모바일 애플리케이션의 사용자 데이터베이스가 될 것이다.
+- 로그인을 위한 페더레이션을 가지고 있으므로 Google, Facebook, Amazon 또는 OIDC와 같은 소셜 로그인 또는 SAML을 활용한 기업 로그인을 할 수 있다.
+- 인증 과정 동안 호스팅된 UI를 사용자 정의할 수 있어서 로고를 포함시킬 수 있다.
+- 인증 전/후에 Lambda와의 통합을 할 수 있다.
+- 로그인 환경을 다양한 위험 수준에 맞게 조정할 수도 있다. 적응형 인증 또는 MFA를 사용되도록 한다.
+Cognito Identity Pool
+- 권한 또는 액세스 제어를 위한 것이다.
+- AWS 내부에서의 액세스 제어를 의미하며, 간단히 모바일 애플리케이션이 있고 사용자 데이터 베이스만 필요한 경우 Cognito User Pool을 사용하면 되지만 이러한 사용자가 DynamoDB 및 S3 버킷 등 AWS 환경에 액세스할 수 있도록 하려면 권한을 부여해야 하며, 이는 Cognito Identity Pool를 사용하여 수행된다.
+- 사용자에게 임시 자격 증명을 제공하고 이 자격 증명을 얻기 위해 토큰을 교환하는 방법이 소셜, OIDC, SMAL 또는 Cognito User Pool을 사용할 수 있다. 사용자가 식별된 위치에 관계없이 토큰을 교환하여 권한을 얻을 수 있다.
+- Cognito Identity Pool을 사용하는 장점은 사용자가 인증되지 않은 게스트일 수 있다.
+- 한 번 Cognito Identity Pool에 설정되면 사용자는 특정 IAM 역할과 정책에 매핑되고 policy variable을 활용할 수 있으며 이로 인해 DynamoDB 테이블 또는 S3 버킷에 액세스할 수 있다.
+
+결국 CUP와 CIP를 동시에 사용하면 Authentication 과 Authorization이 제공되는 것이다.
