@@ -353,6 +353,11 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 
 ## Troubleshooting EC2 Launch Issues
 
+**InstanceLimitExceeded**
+리전당 최대 vCPU 수에 도달했음을 의미
+해결 방법은 다른 리전에서 인스턴스를 실행하는 것과 리전에 제한된 Service Quotas를 늘리면 된다.
+
+
 **InsufficientInstanceCapacity**
 리전 내에서 생성할 수 있는 최대 수치의 vCPU가 있다. 기본적으로 64GB인데 Service Quotas Request를 하게 되면 늘릴 수 있음
 
@@ -7995,5 +8000,4 @@ Cognito Identity Pool
 
 결국 CUP와 CIP를 동시에 사용하면 Authentication 과 Authorization이 제공되는 것이다.
 
-## **[DVA] Cognito User Pools vs Cognito Identity Pools**
-298. [SAA/DVA] What is a DNS?
+## **[SAA/DVA] What is a DNS?**
