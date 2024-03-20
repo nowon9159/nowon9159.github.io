@@ -7613,10 +7613,6 @@ Cognito는 Public 응용 프로그램이 AWS 리소스에 액세스하는 방법
 
 우리는 제3자로부터 얻은 토큰을 AWS의 서비스로 교환하여 임시 AWS 자격 증명을 얻는다.
 
-
-
-
-
 ## **STS & Cross Account Access**
 
 STS에 대해 이야기 해보자
@@ -7673,4 +7669,85 @@ API를 사용하는 경우 사용자는 CUP로 인증하고 거기서 JSON Web T
 
 ALB를 사용하면 ALB 리스너 및 규칙을 사용해 사용자를 CUP에 인증한 다음 완료되는 사용자를 Target Group의 백엔드로 전달할 수 있다. 백엔드는 EC2 인스턴스, 람다 함수 또는 ECS 컨테이너가 될 수 있다.
 
+
+## **[DVA] Cognito Identity Pools Overview**
+
+Cognito Identity Pools 또는 Federated Identities를 알아보자
+
+우리의 사용자들은 AWS 환경 외부에 있으며, 웹 애플리케이션 사용자 또는 모바일 사용자가 될 수 있다.
+그리고 그들은 AWS 환경 내의 것들에 액세스하고자 한다.
+
+예를들어 DynamoDB 테이블이나 S3 버킷에 액세스하려면 임시 AWS 자격 증명이 필요하다.
+
+이러한 사용자를 위해 일반 IAM 사용자를 생성할 수 없다. 왜냐하면 사용자가 너무 많고, 확장성이 없으며, 우리가 그들을 신뢰하지 않기 때문이다.
+
+대신 우리는 이러한 사용자에게 Cognito Idnetity Pool을 통한 AWS 액세스를 제공할 것이다.
+
+Cognito Idnetity Pool은 사용자가 신뢰할 수 있는 제 3자를 통해 로그인하도록 허용할 수 있다.
+
+예를 들어 Amazon 로그인, Facebook, Google 및 Apple과 같은 Public Provider로 로그인하거나 이미 Amazon Cognito CUP로 로그인한 사용자를 허용하거나 OpenID Connect 제공자 및 SAML 제공자를 허용할 수 있다.
+
+또한 사용자가 AWS 자격 증명을 교환하기 전에 자격을 부여하기 위해 사용자가 인증되지 않은 게스트 사용자에게 AWS 액세스를 허용할 수도 있다.
+
+그래서 우리는 게스트 정책을 정의하고 게스트 사용자에게 AWS 자격 증명을 부여할 수 있다.
+
+사용자가 AWS 자격 증명을 획득하면 API 호출에 SDK를 사용하거나 API 게이트웨이를 통해 직접 AWS 서비스에 액세스할 수 있다.
+
+사용자가 받는 자격 증명은 Cognito Idnetity Pool에서 정의한 IAM 정책을 기반으로 사용자 ID의 값에 따라 사용자에게 맞춤화될 수 있다.
+
+
+Cognito Idnetity Pool를 활용할 때 먼저 사용자가 로그인하고 이 로그인에서 토큰을 획득하도록 해야한다.
+
+그래서 사용자가 CUP에 연결하거나 Google 로그인, Facebook 로그인과 같은 소셜 ID 제공자 또는 SAML 또는 OpenID Connect로 연결할 수 있다.
+
+그러면 사용자는 로그인해 토큰을 받고 이 토큰을 임시 AWS 자격 증명으로 교환하기 위해 Cognito Idnetity Pool 서비스와 통신할 것이다.
+
+먼저 Cognito Idnetity Pool는 우리가 정의한 제공자로부터의 로그인을 확인하고, 인증된 후에 웹 및 모바일 애플리케이션 사용자를 위한 임시 자격 증명을 얻기 위해 STS 서비스와 통신할 것이다.
+
+이것이 완료되면 자격 증명은 애플리케이션으로 반환되고, 이를 통해 사용자는 이 자격 증명과 관련된 IAM 정책을 통해 AWS에 직접 액세스할 수 있다.
+
+
+Cognito Idnetity Pool를 Cognito User Pool과 함께 사용할 때는 어떻게 작동하는가?
+
+다이어그램 상 거의 모든 것이 비슷하나 사용자가 로그인하기 위해 Cognito User Pool을 이용해 모든 사용자를 데이터베이스에 중앙 집중화하기 위해 Cognito User Pool 를 사용한다.
+
+그래서 내부 사용자 데이터베이스가 될 수도 있고, Cognito User Pool에 소셜 ID 제공자, SAML 및 OpenID Connect를 통한 통합 ID 제공자로 활성화할 수도 있지만, 어쨌든 모든 사용자는 내 Cognito User Pool에 나타날 것이다.
+
+Cognito Idnetity Pool은 인증된 사용자와 게스트 사용자 모두를 위한 기본 IAM 역할을 정의할 수 있다.
+그래서 게스트 사용자에게는 하나의 IAM 역할이 있고 다른 사용자에게는 다른 IAM 역할이 있게 된다.
+
+그리고 사용자 ID를 기반으로 어떤 사용자에게 어떤 역할이 적용될지를 선택하는 규칙을 정의할 수 있다.
+
+정책 변수(policy variable)를 사용해 IAM 정책을 사용자가 DynamoDB 또는 S3에서 필요한 것만 액세스할 수 있도록 사용자 지정할 수 있다.
+
+게스트 사용자에게 AWS 액세스 권한을 부여하려면 특정 역할에 특정 기능을 부여한 IAM policy를 생성하고, 게스트 사용자에게 매우 간단하고 당연히 제한된 IAM 정책으로 AWS 액세스 권한을 부여할 수 있다.
+
+그리고 인증된 사용자에 대해서는 Amazon S3에 대한 정책 변수를 정의할 수 있다.
+사용자가 연결되었지만, 사용자가 정의한 버킷 내의 접두사에만 액세스할 수 있도록 가능하며, 렇게 하면 사용자 ID의 접두사로 시작하는 버킷 내에서만 액세스할 수 있도록 하기 위해 정책 변수를 사용할 수 있다.
+
+이로써 우리는 사용자가 자신의 ID로 액세스할 수 있는 것만 액세스하도록 제한된 액세스를 제공할 수 있다.
+
+아래는 예시 Policy이다.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement":[
+        {
+            "Action": ["s3:ListBucket"],
+            "Effect": "Allow",
+            "Resource": ["arniaws:s3:::mybucket"],
+            "Condition": {"StringLike": {"s3:prefix": ["$(cognito-identity.amazonaws.com/sub)/*"]}}
+        },
+        {
+            "Action": [
+                "s3: GetObject",
+                "s3:PutObject"
+            ],
+            "Effect": "Allow",
+            "Resource": ["arn:aws:s3:::mybucket/${cognito-identity.amazonaws.com:sub}/*"]
+        }
+    ]    
+}
+```
 
