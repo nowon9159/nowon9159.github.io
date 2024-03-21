@@ -732,7 +732,8 @@ AWS에 요청해 Quota를 늘릴 수 있지만 강사 개인의 의견으로는 
 **정리**
 -   EC2 인스턴스에 Public IP는 중지 후 재시작을 하게 되면 IP 주소가 변경이 된다. 이를 방지하기 위해서 Elastic IP라는 고정 IP가 있다.
 -   이 IP를 자유롭게 Attach 또는 Detach 할 수 있고, EIP는 삭제하지 않는 한 변경되지 않고 소유하는 IP이다.
--   서버에 EIP가 연결된 경우 요금이 부과되지 않으며, EIP가 연결된 서버를 중지하거나 사용하지 않는 EIP의 경우 요금이 부과되게 된다.
+-   ~~서버에 EIP가 연결된 경우 요금이 부과되지 않으며, EIP가 연결된 서버를 중지하거나 사용하지 않는 EIP의 경우 요금이 부과되게 된다.~~
+  - 최근 퍼블릭 IP 고갈 문제로 서버에 EIP가 연결되어 있어도 Public IPv4 에 대해 요금이 부과된다.
 -   리전 당 5개의 quota로 되어 있으며, 늘릴 수 있다. 강사는 EIP를 사용하기보다 ELB나 임의의 Public IP를 사용하는 것을 추천했다.
 
 ## **CloudWatch Metrics for EC2**
@@ -1005,7 +1006,7 @@ AMI는 어떤 프로세스로 EC2 인스턴스에서 동작하는 가? 먼저 EC
 
 No-Reboot가 비활성화된 상태에서 AMI를 생성하려면 인스턴스가 중지된다. 중지된 후 연결된 EBS 볼륨은 EBS 스냅샷이 생성된다. 이후 EBS 스냅샷은 AMI로 변환된다.
 
-oot 옵션을 활성화하면 현재 실행중인 EC2 인스턴스에 다음 AMI 이미지가 않을 수 있으며, 스냅샷이 생성되기 전에 OS 버퍼가 디스크로 플러시되지 않는다. ***인스턴스가 계속 실행 중인 상태에서 AMI를 생성할 때는 주의가 필요하다.***
+No-Reboot 옵션을 활성화하면 현재 실행중인 EC2 인스턴스에 다음 AMI 이미지가 않을 수 있으며, 스냅샷이 생성되기 전에 OS 버퍼가 디스크로 플러시되지 않는다. ***인스턴스가 계속 실행 중인 상태에서 AMI를 생성할 때는 주의가 필요하다.***
 
 AWS 백업 서비스를 사용할 때는 Backup Plan을 만들어 AMI를 생성할 수 있다. 그러나 백업 서비스는 EBS 스냅샷을 찍는 동안 인스턴스를 재부팅하지 않는다.
 따라서 기본 옵션은 사실상 No-Reboot 동작이다. 
@@ -1276,7 +1277,7 @@ CloudFormation과 통합될 수 있다. CloudFormation이 파라미터 스토어
 
 예를 들어 Application과 SSM Parameter Store가 있을 때 일반 텍스트 구성을 저장할 수 있고, Application의 IAM 사용 권한(EC2 인스턴스 역할이나 암호화된 Configuration을 통해서 권한이 부여된)을 확인하게된다.
 이 경우 Parameter Store는 KMS로 암호화될 것이다.
-KMS 서비스는 암호화와 Devryption에 사용될 것이다.
+KMS 서비스는 암호화와 Decryption에 사용될 것이다.
 
 물론 Application은 기본 KMS 키에 액세스 권한이 있어야 암호화와 복호화를 실행할 수 있다.
 
@@ -1485,8 +1486,7 @@ SSM 패치 매니저 개요
 
 
 ## **[SAA/DVA] What is High Availability and Scalability?**
-**개요**
-Scalability와 고가용성
+**Scalability와 고가용성**
 -   Scalability는 응용프로그램 시스템이 적응해 더 큰 부하를 견딜 수 있다는 것을 의미한다.
 -   Scalability는 수직 Scalability, 수평 Scalability로 나뉜다.
 -   Scalability는 Availability와는 다른 말이다.
@@ -1496,9 +1496,11 @@ Scalability와 고가용성
 -   인스턴스 타입을 t2.micro 에서 t2.large로 업스케일링하는 경우를 말한다.
 -   비분산 시스템의 경우 수직 Scalability를 사용해야한다. 예를 들어 데이터베이스가 있다.
 -   일반적으로 수직으로 얼마나 확장할 수 있는지에는 제한이 있다.
+
 **수평 Scalability**
 -   응용 프로그램에 대한 인스턴스/시스템 수를 증가시킨다는 것을 의미한다.
 -   모든 응용 프로그램이 분산 시스템이 될수 있는 것은 아니다.
+
 **High Availability**
 -   일반적으로 수평 Scalability와 함께 진행되지만 항상 그런것은 아니다.
 -   응용 프로그램 또는 시스템을 최소한 두 개의 데이터 센터 또는 AWS의 두 가용 영역에서 실행한다는 것을 의미한다.
@@ -1559,7 +1561,7 @@ Scalability와 고가용성
 -   IP 주소를 ALB 뒤에 둘 수도 있으며, 이 IP는 반드시 Private IP 주소여야한다.
 -   헬스 체크는 대상 그룹 수준에서 이뤄진다. 대상 그룹을 구성하려면 서버의 사설 IP를 지정해야한다.
 -   ALB는 고정된 hostname을 얻게 된다. 
--   애플리케이션 서버는 클라이언트의 IP를 직접적으로 확인할 수 없다 클라이언트의 실제 IP는 X-Forwarded-For 헤어데 삽입된다.
+-   애플리케이션 서버는 클라이언트의 IP를 직접적으로 확인할 수 없다 클라이언트의 실제 IP는 X-Forwarded-For 헤더에 삽입된다.
 -   X-Forwarded-Ports를 사용해 실제 클라이언트의 포트를 얻을 수 있고, X-Forwarded-Proto를 사용해 사용중인 프로토콜도 얻을 수 있다.
 
 ## **[SAA/DVA] Network Load Balancer (NLB)**
@@ -1643,7 +1645,7 @@ Scalability와 고가용성
 -   path가 "/" 로 되어 있는 경우는 웹 사이트의 루트로 보내라는 것을 의미하지만 많은 웹 사이트나 애플리케이션은 "/health" 경로를 가지고 있으며 이는 EC2 인스턴스에서 특정 테스트를 하기 위한 health check 경로이다.
 -   check timeout은 health check가 실패로 간주되기까지의 시간으로 기본적으로 5초이다. 따라서 5초 안에 health check 가 성공하지 않으면 5초 후에 실패로 간주된다.
 -   interval은 대상 그룹 또는 ALB가 Health check를 수행하는 빈도이다. 매우 낮은 값을 설정하면 응용 프로그램이 과도하게 사용될 수 있다. 30초가 health check 하는 좋은 기본값이지만 물론 이를 감소시킬 수 있다.
--   healthy threshold counts는 대산이 건강한 것으로 간주되기 전에 health check가 성공해야 하는 횟수이며, unhealthy threshold counts는 인스턴스가 건강하지 않다고 간주되기 전에 연속으로 health check가 실패해야 하는 횟수이다.
+-   healthy threshold counts는 대상이 건강한 것으로 간주되기 전에 health check가 성공해야 하는 횟수이며, unhealthy threshold counts는 인스턴스가 건강하지 않다고 간주되기 전에 연속으로 health check가 실패해야 하는 횟수이다.
 -   health status는 초기 등록 중인 경우 healthy, 건강하지 않은 경우 unhealthy, 사용되지 않는 경우 unused(대상이 등록되지 않음), 드레인 중인 경우 draining(대상이 등록 해제 중), health check가 비활성화된 경우 unavailable이 있다.
 -   시험에서 알면 좋은 것은 대상 그룹에 unhealthy만 포함된 경우 ELB는 모든 unhealthy 대상으로 요청을 라우팅할 것이다. 이 경우는 health check 자체가 잘못 되었고, 인스턴스는 여전히 작동할수도 있기 때문에 health check가 잘못되었다고 가정하고 요청을 라우팅하는 것이다.
 -   health check가 EC2 인스턴스의 다른 포트에서 수행되는 경우 트래픽 포트 오버라이드를 수행할 수 있다.
@@ -1667,7 +1669,7 @@ Scalability와 고가용성
 -   클라이언트에게 요청을 얼마나 빨리 받아올 수 있는지에 대한 정보인 latency 정보가 있다.
 -   로드 밸런서의 전체 요청 횟수를 나타내는 RequestCounts
 -   평균적으로 얼마나 많은 EC2 인스턴스가 요청을 받는지에 대한 RequestCountPerTarget
--   대기 중이며 Healthy한 인스턴스로 라우팅되는 총 요청 수이며, ASG를 확장하는 데 도움이 될 수 있는 SurgeQueueLength. 최대 값은 1000이며, 큰 요청 대기열이 필요가 없기 때문에 이 대기열이 0에 가깝게 유지 되도록 해야한다.
+-   대기 중이며 Healthy한 인스턴스로 라우팅중인 총 요청 수이며, ASG를 확장하는 데 도움이 될 수 있는 SurgeQueueLength. 최대 값은 1024이며, 큰 요청 대기열이 필요가 없기 때문에 이 대기열이 0에 가깝게 유지 되도록 해야한다. 큐가 가득 차면 추가 요청이나 연결이 거부되기 때문에.
 -   SpilloverCount는 대기열이 가득 차서 거부된 요청의 수이다. 0보다 큰 값을 갖는 것을 절대로 피해야한다. 0보다 크다면 백엔드를 확장해 추가 요청을 처리하고 클라이언트가 일부 요청을 잃고 있는지 확인해야 한다.
 
 **예시**
@@ -1688,7 +1690,7 @@ asdasd
 **request tracing**
 -   X-Amzn-Trace-Id라는 사용자 지정 헤더가 각 HTTP 요청에 추가된다.
 -   이 헤더는 단일 요청을 추적하는 데 분산 추적 플랫폼이나 로그에서 매우 유용하다.
--   ~주의할 점은 ALB가 아직 X-Ray와 통합되어 있지 않다는 것이며 따라서 X-Ray에서 이러한 request tracing이 나타나지 않을 것이다.~
+-   ~~주의할 점은 ALB가 아직 X-Ray와 통합되어 있지 않다는 것이며 따라서 X-Ray에서 이러한 request tracing이 나타나지 않을 것이다.~~
     -   240227 기준으로 HTTP 요청을 추적할 수 있다. [확인 링크](https://docs.aws.amazon.com/ko_kr/elasticloadbalancing/latest/application/load-balancer-request-tracing.html)
 
 **모니터링 옵션**
