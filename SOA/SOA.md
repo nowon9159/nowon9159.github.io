@@ -1,11 +1,15 @@
 # Custom Instructions
+
 ## What would you like ChatGPT to know about you to provide better responses?
+
 1. 나는 현재 AWS를 공부하고 있는 DevOps 엔지니어이다.
 2. AWS SysOps 자격증을 기반으로 공부를 진행하고 있다.
 
 ## How would you like ChatGPT to respond?
+
 1. 공부하는 내용을 정리하고 있으니, 형식을 구조화해서 동일한 형식으로 답변해줘
 2. 형식은 아래 코드형식을 참조하면 돼. $overview는 개요 제목을 적어주면 돼. $title은 각 내용에 대한 주제의 제목을 적어주면 돼 $contents는 그 주제에 대한 내용을 일목 요연하게 정리해서 적어주면 돼 $tidr은 총 내용에 대한 정리를 해줬으면 좋겠어.
+
 ```markdown
 **$overview**
 
@@ -14,235 +18,236 @@ $contents
 
 **$tidr**
 ```
+
 3. 모든 문장은 영문으로 줄 건데, 영문은 출력할 필요 없고 한글로 출력해줘.
 4. 제시해준 문장에 대해서 틀린 것 같은 내용이 있다면 해당 내용에 취소선 처리를 하고 아래에 왜 틀린지에 대한 설명을 부탁해. 설명은 Bold 처리해서 가시성을 확보해줘
 
 # 목차
 
 - [Custom Instructions](#custom-instructions)
-  * [What would you like ChatGPT to know about you to provide better responses?](#what-would-you-like-chatgpt-to-know-about-you-to-provide-better-responses-)
-  * [How would you like ChatGPT to respond?](#how-would-you-like-chatgpt-to-respond-)
+  - [What would you like ChatGPT to know about you to provide better responses?](#what-would-you-like-chatgpt-to-know-about-you-to-provide-better-responses-)
+  - [How would you like ChatGPT to respond?](#how-would-you-like-chatgpt-to-respond-)
 - [목차](#--)
 - [SOA 시험 대비](#soa------)
-  * [**Enhanced Networking (향상된 네트워킹)**](#--enhanced-networking-------------)
-  * [**EC2 Placement Groups (배치 그룹)**](#--ec2-placement-groups----------)
-    + [Cluster Placement Group (클러스터 배치 그룹)](#cluster-placement-group-------------)
-    + [Spread Placement Group (분산 배치 그룹)](#spread-placement-group-----------)
-    + [Partition Placement Group (파티션 배치 그룹)](#partition-placement-group------------)
-  * [EC2 Shutdown Behavior & Termination Protection](#ec2-shutdown-behavior---termination-protection)
-  * [Troubleshooting EC2 Launch Issues](#troubleshooting-ec2-launch-issues)
-  * [Troubleshooting EC2 SSH Issues](#troubleshooting-ec2-ssh-issues)
-    + [**Troubleshooting**](#--troubleshooting--)
-    + [**SSH vs. EC2 Instance Connect**](#--ssh-vs-ec2-instance-connect--)
-  * [[CCP/SAA/DVA] EC2 Instance Purchasing Options](#-ccp-saa-dva--ec2-instance-purchasing-options)
-    + [**인스턴스 구매 옵션**](#--------------)
-    + [**EC2 On Demand**](#--ec2-on-demand--)
-    + [**Reserved Instances**](#--reserved-instances--)
-    + [**Convertible Reserved Instance**](#--convertible-reserved-instance--)
-    + [**EC2 Savings Plans**](#--ec2-savings-plans--)
-    + [**Spot Instance**](#--spot-instance--)
-    + [**Dedicated Hosts**](#--dedicated-hosts--)
-    + [**Dedicated Instances**](#--dedicated-instances--)
-    + [**EC2 Capacity Reservations**](#--ec2-capacity-reservations--)
-  * [**[SAA] Spot Instances & Spot Fleet**](#---saa--spot-instances---spot-fleet--)
-    + [스팟 인스턴스](#-------)
-    + [스팟 블록](#-----)
-    + [스팟 플릿 (강의 번역이 부실하여 강의 내용 기반 따로 정리함)](#-----------------------------------)
-  * [**Burstable Instances (T2/T3)**](#--burstable-instances--t2-t3---)
-  * [**Elastic IPs**](#--elastic-ips--)
-  * [**CloudWatch Metrics for EC2**](#--cloudwatch-metrics-for-ec2--)
-  * [**CloudWatch - Unified CloudWatch Agent - Overview**](#--cloudwatch---unified-cloudwatch-agent---overview--)
-  * [**EC2 Instance Status Checks**](#--ec2-instance-status-checks--)
-  * [**EC2 Instance Status Checks - MUST KNOW**](#--ec2-instance-status-checks---must-know--)
-  * [**EC2 Hibernate**](#--ec2-hibernate--)
-  * [**[CCP/SAA/DVA] AMI Overview**](#---ccp-saa-dva--ami-overview--)
-  * [**AMI No Reboot Option**](#--ami-no-reboot-option--)
-  * [**EC2 Instance Migration using AMIs**](#--ec2-instance-migration-using-amis--)
-  * [**EC2 Image Builder**](#--ec2-image-builder--)
-  * [**AMI In Production**](#--ami-in-production--)
-  * [**Systems Manager Overview**](#--systems-manager-overview--)
-  * [**AWS Tags & SSM Resource Groups**](#--aws-tags---ssm-resource-groups--)
-  * [**SSM Documents & SSM Run Command**](#--ssm-documents---ssm-run-command--)
-  * [**SSM Automation**](#--ssm-automation--)
-  * [**[SAA/DVA] SSM Parameter Store Overview**](#---saa-dva--ssm-parameter-store-overview--)
-  * [**SSM Inventory & State Manager**](#--ssm-inventory---state-manager--)
-  * [**SSM Patch Manager and Maintenance Windows**](#--ssm-patch-manager-and-maintenance-windows--)
-  * [**SSM Session Manager Overview**](#--ssm-session-manager-overview--)
-  * [**[SAA/DVA] What is High Availability and Scalability?**](#---saa-dva--what-is-high-availability-and-scalability---)
-  * [**[SAA/DVA] Elastic Load Balancing (ELB) Overview**](#---saa-dva--elastic-load-balancing--elb--overview--)
-  * [**[SAA/DVA] Application Load Balancer (ALB)**](#---saa-dva--application-load-balancer--alb---)
-  * [**[SAA/DVA] Network Load Balancer (NLB)**](#---saa-dva--network-load-balancer--nlb---)
-  * [**[SAA/DVA] Gateway Load Balancer (GWLB)**](#---saa-dva--gateway-load-balancer--gwlb---)
-  * [**[SAA/DVA] Elastic Load Balancer - Sticky Sessions**](#---saa-dva--elastic-load-balancer---sticky-sessions--)
-  * [**[SAA/DVA] Elastic Load Balancer - Cross Zone Load Balancing**](#---saa-dva--elastic-load-balancer---cross-zone-load-balancing--)
-  * [**[SAA/DVA] Elastic Load Balancer - SSL Certificates**](#---saa-dva--elastic-load-balancer---ssl-certificates--)
-  * [**[SAA/DVA] Elastic Load Balancer - Connection Draining**](#---saa-dva--elastic-load-balancer---connection-draining--)
-  * [**Elastic Load Balancer - Health Checks**](#--elastic-load-balancer---health-checks--)
-  * [**Elastic Load Balancer - Monitoring, Troubleshooting, Logging and Tracing**](#--elastic-load-balancer---monitoring--troubleshooting--logging-and-tracing--)
-  * [**Elastic Load Balancer - Monitoring, Troubleshooting, Logging and Tracing**](#--elastic-load-balancer---monitoring--troubleshooting--logging-and-tracing---1)
-  * [ALB Rules - Deep Dive](#alb-rules---deep-dive)
-  * [[SAA/DVA] Auto Scaling Groups (ASG) Overview](#-saa-dva--auto-scaling-groups--asg--overview)
-  * [[SAA/DVA] Auto Scaling Groups - Scaling Policies](#-saa-dva--auto-scaling-groups---scaling-policies)
-  * [**ASG for SysOps**](#--asg-for-sysops--)
-  * [**CloudWatch for ASG**](#--cloudwatch-for-asg--)
-  * [**그룹 메트릭 수집**](#-------------)
-  * [**Auto Scaling Overview**](#--auto-scaling-overview--)
-  * [**[SAA/DVA] Beanstalk Overview**](#---saa-dva--beanstalk-overview--)
-  * [**[DVA] CloudFormation - Overview **](#---dva--cloudformation---overview---)
-  * [**[DVA] YAML Crash Course**](#---dva--yaml-crash-course--)
-  * [**[DVA] CloudFormation - Resources**](#---dva--cloudformation---resources--)
-  * [**[DVA] CloudFormation - Parameters**](#---dva--cloudformation---parameters--)
-  * [**[DVA] CloudFormation - Mappings**](#---dva--cloudformation---mappings--)
-  * [**[DVA] CloudFormation - Outputs & Exports**](#---dva--cloudformation---outputs---exports--)
-  * [**[DVA] CloudFormation - Conditions**](#---dva--cloudformation---conditions--)
-  * [**[DVA] CloudFormation - Intrinsic Functions**](#---dva--cloudformation---intrinsic-functions--)
-  * [**[DVA] CloudFormation - Rollbacks**](#---dva--cloudformation---rollbacks--)
-  * [**[DVA] CloudFormation - Service Role**](#---dva--cloudformation---service-role--)
-  * [**[DVA] CloudFormation - Capabilities**](#---dva--cloudformation---capabilities--)
-  * [**[DVA] CloudFormation - Deletion Policy**](#---dva--cloudformation---deletion-policy--)
-  * [**[DVA] CloudFormation - Stack Policy**](#---dva--cloudformation---stack-policy--)
-  * [**[DVA] CloudFormation - Termination Protection**](#---dva--cloudformation---termination-protection--)
-  * [**[DVA] CloudFormation - Custom Resources**](#---dva--cloudformation---custom-resources--)
-  * [**[DVA] CloudFormation - Dynamic References**](#---dva--cloudformation---dynamic-references--)
-  * [**CloudFormation - User Data**](#--cloudformation---user-data--)
-  * [**CloudFormation - cfn-init**](#--cloudformation---cfn-init--)
-  * [**CloudFormation - cfn-signal & Wait Condition**](#--cloudformation---cfn-signal---wait-condition--)
-  * [**CloudFormation - cfn-signal Failures**](#--cloudformation---cfn-signal-failures--)
-  * [**CloudFormation - Nested Stacks**](#--cloudformation---nested-stacks--)
-  * [**CloudFormation - Depends On**](#--cloudformation---depends-on--)
-  * [**CloudFormation - StackSets**](#--cloudformation---stacksets--)
-  * [**CloudFormation - Troubleshooting**](#--cloudformation---troubleshooting--)
-  * [**Lambda - Overview**](#--lambda---overview--)
-  * [**Lambda & CloudWatch Events / EventBridge**](#--lambda---cloudwatch-events---eventbridge--)
-  * [**Lambda & S3 Event Notifications**](#--lambda---s3-event-notifications--)
-  * [**Lambda Permissions - IAM Roles & Resource Policies**](#--lambda-permissions---iam-roles---resource-policies--)
-  * [**Lambda Monitoring & X-Ray Tracing**](#--lambda-monitoring---x-ray-tracing--)
-  * [**Lambda Function Performance**](#--lambda-function-performance--)
-  * [**Lambda Concurrency**](#--lambda-concurrency--)
-  * [**Lambda Monitoring - Extras**](#--lambda-monitoring---extras--)
-  * [**[CCP/SAA/DVA] EBS Overview**](#---ccp-saa-dva--ebs-overview--)
-  * [**[CCP/SAA/DVA] EC2 Instance Store**](#---ccp-saa-dva--ec2-instance-store--)
-  * [**[SAA/DVA] EBS Volume Types Deep Dive**](#---saa-dva--ebs-volume-types-deep-dive--)
-  * [**[SAA] EBS Multi Attach**](#---saa--ebs-multi-attach--)
-  * [**EBS Operation: Volume Resizing**](#--ebs-operation--volume-resizing--)
-  * [**EBS Operation: Snapshots**](#--ebs-operation--snapshots--)
-  * [**EBS Operation: Volume Migration**](#--ebs-operation--volume-migration--)
-  * [**[SAA] EBS Operation: Volume Encryption**](#---saa--ebs-operation--volume-encryption--)
-  * [**[SAA/DVA] Amazon EFS**](#---saa-dva--amazon-efs--)
-  * [**[SAA/DVA] EFS vs EBS**](#---saa-dva--efs-vs-ebs--)
-  * [**EFS Access Points**](#--efs-access-points--)
-  * [**EFS - Operations**](#--efs---operations--)
-  * [**EFS - CloudWatch Metrics**](#--efs---cloudwatch-metrics--)
-  * [**[CCP/SAA/DVA] S3 Overview**](#---ccp-saa-dva--s3-overview--)
-  * [**[CCP/SAA/DVA] S3 Security: Bucket Policy**](#---ccp-saa-dva--s3-security--bucket-policy--)
-  * [**S3 Security: Bucket Policy Advanced**](#--s3-security--bucket-policy-advanced--)
-  * [**[CCP/SAA/DVA] S3 Website Overview**](#---ccp-saa-dva--s3-website-overview--)
-  * [**[CCP/SAA/DVA] S3 Versioning**](#---ccp-saa-dva--s3-versioning--)
-  * [**[CCP/SAA/DVA] S3 Replication**](#---ccp-saa-dva--s3-replication--)
-  * [**[SAA/DVA] S3 Replication Notes**](#---saa-dva--s3-replication-notes--)
-  * [**[CCP/SAA/DVA] S3 Storage Classes Overview**](#---ccp-saa-dva--s3-storage-classes-overview--)
-  * [**[SAA/DVA] S3 Lifecycle Rules (with S3 Analytics)**](#---saa-dva--s3-lifecycle-rules--with-s3-analytics---)
-  * [**[SAA/DVA] S3 Event Notifications**](#---saa-dva--s3-event-notifications--)
-  * [**[SAA/DVA] S3 Performance**](#---saa-dva--s3-performance--)
-  * [**[SAA/DVA] S3 Select & Glacier Select**](#---saa-dva--s3-select---glacier-select--)
-  * [**[SAA] S3 Batch Operations**](#---saa--s3-batch-operations--)
-  * [**S3 Inventory**](#--s3-inventory--)
-  * [**S3 Glacier Overview**](#--s3-glacier-overview--)
-  * [**S3 Multi-Part Upload Deep Dive**](#--s3-multi-part-upload-deep-dive--)
-  * [**[SAA] Athena**](#---saa--athena--)
-  * [**[SAA/DVA] S3 Encryption**](#---saa-dva--s3-encryption--)
-  * [**[SAA/DVA] S3 Default Encryption**](#---saa-dva--s3-default-encryption--)
-  * [**[SAA/DVA] S3 CORS**](#---saa-dva--s3-cors--)
-  * [**[SAA/DVA] S3 MFA Delete**](#---saa-dva--s3-mfa-delete--)
-  * [**[SAA/DVA] S3 Access Logs**](#---saa-dva--s3-access-logs--)
-  * [**[SAA/DVA] S3 Pre-signed URLs**](#---saa-dva--s3-pre-signed-urls--)
-  * [**[SAA] Glacier Vault Lock & S3 Object Lock**](#---saa--glacier-vault-lock---s3-object-lock--)
-  * [**S3 Access Points**](#--s3-access-points--)
-  * [**S3 Multi-Region Access Points**](#--s3-multi-region-access-points--)
-  * [**S3 VPC Endpoints**](#--s3-vpc-endpoints--)
-  * [**[CCP/SAA] AWS Snow Family Overview**](#---ccp-saa--aws-snow-family-overview--)
-  * [**[SAA/SAP] Amazon FSx**](#---saa-sap--amazon-fsx--)
-  * [**FSx for SysOps**](#--fsx-for-sysops--)
-  * [**[SAA] Storage Gateway Overview**](#---saa--storage-gateway-overview--)
-  * [**Storage Gateway for SysOps**](#--storage-gateway-for-sysops--)
-  * [**[SAA/DVA] CloudFront Overview**](#---saa-dva--cloudfront-overview--)
-  * [**[SAA/DVA] CloudFront - ALB as an Origin**](#---saa-dva--cloudfront---alb-as-an-origin--)
-  * [**[SAA/DVA] CloudFront - Geo Restriction**](#---saa-dva--cloudfront---geo-restriction--)
-  * [**CloudFront Reports, Logs and Troubleshooting**](#--cloudfront-reports--logs-and-troubleshooting--)
-  * [**CloudFront Caching - Deep Dive**](#--cloudfront-caching---deep-dive--)
-  * [**CloudFront with ALB Sticky Sessions**](#--cloudfront-with-alb-sticky-sessions--)
-  * [**[SAA/DVA] RDS Overview**](#---saa-dva--rds-overview--)
-  * [**[SAA/DVA] RDS Multi AZ vs Read Replicas**](#---saa-dva--rds-multi-az-vs-read-replicas--)
-  * [**RDS Multi AZ – Failover Conditions**](#--rds-multi-az---failover-conditions--)
-  * [**RDS Proxy**](#--rds-proxy--)
-  * [**RDS Parameter Groups**](#--rds-parameter-groups--)
-  * [**RDS Backups and Snapshots**](#--rds-backups-and-snapshots--)
-  * [**RDS Events and Logs**](#--rds-events-and-logs--)
-  * [**RDS & CloudWatch**](#--rds---cloudwatch--)
-  * [**RDS Performance Insights**](#--rds-performance-insights--)
-  * [**[SAA/DVA] Amazon Aurora**](#---saa-dva--amazon-aurora--)
-  * [**Amazon Aurora - Backups**](#--amazon-aurora---backups--)
-  * [**[SAA/DVA] RDS & Aurora Security**](#---saa-dva--rds---aurora-security--)
-  * [**Amazon Aurora for SysOps**](#--amazon-aurora-for-sysops--)
-  * [**[SAA/DVA] ElastiCache Overview**](#---saa-dva--elasticache-overview--)
-  * [**ElastiCache Redis Cluster Modes**](#--elasticache-redis-cluster-modes--)
-  * [**ElastiCache Redis for SysOps**](#--elasticache-redis-for-sysops--)
-  * [**ElastiCache Memcached for SysOps**](#--elasticache-memcached-for-sysops--)
-  * [**CloudWatch Metrics**](#--cloudwatch-metrics--)
-  * [**CloudWatch Custom Metrics**](#--cloudwatch-custom-metrics--)
-  * [**CloudWatch Dashboards**](#--cloudwatch-dashboards--)
-  * [**CloudWatch Logs**](#--cloudwatch-logs--)
-  * [**CloudWatch Alarms**](#--cloudwatch-alarms--)
-  * [**CloudWatch Synthetics**](#--cloudwatch-synthetics--)
-  * [**[SAA/DVA] Amazon EventBridge**](#---saa-dva--amazon-eventbridge--)
-  * [**Service Quotas Overview**](#--service-quotas-overview--)
-  * [**[SAA/DVA] CloudTrail**](#---saa-dva--cloudtrail--)
-  * [**[SAA/DVA] CloudTrail - EventBridge Integration**](#---saa-dva--cloudtrail---eventbridge-integration--)
-  * [**CloudTrail for SysOps**](#--cloudtrail-for-sysops--)
-  * [**[SAA] Config Overview**](#---saa--config-overview--)
-  * [**Config - Aggregators**](#--config---aggregators--)
-  * [**[SAA] CloudWatch vs CloudTrail vs Config**](#---saa--cloudwatch-vs-cloudtrail-vs-config--)
-  * [**AWS Health Dashboard - Overview**](#--aws-health-dashboard---overview--)
-  * [**AWS Health Dashboard - Events & Notifications**](#--aws-health-dashboard---events---notifications--)
-  * [**[SAA] Organizations Overview**](#---saa--organizations-overview--)
-  * [**[CCP] AWS Control Tower Overview**](#---ccp--aws-control-tower-overview--)
-  * [**AWS Service Catalog Overview**](#--aws-service-catalog-overview--)
-  * [**AWS Billing Alarms**](#--aws-billing-alarms--)
-  * [**[SAA] AWS Cost Explorer**](#---saa--aws-cost-explorer--)
-  * [**AWS Budgets**](#--aws-budgets--)
-  * [**AWS Cost Allocation Tags & Cost & Usage Reports**](#--aws-cost-allocation-tags---cost---usage-reports--)
-  * [**[CCP] AWS Compute Optimizer Overview**](#---ccp--aws-compute-optimizer-overview--)
-  * [**[SAA] AWS DataSync**](#---saa--aws-datasync--)
-  * [**[SAA] AWS Backup**](#---saa--aws-backup--)
-  * [**[CCP/SAA] Shared Responsibility Model**](#---ccp-saa--shared-responsibility-model--)
-  * [**[CCP] DDoS, AWS Shield and AWS WAF**](#---ccp--ddos--aws-shield-and-aws-waf--)
-  * [**[CCP] Penetration testing on AWS**](#---ccp--penetration-testing-on-aws--)
-  * [**[CCP/SAA/SAP] Amazon Inspector**](#---ccp-saa-sap--amazon-inspector--)
-  * [**Logging in AWS**](#--logging-in-aws--)
-  * [**[CCP/SAA/SAP] Amazon GuardDuty**](#---ccp-saa-sap--amazon-guardduty--)
-  * [**[CCP/SAA] Amazon Macie**](#---ccp-saa--amazon-macie--)
-  * [**[CCP/SAA] Trusted Advisor**](#---ccp-saa--trusted-advisor--)
-  * [**[SAA/DVA] Encryption 101**](#---saa-dva--encryption-101--)
-  * [**[SAA/DVA] KMS Overview**](#---saa-dva--kms-overview--)
-  * [**KMS Key Rotation**](#--kms-key-rotation--)
-  * [**KMS For SysOps**](#--kms-for-sysops--)
-  * [**[DVA] CloudHSM Overview**](#---dva--cloudhsm-overview--)
-  * [**[CCP] AWS Artifact Overview**](#---ccp--aws-artifact-overview--)
-  * [**[SAA] AWS Certificate Manager Overview (ACM)**](#---saa--aws-certificate-manager-overview--acm---)
-  * [**[SAA/DVA] Secrets Manager Overview**](#---saa-dva--secrets-manager-overview--)
-  * [**Secrets Manager - Monitoring & Troubleshooting**](#--secrets-manager---monitoring---troubleshooting--)
-  * [**[DVA] SSM Parameter Store vs Secrets Manager**](#---dva--ssm-parameter-store-vs-secrets-manager--)
-  * [**[CCP/SAA/DVA] IAM Security Tools**](#---ccp-saa-dva--iam-security-tools--)
-  * [**IAM Access Analyzer**](#--iam-access-analyzer--)
-  * [**Identity Federation with SAML & Cognito**](#--identity-federation-with-saml---cognito--)
-  * [**STS & Cross Account Access**](#--sts---cross-account-access--)
-  * [**[DVA] Cognito User Pools Overview**](#---dva--cognito-user-pools-overview--)
-  * [**[DVA] Cognito Identity Pools Overview**](#---dva--cognito-identity-pools-overview--)
-  * [**[DVA] Cognito User Pools vs Cognito Identity Pools**](#---dva--cognito-user-pools-vs-cognito-identity-pools--)
-  * [**[DVA] Cognito User Pools vs Cognito Identity Pools**](#---dva--cognito-user-pools-vs-cognito-identity-pools---1)
-
+  - [**Enhanced Networking (향상된 네트워킹)**](#--enhanced-networking-------------)
+  - [**EC2 Placement Groups (배치 그룹)**](#--ec2-placement-groups----------)
+    - [Cluster Placement Group (클러스터 배치 그룹)](#cluster-placement-group-------------)
+    - [Spread Placement Group (분산 배치 그룹)](#spread-placement-group-----------)
+    - [Partition Placement Group (파티션 배치 그룹)](#partition-placement-group------------)
+  - [EC2 Shutdown Behavior & Termination Protection](#ec2-shutdown-behavior---termination-protection)
+  - [Troubleshooting EC2 Launch Issues](#troubleshooting-ec2-launch-issues)
+  - [Troubleshooting EC2 SSH Issues](#troubleshooting-ec2-ssh-issues)
+    - [**Troubleshooting**](#--troubleshooting--)
+    - [**SSH vs. EC2 Instance Connect**](#--ssh-vs-ec2-instance-connect--)
+  - [[CCP/SAA/DVA] EC2 Instance Purchasing Options](#-ccp-saa-dva--ec2-instance-purchasing-options)
+    - [**인스턴스 구매 옵션**](#--------------)
+    - [**EC2 On Demand**](#--ec2-on-demand--)
+    - [**Reserved Instances**](#--reserved-instances--)
+    - [**Convertible Reserved Instance**](#--convertible-reserved-instance--)
+    - [**EC2 Savings Plans**](#--ec2-savings-plans--)
+    - [**Spot Instance**](#--spot-instance--)
+    - [**Dedicated Hosts**](#--dedicated-hosts--)
+    - [**Dedicated Instances**](#--dedicated-instances--)
+    - [**EC2 Capacity Reservations**](#--ec2-capacity-reservations--)
+  - [**[SAA] Spot Instances & Spot Fleet**](#---saa--spot-instances---spot-fleet--)
+    - [스팟 인스턴스](#-------)
+    - [스팟 블록](#-----)
+    - [스팟 플릿 (강의 번역이 부실하여 강의 내용 기반 따로 정리함)](#-----------------------------------)
+  - [**Burstable Instances (T2/T3)**](#--burstable-instances--t2-t3---)
+  - [**Elastic IPs**](#--elastic-ips--)
+  - [**CloudWatch Metrics for EC2**](#--cloudwatch-metrics-for-ec2--)
+  - [**CloudWatch - Unified CloudWatch Agent - Overview**](#--cloudwatch---unified-cloudwatch-agent---overview--)
+  - [**EC2 Instance Status Checks**](#--ec2-instance-status-checks--)
+  - [**EC2 Instance Status Checks - MUST KNOW**](#--ec2-instance-status-checks---must-know--)
+  - [**EC2 Hibernate**](#--ec2-hibernate--)
+  - [**[CCP/SAA/DVA] AMI Overview**](#---ccp-saa-dva--ami-overview--)
+  - [**AMI No Reboot Option**](#--ami-no-reboot-option--)
+  - [**EC2 Instance Migration using AMIs**](#--ec2-instance-migration-using-amis--)
+  - [**EC2 Image Builder**](#--ec2-image-builder--)
+  - [**AMI In Production**](#--ami-in-production--)
+  - [**Systems Manager Overview**](#--systems-manager-overview--)
+  - [**AWS Tags & SSM Resource Groups**](#--aws-tags---ssm-resource-groups--)
+  - [**SSM Documents & SSM Run Command**](#--ssm-documents---ssm-run-command--)
+  - [**SSM Automation**](#--ssm-automation--)
+  - [**[SAA/DVA] SSM Parameter Store Overview**](#---saa-dva--ssm-parameter-store-overview--)
+  - [**SSM Inventory & State Manager**](#--ssm-inventory---state-manager--)
+  - [**SSM Patch Manager and Maintenance Windows**](#--ssm-patch-manager-and-maintenance-windows--)
+  - [**SSM Session Manager Overview**](#--ssm-session-manager-overview--)
+  - [**[SAA/DVA] What is High Availability and Scalability?**](#---saa-dva--what-is-high-availability-and-scalability---)
+  - [**[SAA/DVA] Elastic Load Balancing (ELB) Overview**](#---saa-dva--elastic-load-balancing--elb--overview--)
+  - [**[SAA/DVA] Application Load Balancer (ALB)**](#---saa-dva--application-load-balancer--alb---)
+  - [**[SAA/DVA] Network Load Balancer (NLB)**](#---saa-dva--network-load-balancer--nlb---)
+  - [**[SAA/DVA] Gateway Load Balancer (GWLB)**](#---saa-dva--gateway-load-balancer--gwlb---)
+  - [**[SAA/DVA] Elastic Load Balancer - Sticky Sessions**](#---saa-dva--elastic-load-balancer---sticky-sessions--)
+  - [**[SAA/DVA] Elastic Load Balancer - Cross Zone Load Balancing**](#---saa-dva--elastic-load-balancer---cross-zone-load-balancing--)
+  - [**[SAA/DVA] Elastic Load Balancer - SSL Certificates**](#---saa-dva--elastic-load-balancer---ssl-certificates--)
+  - [**[SAA/DVA] Elastic Load Balancer - Connection Draining**](#---saa-dva--elastic-load-balancer---connection-draining--)
+  - [**Elastic Load Balancer - Health Checks**](#--elastic-load-balancer---health-checks--)
+  - [**Elastic Load Balancer - Monitoring, Troubleshooting, Logging and Tracing**](#--elastic-load-balancer---monitoring--troubleshooting--logging-and-tracing--)
+  - [**Elastic Load Balancer - Monitoring, Troubleshooting, Logging and Tracing**](#--elastic-load-balancer---monitoring--troubleshooting--logging-and-tracing---1)
+  - [ALB Rules - Deep Dive](#alb-rules---deep-dive)
+  - [[SAA/DVA] Auto Scaling Groups (ASG) Overview](#-saa-dva--auto-scaling-groups--asg--overview)
+  - [[SAA/DVA] Auto Scaling Groups - Scaling Policies](#-saa-dva--auto-scaling-groups---scaling-policies)
+  - [**ASG for SysOps**](#--asg-for-sysops--)
+  - [**CloudWatch for ASG**](#--cloudwatch-for-asg--)
+  - [**그룹 메트릭 수집**](#-------------)
+  - [**Auto Scaling Overview**](#--auto-scaling-overview--)
+  - [**[SAA/DVA] Beanstalk Overview**](#---saa-dva--beanstalk-overview--)
+  - [**[DVA] CloudFormation - Overview **](#---dva--cloudformation---overview---)
+  - [**[DVA] YAML Crash Course**](#---dva--yaml-crash-course--)
+  - [**[DVA] CloudFormation - Resources**](#---dva--cloudformation---resources--)
+  - [**[DVA] CloudFormation - Parameters**](#---dva--cloudformation---parameters--)
+  - [**[DVA] CloudFormation - Mappings**](#---dva--cloudformation---mappings--)
+  - [**[DVA] CloudFormation - Outputs & Exports**](#---dva--cloudformation---outputs---exports--)
+  - [**[DVA] CloudFormation - Conditions**](#---dva--cloudformation---conditions--)
+  - [**[DVA] CloudFormation - Intrinsic Functions**](#---dva--cloudformation---intrinsic-functions--)
+  - [**[DVA] CloudFormation - Rollbacks**](#---dva--cloudformation---rollbacks--)
+  - [**[DVA] CloudFormation - Service Role**](#---dva--cloudformation---service-role--)
+  - [**[DVA] CloudFormation - Capabilities**](#---dva--cloudformation---capabilities--)
+  - [**[DVA] CloudFormation - Deletion Policy**](#---dva--cloudformation---deletion-policy--)
+  - [**[DVA] CloudFormation - Stack Policy**](#---dva--cloudformation---stack-policy--)
+  - [**[DVA] CloudFormation - Termination Protection**](#---dva--cloudformation---termination-protection--)
+  - [**[DVA] CloudFormation - Custom Resources**](#---dva--cloudformation---custom-resources--)
+  - [**[DVA] CloudFormation - Dynamic References**](#---dva--cloudformation---dynamic-references--)
+  - [**CloudFormation - User Data**](#--cloudformation---user-data--)
+  - [**CloudFormation - cfn-init**](#--cloudformation---cfn-init--)
+  - [**CloudFormation - cfn-signal & Wait Condition**](#--cloudformation---cfn-signal---wait-condition--)
+  - [**CloudFormation - cfn-signal Failures**](#--cloudformation---cfn-signal-failures--)
+  - [**CloudFormation - Nested Stacks**](#--cloudformation---nested-stacks--)
+  - [**CloudFormation - Depends On**](#--cloudformation---depends-on--)
+  - [**CloudFormation - StackSets**](#--cloudformation---stacksets--)
+  - [**CloudFormation - Troubleshooting**](#--cloudformation---troubleshooting--)
+  - [**Lambda - Overview**](#--lambda---overview--)
+  - [**Lambda & CloudWatch Events / EventBridge**](#--lambda---cloudwatch-events---eventbridge--)
+  - [**Lambda & S3 Event Notifications**](#--lambda---s3-event-notifications--)
+  - [**Lambda Permissions - IAM Roles & Resource Policies**](#--lambda-permissions---iam-roles---resource-policies--)
+  - [**Lambda Monitoring & X-Ray Tracing**](#--lambda-monitoring---x-ray-tracing--)
+  - [**Lambda Function Performance**](#--lambda-function-performance--)
+  - [**Lambda Concurrency**](#--lambda-concurrency--)
+  - [**Lambda Monitoring - Extras**](#--lambda-monitoring---extras--)
+  - [**[CCP/SAA/DVA] EBS Overview**](#---ccp-saa-dva--ebs-overview--)
+  - [**[CCP/SAA/DVA] EC2 Instance Store**](#---ccp-saa-dva--ec2-instance-store--)
+  - [**[SAA/DVA] EBS Volume Types Deep Dive**](#---saa-dva--ebs-volume-types-deep-dive--)
+  - [**[SAA] EBS Multi Attach**](#---saa--ebs-multi-attach--)
+  - [**EBS Operation: Volume Resizing**](#--ebs-operation--volume-resizing--)
+  - [**EBS Operation: Snapshots**](#--ebs-operation--snapshots--)
+  - [**EBS Operation: Volume Migration**](#--ebs-operation--volume-migration--)
+  - [**[SAA] EBS Operation: Volume Encryption**](#---saa--ebs-operation--volume-encryption--)
+  - [**[SAA/DVA] Amazon EFS**](#---saa-dva--amazon-efs--)
+  - [**[SAA/DVA] EFS vs EBS**](#---saa-dva--efs-vs-ebs--)
+  - [**EFS Access Points**](#--efs-access-points--)
+  - [**EFS - Operations**](#--efs---operations--)
+  - [**EFS - CloudWatch Metrics**](#--efs---cloudwatch-metrics--)
+  - [**[CCP/SAA/DVA] S3 Overview**](#---ccp-saa-dva--s3-overview--)
+  - [**[CCP/SAA/DVA] S3 Security: Bucket Policy**](#---ccp-saa-dva--s3-security--bucket-policy--)
+  - [**S3 Security: Bucket Policy Advanced**](#--s3-security--bucket-policy-advanced--)
+  - [**[CCP/SAA/DVA] S3 Website Overview**](#---ccp-saa-dva--s3-website-overview--)
+  - [**[CCP/SAA/DVA] S3 Versioning**](#---ccp-saa-dva--s3-versioning--)
+  - [**[CCP/SAA/DVA] S3 Replication**](#---ccp-saa-dva--s3-replication--)
+  - [**[SAA/DVA] S3 Replication Notes**](#---saa-dva--s3-replication-notes--)
+  - [**[CCP/SAA/DVA] S3 Storage Classes Overview**](#---ccp-saa-dva--s3-storage-classes-overview--)
+  - [**[SAA/DVA] S3 Lifecycle Rules (with S3 Analytics)**](#---saa-dva--s3-lifecycle-rules--with-s3-analytics---)
+  - [**[SAA/DVA] S3 Event Notifications**](#---saa-dva--s3-event-notifications--)
+  - [**[SAA/DVA] S3 Performance**](#---saa-dva--s3-performance--)
+  - [**[SAA/DVA] S3 Select & Glacier Select**](#---saa-dva--s3-select---glacier-select--)
+  - [**[SAA] S3 Batch Operations**](#---saa--s3-batch-operations--)
+  - [**S3 Inventory**](#--s3-inventory--)
+  - [**S3 Glacier Overview**](#--s3-glacier-overview--)
+  - [**S3 Multi-Part Upload Deep Dive**](#--s3-multi-part-upload-deep-dive--)
+  - [**[SAA] Athena**](#---saa--athena--)
+  - [**[SAA/DVA] S3 Encryption**](#---saa-dva--s3-encryption--)
+  - [**[SAA/DVA] S3 Default Encryption**](#---saa-dva--s3-default-encryption--)
+  - [**[SAA/DVA] S3 CORS**](#---saa-dva--s3-cors--)
+  - [**[SAA/DVA] S3 MFA Delete**](#---saa-dva--s3-mfa-delete--)
+  - [**[SAA/DVA] S3 Access Logs**](#---saa-dva--s3-access-logs--)
+  - [**[SAA/DVA] S3 Pre-signed URLs**](#---saa-dva--s3-pre-signed-urls--)
+  - [**[SAA] Glacier Vault Lock & S3 Object Lock**](#---saa--glacier-vault-lock---s3-object-lock--)
+  - [**S3 Access Points**](#--s3-access-points--)
+  - [**S3 Multi-Region Access Points**](#--s3-multi-region-access-points--)
+  - [**S3 VPC Endpoints**](#--s3-vpc-endpoints--)
+  - [**[CCP/SAA] AWS Snow Family Overview**](#---ccp-saa--aws-snow-family-overview--)
+  - [**[SAA/SAP] Amazon FSx**](#---saa-sap--amazon-fsx--)
+  - [**FSx for SysOps**](#--fsx-for-sysops--)
+  - [**[SAA] Storage Gateway Overview**](#---saa--storage-gateway-overview--)
+  - [**Storage Gateway for SysOps**](#--storage-gateway-for-sysops--)
+  - [**[SAA/DVA] CloudFront Overview**](#---saa-dva--cloudfront-overview--)
+  - [**[SAA/DVA] CloudFront - ALB as an Origin**](#---saa-dva--cloudfront---alb-as-an-origin--)
+  - [**[SAA/DVA] CloudFront - Geo Restriction**](#---saa-dva--cloudfront---geo-restriction--)
+  - [**CloudFront Reports, Logs and Troubleshooting**](#--cloudfront-reports--logs-and-troubleshooting--)
+  - [**CloudFront Caching - Deep Dive**](#--cloudfront-caching---deep-dive--)
+  - [**CloudFront with ALB Sticky Sessions**](#--cloudfront-with-alb-sticky-sessions--)
+  - [**[SAA/DVA] RDS Overview**](#---saa-dva--rds-overview--)
+  - [**[SAA/DVA] RDS Multi AZ vs Read Replicas**](#---saa-dva--rds-multi-az-vs-read-replicas--)
+  - [**RDS Multi AZ – Failover Conditions**](#--rds-multi-az---failover-conditions--)
+  - [**RDS Proxy**](#--rds-proxy--)
+  - [**RDS Parameter Groups**](#--rds-parameter-groups--)
+  - [**RDS Backups and Snapshots**](#--rds-backups-and-snapshots--)
+  - [**RDS Events and Logs**](#--rds-events-and-logs--)
+  - [**RDS & CloudWatch**](#--rds---cloudwatch--)
+  - [**RDS Performance Insights**](#--rds-performance-insights--)
+  - [**[SAA/DVA] Amazon Aurora**](#---saa-dva--amazon-aurora--)
+  - [**Amazon Aurora - Backups**](#--amazon-aurora---backups--)
+  - [**[SAA/DVA] RDS & Aurora Security**](#---saa-dva--rds---aurora-security--)
+  - [**Amazon Aurora for SysOps**](#--amazon-aurora-for-sysops--)
+  - [**[SAA/DVA] ElastiCache Overview**](#---saa-dva--elasticache-overview--)
+  - [**ElastiCache Redis Cluster Modes**](#--elasticache-redis-cluster-modes--)
+  - [**ElastiCache Redis for SysOps**](#--elasticache-redis-for-sysops--)
+  - [**ElastiCache Memcached for SysOps**](#--elasticache-memcached-for-sysops--)
+  - [**CloudWatch Metrics**](#--cloudwatch-metrics--)
+  - [**CloudWatch Custom Metrics**](#--cloudwatch-custom-metrics--)
+  - [**CloudWatch Dashboards**](#--cloudwatch-dashboards--)
+  - [**CloudWatch Logs**](#--cloudwatch-logs--)
+  - [**CloudWatch Alarms**](#--cloudwatch-alarms--)
+  - [**CloudWatch Synthetics**](#--cloudwatch-synthetics--)
+  - [**[SAA/DVA] Amazon EventBridge**](#---saa-dva--amazon-eventbridge--)
+  - [**Service Quotas Overview**](#--service-quotas-overview--)
+  - [**[SAA/DVA] CloudTrail**](#---saa-dva--cloudtrail--)
+  - [**[SAA/DVA] CloudTrail - EventBridge Integration**](#---saa-dva--cloudtrail---eventbridge-integration--)
+  - [**CloudTrail for SysOps**](#--cloudtrail-for-sysops--)
+  - [**[SAA] Config Overview**](#---saa--config-overview--)
+  - [**Config - Aggregators**](#--config---aggregators--)
+  - [**[SAA] CloudWatch vs CloudTrail vs Config**](#---saa--cloudwatch-vs-cloudtrail-vs-config--)
+  - [**AWS Health Dashboard - Overview**](#--aws-health-dashboard---overview--)
+  - [**AWS Health Dashboard - Events & Notifications**](#--aws-health-dashboard---events---notifications--)
+  - [**[SAA] Organizations Overview**](#---saa--organizations-overview--)
+  - [**[CCP] AWS Control Tower Overview**](#---ccp--aws-control-tower-overview--)
+  - [**AWS Service Catalog Overview**](#--aws-service-catalog-overview--)
+  - [**AWS Billing Alarms**](#--aws-billing-alarms--)
+  - [**[SAA] AWS Cost Explorer**](#---saa--aws-cost-explorer--)
+  - [**AWS Budgets**](#--aws-budgets--)
+  - [**AWS Cost Allocation Tags & Cost & Usage Reports**](#--aws-cost-allocation-tags---cost---usage-reports--)
+  - [**[CCP] AWS Compute Optimizer Overview**](#---ccp--aws-compute-optimizer-overview--)
+  - [**[SAA] AWS DataSync**](#---saa--aws-datasync--)
+  - [**[SAA] AWS Backup**](#---saa--aws-backup--)
+  - [**[CCP/SAA] Shared Responsibility Model**](#---ccp-saa--shared-responsibility-model--)
+  - [**[CCP] DDoS, AWS Shield and AWS WAF**](#---ccp--ddos--aws-shield-and-aws-waf--)
+  - [**[CCP] Penetration testing on AWS**](#---ccp--penetration-testing-on-aws--)
+  - [**[CCP/SAA/SAP] Amazon Inspector**](#---ccp-saa-sap--amazon-inspector--)
+  - [**Logging in AWS**](#--logging-in-aws--)
+  - [**[CCP/SAA/SAP] Amazon GuardDuty**](#---ccp-saa-sap--amazon-guardduty--)
+  - [**[CCP/SAA] Amazon Macie**](#---ccp-saa--amazon-macie--)
+  - [**[CCP/SAA] Trusted Advisor**](#---ccp-saa--trusted-advisor--)
+  - [**[SAA/DVA] Encryption 101**](#---saa-dva--encryption-101--)
+  - [**[SAA/DVA] KMS Overview**](#---saa-dva--kms-overview--)
+  - [**KMS Key Rotation**](#--kms-key-rotation--)
+  - [**KMS For SysOps**](#--kms-for-sysops--)
+  - [**[DVA] CloudHSM Overview**](#---dva--cloudhsm-overview--)
+  - [**[CCP] AWS Artifact Overview**](#---ccp--aws-artifact-overview--)
+  - [**[SAA] AWS Certificate Manager Overview (ACM)**](#---saa--aws-certificate-manager-overview--acm---)
+  - [**[SAA/DVA] Secrets Manager Overview**](#---saa-dva--secrets-manager-overview--)
+  - [**Secrets Manager - Monitoring & Troubleshooting**](#--secrets-manager---monitoring---troubleshooting--)
+  - [**[DVA] SSM Parameter Store vs Secrets Manager**](#---dva--ssm-parameter-store-vs-secrets-manager--)
+  - [**[CCP/SAA/DVA] IAM Security Tools**](#---ccp-saa-dva--iam-security-tools--)
+  - [**IAM Access Analyzer**](#--iam-access-analyzer--)
+  - [**Identity Federation with SAML & Cognito**](#--identity-federation-with-saml---cognito--)
+  - [**STS & Cross Account Access**](#--sts---cross-account-access--)
+  - [**[DVA] Cognito User Pools Overview**](#---dva--cognito-user-pools-overview--)
+  - [**[DVA] Cognito Identity Pools Overview**](#---dva--cognito-identity-pools-overview--)
+  - [**[DVA] Cognito User Pools vs Cognito Identity Pools**](#---dva--cognito-user-pools-vs-cognito-identity-pools--)
+  - [**[DVA] Cognito User Pools vs Cognito Identity Pools**](#---dva--cognito-user-pools-vs-cognito-identity-pools---1)
 
 # SOA 시험 대비
+
 ## **Enhanced Networking (향상된 네트워킹)**
 
 인스턴스의 네트워크는 SR-IOV(Single Root - I/O Virtualization) 를 사용한다. 이는 더 높은 대역폭, 더 높은 PPS(초당 패킷), 낮은 지연을 제공한다.
@@ -264,20 +269,22 @@ Amazon Linux 2 에는 모든 인스턴스에 ENA 모듈이 설치되어 있다.
 `$ ethtool -i eth0`를 입력하면 드라이버가 ena로 보여진다.
 
 **정리**
--   인스턴스의 네트워크는 SR-IOV 유형을 사용해 더 높은 대역폭, 더 높은 PPS(초당 패킷), 낮은 지연을 제공한다.
--   SR-IOV는 ENA(Elastic Network Adapter)와 Intel VF(intel 82599 Virtual Function)가 있다.
-    -   ENA의 경우 최대 100Gbps의 성능을 제공한다. 또한 t2를 제외한 최신 세대의 EC2 인스턴스에 기본적으로 설치되어 있다.
-    -   Intel VF의 경우 10Gbps의 성능을 제공한다.
--   EFA(Elastic Fabric Adapter)가 있다.
-    -   이는 HPC(고성능 컴퓨팅) 전용으로 개선된 ENA이다.
-    -   Linux에서만 작동하고, MPI (Message Passing Interface) 표준을 활용해서 같은 클러스터 내에 있는 경우 서로 결합된 내부 노드 통신이 있다면 서로 더 나은 네트워크 성능을 얻는다. 
-    -   EFA는 EC2 인스턴스 간 고성능 통신을 제공하고, 기본 Linux OS를 우회하여 더 낮은 지연과 신뢰성 있는 전송을 제공한다.
--   결과적으로 단순히 낮은 지연 시간을 위해 Enhanced Networking을 원한다면 ENA를, HPC 클러스터를 사용한다면 고성능을 위해 EFA를 선택하는 것이 좋다.
+
+- 인스턴스의 네트워크는 SR-IOV 유형을 사용해 더 높은 대역폭, 더 높은 PPS(초당 패킷), 낮은 지연을 제공한다.
+- SR-IOV는 ENA(Elastic Network Adapter)와 Intel VF(intel 82599 Virtual Function)가 있다.
+  - ENA의 경우 최대 100Gbps의 성능을 제공한다. 또한 t2를 제외한 최신 세대의 EC2 인스턴스에 기본적으로 설치되어 있다.
+  - Intel VF의 경우 10Gbps의 성능을 제공한다.
+- EFA(Elastic Fabric Adapter)가 있다.
+  - 이는 HPC(고성능 컴퓨팅) 전용으로 개선된 ENA이다.
+  - Linux에서만 작동하고, MPI (Message Passing Interface) 표준을 활용해서 같은 클러스터 내에 있는 경우 서로 결합된 내부 노드 통신이 있다면 서로 더 나은 네트워크 성능을 얻는다.
+  - EFA는 EC2 인스턴스 간 고성능 통신을 제공하고, 기본 Linux OS를 우회하여 더 낮은 지연과 신뢰성 있는 전송을 제공한다.
+- 결과적으로 단순히 낮은 지연 시간을 위해 Enhanced Networking을 원한다면 ENA를, HPC 클러스터를 사용한다면 고성능을 위해 EFA를 선택하는 것이 좋다.
 
 ## **EC2 Placement Groups (배치 그룹)**
+
 Placement Groups는 AWS 인프라 내에서 EC2 인스턴스가 어떻게 배치될지를 제어하려고 할 때 사용된다.
 
-직접 AWS 하드웨어와 상호 작용하지는 않지만 EC2 인스턴스를 서로 어떻게 배치하길 원하는지 AWS에 알릴 수 있다. 
+직접 AWS 하드웨어와 상호 작용하지는 않지만 EC2 인스턴스를 서로 어떻게 배치하길 원하는지 AWS에 알릴 수 있다.
 
 배치 그룹은 선택 사항이다. 인스턴스를 배치 그룹으로 시작하지 않으면 EC2는 기본 하드웨어 전반에 분산되어 인스턴스를 배치하려 한다.
 
@@ -286,6 +293,7 @@ Placement Groups는 AWS 인프라 내에서 EC2 인스턴스가 어떻게 배치
 Placement Groups 를 생성할 때는 세 가지 전략을 사용할 수 있다.
 
 ### Cluster Placement Group (클러스터 배치 그룹)
+
 인스턴스가 단일 가용 영역 내에서 저지연 하드웨어 설정에 그룹화된다.
 이것은 높은 성능을 제공하지만 높은 위험도 제공한다.
 
@@ -295,6 +303,7 @@ Placement Groups 를 생성할 때는 세 가지 전략을 사용할 수 있다.
 모든 종류의 응용 프로그램에 적합한 것은 아니지만 응용 프로그램이 HPC와 같은 매우 높은 대역폭과 낮은 대기 시간이 필요한 경우 클러스터 배치 그룹이 좋은 방법이다.
 
 ### Spread Placement Group (분산 배치 그룹)
+
 인스턴스가 서로 다른 랙에 분산된다.
 이는 한 AZ 당 7개의 EC2 인스턴스로 제한되어 있다. 주로 중요한 응용 프로그램에 사용된다.
 
@@ -307,6 +316,7 @@ EC2가 여러 가용 영역에 걸쳐 확장할 수 있으며 동시에 발생�
 AZ 당 Placement Group 당 7개의 인스턴스로 제한된다는 것을 명심해야한다.
 
 ### Partition Placement Group (파티션 배치 그룹)
+
 Spread와 유사함. 인스턴스가 여러 파티션에 걸쳐 여러 가용 영역에서 분산된다.
 
 한 AZ당 최대 7개의 파티션을 가질 수 있으며 이러한 파티션은 같은 Region의 여러 가용 영역에 걸쳐 확장될 수 있다.
@@ -319,26 +329,26 @@ Spread Placement Group과의 차이점은 파티션 인스턴스와 다른 파�
 
 파티션 배치 그룹의 경우 데이터를 분산하고 파티션 간에 서버를 분산할 수 있는 애플리케이션을 보유할 때 사용한다. 일반적으로 대용량 데이터 응용 프로그램에서 사용되며 HDFS, Hbase, Cassandra, Kafka를 사용하는 경우가 있다.
 
-
 **정리**
--   배치 그룹은 EC2 인스턴스가 어떻게 배치될지를 제어하려고 할 때 사용된다.
--   배치 그룹은 선택 사항이며, 배치 그룹으로 시작하지 않으면 EC2는 기본 하드웨어 전반에 분산되어 인스턴스를 배치하려 한다.
--   배치 그룹은 세 가지 전략이 있다.
-    -   **클러스터 배치 그룹**
-        -   단일 가용 영역 내에서 저지연 하드웨어 설정에 그룹화된다. 높은 성능을 제공하지만 단일 가용 영역 내에 있기 때문에 높은 위험도 제공한다.
-        -   모든 EC2 인스턴스가 동일한 랙에 배치되어 동일한 하드웨어, 동일한 가용 영역에 속한다.
-        -   렉에 장애가 발생하면 모든 EC2 인스턴스가 동시에 실패하기 때문에 위험이 있다.
-        -   HPC와 같은 매우 높은 대역폭과 낮은 대기 시간이 필요한 애플리케이션의 경우 클러스터 배치 그룹이 좋은 방법이다.
-    -   **분산 배치 그룹**
-        -   EC2가 여러 가용 영역에 걸쳐 확장할 수 있으며 동시에 발생하는 실패의 위험이 줄어든다.
-        -   EC2 인스턴스가 각기 다른 랙에 분산된다.
-        -   AZ 당, 배치 그룹 당 7개의 인스턴스로 개수가 제한된다.
-        -   높은 가용성을 극대화하고 리스크를 줄이며 어느 정도 큰 규모의 애플리케이션에 적합하다.
-    -   **파티션 배치 그룹**
-        -   인스턴스가 여러 개의 파티션으로 여러 가용 영역에서 분산된다.
-        -   한 AZ당 최대 7개의 파티션으로 동일 리전 내의 여러 가용 영역에 걸쳐 확장 가능. 파티션 당 수백 개의 인스턴스 실행 가능하다.
-        -   한 파티션에 있는 랙을 다른 파티션은 공유하지 않는다.
-        -   응용 프로그램이 데이터 및 서버를 파티션 간에 분산시킬 수 있는 경우 사용한다.
+
+- 배치 그룹은 EC2 인스턴스가 어떻게 배치될지를 제어하려고 할 때 사용된다.
+- 배치 그룹은 선택 사항이며, 배치 그룹으로 시작하지 않으면 EC2는 기본 하드웨어 전반에 분산되어 인스턴스를 배치하려 한다.
+- 배치 그룹은 세 가지 전략이 있다.
+  - **클러스터 배치 그룹**
+    - 단일 가용 영역 내에서 저지연 하드웨어 설정에 그룹화된다. 높은 성능을 제공하지만 단일 가용 영역 내에 있기 때문에 높은 위험도 제공한다.
+    - 모든 EC2 인스턴스가 동일한 랙에 배치되어 동일한 하드웨어, 동일한 가용 영역에 속한다.
+    - 렉에 장애가 발생하면 모든 EC2 인스턴스가 동시에 실패하기 때문에 위험이 있다.
+    - HPC와 같은 매우 높은 대역폭과 낮은 대기 시간이 필요한 애플리케이션의 경우 클러스터 배치 그룹이 좋은 방법이다.
+  - **분산 배치 그룹**
+    - EC2가 여러 가용 영역에 걸쳐 확장할 수 있으며 동시에 발생하는 실패의 위험이 줄어든다.
+    - EC2 인스턴스가 각기 다른 랙에 분산된다.
+    - AZ 당, 배치 그룹 당 7개의 인스턴스로 개수가 제한된다.
+    - 높은 가용성을 극대화하고 리스크를 줄이며 어느 정도 큰 규모의 애플리케이션에 적합하다.
+  - **파티션 배치 그룹**
+    - 인스턴스가 여러 개의 파티션으로 여러 가용 영역에서 분산된다.
+    - 한 AZ당 최대 7개의 파티션으로 동일 리전 내의 여러 가용 영역에 걸쳐 확장 가능. 파티션 당 수백 개의 인스턴스 실행 가능하다.
+    - 한 파티션에 있는 랙을 다른 파티션은 공유하지 않는다.
+    - 응용 프로그램이 데이터 및 서버를 파티션 간에 분산시킬 수 있는 경우 사용한다.
 
 ## EC2 Shutdown Behavior & Termination Protection
 
@@ -349,6 +359,7 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 
 종료 설정이 되어 있어도 OS 내에서 shutdown 명령어를 내리게 되면 Terminate 된다.
 `$ sudo shutdown` 하게 되면 Terminated 되기 때문에 주의해야 함
+
 > 팁으로는 init 0 또는 systemctl poweroff 명령어도 동일하다.
 
 ## Troubleshooting EC2 Launch Issues
@@ -357,11 +368,10 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 리전당 최대 vCPU 수에 도달했음을 의미
 해결 방법은 다른 리전에서 인스턴스를 실행하는 것과 리전에 제한된 Service Quotas를 늘리면 된다.
 
-
 **InsufficientInstanceCapacity**
 리전 내에서 생성할 수 있는 최대 수치의 vCPU가 있다. 기본적으로 64GB인데 Service Quotas Request를 하게 되면 늘릴 수 있음
 
-온디맨드 또는 Spot 인스턴스는 Default로 64GB로 되어 있음. 
+온디맨드 또는 Spot 인스턴스는 Default로 64GB로 되어 있음.
 
 만약 내가 Default 64GB인 상태에서 128GB의 인스턴스 타입을 선택하게 되면 인스턴스의 특정 AZ에 대해 온디맨드에 대한 특정 용량을 갖추지 못했다는 error임
 이는 AWS에서 발생하는 문제이기도 하다. 왜냐하면 AZ에서 64GB가 준비되지 않았을 수도 있으니까
@@ -369,181 +379,199 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 정리하자면 AWS에서 요청을 수행할 만큼의 충분한 가용 온디맨드 용량이 없기 때문이다.
 
 해결 법은
--   몇 분 기다렸다가 다시 Request 하기
--   한 번에 적은 인스턴스를 요청해보기. 만약 내가 5개의 인스턴스를 한꺼번에 launch 했다고 했을 때, 1개 1개씩 신청하면 된다.
--   다른 인스턴스 형식을 요청하기. 완전 다른 인스턴스 유형을 선택 했다가 원하는 인스턴스 유형으로 스케일 업 해도 된다.
--   Service Quotas에 대한 Request하기
+
+- 몇 분 기다렸다가 다시 Request 하기
+- 한 번에 적은 인스턴스를 요청해보기. 만약 내가 5개의 인스턴스를 한꺼번에 launch 했다고 했을 때, 1개 1개씩 신청하면 된다.
+- 다른 인스턴스 형식을 요청하기. 완전 다른 인스턴스 유형을 선택 했다가 원하는 인스턴스 유형으로 스케일 업 해도 된다.
+- Service Quotas에 대한 Request하기
 
 **Instance terminates immediately**
 인스턴스가 pending 상태에서 Terminated 상태로 즉시 변경되는 것
 
 이유는 아래와 같다.
--   EBS 볼륨 제한을 초과했을 때
--   EBS 스냅샷이 손상되었을 때
--   루트 볼륨이 암호화되어 있으며, 암호 해독을 위해 KMS 키에 액세스할 수 있는 권한이 없을 때
--   인스턴스 스토어 지원 AMI에 image.part.xx file과 같은 필수적인 부분이 누락 되었을 때
+
+- EBS 볼륨 제한을 초과했을 때
+- EBS 스냅샷이 손상되었을 때
+- 루트 볼륨이 암호화되어 있으며, 암호 해독을 위해 KMS 키에 액세스할 수 있는 권한이 없을 때
+- 인스턴스 스토어 지원 AMI에 image.part.xx file과 같은 필수적인 부분이 누락 되었을 때
 
 정확한 이유를 찾으려면 EC2 콘솔에서 Description 탭에 있는 State를 확인하면 된다.
 
 **정리**
--   InsufficientInstanceCapacity
-    -   리전 내에서 생성할 수 있는 최대 수치의 vCPU는 정해져있다. 예를 들어 최대 수치가 64로 되어 있다고 할 때 16 vCPU의 인스턴스를 5개 올리고 싶다면 16*5=80 이어서 최대 vCPU를 넘게 된다. 이 경우 해당 에러가 발생한다.
-    -   또한 최대 수치를 조정했다고 하더라도 AWS 내에서 AZ에 64GB가 준비되지 않을 수도 있다.
-    -   해결 법은 아래와 같다.
-        -   몇분 기다렸다가 다시 Request
-        -   한 번에 적은 인스턴스를 요청해보기 5개의 인스턴스를 1개씩 5번 시작
-        -   다른 인스턴스 형식을 요청했다가 원하는 인스턴스 유형으로 스케일 업
-        -   Service Qoutas에 대한 Request
--   Instance terminates immediately
-    -   인스턴스가 Pending 상태에서 Terminated 상태로 즉시 변경되는 오류
-    -   이유는 아래와 같다.
-        -   인스턴스에는 할당할 수 있는 EBS 최대 개수가 있다. EBS 볼륨 제한을 초과했을 경우.
-        -   EBS 스냅샷이 손상되었을 때
-        -   루트 볼륨이 암호화되어 있을 경우 암호 해독을 위해 KMS 키에 액세스할 수 있어야 하는데 액세스 권한이 없을 때.
-        -   인스턴스 스토어 지원 AMI에 image.part.xx file과 같은 필수적인 부분이 누락되어 있을 때
+
+- InsufficientInstanceCapacity
+  - 리전 내에서 생성할 수 있는 최대 수치의 vCPU는 정해져있다. 예를 들어 최대 수치가 64로 되어 있다고 할 때 16 vCPU의 인스턴스를 5개 올리고 싶다면 16\*5=80 이어서 최대 vCPU를 넘게 된다. 이 경우 해당 에러가 발생한다.
+  - 또한 최대 수치를 조정했다고 하더라도 AWS 내에서 AZ에 64GB가 준비되지 않을 수도 있다.
+  - 해결 법은 아래와 같다.
+    - 몇분 기다렸다가 다시 Request
+    - 한 번에 적은 인스턴스를 요청해보기 5개의 인스턴스를 1개씩 5번 시작
+    - 다른 인스턴스 형식을 요청했다가 원하는 인스턴스 유형으로 스케일 업
+    - Service Qoutas에 대한 Request
+- Instance terminates immediately
+  - 인스턴스가 Pending 상태에서 Terminated 상태로 즉시 변경되는 오류
+  - 이유는 아래와 같다.
+    - 인스턴스에는 할당할 수 있는 EBS 최대 개수가 있다. EBS 볼륨 제한을 초과했을 경우.
+    - EBS 스냅샷이 손상되었을 때
+    - 루트 볼륨이 암호화되어 있을 경우 암호 해독을 위해 KMS 키에 액세스할 수 있어야 하는데 액세스 권한이 없을 때.
+    - 인스턴스 스토어 지원 AMI에 image.part.xx file과 같은 필수적인 부분이 누락되어 있을 때
 
 ## Troubleshooting EC2 SSH Issues
 
 ### **Troubleshooting**
--   pem 키에 400 퍼미션이 아니라면 Unprotected private key file이라는 error가 발생하게 된다.
--   ssh 접속을 할 때 username이 맞지 않다면 "Host key not found", "Permission denied", "Connection closed by [instance] port 22" error가 발생하게 된다.
--   "Connection timed out" error 가 발생하게 되면 네트워크 오류이다.
-    -   Security Group이 올바르게 되어있지 않은 경우
-    -   NACL이 올바르게 되어있지 않은 경우
-    -   Route table이나 subnet 문제 
-    -   인스턴스가 Public IPv4 주소를 가지고 있지 않은 경우
-    -   서버가 심각한 부하 상태여서 CPU가 100% 인 경우
+
+- pem 키에 400 퍼미션이 아니라면 Unprotected private key file이라는 error가 발생하게 된다.
+- ssh 접속을 할 때 username이 맞지 않다면 "Host key not found", "Permission denied", "Connection closed by [instance] port 22" error가 발생하게 된다.
+- "Connection timed out" error 가 발생하게 되면 네트워크 오류이다.
+  - Security Group이 올바르게 되어있지 않은 경우
+  - NACL이 올바르게 되어있지 않은 경우
+  - Route table이나 subnet 문제
+  - 인스턴스가 Public IPv4 주소를 가지고 있지 않은 경우
+  - 서버가 심각한 부하 상태여서 CPU가 100% 인 경우
 
 ### **SSH vs. EC2 Instance Connect**
--   SSH를 사용해 인스턴스에 연결하는 경우
-    -   인바운드 룰에 맞는 host ip가 제대로 SG에 등록 되어 있는지
--   EC2 Instance Connect를 사용하는 경우
-    -   SG에 [AWS IP Range](https://ip-ranges.amazonaws.com/ip-ranges.json)를 허용 했는지
+
+- SSH를 사용해 인스턴스에 연결하는 경우
+  - 인바운드 룰에 맞는 host ip가 제대로 SG에 등록 되어 있는지
+- EC2 Instance Connect를 사용하는 경우
+  - SG에 [AWS IP Range](https://ip-ranges.amazonaws.com/ip-ranges.json)를 허용 했는지
 
 **정리**
--   Troubleshooting
-    -   pem 키에 퍼미션이 400이 아니라면 "Unprotected private key file"이라는 에러가 발생하게 된다.
-    -   ssh 접속할 때 username이 맞지 않다면 "Host key not found", "Permission denied", "Connection closed by [instance] port 22" 에러가 발생하게 된다.
-    -   "Connection imed out" 에러가 발생하게 되면 네트워크 오류
-        -   Security group 문제
-        -   NACL 문제
-        -   Route table 또는 subnet 문제
-        -   서버가 심각한 부하 상태여서 CPU가 100%인 경우
 
+- Troubleshooting
+  - pem 키에 퍼미션이 400이 아니라면 "Unprotected private key file"이라는 에러가 발생하게 된다.
+  - ssh 접속할 때 username이 맞지 않다면 "Host key not found", "Permission denied", "Connection closed by [instance] port 22" 에러가 발생하게 된다.
+  - "Connection imed out" 에러가 발생하게 되면 네트워크 오류
+    - Security group 문제
+    - NACL 문제
+    - Route table 또는 subnet 문제
+    - 서버가 심각한 부하 상태여서 CPU가 100%인 경우
 
 ## [CCP/SAA/DVA] EC2 Instance Purchasing Options
+
 ### **인스턴스 구매 옵션**
--   On-Demand Instance
-    -   short workload, 예측 가능한 요금, 초 단위 비용 부과
--   Reserved (1 & 3 Year)
-    -   Reserved Instances : long workload
-    -   Convertible Reserved Instances : long workload, 어느정도 시간이 지난 후 인스턴스 유형을 변경할 경우 사용되는. 인스턴스 유형을 변경할 수 있는 Reserved Instances
--   Savings Plans (1 & 3 Year)
-    -   특정 인스턴스 유형에 커밋하는 대신 특정 양의 사용량에 커밋해서 더욱 현대적이다.
-    -   long workload
--   Spot instance
-    -   짧은 워크로드에 적합함.
-    -   언제든지 이 인스턴스를 잃을 수 있지만 가격이 굉장히 쌈
--   Dedicated Hosts
-    -   전체 물리 서버를 예약하고 인스턴스 배치(Placement)를 조정 가능하다.
--   Dedicated Instances (전용 인스턴스)
-    -   다른 고객에게 내가 사용하고자 하는 인스턴스의 하드웨어를 사용하게 하지 않는
--   Capacity Reservations (용량 예약)
-    -   특정 AZ의 용량을 일정 시간동안 예약하는
+
+- On-Demand Instance
+  - short workload, 예측 가능한 요금, 초 단위 비용 부과
+- Reserved (1 & 3 Year)
+  - Reserved Instances : long workload
+  - Convertible Reserved Instances : long workload, 어느정도 시간이 지난 후 인스턴스 유형을 변경할 경우 사용되는. 인스턴스 유형을 변경할 수 있는 Reserved Instances
+- Savings Plans (1 & 3 Year)
+  - 특정 인스턴스 유형에 커밋하는 대신 특정 양의 사용량에 커밋해서 더욱 현대적이다.
+  - long workload
+- Spot instance
+  - 짧은 워크로드에 적합함.
+  - 언제든지 이 인스턴스를 잃을 수 있지만 가격이 굉장히 쌈
+- Dedicated Hosts
+  - 전체 물리 서버를 예약하고 인스턴스 배치(Placement)를 조정 가능하다.
+- Dedicated Instances (전용 인스턴스)
+  - 다른 고객에게 내가 사용하고자 하는 인스턴스의 하드웨어를 사용하게 하지 않는
+- Capacity Reservations (용량 예약)
+  - 특정 AZ의 용량을 일정 시간동안 예약하는
 
 ### **EC2 On Demand**
--   Linux 나 Windows 인스턴스를 사용하게 되면 1분 후 초 단위 비용 과금이 되게 된다. 다른 OS의 경우 시간 단위 비용 과금이 된다.
--   원가는 제일 높지만 선급도 없고 장기적인 계약도 없다.
--   단기적이고 방해받지 않는 작업에 추천됨. 응용 프로그램이 어떻게 작동할지 예측할 수 없는 곳에 사용됨.
+
+- Linux 나 Windows 인스턴스를 사용하게 되면 1분 후 초 단위 비용 과금이 되게 된다. 다른 OS의 경우 시간 단위 비용 과금이 된다.
+- 원가는 제일 높지만 선급도 없고 장기적인 계약도 없다.
+- 단기적이고 방해받지 않는 작업에 추천됨. 응용 프로그램이 어떻게 작동할지 예측할 수 없는 곳에 사용됨.
 
 ### **Reserved Instances**
--   온디맨드에 비해서 72% 정도 할인이 된다.
--   Instance Type(예:m4.large), Region, Tenancy, OS 등의 인스턴스 속성을 예약한다.
--   더 많은 할인을 받기 위해 1년이나 3년의 예약 기간을 명시하고 선결제 없음(No Upfront), 부분 선결제(partial Upfront), 전체 선결제(All Upfront)를 정해야한다.
--   범위 측면에서는 Regional 이거나 Zonal을 선택해야 한다. Zonal로 선택하게 되면 특정 Zone에 reserve 할 수 있고 조건이 맞을 시 할인이 됨
--   예약 인스턴스는 DB와 같이 꾸준히 사용되는 응용 프로그램에 추천된다.
--   예약 인스턴스를 Reserved Instance Marketplace에서 사거나 팔 수 있다.
+
+- 온디맨드에 비해서 72% 정도 할인이 된다.
+- Instance Type(예:m4.large), Region, Tenancy, OS 등의 인스턴스 속성을 예약한다.
+- 더 많은 할인을 받기 위해 1년이나 3년의 예약 기간을 명시하고 선결제 없음(No Upfront), 부분 선결제(partial Upfront), 전체 선결제(All Upfront)를 정해야한다.
+- 범위 측면에서는 Regional 이거나 Zonal을 선택해야 한다. Zonal로 선택하게 되면 특정 Zone에 reserve 할 수 있고 조건이 맞을 시 할인이 됨
+- 예약 인스턴스는 DB와 같이 꾸준히 사용되는 응용 프로그램에 추천된다.
+- 예약 인스턴스를 Reserved Instance Marketplace에서 사거나 팔 수 있다.
 
 ### **Convertible Reserved Instance**
--   전환형 예약 인스턴스의 경우 EC2 instance type, instance family, OS, scope(Regional or zonal), tenancy를 변경할 수 있다.
--   더 많은 유연성을 가질 수 있어서 할인을 조금 덜 받을 수 있다. 66%
+
+- 전환형 예약 인스턴스의 경우 EC2 instance type, instance family, OS, scope(Regional or zonal), tenancy를 변경할 수 있다.
+- 더 많은 유연성을 가질 수 있어서 할인을 조금 덜 받을 수 있다. 66%
 
 ### **EC2 Savings Plans**
--   장기 사용량에 따라 할인을 받을 수 있도록 해준다. 예약 인스턴스와 같은 72% 임.
--   특정 Family에 대한 사용량을 기준으로 약정. 예를 들면 10$/hour로 1년 또는 3년 약정을 걸 수 있다.
--   Savings Plan로 약정을 건 외의 사용량은 On-demand 가격으로 청구된다.
--   특정 인스턴스 패밀리에 묶이게 된다. 예를 들어 us-east-1에 M5 타입의 인스턴스를 넣는다고 가정할 때 M5.xlarge 또는 M5.2xlarge 등 가능하다.
--   이외에 유연한 항목들은 Instance size, OS, Tenancy 가 있다.
+
+- 장기 사용량에 따라 할인을 받을 수 있도록 해준다. 예약 인스턴스와 같은 72% 임.
+- 특정 Family에 대한 사용량을 기준으로 약정. 예를 들면 10$/hour로 1년 또는 3년 약정을 걸 수 있다.
+- Savings Plan로 약정을 건 외의 사용량은 On-demand 가격으로 청구된다.
+- 특정 인스턴스 패밀리에 묶이게 된다. 예를 들어 us-east-1에 M5 타입의 인스턴스를 넣는다고 가정할 때 M5.xlarge 또는 M5.2xlarge 등 가능하다.
+- 이외에 유연한 항목들은 Instance size, OS, Tenancy 가 있다.
 
 ### **Spot Instance**
--   온디맨드에 비해서 90%의 할인율을 자랑한다.
--   max price가 spot price 보다 작아지면 인스턴스는 중지 과정에 들어간다.
--   AWS에서 가장 비용 효율적인 인스턴스이다.
--   실패해도 크게 문제가 없는 workload에서 유용하게 사용될 것이다. 예를 들면 batch 작업이나, 데이터 분석, 이미지 프로세싱 등 모든 종류의 분산된 작업
--   그래서 데이터베이스나 종료되면 안되는 작업에는 적합하지 않다.
+
+- 온디맨드에 비해서 90%의 할인율을 자랑한다.
+- max price가 spot price 보다 작아지면 인스턴스는 중지 과정에 들어간다.
+- AWS에서 가장 비용 효율적인 인스턴스이다.
+- 실패해도 크게 문제가 없는 workload에서 유용하게 사용될 것이다. 예를 들면 batch 작업이나, 데이터 분석, 이미지 프로세싱 등 모든 종류의 분산된 작업
+- 그래서 데이터베이스나 종료되면 안되는 작업에는 적합하지 않다.
 
 ### **Dedicated Hosts**
--   물리적 서버와 EC2 인스턴스 용량을 확보해 실제 사용에 전념할 수 있다.
--   규정 요건을 준수하고 기존 서버 바운드 소프트웨어 라이센스를 사용할 수 있도록 허용한다. (소켓 당, 코어 당, VM 당 소프트웨어 라이센스)
--   요금의 경우 아래와 같다.
-    -   온디맨드 : 1초당 요금 부과
-    -   Reserved : 1 or 3 year (선결제 없음, 부분 선결제, 전체 선결제)
--   가장 비싼 Instance 옵션
--   사용 사례는 라이선스 모델이 있는 소프트웨어가 있을 때. (BYOL) , 규제 및 준수 요구가 강한 회사의 경우
+
+- 물리적 서버와 EC2 인스턴스 용량을 확보해 실제 사용에 전념할 수 있다.
+- 규정 요건을 준수하고 기존 서버 바운드 소프트웨어 라이센스를 사용할 수 있도록 허용한다. (소켓 당, 코어 당, VM 당 소프트웨어 라이센스)
+- 요금의 경우 아래와 같다.
+  - 온디맨드 : 1초당 요금 부과
+  - Reserved : 1 or 3 year (선결제 없음, 부분 선결제, 전체 선결제)
+- 가장 비싼 Instance 옵션
+- 사용 사례는 라이선스 모델이 있는 소프트웨어가 있을 때. (BYOL) , 규제 및 준수 요구가 강한 회사의 경우
 
 ### **Dedicated Instances**
--   인스턴스는 내 전용으로 할당된 하드웨어에서 실행된다. 동일 계정 내의 다른 인스턴스와 하드웨어를 공유할수도 있다.
--   인스턴스 배치에 대한 제어는 할 수 없다.
--   전용 인스턴스는 자체 하드웨어에서 실행되는 것을 의미하며, 전용 호스트는 물리적 서버에 직접 액세스 해 low-level의 하드웨어를 확인할 수 있다.
+
+- 인스턴스는 내 전용으로 할당된 하드웨어에서 실행된다. 동일 계정 내의 다른 인스턴스와 하드웨어를 공유할수도 있다.
+- 인스턴스 배치에 대한 제어는 할 수 없다.
+- 전용 인스턴스는 자체 하드웨어에서 실행되는 것을 의미하며, 전용 호스트는 물리적 서버에 직접 액세스 해 low-level의 하드웨어를 확인할 수 있다.
 
 ### **EC2 Capacity Reservations**
--   특정 AZ에 온디맨드 인스턴스를 일시적으로 예약할 수 있다. 예약 후에는 예약한 용량에 한해서 언제든지 액세스할 수 있다.
--   유일한 기능은 용량을 예약하는 것이기 때문에 요금이 할인되지는 않는다. 할인을 받으려면 Zonal RI나 SP와 결합해야한다.
--   인스턴스를 실행하던 실행하지 않던 온디맨드 요금이 청구된다.
--   이것은 특정 가용 영역에 필요한 단기의 작업에 적합하다.
+
+- 특정 AZ에 온디맨드 인스턴스를 일시적으로 예약할 수 있다. 예약 후에는 예약한 용량에 한해서 언제든지 액세스할 수 있다.
+- 유일한 기능은 용량을 예약하는 것이기 때문에 요금이 할인되지는 않는다. 할인을 받으려면 Zonal RI나 SP와 결합해야한다.
+- 인스턴스를 실행하던 실행하지 않던 온디맨드 요금이 청구된다.
+- 이것은 특정 가용 영역에 필요한 단기의 작업에 적합하다.
 
 **정리**
--   예를 들어 설명해보자
--   온디맨드는 리조트에 언제든지 들어가고 싶을 때마다 금액을 전액 지불해 시간제로 방을 사용할 수 있는 것과 같다.
--   Reserved Instance의 경우 미리 계획을 세우고 리조트에 1,3 년 동안 머물 생각이 확실항 때 사용한다.
--   Savings Plan의 경우 리조트에서 특정 금액을 지출할 것을 정확히 알고있을 때
--   Spot Instance의 경우 리조트가 빈 방이 있어서 사람들을 유치하려고 파격 세일을 하는 것과 같다. 근데 문제는 내가 지불한 금액보다 더 많이 지불하려하는 다른 사람이 있을 때 언제든지 방을 비워줘야한다.
--   Dedicated Instances 는 리조트 한 층을 예약하는 것과 같다.
--   Dedicated Host는 리조트 건물 전체를 예약하는 것과 같다.
--   Capacity Reservations는 내가 방을 예약할건데 언제 머물지 확실하지는 않지만 언제든지 머물수 있도록하는 것과 같다.
--   On-Demand
-    -   Linux나 Window의 경우 1분 후 1초 단위의 비용 과금이 된다. 다른 OS의 경우 시간 단위 비용 과금이 된다.
-    -   단기적이나 방해받지 않는 작업에 추천된다. 응용 프로그램이 어떻게 작동할 지 예측할 수 없는 곳에 사용된다.
--   Reserved Instance
-    -   온디맨드 대비 72%의 할인이 된다. 할인을 받기 위해 1년 또는 3년의 약정 기간을 명시하고 선결제 없음(No Upfront)/부분 선결제(Partial Upfront)/전체 선결제(All Upfront) 등의 결제 방식을 정해야한다.
-    -   범위 측면에서는 Regional 이나 Zonal을 선택해야한다. Zonal의 경우 특정 Zone에 예약되며 조건이 맞을 시 할인이 된다.
-    -   Instance type(예:m5.large), Region, Tenancy, OS 등의 인스턴스 속성을 선택해야한다.
-    -   예약 인스턴스는 DB와 같이 변동 없이 꾸준히 사용되는 응용 프로그램에 추천된다.
-    -   예약 인스턴스는 Marketplace에서 사거나 팔수 있다.
--   Convertible Reserved Instance
-    -   Reserved Instance와는 다르게 Instance type, Instance Family, OS, Scpoe, tenancy 등의 속성을 변경할 수 있다.
-    -   더 많은 유연성을 가질 수 있어서 Reserved 보다는 할인이 덜 적용된다. (66%)
--   EC2 Savings Plan
-    -   사용량에 따라 할인을 받을 수 있게 해준다. 예를들어 10$/hour로 1년 또는 3년 약정을 걸 수 있다.
-    -   특정 인스턴스 Family에 약정된다. 예를 들어 M5 타입의 인스턴스에 약정되면 M5.large 또는 M5.midium 등 할인이 적용된다.
-    -   Savings Plan으로 약정을 걸고 약정된 사용량을 넘어선 사용량은 On-Demand 가격으로 청구된다.
-    -   Instance Size, OS, Tenancy는 변경이 가능하다.
--   Dedicated Instances
-    -   하드웨어가 내 계정에 할당되어 동일 계정 내의 인스턴스만 해당 하드웨어에 할당되어 사용하는 옵션이다.
-    -   인스턴스 배치에 대한 가시성이나 하드웨어 제어 기능을 제공하지 않고, 전용 인스턴스를 중지했다가 다시 실행하면 동일한 호스트에서 실행되지 않을 수도 있다.
-    -   BYOL의 제한적 지원을 제공한다.
--   Dedicated Hosts
-    -   물리적 서버를 구매하는 것과 동일하다고 생각하면 된다.
-    -   가장 비싼 옵션
-    -   사용 사례는 라이센스 모델이 있는 소프트웨어가 있을 때(BYOL), 규제 및 준수 요구가 강한 회사의 경우
--   Capacity Reservations
-    -   특정 AZ에 온디맨드 인스턴스 용량을 일정 기간 예약할 수 있다. 용량을 확보하지 못할 위험을 줄일 수 있다.
-    -   유일한 기능은 용량을 예약하느 것이기 때문에 요금이 할인되지는 않는다. 할인받기 위해서는 Zonal RI나 SP와 결합해야한다.
-    -   인스턴스를 실행하던 실행하지 않던 온디맨드 요금이 청구된다.
-    -   특정 가용 영역에 필요한 단기의 작업에 적합하다.
+
+- 예를 들어 설명해보자
+- 온디맨드는 리조트에 언제든지 들어가고 싶을 때마다 금액을 전액 지불해 시간제로 방을 사용할 수 있는 것과 같다.
+- Reserved Instance의 경우 미리 계획을 세우고 리조트에 1,3 년 동안 머물 생각이 확실항 때 사용한다.
+- Savings Plan의 경우 리조트에서 특정 금액을 지출할 것을 정확히 알고있을 때
+- Spot Instance의 경우 리조트가 빈 방이 있어서 사람들을 유치하려고 파격 세일을 하는 것과 같다. 근데 문제는 내가 지불한 금액보다 더 많이 지불하려하는 다른 사람이 있을 때 언제든지 방을 비워줘야한다.
+- Dedicated Instances 는 리조트 한 층을 예약하는 것과 같다.
+- Dedicated Host는 리조트 건물 전체를 예약하는 것과 같다.
+- Capacity Reservations는 내가 방을 예약할건데 언제 머물지 확실하지는 않지만 언제든지 머물수 있도록하는 것과 같다.
+- On-Demand
+  - Linux나 Window의 경우 1분 후 1초 단위의 비용 과금이 된다. 다른 OS의 경우 시간 단위 비용 과금이 된다.
+  - 단기적이나 방해받지 않는 작업에 추천된다. 응용 프로그램이 어떻게 작동할 지 예측할 수 없는 곳에 사용된다.
+- Reserved Instance
+  - 온디맨드 대비 72%의 할인이 된다. 할인을 받기 위해 1년 또는 3년의 약정 기간을 명시하고 선결제 없음(No Upfront)/부분 선결제(Partial Upfront)/전체 선결제(All Upfront) 등의 결제 방식을 정해야한다.
+  - 범위 측면에서는 Regional 이나 Zonal을 선택해야한다. Zonal의 경우 특정 Zone에 예약되며 조건이 맞을 시 할인이 된다.
+  - Instance type(예:m5.large), Region, Tenancy, OS 등의 인스턴스 속성을 선택해야한다.
+  - 예약 인스턴스는 DB와 같이 변동 없이 꾸준히 사용되는 응용 프로그램에 추천된다.
+  - 예약 인스턴스는 Marketplace에서 사거나 팔수 있다.
+- Convertible Reserved Instance
+  - Reserved Instance와는 다르게 Instance type, Instance Family, OS, Scpoe, tenancy 등의 속성을 변경할 수 있다.
+  - 더 많은 유연성을 가질 수 있어서 Reserved 보다는 할인이 덜 적용된다. (66%)
+- EC2 Savings Plan
+  - 사용량에 따라 할인을 받을 수 있게 해준다. 예를들어 10$/hour로 1년 또는 3년 약정을 걸 수 있다.
+  - 특정 인스턴스 Family에 약정된다. 예를 들어 M5 타입의 인스턴스에 약정되면 M5.large 또는 M5.midium 등 할인이 적용된다.
+  - Savings Plan으로 약정을 걸고 약정된 사용량을 넘어선 사용량은 On-Demand 가격으로 청구된다.
+  - Instance Size, OS, Tenancy는 변경이 가능하다.
+- Dedicated Instances
+  - 하드웨어가 내 계정에 할당되어 동일 계정 내의 인스턴스만 해당 하드웨어에 할당되어 사용하는 옵션이다.
+  - 인스턴스 배치에 대한 가시성이나 하드웨어 제어 기능을 제공하지 않고, 전용 인스턴스를 중지했다가 다시 실행하면 동일한 호스트에서 실행되지 않을 수도 있다.
+  - BYOL의 제한적 지원을 제공한다.
+- Dedicated Hosts
+  - 물리적 서버를 구매하는 것과 동일하다고 생각하면 된다.
+  - 가장 비싼 옵션
+  - 사용 사례는 라이센스 모델이 있는 소프트웨어가 있을 때(BYOL), 규제 및 준수 요구가 강한 회사의 경우
+- Capacity Reservations
+  - 특정 AZ에 온디맨드 인스턴스 용량을 일정 기간 예약할 수 있다. 용량을 확보하지 못할 위험을 줄일 수 있다.
+  - 유일한 기능은 용량을 예약하느 것이기 때문에 요금이 할인되지는 않는다. 할인받기 위해서는 Zonal RI나 SP와 결합해야한다.
+  - 인스턴스를 실행하던 실행하지 않던 온디맨드 요금이 청구된다.
+  - 특정 가용 영역에 필요한 단기의 작업에 적합하다.
 
 ## **[SAA] Spot Instances & Spot Fleet**
+
 ### 스팟 인스턴스
+
 온디맨드 가격보다 저렴한 비용으로 제공되는 예비 EC2 용량을 사용하는 인스턴스
 
 스팟 인스턴스는 온디맨드 대비 최대 90% 할인을 받을 수 있다.
@@ -559,6 +587,7 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 워크로드 유형에 따라 두 가지 전략이 있지만 2분의 유예 기간이 주어진다.
 
 ### 스팟 블록
+
 AWS에서 스팟 인스턴스를 회수하기를 원하지 않는다면 스팟 블록을 사용하면 된다.
 스팟 블록은 정의된 기간 동안 용량을 예약하여 인스턴스가 지정된 기간 동안 실행되도록 하는 것이다.
 BlockDuration 매개변수를 사용해 인스턴스를 실행할 시간과 지불할 최대 가격을 지정하기만 하면된다.
@@ -568,7 +597,7 @@ BlockDuration 매개변수를 사용해 인스턴스를 실행할 시간과 지�
 
 스팟 인스턴스는 주로 배치 작업, 데이터 분석, 장애에 견딜 수 있는 작업에 사용된다. 그리고 중요한 작업이나 데이터베이스에는 적합하지 않는다.
 
-***중요 : 스팟 블록은 Deprecated 되었음***
+**_중요 : 스팟 블록은 Deprecated 되었음_**
 
 **스팟 인스턴스 가격**
 특정 Region에 대해 특정 가용 영역에 해당하는 스팟 가격이 있다. 스팟 가격은 고려 중인 가용 영역에 따라 다양하다.
@@ -577,12 +606,13 @@ BlockDuration 매개변수를 사용해 인스턴스를 실행할 시간과 지�
 스팟 request를 고려 해봐야한다. spot request에서는 원하는 인스턴스 수, 지불할 최대 가격, 런치 사양(AMI 등) 및 요청의 유효기간(valid to)과 두 가지 요청 유형 중 하나를 선택한다.
 
 요청 유형은 두 가지이다.
--   일회성(One-time)
-    -   일회성 요청의 경우 스팟 요청이 충족되면 즉시 인스턴스가 시작되고 스팟 요청이 사라진다.
--   영구 요청(Persistent request)
-    -   영구 요청의 경우 특정 인스턴스 수가 스팟 요청의 valid 기간 내에서 유효할 때까지 요청이 계속 유효해야 한다.
-    -   따라서 어떤 이유로든 인스턴스가 스팟 가격에 따라 중지(Interruption)되거나 중단(Termination)되면 스팟 요청이 다시 활성화된다. 그리고 유효한 경우 다시 시작된다.
-    -   영구 요청에 경우 스팟 인스턴스를 중지하고 스팟 요청이 활성 상태인 경우 자동으로 인스턴스를 다시 시작한다.
+
+- 일회성(One-time)
+  - 일회성 요청의 경우 스팟 요청이 충족되면 즉시 인스턴스가 시작되고 스팟 요청이 사라진다.
+- 영구 요청(Persistent request)
+  - 영구 요청의 경우 특정 인스턴스 수가 스팟 요청의 valid 기간 내에서 유효할 때까지 요청이 계속 유효해야 한다.
+  - 따라서 어떤 이유로든 인스턴스가 스팟 가격에 따라 중지(Interruption)되거나 중단(Termination)되면 스팟 요청이 다시 활성화된다. 그리고 유효한 경우 다시 시작된다.
+  - 영구 요청에 경우 스팟 인스턴스를 중지하고 스팟 요청이 활성 상태인 경우 자동으로 인스턴스를 다시 시작한다.
 
 스팟 요청을 취소하려면 open state, active state, disabled state 상태여야 한다.
 
@@ -591,36 +621,40 @@ BlockDuration 매개변수를 사용해 인스턴스를 실행할 시간과 지�
 https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/spot-requests.html
 
 ### 스팟 플릿 (강의 번역이 부실하여 강의 내용 기반 따로 정리함)
+
 스팟 플릿은 사용자가 지정한 기준에 따라 시작되는 스팟 인스턴스의 집합이며 온디맨드 인스턴스도 선택적으로 집합을 구성할수 있다.
 
 스팟 플릿은 사용자의 요구 사항을 충족하는 스팟 용량 풀을 선택하고 플릿에 대한 목표 용량을 충족하는 스팟 인스턴스를 시작한다.
-* 스팟 용량 풀은 인스턴스 유형, 운영 체제, 가용 영역, 네트워크 플랫폼(EC2-Classic 또는 EC2-VPC)이 동일한 미사용 EC2 인스턴스의 집합입니다. 각 스팟 용량 풀은 수요와 공급에 따라 가격이 달라질 수 있습니다.
+
+- 스팟 용량 풀은 인스턴스 유형, 운영 체제, 가용 영역, 네트워크 플랫폼(EC2-Classic 또는 EC2-VPC)이 동일한 미사용 EC2 인스턴스의 집합입니다. 각 스팟 용량 풀은 수요와 공급에 따라 가격이 달라질 수 있습니다.
 
 기본적으로 스팟 플릿은 스팟 인스턴스가 종료된 후 대체 인스턴스를 시작하여 target capacity를 유지하도록 설정되어 있다. 스팟 플릿 인스턴스가 종료된 후에 유지되지 않는 일회성 request로 제출할 수도 있다. 스팟 플릿 request에 온디맨드 인스턴스 요청을 포함할 수 있다.
 
 요청 유형
--   request
-    -   스팟 플릿이 원하는 용량을 얻기 위한 비동기식 일회성 요청을 한다.
-    -   그 뒤에 스팟 중단으로 용량이 감소하게되면 인스턴스를 보충하려고 하지 않으며, 용량을 사용할 수 없는 경우 대체 스팟 용량에서 요청을 제출하지 않는다.
--   maintain
-    -   스팟 플릿은 원하는 용량을 얻기 위한 비동기식 요청을 하고 중단된 모든 스팟 인스턴스를 자동으로 보충해 용량을 유지한다.
--   콘솔에서 유형을 지정하려면 Maintain target capacity 확인란을 선택/취소하면 된다.
+
+- request
+  - 스팟 플릿이 원하는 용량을 얻기 위한 비동기식 일회성 요청을 한다.
+  - 그 뒤에 스팟 중단으로 용량이 감소하게되면 인스턴스를 보충하려고 하지 않으며, 용량을 사용할 수 없는 경우 대체 스팟 용량에서 요청을 제출하지 않는다.
+- maintain
+  - 스팟 플릿은 원하는 용량을 얻기 위한 비동기식 요청을 하고 중단된 모든 스팟 인스턴스를 자동으로 보충해 용량을 유지한다.
+- 콘솔에서 유형을 지정하려면 Maintain target capacity 확인란을 선택/취소하면 된다.
 
 launch configuration은 스팟 플릿이 스팟 인스턴스를 시작할 수 있는 모든 스팟 용량 풀(인스턴스 유형, 가용 영역)을 결정한다. 하지만 인스턴스를 시작할 때 스팟 플릿은 지정한 할당 전략을 사용하여 가능한 풀에서 특정 풀을 선택합니다.
 
 스팟 인스턴스 할당 전략
--   priceCapacityOptimized(권장)
-    -   스팟 플릿은 시작하는 인스턴스의 수에 맞추어 용량 가용성이 가장 높은 풀을 가져온다. 즉, 가까운 시일 내에 중단될 가능성이 가장 낮다고 판단되는 풀에서 스팟 인스턴스를 요청. 그러면 스팟 플릿이 해당 풀에서 가장 가격이 낮은 스팟 인스턴스를 요청한다.
--   capacityOptimized
-    -   시작하는 인스턴스의 수에 맞추어 용량 가용성이 가장 높은 풀을 가져온다.
-    -   즉, 가까운 시일 내에 중단될 가능성이 가장 낮다고 판단되는 풀에서 스팟 인스턴스를 요청.
-    -   선택적으로 capacityOptimizedPrioritized를 사용하여 플릿의 각 인스턴스 유형에 대해 우선 순위를 설정할 수 있음
--   diversified
-    -   스팟 인스턴스는 모든 풀에 두루 분산
--   lowestPrice
-    -   스팟 인스턴스는 용량이 있는 최저 가격 풀에서 제공. 매우 짧은 워크 로드의 경우 좋은 옵션
-    -   인스턴스 가격만 고려하고 용량 가용성은 고려하지 않기 때문에 중단률이 높아질 수 있다.
--   InstancePoolsToUseCount : 스팟 플릿에서 가격이 가장 낮은 스팟 풀을 선택하고 지정한 스팟 풀 수에 걸쳐 대상 스팟 용량을 균등하게 할당
+
+- priceCapacityOptimized(권장)
+  - 스팟 플릿은 시작하는 인스턴스의 수에 맞추어 용량 가용성이 가장 높은 풀을 가져온다. 즉, 가까운 시일 내에 중단될 가능성이 가장 낮다고 판단되는 풀에서 스팟 인스턴스를 요청. 그러면 스팟 플릿이 해당 풀에서 가장 가격이 낮은 스팟 인스턴스를 요청한다.
+- capacityOptimized
+  - 시작하는 인스턴스의 수에 맞추어 용량 가용성이 가장 높은 풀을 가져온다.
+  - 즉, 가까운 시일 내에 중단될 가능성이 가장 낮다고 판단되는 풀에서 스팟 인스턴스를 요청.
+  - 선택적으로 capacityOptimizedPrioritized를 사용하여 플릿의 각 인스턴스 유형에 대해 우선 순위를 설정할 수 있음
+- diversified
+  - 스팟 인스턴스는 모든 풀에 두루 분산
+- lowestPrice
+  - 스팟 인스턴스는 용량이 있는 최저 가격 풀에서 제공. 매우 짧은 워크 로드의 경우 좋은 옵션
+  - 인스턴스 가격만 고려하고 용량 가용성은 고려하지 않기 때문에 중단률이 높아질 수 있다.
+- InstancePoolsToUseCount : 스팟 플릿에서 가격이 가장 낮은 스팟 풀을 선택하고 지정한 스팟 풀 수에 걸쳐 대상 스팟 용량을 균등하게 할당
 
 기억해야할 점은 스팟 플릿을 사용하여 여러 launch pool과 여러 인스턴스 유형을 정의할 수 있다는 것
 
@@ -630,53 +664,55 @@ launch configuration은 스팟 플릿이 스팟 인스턴스를 시작할 수 �
 간단히 스팟 플릿을 요청하는 것과 스팟 플릿을 사용해 `내가 원하는 인스턴스 유형과 원하는 가용 영역을 정확히 알고 있고, 어떤 풀에서 최저 가격을 제공하더라도, 모든 인스턴스 유형과 모든 가용 영역 중에서 선택할 수 있도록 하겠습니다` 라고 말하는 것의 차이를 이해해야 한다.
 
 **스팟 용량 풀**
--   스팟 용량 풀은 동일한 인스턴스 유형(예: m5.large), 운영 체제, 가용 영역 및 네트워크 플랫폼을 가지는 미사용 EC2 인스턴스의 세트입니다. 스팟 플릿 요청을 할 때 인스턴스 유형, AMI, 가용 영역 또는 서브넷에 따라 바뀌는 여러 시작 사양을 포함할 수 있습니다. 스팟 플릿은 요청에 포함된 시작 사양과 스팟 플릿 요청의 구성을 기반으로 스팟 플릿 요청을 이행하는 데 사용되는 스팟 용량 풀을 선택합니다. 스팟 인스턴스는 선택한 풀에서 가져옵니다.
+
+- 스팟 용량 풀은 동일한 인스턴스 유형(예: m5.large), 운영 체제, 가용 영역 및 네트워크 플랫폼을 가지는 미사용 EC2 인스턴스의 세트입니다. 스팟 플릿 요청을 할 때 인스턴스 유형, AMI, 가용 영역 또는 서브넷에 따라 바뀌는 여러 시작 사양을 포함할 수 있습니다. 스팟 플릿은 요청에 포함된 시작 사양과 스팟 플릿 요청의 구성을 기반으로 스팟 플릿 요청을 이행하는 데 사용되는 스팟 용량 풀을 선택합니다. 스팟 인스턴스는 선택한 풀에서 가져옵니다.
 
 **정리**
--   Spot Instance
-    -   스팟 인스턴스는 온디맨드 가격보다 저렴한 비용으로 제공되는 예비 EC2 용량을 사용하는 인스턴스
-    -   먼저 실행하고자 하는 스팟 인스턴스에 지불할 최대 스팟 가격을 지정하고, 인스턴스의 현재 스팟 가격이 우리가 지불하려는 최대 스팟 가격보다 미만이면 인스턴스를 유지한다.
-    -   현재 스팟 가격이 최대 가격을 초과하는 경우 두 가지 옵션이 있다.
-        1.   수행중인 모든 작업을 종료하고 인스턴스를 중지(Interruption)하는 것. Interruption 된 상태에서 최대 스팟 가격 아래로 내려간다면 인스턴스를 다시 시작하고 이전에 남은 작업을 계속할 수 있다.
-        2.   EC2 인스턴스를 종료(Terminate)하고 작업을 다시 시작해야 하는 경우 새로운 EC2 인스턴스로 시작.
-        -   워크로드 유형에 따라 두 가지 전략이 있고 위 작업을 수행하기 전에 2분의 유예 기간이 주어진다.
-    -   스팟 인스턴스는 스팟 request에 따라 다르게 종료된다. request에는 원하는 인스턴스 수, 지불할 최대 가격, 런치 사양(AMI) 및 요청의 유효기간(valid to)(persistent의 경우)와 요청 유형이 있다.
-        -   요청 유형은 두가지 이다.
-        -   `일회성(One-time)` 요청의 경우 스팟 요청이 충족되면 인스턴스가 시작되고 스팟 요청이 사라진다.
-        -   `영구 요청(Persistent request)` 요청의 경우 특정 인스턴스 수가 스팟 요청의 valid to 기간까지 또는 취소될 때까지 요청이 계속 유효하다.
-        -   따라서 인스턴스가 중지되거나 중단되면 스팟 요청이 다시 활성화 돼 인스턴스 수를 보장해준다.
-    -   영구적으로 스팟 인스턴스를 종료하는 것은 AWS가 아닌 내 책임이다. 영구적으로 스팟 인스턴스를 종료하려면 스팟 요청을 취소한 후 스팟 인스턴스를 종료해야 한다. 그렇지 않으면 request를 계속 유지하기 위해서 인스턴스를 다시 실행할 것이기 때문
--   Spot Fleet
-    -   스팟 플릿은 사용자가 지정한 기준에 따라 시작되는 스팟 인스턴스의 집합이다. 선택적으로 스팟 인스턴스 외에 온디맨드 인스턴스도 구성 가능하다.
-    -   스팟 플릿은 사용자 요구 사항을 충족하는 스팟 용량 풀을 선택하고 플릿에 대한 목표 용량을 충족하는 스팟 인스턴스를 시작한다.
-    -   스팟 용량 풀: 스팟 용량 풀은 인스턴스 유형, 운영 체제, 가용 영역, 네트워크 플랫폼(EC2-Classic 또는 EC2-VPC)이 동일한 미사용 EC2 인스턴스의 집합입니다. 각 스팟 용량 풀은 수요와 공급에 따라 가격이 달라질 수 있습니다.
-    -   기본적으로 스팟 플릿은 target capacity를 유지하도록 설정 돼 있다. 스팟 인스턴스가 종료되어도 대체 인스턴스를 시작한다.
-    -   스팟 플릿 인스턴스가 종료된 후에 유지되지 않는 일회성 request로 제출할 수도 있다.
-    -   요청 유형은 request와 maintain이 있다.
-        -   request:
-        -   스팟 플릿이 원하는 용량을 얻기 위한 비동기식 일회성 요청을 한다.
-        -   그 뒤 스팟 중단으로 용량이 감소해도 인스턴스를 보충하지 않고, 용량을 사용할 수 없는 경우에도 대체 스팟 용량에서 요청을 제출하지 않는다.
-        -   maintain: 
-        -   스팟 플릿은 원하는 용량을 얻기 위한 비동기식 요청을 하고 중단된 모든 스팟 인스턴스를 자동으로 보충해 용량을 유지한다.
-    -   요청 유형을 콘솔에서 지정하려면 Maintain target capacity 확인란을 선택/취소하면 된다.
-    -   할당 전략이 있다.
-        -   **priceCapacityOptimized(권장)**:
-        -   스팟 플릿은 시작하는 인스턴스의 수에 맞춰 용량 가용성이 가장 높은 풀을 가져온다.
-        -   가까운 시일 내에 중단될 가능성이 가장 낮다고 판단되는 풀에서 스팟 인스턴스를 요청하고, 해당 풀에서 가장 가격이 낮은 스팟 인스턴스를 요청한다.
-        -   **capacityOptimized**:
-        -   시작하는 인스턴스 수에 맞춰 용량 가용성이 가장 높은 풀을 가져온다.
-        -   가까운 시일 내에 중단될 가능성이 가장 낮다고 판단되는 풀에서 스팟 인스턴스를 요청
-        -   선택적으로 capacityOptimizedPrioritized를 사용해서 플릿의 각 인스턴스 유형에 대해 우선 순위를 설정할 수 있다.
-        -   **diversified**:
-        -   스팟 인스턴스를 모든 풀에 두루 분산
-        -   **lowestPrice**:
-        -   스팟 인스턴스를 용량이 있는 최저 가격 풀에서 제공, 매우 짧은 워크로드의 경우 좋은 옵션
-        -   인스턴스 가격만 고려하고 용량 가용성은 고려하지 않기 때문에 중단률이 높아질 수 있다.
-        -   **InstancePoolsToUseCount**: 
-        -   스팟 플릿에서 가격이 가장 낮은 스팟 풀을 선택하고 지정한 스팟 풀 수에 걸쳐 대상 스팟 용량을 균등하게 할당
 
+- Spot Instance
+  - 스팟 인스턴스는 온디맨드 가격보다 저렴한 비용으로 제공되는 예비 EC2 용량을 사용하는 인스턴스
+  - 먼저 실행하고자 하는 스팟 인스턴스에 지불할 최대 스팟 가격을 지정하고, 인스턴스의 현재 스팟 가격이 우리가 지불하려는 최대 스팟 가격보다 미만이면 인스턴스를 유지한다.
+  - 현재 스팟 가격이 최대 가격을 초과하는 경우 두 가지 옵션이 있다.
+    1.  수행중인 모든 작업을 종료하고 인스턴스를 중지(Interruption)하는 것. Interruption 된 상태에서 최대 스팟 가격 아래로 내려간다면 인스턴스를 다시 시작하고 이전에 남은 작업을 계속할 수 있다.
+    2.  EC2 인스턴스를 종료(Terminate)하고 작업을 다시 시작해야 하는 경우 새로운 EC2 인스턴스로 시작.
+    - 워크로드 유형에 따라 두 가지 전략이 있고 위 작업을 수행하기 전에 2분의 유예 기간이 주어진다.
+  - 스팟 인스턴스는 스팟 request에 따라 다르게 종료된다. request에는 원하는 인스턴스 수, 지불할 최대 가격, 런치 사양(AMI) 및 요청의 유효기간(valid to)(persistent의 경우)와 요청 유형이 있다.
+    - 요청 유형은 두가지 이다.
+    - `일회성(One-time)` 요청의 경우 스팟 요청이 충족되면 인스턴스가 시작되고 스팟 요청이 사라진다.
+    - `영구 요청(Persistent request)` 요청의 경우 특정 인스턴스 수가 스팟 요청의 valid to 기간까지 또는 취소될 때까지 요청이 계속 유효하다.
+    - 따라서 인스턴스가 중지되거나 중단되면 스팟 요청이 다시 활성화 돼 인스턴스 수를 보장해준다.
+  - 영구적으로 스팟 인스턴스를 종료하는 것은 AWS가 아닌 내 책임이다. 영구적으로 스팟 인스턴스를 종료하려면 스팟 요청을 취소한 후 스팟 인스턴스를 종료해야 한다. 그렇지 않으면 request를 계속 유지하기 위해서 인스턴스를 다시 실행할 것이기 때문
+- Spot Fleet
+  - 스팟 플릿은 사용자가 지정한 기준에 따라 시작되는 스팟 인스턴스의 집합이다. 선택적으로 스팟 인스턴스 외에 온디맨드 인스턴스도 구성 가능하다.
+  - 스팟 플릿은 사용자 요구 사항을 충족하는 스팟 용량 풀을 선택하고 플릿에 대한 목표 용량을 충족하는 스팟 인스턴스를 시작한다.
+  - 스팟 용량 풀: 스팟 용량 풀은 인스턴스 유형, 운영 체제, 가용 영역, 네트워크 플랫폼(EC2-Classic 또는 EC2-VPC)이 동일한 미사용 EC2 인스턴스의 집합입니다. 각 스팟 용량 풀은 수요와 공급에 따라 가격이 달라질 수 있습니다.
+  - 기본적으로 스팟 플릿은 target capacity를 유지하도록 설정 돼 있다. 스팟 인스턴스가 종료되어도 대체 인스턴스를 시작한다.
+  - 스팟 플릿 인스턴스가 종료된 후에 유지되지 않는 일회성 request로 제출할 수도 있다.
+  - 요청 유형은 request와 maintain이 있다.
+    - request:
+    - 스팟 플릿이 원하는 용량을 얻기 위한 비동기식 일회성 요청을 한다.
+    - 그 뒤 스팟 중단으로 용량이 감소해도 인스턴스를 보충하지 않고, 용량을 사용할 수 없는 경우에도 대체 스팟 용량에서 요청을 제출하지 않는다.
+    - maintain:
+    - 스팟 플릿은 원하는 용량을 얻기 위한 비동기식 요청을 하고 중단된 모든 스팟 인스턴스를 자동으로 보충해 용량을 유지한다.
+  - 요청 유형을 콘솔에서 지정하려면 Maintain target capacity 확인란을 선택/취소하면 된다.
+  - 할당 전략이 있다.
+    - **priceCapacityOptimized(권장)**:
+    - 스팟 플릿은 시작하는 인스턴스의 수에 맞춰 용량 가용성이 가장 높은 풀을 가져온다.
+    - 가까운 시일 내에 중단될 가능성이 가장 낮다고 판단되는 풀에서 스팟 인스턴스를 요청하고, 해당 풀에서 가장 가격이 낮은 스팟 인스턴스를 요청한다.
+    - **capacityOptimized**:
+    - 시작하는 인스턴스 수에 맞춰 용량 가용성이 가장 높은 풀을 가져온다.
+    - 가까운 시일 내에 중단될 가능성이 가장 낮다고 판단되는 풀에서 스팟 인스턴스를 요청
+    - 선택적으로 capacityOptimizedPrioritized를 사용해서 플릿의 각 인스턴스 유형에 대해 우선 순위를 설정할 수 있다.
+    - **diversified**:
+    - 스팟 인스턴스를 모든 풀에 두루 분산
+    - **lowestPrice**:
+    - 스팟 인스턴스를 용량이 있는 최저 가격 풀에서 제공, 매우 짧은 워크로드의 경우 좋은 옵션
+    - 인스턴스 가격만 고려하고 용량 가용성은 고려하지 않기 때문에 중단률이 높아질 수 있다.
+    - **InstancePoolsToUseCount**:
+    - 스팟 플릿에서 가격이 가장 낮은 스팟 풀을 선택하고 지정한 스팟 풀 수에 걸쳐 대상 스팟 용량을 균등하게 할당
 
 ## **Burstable Instances (T2/T3)**
+
 T2,T3 인스턴스 유형의 경우 부하가 급증하는 경우 CPU가 burst될 수 있다.
 이 burst라는 것은 CPU가 부하를 처리할 수 있게 성능이 좋아진다는 말이다.
 
@@ -703,12 +739,13 @@ Unlimited는 무제한의 burst credit 잔액을 제공해 credit이 0에 도달
 그래서 항상 100%를 사용하는 CPU 인스턴스가 있다면 많은 요금이 추가 청구 될 수 있어 주의해야 한다.
 
 **정리**
--   Burstable 은 T2, T3 인스턴스 유형군이다.
--   기본적으로 위 인스턴스 유형 군은 CPU 사용량 대비해 burst credit이라는 것을 가지고 있다.
--   이 burst credit이라는 것은 CPU가 과도하게 사용될 경우 credit을 소진해 CPU를 고성능으로 만들어 과부하된 CPU를 처리할 수 있게 해준다.
--   credit은 CPU가 과부하되지 않을 때 시간 단위로 축적이 되고, 최대 축적 credit이 정해져있다. credit을 다 소진하게 되면 CPU 성능이 현저히 떨어진다.
--   그래서 Unlimited라는 것이 있다. Unlimited는 무제한의 credit을 제공해 CPU 사용량이 과부하 되고 크레딧을 전부 소진하더라도 추가 비용만 지불하면 CPU 성능을 보장해준다.
-    -   24시간을 기준으로 인스턴스 평균 CPU 사용률이 기준 사용률을 초과하는 사용률에 대해 사용한 vCPU 당 시간 당 요금을 내게 된다.
+
+- Burstable 은 T2, T3 인스턴스 유형군이다.
+- 기본적으로 위 인스턴스 유형 군은 CPU 사용량 대비해 burst credit이라는 것을 가지고 있다.
+- 이 burst credit이라는 것은 CPU가 과도하게 사용될 경우 credit을 소진해 CPU를 고성능으로 만들어 과부하된 CPU를 처리할 수 있게 해준다.
+- credit은 CPU가 과부하되지 않을 때 시간 단위로 축적이 되고, 최대 축적 credit이 정해져있다. credit을 다 소진하게 되면 CPU 성능이 현저히 떨어진다.
+- 그래서 Unlimited라는 것이 있다. Unlimited는 무제한의 credit을 제공해 CPU 사용량이 과부하 되고 크레딧을 전부 소진하더라도 추가 비용만 지불하면 CPU 성능을 보장해준다.
+  - 24시간을 기준으로 인스턴스 평균 CPU 사용률이 기준 사용률을 초과하는 사용률에 대해 사용한 vCPU 당 시간 당 요금을 내게 된다.
 
 ## **Elastic IPs**
 
@@ -728,15 +765,16 @@ AWS에 요청해 Quota를 늘릴 수 있지만 강사 개인의 의견으로는 
 
 로드 밸런서는 정적 호스트 이름을 가지고 있으며 로드 밸런서는 올바른 EC2 인스턴스로 리디렉션할 수 있다.
 
-
 **정리**
--   EC2 인스턴스에 Public IP는 중지 후 재시작을 하게 되면 IP 주소가 변경이 된다. 이를 방지하기 위해서 Elastic IP라는 고정 IP가 있다.
--   이 IP를 자유롭게 Attach 또는 Detach 할 수 있고, EIP는 삭제하지 않는 한 변경되지 않고 소유하는 IP이다.
--   ~~서버에 EIP가 연결된 경우 요금이 부과되지 않으며, EIP가 연결된 서버를 중지하거나 사용하지 않는 EIP의 경우 요금이 부과되게 된다.~~
-  - 최근 퍼블릭 IP 고갈 문제로 서버에 EIP가 연결되어 있어도 Public IPv4 에 대해 요금이 부과된다.
--   리전 당 5개의 quota로 되어 있으며, 늘릴 수 있다. 강사는 EIP를 사용하기보다 ELB나 임의의 Public IP를 사용하는 것을 추천했다.
+
+- EC2 인스턴스에 Public IP는 중지 후 재시작을 하게 되면 IP 주소가 변경이 된다. 이를 방지하기 위해서 Elastic IP라는 고정 IP가 있다.
+- 이 IP를 자유롭게 Attach 또는 Detach 할 수 있고, EIP는 삭제하지 않는 한 변경되지 않고 소유하는 IP이다.
+- ~~서버에 EIP가 연결된 경우 요금이 부과되지 않으며, EIP가 연결된 서버를 중지하거나 사용하지 않는 EIP의 경우 요금이 부과되게 된다.~~
+- 최근 퍼블릭 IP 고갈 문제로 서버에 EIP가 연결되어 있어도 Public IPv4 에 대해 요금이 부과된다.
+- 리전 당 5개의 quota로 되어 있으며, 늘릴 수 있다. 강사는 EIP를 사용하기보다 ELB나 임의의 Public IP를 사용하는 것을 추천했다.
 
 ## **CloudWatch Metrics for EC2**
+
 CloudWatch가 EC2와 어떻게 연결되어 있는지 알아보는 것은 중요하다. 이는 시험에서 중요한 부분이다.
 
 AWS는 EC2 인스턴스에 대한 몇 가지 메트릭을 제공하며 AWS는 이러한 메트릭을 자동으로 수집(push)한다.
@@ -785,21 +823,23 @@ EC2 Detailed monitoring을 활성화하면 다음 과정을 거친다.
 자세한 모니터링을 활성화하면 추가 비용이 발생할 수 있다.
 
 **정리**
--   AWS는 EC2 인스턴스에 대한 몇 가지 메트릭을 제공하며 AWS는 이러한 메트릭을 자동으로 수집(push)한다.
--   기본 모니터링은 5분 간격으로 수집하지만 detailed monitoring을 활성화하게되면 1분 간격으로 수집한다.
--   메트릭은 CPU, Network, 디스크, Status 메트릭이 포함된다.
--   기본적으로 RAM에 대한 지표는 지원하지 않는다. 기본적으로 CloudWatch에서 RAM 사용량을 확인할수는 없다.
--   사용자 지정 메트릭을 사용할 수도 있다. 사용자 지정 메트릭의 기본 resolution은 1분이지만 최대 1초 간격의 메트릭을 수집할수도 있다.
-    -   사용자 지정 메트릭을 사용하려면 EC2에 CloudWatch에 메트릭을 푸시할수 있는 IAM Role이 필요하다.
--   EC2 메트릭
-    -   CPU Utilization은 0~100% CPU 사용량을 확인 가능하다.
-    -   Status check는 EC2 인스턴스가 하드웨어 또는 소프트웨어 레벨에서 문제를 겪고 있는지 확인하는 방법이다. 0과 1의 값이고 1의 경우 Fail이 발생했다는 이야기
-    -   Network in and out은 EC2 인스턴스에 들어오고 나가는 네트워크의 양 및 패킷 수를 나타낸다.
-    -   디스크 읽기 및 디스크 쓰기는 0으로 보일 것이다. 인스턴스는 EBS 볼륨이 연결되어 있기 때문에 0으로 보이는 것이 정상 상태이다. 디스크 읽기 및 쓰기 메트릭은 EBS 볼륨에서 볼 수 있다. 그러나 인스턴스 스토어가 있는 EC2의 경우 이러한 메트릭이 0이 아닐 것이다.
-    -   CPU 크레딧 사용이 있다. AWS 버스터블 유형(t2/t3) 인스턴스의 경우 크레딧을 사용한다.
-    -   CPU 크레딧 밸런스를 확인할 수 있다. EC2 인스턴스를 사용하지 않으면 CPU 크레딧 밸런스가 시간이 지남에 따라 증가한다.
+
+- AWS는 EC2 인스턴스에 대한 몇 가지 메트릭을 제공하며 AWS는 이러한 메트릭을 자동으로 수집(push)한다.
+- 기본 모니터링은 5분 간격으로 수집하지만 detailed monitoring을 활성화하게되면 1분 간격으로 수집한다.
+- 메트릭은 CPU, Network, 디스크, Status 메트릭이 포함된다.
+- 기본적으로 RAM에 대한 지표는 지원하지 않는다. 기본적으로 CloudWatch에서 RAM 사용량을 확인할수는 없다.
+- 사용자 지정 메트릭을 사용할 수도 있다. 사용자 지정 메트릭의 기본 resolution은 1분이지만 최대 1초 간격의 메트릭을 수집할수도 있다.
+  - 사용자 지정 메트릭을 사용하려면 EC2에 CloudWatch에 메트릭을 푸시할수 있는 IAM Role이 필요하다.
+- EC2 메트릭
+  - CPU Utilization은 0~100% CPU 사용량을 확인 가능하다.
+  - Status check는 EC2 인스턴스가 하드웨어 또는 소프트웨어 레벨에서 문제를 겪고 있는지 확인하는 방법이다. 0과 1의 값이고 1의 경우 Fail이 발생했다는 이야기
+  - Network in and out은 EC2 인스턴스에 들어오고 나가는 네트워크의 양 및 패킷 수를 나타낸다.
+  - 디스크 읽기 및 디스크 쓰기는 0으로 보일 것이다. 인스턴스는 EBS 볼륨이 연결되어 있기 때문에 0으로 보이는 것이 정상 상태이다. 디스크 읽기 및 쓰기 메트릭은 EBS 볼륨에서 볼 수 있다. 그러나 인스턴스 스토어가 있는 EC2의 경우 이러한 메트릭이 0이 아닐 것이다.
+  - CPU 크레딧 사용이 있다. AWS 버스터블 유형(t2/t3) 인스턴스의 경우 크레딧을 사용한다.
+  - CPU 크레딧 밸런스를 확인할 수 있다. EC2 인스턴스를 사용하지 않으면 CPU 크레딧 밸런스가 시간이 지남에 따라 증가한다.
 
 ## **CloudWatch - Unified CloudWatch Agent - Overview**
+
 EC2 인스턴스 내에서 메트릭 및 로그를 수집하는 방법에 대해 알아보자.
 이를 위한 것이 CloudWatch Unified Agent이다.
 
@@ -828,30 +868,31 @@ pid_file로 모니터링할 프로세스를 선택할 수 있다. PID 번호 또
 이 플러그인을 사용해 모니터링할 프로세스를 필터링하려면 프로세스에 관한 통계와 관련된 모든 메트릭은 procstat 접두사로 시작한다. 따라서 프로세스가 실행되고 관련 메트릭을 얻고자 하는 경우 Unified CloudWatch Agent를 사용하고 해당 플러그인을 구성해야한다.
 
 **정리**
--   EC2 인스턴스 내에서 메트릭 및 로그를 수집하는 방법은 CloudWatch Unified Agent이다. EC2 인스턴스 또는 온프레미스 서버에서도 사용 가능하다.
--   이 에이전트를 사용해 추가적인 메트릭(RAM, 프로세스, 사용중인 디스크 공간)이나 로그를 수집할 수 있다.
--   기본적으로 EC2 인스턴스를 실행하면 CloudWatch Logs로 파일이나 로그가 전송되지 않는데, Agent를 설치하면 전송할 수 있다.
--   Agent를 구성하려면 SSM Parameter Store를 이용해서 중앙 집중식으로 Config를 저장하거나 대안으로 Configuration 파일을 직접 지정할 수 있다.
--   EC2 인스턴스에서 메트릭 및 로그를 CloudWatch로 전송하려면 올바른 권한이 있는지 확인해야한다. 이는 온프레미스에서도 동일하며 온프레미스의 경우 AWS IAM User를 생성해 해당 User의 권한을 이용해야 한다.
--   Agent에 의해 푸시되는 모든 메트릭은 CWAgent 접두사로 시작한다. Namespace라는 항목으로 표시되고 변경 가능하다.
--   시험에서 나오는 중요한 내용 중 하나는 Agent에 procstat 플러그인이 있다는 것이다.
-    -   procstat 플러그인은 Linux 또는 Windows 서버에서 실행 중인 개별 프로세스의 메트릭을 수집하고 시스템 사용률을 모니터링할 수 있다.
-    -   예를 들어 프로세스가 사용하는 CPU 사용 시간, 프로세스가 사용하는 메모리 양 또는 EC2 인스턴스에서 직접 실행되는 프로세스에 대한 정보를 얻을 수 있다.
-    -   pid_file로 모니터링할 프로세스를 선택할 수 있다. PID 번호 또는 프로세스의 이름 또는 프로세스의 이름 정규식 패턴으로 프로세스를 지정할 수 있다.
-    -   procstat을 사용해 모니터링할 모든 메트릭은 procstat 접두사로 시작된다.
+
+- EC2 인스턴스 내에서 메트릭 및 로그를 수집하는 방법은 CloudWatch Unified Agent이다. EC2 인스턴스 또는 온프레미스 서버에서도 사용 가능하다.
+- 이 에이전트를 사용해 추가적인 메트릭(RAM, 프로세스, 사용중인 디스크 공간)이나 로그를 수집할 수 있다.
+- 기본적으로 EC2 인스턴스를 실행하면 CloudWatch Logs로 파일이나 로그가 전송되지 않는데, Agent를 설치하면 전송할 수 있다.
+- Agent를 구성하려면 SSM Parameter Store를 이용해서 중앙 집중식으로 Config를 저장하거나 대안으로 Configuration 파일을 직접 지정할 수 있다.
+- EC2 인스턴스에서 메트릭 및 로그를 CloudWatch로 전송하려면 올바른 권한이 있는지 확인해야한다. 이는 온프레미스에서도 동일하며 온프레미스의 경우 AWS IAM User를 생성해 해당 User의 권한을 이용해야 한다.
+- Agent에 의해 푸시되는 모든 메트릭은 CWAgent 접두사로 시작한다. Namespace라는 항목으로 표시되고 변경 가능하다.
+- 시험에서 나오는 중요한 내용 중 하나는 Agent에 procstat 플러그인이 있다는 것이다.
+  - procstat 플러그인은 Linux 또는 Windows 서버에서 실행 중인 개별 프로세스의 메트릭을 수집하고 시스템 사용률을 모니터링할 수 있다.
+  - 예를 들어 프로세스가 사용하는 CPU 사용 시간, 프로세스가 사용하는 메모리 양 또는 EC2 인스턴스에서 직접 실행되는 프로세스에 대한 정보를 얻을 수 있다.
+  - pid_file로 모니터링할 프로세스를 선택할 수 있다. PID 번호 또는 프로세스의 이름 또는 프로세스의 이름 정규식 패턴으로 프로세스를 지정할 수 있다.
+  - procstat을 사용해 모니터링할 모든 메트릭은 procstat 접두사로 시작된다.
 
 ## **EC2 Instance Status Checks**
 
 EC2 인스턴스의 상태 확인은 AWS가 자동으로 수행하는 작업으로, EC2 인스턴스의 하드웨어 및 소프트웨어 문제를 식별한다.
 
-두 가지 유형이 있다. 
+두 가지 유형이 있다.
 
 첫 번째 유형은 system status check 이는 AWS 시스템에서 발생하는 문제를 모니터링한다.
 
 예를 들어 실제 물리 호스트에 대한 소프트웨어 또는 하드웨어 문제 또는 호스트가 시스템 전원을 잃는 경우와 같은 상황이다.
 이러한 문제에 대한 overview를 확인하려면 personal health dashboard를 확인하면 된다.
 이 대시보드에서는 AWS가 예정된 사항이나 critical maintenance 항목을 제공하며 이 항목들은 EC2 인스턴스 호스트에 영향을 미칠 것으로 조치해야 한나다.
-조치 방법 중 하나는 인스턴스를 중지하고 시작하는 것이다. 
+조치 방법 중 하나는 인스턴스를 중지하고 시작하는 것이다.
 
 EC2는 우리 눈에는 보이지 않는 과정을 거친다. 우리가 EC2 인스턴스를 중지하고 시작하게 되면 자동으로 AWS 데이터센터 내의 다른 호스트로 마이그레이션 된다.
 
@@ -887,22 +928,22 @@ auto scaling group min max와 desired 1을 설정하는 것이다.
 특정 EC2 인스턴스에 중점을 둔 경우 옵션 1이 훨씬 선호될 것이다.
 
 **정리**
--   EC2 인스턴스의 상태 확인은 AWs가 자동으로 수행하는 작업으로 하드웨어 및 소프트웨어의 문제를 식별한다.
--   system status check 와 instance status check가 있다.
--   system status check는 AWS 시스템에서 발생하는 문제를 모니터링 한다.
-    -   예를 들어 실제 물리 호스트에 대한 소프트웨어 또는 하드웨어 문제 또는 호스트가 시스템 전원을 잃는 경우와 같은 상황이다.
-    -   이러한 문제에 대한 overview를 확인하려면 personal health dashboard를 확인하면 된다. 이 대시보드에는 AWS가 예정된 사항이나 critial maintenance 항목을 제공하며 이 항목들은 EC2 인스턴스 호스트에 영향을 미친다.
-    -   문제를 해결하기 위해서는 인스턴스를 중지하고 시작하면 된다. 인스턴스 중지 및 시작할 때 EC2는 우리 눈에는 보이지 않는 과정을 거친다. 
-    -   AWS 데이터센터 내의 다른 호스트로 마이그레이션 된다. 예를 들어 호스트 1에서 실행중인 EC2 인스턴스가 있었다고 하면 중지 및 시작하고 나면 호스트 2에서 EC2 인스턴스가 실행되게 된다.
--   instance status check는 인스턴스의 소프트웨어 및 네트워크 구성을 모니터링한다.
-    -   예를 들어 네트워크 구성이 잘못 되었거나 메모리가 고갈된 경우이다.
-    -   이 문제를 해결하려면 EC2 인스턴스를 reboot 하거나 인스턴스 구성을 변경하면 된다.
-    -   CloudWatch 메트릭 기반으로 자동으로 recover하는 방법도 있다. StatusCheckFailed_System, StatusCheckFailed_Instance 또는 이 두 메트릭을 하나의 메트릭으로 그룹화한 StatusCheckFailed이 있다.
-    -   recover는 두 가지 방법이 있다. 
-    -   하나는 CloudWatch Alarm과 Action을 이용해서 복구할 수 있다. 이 방법의 경우 recover instance라는 작업(Action)을 사용할 수 있다. 작업이 수행되면 인스턴스는 동일한 Private IP, 동일한 Public IP, 동일한 EIP, 동일한 메타데이터, 동일한 Placement Group을 사용해 인스턴스를 복구한다.
-    -   또한 CloudWatch Alarm이기 때문에 SNS로 알림을 보낼수 있다.
-    -   하나는 Auto Scailing Group Min, Max, desired 1을 설정하는 것이다. 그리고 ASG 상태 확인을 통해 EC2 인스턴스의 StatusCheck를 확인한다. 이 경우 EC2 인스턴스에 문제가 생겨도 desired 1 을 유지한다. EBS 볼륨, Private IP, EIP 등을 이전과 동일하게 가져갈수는 없다.
 
+- EC2 인스턴스의 상태 확인은 AWs가 자동으로 수행하는 작업으로 하드웨어 및 소프트웨어의 문제를 식별한다.
+- system status check 와 instance status check가 있다.
+- system status check는 AWS 시스템에서 발생하는 문제를 모니터링 한다.
+  - 예를 들어 실제 물리 호스트에 대한 소프트웨어 또는 하드웨어 문제 또는 호스트가 시스템 전원을 잃는 경우와 같은 상황이다.
+  - 이러한 문제에 대한 overview를 확인하려면 personal health dashboard를 확인하면 된다. 이 대시보드에는 AWS가 예정된 사항이나 critial maintenance 항목을 제공하며 이 항목들은 EC2 인스턴스 호스트에 영향을 미친다.
+  - 문제를 해결하기 위해서는 인스턴스를 중지하고 시작하면 된다. 인스턴스 중지 및 시작할 때 EC2는 우리 눈에는 보이지 않는 과정을 거친다.
+  - AWS 데이터센터 내의 다른 호스트로 마이그레이션 된다. 예를 들어 호스트 1에서 실행중인 EC2 인스턴스가 있었다고 하면 중지 및 시작하고 나면 호스트 2에서 EC2 인스턴스가 실행되게 된다.
+- instance status check는 인스턴스의 소프트웨어 및 네트워크 구성을 모니터링한다.
+  - 예를 들어 네트워크 구성이 잘못 되었거나 메모리가 고갈된 경우이다.
+  - 이 문제를 해결하려면 EC2 인스턴스를 reboot 하거나 인스턴스 구성을 변경하면 된다.
+  - CloudWatch 메트릭 기반으로 자동으로 recover하는 방법도 있다. StatusCheckFailed_System, StatusCheckFailed_Instance 또는 이 두 메트릭을 하나의 메트릭으로 그룹화한 StatusCheckFailed이 있다.
+  - recover는 두 가지 방법이 있다.
+  - 하나는 CloudWatch Alarm과 Action을 이용해서 복구할 수 있다. 이 방법의 경우 recover instance라는 작업(Action)을 사용할 수 있다. 작업이 수행되면 인스턴스는 동일한 Private IP, 동일한 Public IP, 동일한 EIP, 동일한 메타데이터, 동일한 Placement Group을 사용해 인스턴스를 복구한다.
+  - 또한 CloudWatch Alarm이기 때문에 SNS로 알림을 보낼수 있다.
+  - 하나는 Auto Scailing Group Min, Max, desired 1을 설정하는 것이다. 그리고 ASG 상태 확인을 통해 EC2 인스턴스의 StatusCheck를 확인한다. 이 경우 EC2 인스턴스에 문제가 생겨도 desired 1 을 유지한다. EBS 볼륨, Private IP, EIP 등을 이전과 동일하게 가져갈수는 없다.
 
 ## **EC2 Instance Status Checks - MUST KNOW**
 
@@ -913,29 +954,29 @@ SYSTEM status checks
 
 기본 호스트에 문제가 있는 경우, 예를 들면:
 
--   네트워크 연결 손실
--   시스템 전원 손실
--   물리 호스트에서의 소프트웨어 문제
--   물리 호스트에서의 하드웨어 문제로 네트워크 접근성에 영향을 미침
--   AWS가 호스트를 수정하기를 기다리거나, EC2 인스턴스를 새 호스트로 이동시킬 수 있음 = 인스턴스 중지 및 시작 (EBS로 백업된 경우)
+- 네트워크 연결 손실
+- 시스템 전원 손실
+- 물리 호스트에서의 소프트웨어 문제
+- 물리 호스트에서의 하드웨어 문제로 네트워크 접근성에 영향을 미침
+- AWS가 호스트를 수정하기를 기다리거나, EC2 인스턴스를 새 호스트로 이동시킬 수 있음 = 인스턴스 중지 및 시작 (EBS로 백업된 경우)
 
 INSTANCE status checks
 인스턴스 상태 확인은 개별 인스턴스의 소프트웨어 및 네트워크 구성을 모니터링합니다.
 
 문제의 예:
 
--   올바르지 않은 네트워킹 또는 시작 구성
--   메모리 부족
--   손상된 파일 시스템
--   호환되지 않는 커널
--   수정이 필요할 때는 직접 개입이 필요함
--   EC2 인스턴스를 다시 시작하거나, EC2 인스턴스 구성 변경
-
+- 올바르지 않은 네트워킹 또는 시작 구성
+- 메모리 부족
+- 손상된 파일 시스템
+- 호환되지 않는 커널
+- 수정이 필요할 때는 직접 개입이 필요함
+- EC2 인스턴스를 다시 시작하거나, EC2 인스턴스 구성 변경
 
 ## **EC2 Hibernate**
+
 EC2 Hibernate 설명에 앞서 이해해야할 내용이 있다.
 
-우리는 인스턴스를 중지하고 종료할 수있다는 것을 알 수 있다. 중지하면 EBS 디스크의 데이터가 다음 시작까지 유지 된다. 
+우리는 인스턴스를 중지하고 종료할 수있다는 것을 알 수 있다. 중지하면 EBS 디스크의 데이터가 다음 시작까지 유지 된다.
 
 그리고 종료하면 루트 볼륨이 인스턴스와 함께 삭제되도록 설정한 경우 삭제되지만 종료 시 인스턴스와 함께 삭제되지 않도록 설정된 모든 볼륨은 유지된다.
 
@@ -950,24 +991,26 @@ EC2 Hibernate 설명에 앞서 이해해야할 내용이 있다.
 사용 사례는 장기 실행 프로세스를 중지하지 않거나 RAM 상태를 저장하려는 경우, 또는 빠르게 부팅하고 초기화에 시간이 오래 걸리는 서비스르 가지고 있는 경우 등이 있다.
 
 EC2 Hibernate에 관한 몇 가지 사항은 다음과 같다.
--   여러가지 다양한 패밀리를 지원하며 인스턴스 RAM 크기는 150GB 미만이어야한다.
--   베어 메탈 인스턴스는 적용되지 않는다.
--   Linux 및 Windows를 비롯한 여러 가지 운영 체제에서 작동한다.
--   루트 볼륨에 적용되며 해당 루트 볼륨은 EBS 볼륨이어야 하며, 암호화 되어 있어야하고, RAM을 담을 충분한 크기가 있어야한다.
--   온디맨드, 예약 및 스팟 인스턴스와 같은 모든 종류의 인스턴스에서 사용 가능하다.
--   60일 이상 Hibernate 되지 않으므로, 60일 이상 하려고 한다면 시작하고 다시 중지 해야한다.
+
+- 여러가지 다양한 패밀리를 지원하며 인스턴스 RAM 크기는 150GB 미만이어야한다.
+- 베어 메탈 인스턴스는 적용되지 않는다.
+- Linux 및 Windows를 비롯한 여러 가지 운영 체제에서 작동한다.
+- 루트 볼륨에 적용되며 해당 루트 볼륨은 EBS 볼륨이어야 하며, 암호화 되어 있어야하고, RAM을 담을 충분한 크기가 있어야한다.
+- 온디맨드, 예약 및 스팟 인스턴스와 같은 모든 종류의 인스턴스에서 사용 가능하다.
+- 60일 이상 Hibernate 되지 않으므로, 60일 이상 하려고 한다면 시작하고 다시 중지 해야한다.
 
 **정리**
--   Hibernate는 최대 절전 모드이다. 무슨말이냐? 우리가 일반적으로 인스턴스를 중지하고 시작하게되면 OS 부팅, 캐시 초기화, user data 실행 등등 과정을 거치게 된다.
--   Hibernate는 이러한 과정을 거치지않고 RAM의 데이터를 루트 볼륨 EBS에 저장해 부팅 시 이를 활용해 더욱 빠른 부팅을 하게 해준다.
--   Hibernate를 사용하기 위해서는 루트 EBS 볼륨은 암호화되어 있어야하고, EBS 볼륨에 RAM 데이터를 담을 만한 충분한 공간이 있어야 한다.
--   사용 사례는 장기 실행 프로세스를 중지하지 않거나 RAM 상태를 저장하려는 경우, 또는 빠르게 부팅하고 초기화에 시간이 오래 걸리는 서비스를 가지고 있는 경우 등이 있다.
--   Hibernate 관련 사항
-    -   여러가지 다양한 패밀리를 지원하며 RAM 크기는 150GB 미만이어야 한다.
-    -   베어메탈 인스턴스는 지원되지 않는다.
-    -   Linux 및 Windows 및 다른 운영체제도 지원된다.
-    -   온디맨드, 예약 및 스팟 인스턴스등 모든 종류의 인스턴스에서 지원된다.
-    -   60일 이상 Hibernate 되지 않으며, 60일 이상하려면 중지 상태에서 실행 했다가 다시 Hibernate 해야한다.
+
+- Hibernate는 최대 절전 모드이다. 무슨말이냐? 우리가 일반적으로 인스턴스를 중지하고 시작하게되면 OS 부팅, 캐시 초기화, user data 실행 등등 과정을 거치게 된다.
+- Hibernate는 이러한 과정을 거치지않고 RAM의 데이터를 루트 볼륨 EBS에 저장해 부팅 시 이를 활용해 더욱 빠른 부팅을 하게 해준다.
+- Hibernate를 사용하기 위해서는 루트 EBS 볼륨은 암호화되어 있어야하고, EBS 볼륨에 RAM 데이터를 담을 만한 충분한 공간이 있어야 한다.
+- 사용 사례는 장기 실행 프로세스를 중지하지 않거나 RAM 상태를 저장하려는 경우, 또는 빠르게 부팅하고 초기화에 시간이 오래 걸리는 서비스를 가지고 있는 경우 등이 있다.
+- Hibernate 관련 사항
+  - 여러가지 다양한 패밀리를 지원하며 RAM 크기는 150GB 미만이어야 한다.
+  - 베어메탈 인스턴스는 지원되지 않는다.
+  - Linux 및 Windows 및 다른 운영체제도 지원된다.
+  - 온디맨드, 예약 및 스팟 인스턴스등 모든 종류의 인스턴스에서 지원된다.
+  - 60일 이상 Hibernate 되지 않으며, 60일 이상하려면 중지 상태에서 실행 했다가 다시 Hibernate 해야한다.
 
 ## **[CCP/SAA/DVA] AMI Overview**
 
@@ -991,25 +1034,26 @@ AWS에서는 자체 소프트웨어를 설정하고 sales 벤더가 자체 AMI�
 AMI는 어떤 프로세스로 EC2 인스턴스에서 동작하는 가? 먼저 EC2 인스턴스를 시작하고 사용자가 인스턴스를 구성한다. 그런 다음 데이터 무결성이 올바르게 유지 되도록 인스턴스를 중지한다. 그런 다음 이를 기반으로 AMI를 작성할 수 있으며 EBS 스냅샷이 생성된다. 마지막으로 다른 AMI에서 인스턴스를 시작할 수 있다.
 
 **정리**
--   AMI는 Amazon Machine Image의 약자로서 인스턴스의 사용자 정의를 나타낸다.
--   AMI는 소프트웨어 구성뿐만 아니라 운영 체제를 정의하고 설정하며 모니터링 도구를 설정할 수 있다.
--   직접 AMI를 생성하거나 AWS에서 제공해주는 AMI를 사용할 수 있다.
--   특정 Region에 대해 AMI를 생성할 수 있고 원한다면 다른 Region 또는 계정으로 다.
-수도 있다. 이는 다른 
-    -   자체 소프트웨어를 설정하고 sales 벤더가 자체 AMI를 생성해 
--   AMI는 먼저 구성된 인스턴스가 있으면 데이터 무결성이 올바르게 유지 되도록 중지하고, 이 인스턴스를 기반으로 AMI를 작성할 수 있으며 EBS 스냅샷이 생성된다. 생성된 AMI를 기반으로 인스턴스를 시작할 수 있다.
+
+- AMI는 Amazon Machine Image의 약자로서 인스턴스의 사용자 정의를 나타낸다.
+- AMI는 소프트웨어 구성뿐만 아니라 운영 체제를 정의하고 설정하며 모니터링 도구를 설정할 수 있다.
+- 직접 AMI를 생성하거나 AWS에서 제공해주는 AMI를 사용할 수 있다.
+- 특정 Region에 대해 AMI를 생성할 수 있고 원한다면 다른 Region 또는 계정으로 다.
+  수도 있다. 이는 다른 - 자체 소프트웨어를 설정하고 sales 벤더가 자체 AMI를 생성해
+- AMI는 먼저 구성된 인스턴스가 있으면 데이터 무결성이 올바르게 유지 되도록 중지하고, 이 인스턴스를 기반으로 AMI를 작성할 수 있으며 EBS 스냅샷이 생성된다. 생성된 AMI를 기반으로 인스턴스를 시작할 수 있다.
 
 ## **AMI No Reboot Option**
+
 "No-Reboot" 이 옵션을 사용하면 EC2 인스턴스를 먼저 종료하지 않고도 AMI를 생성할 수 있다.
 
 기본적으로 이 옵션은 선택되어 있지 않으며, AMI를 생성하기 전에 인스턴스를 중지해야 한다는 것을 의미한다. 이는 파일 시스템 무결성을 유지하기 위함이다.
 
 No-Reboot가 비활성화된 상태에서 AMI를 생성하려면 인스턴스가 중지된다. 중지된 후 연결된 EBS 볼륨은 EBS 스냅샷이 생성된다. 이후 EBS 스냅샷은 AMI로 변환된다.
 
-No-Reboot 옵션을 활성화하면 현재 실행중인 EC2 인스턴스에 다음 AMI 이미지가 않을 수 있으며, 스냅샷이 생성되기 전에 OS 버퍼가 디스크로 플러시되지 않는다. ***인스턴스가 계속 실행 중인 상태에서 AMI를 생성할 때는 주의가 필요하다.***
+No-Reboot 옵션을 활성화하면 현재 실행중인 EC2 인스턴스에 다음 AMI 이미지가 않을 수 있으며, 스냅샷이 생성되기 전에 OS 버퍼가 디스크로 플러시되지 않는다. **_인스턴스가 계속 실행 중인 상태에서 AMI를 생성할 때는 주의가 필요하다._**
 
 AWS 백업 서비스를 사용할 때는 Backup Plan을 만들어 AMI를 생성할 수 있다. 그러나 백업 서비스는 EBS 스냅샷을 찍는 동안 인스턴스를 재부팅하지 않는다.
-따라서 기본 옵션은 사실상 No-Reboot 동작이다. 
+따라서 기본 옵션은 사실상 No-Reboot 동작이다.
 즉, AWS 백업을 사용할 때는 인스턴스가 작동 중일 때에도 중단되지 않고 AMI가 생성된다.
 backup plan을 사용하면 무결성이 보장되지 않으므로 주의해야 한다.
 
@@ -1019,12 +1063,13 @@ Lambda 함수에는 reboot 옵션과 함께 image를 생성하는 고유의 코�
 이렇게 한다면 EC2는 rebooting을 진행하고 AMI를 생성할 것이다.
 
 **정리**
--   No-Reboot 이라는 옵션이 있다.
--   이는 실행중인 인스턴스에 AMI를 생성할 때 재부팅을 하지 않는다는 의미이며, 기본적으로 AMI를 생성하기 전에 인스턴스를 중지해야한다.
--   No-Reboot 옵션을 활성화하게 되면 실행중인 인스턴스에 연결된 EBS 볼륨에 대한 스냅샷이 직접 생성되고, 그 다음 AMI 이미지가 생성된다.
--   이 경우 파일 무결성이 보장되지 않을 수 있고, 스냅샷이 생성되기 전에 OS 버퍼가 디스크로 플러시되지 않는다.
--   AWS 백업 서비스를 사용하는 경우도 인스턴스를 재부팅하지 않는다. 사실상 No-Reboot 동작이다.
--   대안으로는 EventBridge와 Lambda를 이용해서 특정 기간에 람다 함수를 실행 시켜 인스턴스를 재부팅하고 AMI를 생성하는 코드를 작성해 실행시키면 된다.
+
+- No-Reboot 이라는 옵션이 있다.
+- 이는 실행중인 인스턴스에 AMI를 생성할 때 재부팅을 하지 않는다는 의미이며, 기본적으로 AMI를 생성하기 전에 인스턴스를 중지해야한다.
+- No-Reboot 옵션을 활성화하게 되면 실행중인 인스턴스에 연결된 EBS 볼륨에 대한 스냅샷이 직접 생성되고, 그 다음 AMI 이미지가 생성된다.
+- 이 경우 파일 무결성이 보장되지 않을 수 있고, 스냅샷이 생성되기 전에 OS 버퍼가 디스크로 플러시되지 않는다.
+- AWS 백업 서비스를 사용하는 경우도 인스턴스를 재부팅하지 않는다. 사실상 No-Reboot 동작이다.
+- 대안으로는 EventBridge와 Lambda를 이용해서 특정 기간에 람다 함수를 실행 시켜 인스턴스를 재부팅하고 AMI를 생성하는 코드를 작성해 실행시키면 된다.
 
 ## **EC2 Instance Migration using AMIs**
 
@@ -1037,13 +1082,14 @@ EC2 인스턴스를 한 AZ에서 다른 AZ로 마이그레이션하려면 AMI를
 AMI를 공유할 때 AMI의 소유권(ownership)에는 영향을 미치지 않는다. 여전히 공유를 한 계정이 소유자로 남아있다.
 
 AMI를 공유할 수 있는 경우는 두 가지이다.
+
 1. 볼륨이 암호화되지 않은 경우
 2. 볼륨이 암호화되었는데 사용자 고유의 고객 관리 키(CMK)로 암호화된 경우
 
 예를 들어 설명해보자
 계정 A에서는 암호화되지 않은 AMI가 생성되며, 이를 계정 B와 공유한다. 그러면 계정 B는 해당 소스 AMI에서 직접 EC2 인스턴스를 시작할 수 있다. 마찬가지로 암호화 키를 사용하여 AMI를 공유할 때는 해당 AMI뿐만 아니라 암호화된 키도 공유해야 한다. 그리고 대상 계정에는 해당 키를 사용하여 특정 작업을 수행할 수 있는 권한을 부여해야 한다.
 
-다음으로는 **Cross-Account AMI Copy**이다. 
+다음으로는 **Cross-Account AMI Copy**이다.
 
 소스 AMI의 소유자인 상태에서 대상에 복사하면 대상 AMI의 소유자가 된다.
 따라서 소스 AMI의 소유자는 대상 AMI의 저장소(EBS 스냅샷)에 대한 읽기 권한을 부여해야 한다.
@@ -1060,20 +1106,20 @@ AMI가 공유된 경우 해당 AMI를 복사하여 소유자가 되는 대신 �
 또한 AMI 자체를 사용하려면 해당 AMI의 권한을 확인하고 편집할 수 있다. 콘솔에서 권한을 수정하려면 AMI - Action - Edit AMI permissions를 선택하면 된다. 여기에는 AMI의 공개 여부를 포함해 여러 옵션이 제공된다. 특정 계정, 조직 또는 OU와 공유하려면 해당 계정 ID를 추가할 수있다. 그리고 권한을 부여할 때 해당 스냅샷을 만들 때 연결된 스냅샷에 볼륨 권한을 추가할 수도 있다.
 
 **정리**
--   EC2 인스턴스를 한 AZ에서 다른 AZ로 마이그레이션하려면 AMI를 사용하면 된다.
--   기본적으로 AMI는 원본과 동일한 데이터, 파일 시스템 및 응용 프로그램을 가지고 있기 때문에 마이그레이션 된 인스턴스도 동일한 내용을 가진다.
--   다른 AWS 계정과 AMI를 공유할수도 있다. **Cross-Account AMI Sharing**
-    -   AMI를 공유할 때 AMI의 소유권에는 영향을 미치지 않고 공유를 한 계정이 소유자로 남아있다. 공유를 받은 계정은 해당 AMI에 대해 삭제, 공유, 수정은 불가하다.
-    -   AMI를 공유할 수 있는 방법은 두 가지이다.
-    1.  볼륨이 암호화되어 있지 않은 경우
-    2.  볼륨이 암호화되어 있는데 사용자 고유의 고객 관리 키(CMK)로 암호화된 경우
-    -   볼륨이 암호화되어 있지 않은 경우 단순히 공유만 하면 대상 계정에서 해당 AMI를 이용해 EC2 인스턴스를 생성 가능하다.
-    -   만약 암호화된 AMI를 공유할 때에는 해당 AMI 뿐만 아니라 암호화된 키를 공유해야 하며, 대상 계정에 해당 키를 사용해 특정 작업을 수행할 수 있는 권한을 부여해야 한다.
--   다른 AWS 계정과 AMI를 공유하고 해당 AMI를 Copy 가능하다. **Cross-Account AMI Copy**
-    -   소스 AMI 소유자인 상태에서 대상에 복사하면 대상 AMI의 소유자가 된다.
-    -   복사하는 과정은 공유된 소유자 AMI를 대상 계정에서 Copy하면 Copy된 AMI는 대상자의 소유가 되며 복사가 된다.
-    -   Copy 과정에서 CMK를 이용해 대상 계정이 소유하는 암호화된 AMI가 생성된다.
 
+- EC2 인스턴스를 한 AZ에서 다른 AZ로 마이그레이션하려면 AMI를 사용하면 된다.
+- 기본적으로 AMI는 원본과 동일한 데이터, 파일 시스템 및 응용 프로그램을 가지고 있기 때문에 마이그레이션 된 인스턴스도 동일한 내용을 가진다.
+- 다른 AWS 계정과 AMI를 공유할수도 있다. **Cross-Account AMI Sharing**
+  - AMI를 공유할 때 AMI의 소유권에는 영향을 미치지 않고 공유를 한 계정이 소유자로 남아있다. 공유를 받은 계정은 해당 AMI에 대해 삭제, 공유, 수정은 불가하다.
+  - AMI를 공유할 수 있는 방법은 두 가지이다.
+  1.  볼륨이 암호화되어 있지 않은 경우
+  2.  볼륨이 암호화되어 있는데 사용자 고유의 고객 관리 키(CMK)로 암호화된 경우
+  - 볼륨이 암호화되어 있지 않은 경우 단순히 공유만 하면 대상 계정에서 해당 AMI를 이용해 EC2 인스턴스를 생성 가능하다.
+  - 만약 암호화된 AMI를 공유할 때에는 해당 AMI 뿐만 아니라 암호화된 키를 공유해야 하며, 대상 계정에 해당 키를 사용해 특정 작업을 수행할 수 있는 권한을 부여해야 한다.
+- 다른 AWS 계정과 AMI를 공유하고 해당 AMI를 Copy 가능하다. **Cross-Account AMI Copy**
+  - 소스 AMI 소유자인 상태에서 대상에 복사하면 대상 AMI의 소유자가 된다.
+  - 복사하는 과정은 공유된 소유자 AMI를 대상 계정에서 Copy하면 Copy된 AMI는 대상자의 소유가 되며 복사가 된다.
+  - Copy 과정에서 CMK를 이용해 대상 계정이 소유하는 암호화된 AMI가 생성된다.
 
 ## **EC2 Image Builder**
 
@@ -1095,20 +1141,21 @@ Image Builder는 AMI를 가져와 여러 Region에 배포할 수 있어 응용 �
 
 EC2 Image Builder는 스케줄에 따라 실행할 수 있다. 매주 스케줄을 정의하거나 패키지가 업데이트될 때 실행하거나 수동으로 실행할 수 있다.
 
-이 서비스는 무료 서비스여서 기본 리소스에 대해서만 비용이 청구된다. 
+이 서비스는 무료 서비스여서 기본 리소스에 대해서만 비용이 청구된다.
 이 프로세스 동안 EC2 인스턴스를 생성하면 Image Builder가 이러한 EC2 인스턴스를 생성하게 되므로 해당 EC2 인스턴스에 대한 비용이 청구된다.
 또한 AMI가 생성되고 배포되면 해당 AMI의 스토리지에 대한 비용이 청구된다.
 
 **정리**
--   Image Builder는 가상 머신이나 컨테이너 이미지의 자동 생성을 위해 사용되는 서비스이다.
--   Image Builder를 이용하면 EC2 인스턴스 용 AMI를 자동으로 생성, 유지 관리, 유효성 검사, 테스트 할 수 있다.
--   AMI를 생성하고 유효성 검사를 하고 싶다면 Image Builder는 해당 AMI에서 테스트 EC2 인스턴스를 자동으로 생성하고 미리 정의한 여러 테스트를 실행할 수 있다. 테스트는 건너뛸 수 있다.
--   Image Builder는 AMI를 가져와 여러 Region에 배포할 수 있어 응용 프로그램 및 워크 플로우가 실제로 글로벌하게 동작하도록 할 수 있다.
--   또한 스케줄링도 가능하다. 매주 스케줄을 정의하거나 패키지가 업데이트될 때 실행하거나 수동으로 실행 가능하다.
--   Image Builder는 무료 서비스여서 기본 리소스에 대해서만 비용이 청구된다. 프로세스 동안 EC2 인스턴스가 생성되면 해당 인스턴스에 대해서만 청구가 되며, 생성된 AMI 저장 비용이 청구가 된다. 이외에 별도의 빌드 및 테스트 및 배포에 대한 비용은 청구되지 않는다.
 
+- Image Builder는 가상 머신이나 컨테이너 이미지의 자동 생성을 위해 사용되는 서비스이다.
+- Image Builder를 이용하면 EC2 인스턴스 용 AMI를 자동으로 생성, 유지 관리, 유효성 검사, 테스트 할 수 있다.
+- AMI를 생성하고 유효성 검사를 하고 싶다면 Image Builder는 해당 AMI에서 테스트 EC2 인스턴스를 자동으로 생성하고 미리 정의한 여러 테스트를 실행할 수 있다. 테스트는 건너뛸 수 있다.
+- Image Builder는 AMI를 가져와 여러 Region에 배포할 수 있어 응용 프로그램 및 워크 플로우가 실제로 글로벌하게 동작하도록 할 수 있다.
+- 또한 스케줄링도 가능하다. 매주 스케줄을 정의하거나 패키지가 업데이트될 때 실행하거나 수동으로 실행 가능하다.
+- Image Builder는 무료 서비스여서 기본 리소스에 대해서만 비용이 청구된다. 프로세스 동안 EC2 인스턴스가 생성되면 해당 인스턴스에 대해서만 청구가 되며, 생성된 AMI 저장 비용이 청구가 된다. 이외에 별도의 빌드 및 테스트 및 배포에 대한 비용은 청구되지 않는다.
 
 ## **AMI In Production**
+
 프로덕션 환경에서 사용하는 방법에 대한 설명
 
 사용자가 사전 승인된 AMIs에서만 EC2 인스턴스를 시작하도록 강제하는 방법이 있다.
@@ -1130,18 +1177,18 @@ AMI에 태그를 추가할 수 있는 사용자를 제한하는 것도 중요하
 규정을 따르지 않는 것은 Config에 의해 플래그가 지정되며, 조치를 취할 수 있다. 규정을 따르는 것은 문제가 없다. 플래그는 콘솔 - Rules에서 확인 가능
 
 **정리**
--   프로덕션 환경에서는 사용자가 사전 승인된 AMI로만 EC2 인스턴스를 시작하도록 강제하는 방법이 있다.
--   사전 승인된 AMI란 특정 태그를 AMI에 지정하는 것이고, 이를 IAM 정책과 결합하면 사용자가 특정 태그가 지정된 AMI로만 인스턴스를 시작할 수 있는 개념이다.
--   예를 들어 env='prod' 라는 태그가 지정된 AMI만 특정 사용자가 시작할 수 있는 것이다.
--   또한 태그를 추가할 수 있는 사용자를 제한하는 것도 중요하다.
--   태그를 추가하는 방법 또는 AWS Config를 사용해 승인되지 않은 EC2 인스턴스로 정의되는 EC2 인스턴스를 찾을 수 있다.
--   예를 들어 사용자가 승인이 되었거나 되지 않았거나 인스턴스를 시작할 수 있을 때 Config를 사용해 이 두 EC2 인스턴스가 규정을 따르는지 여부를 모니터링하는 규칙을 작성할 수 있다.
--   규정을 따르지 않는 것은 Config에 의해 플래그가 지정되고, 조치를 취할 수 있으며, 규정을 따르는 것은 문제가 없다. 플래그는 콘솔에서 확인 가능하다.
 
+- 프로덕션 환경에서는 사용자가 사전 승인된 AMI로만 EC2 인스턴스를 시작하도록 강제하는 방법이 있다.
+- 사전 승인된 AMI란 특정 태그를 AMI에 지정하는 것이고, 이를 IAM 정책과 결합하면 사용자가 특정 태그가 지정된 AMI로만 인스턴스를 시작할 수 있는 개념이다.
+- 예를 들어 env='prod' 라는 태그가 지정된 AMI만 특정 사용자가 시작할 수 있는 것이다.
+- 또한 태그를 추가할 수 있는 사용자를 제한하는 것도 중요하다.
+- 태그를 추가하는 방법 또는 AWS Config를 사용해 승인되지 않은 EC2 인스턴스로 정의되는 EC2 인스턴스를 찾을 수 있다.
+- 예를 들어 사용자가 승인이 되었거나 되지 않았거나 인스턴스를 시작할 수 있을 때 Config를 사용해 이 두 EC2 인스턴스가 규정을 따르는지 여부를 모니터링하는 규칙을 작성할 수 있다.
+- 규정을 따르지 않는 것은 Config에 의해 플래그가 지정되고, 조치를 취할 수 있으며, 규정을 따르는 것은 문제가 없다. 플래그는 콘솔에서 확인 가능하다.
 
 ## **Systems Manager Overview**
 
-System Manager는 확장 가능한 EC2 Fleet 인스턴스와 온프레미스 서버를 관리하는 데 도움이 된다. 
+System Manager는 확장 가능한 EC2 Fleet 인스턴스와 온프레미스 서버를 관리하는 데 도움이 된다.
 
 여러 도구들이 Systems Manager에 존재하고 인프라 상태에 대한 인사이트를 얻게하고 문제를 쉽게 감지하며 패치 자동화와 향상된 규정 준수를 제공한다.
 
@@ -1152,12 +1199,11 @@ System Manager는 확장 가능한 EC2 Fleet 인스턴스와 온프레미스 서
 또한 Config와 통합되어 있으며 무료 서비스이고 사용하는 리소스 또는 생성하는 리소스에 대해서만 비용이 발생한다.
 
 **정리**
--   System Manager는 확장 가능한 EC2 Fleet 인스턴스와 온프레미스 서버를 관리하는데 도움이 된다.
--   시험에서는 패치를 적용하거나 실행 중인 모든 종류의 서버에 대해 자동화하는 작업에 System Manager를 이용한다.
--   Window 및 Linux 운영체제 모두에서 작동하며 CloudWatch Metric, CloudWatch 대시보드와 완전히 통합되어 있다.
--   System Manager는 무료 서비스이고, 사용하는 리소스 또는 생성하는 리소스에 해당해서만 비용이 부과된다.
 
-
+- System Manager는 확장 가능한 EC2 Fleet 인스턴스와 온프레미스 서버를 관리하는데 도움이 된다.
+- 시험에서는 패치를 적용하거나 실행 중인 모든 종류의 서버에 대해 자동화하는 작업에 System Manager를 이용한다.
+- Window 및 Linux 운영체제 모두에서 작동하며 CloudWatch Metric, CloudWatch 대시보드와 완전히 통합되어 있다.
+- System Manager는 무료 서비스이고, 사용하는 리소스 또는 생성하는 리소스에 해당해서만 비용이 부과된다.
 
 ## **AWS Tags & SSM Resource Groups**
 
@@ -1180,12 +1226,12 @@ Region 수준에서 수행할 수 있는 작업이며, EC2 인스턴스뿐만 �
 예를 들어 "Environment"="dev" 태그가 할당된 EC2 가 두개 있다고 했을 때 리소스 그룹을 생성해서 AWS::service::resource 형식의 리소스 유형을 선택하고 "Environment"="dev" 태그를 지정하게 되면 해당 리소스 그룹은 태그 기반으로 SSM을 직접 작업할 수 있다.
 
 **정리**
--   태그는 많은 리소스에 적용할 수 있는 Key Value 쌍이다. 다양한 리소스에서 사용된다.
--   일반적으로 "Environment":"prod", "Team":"Infra" 등의 태그로 많이 정의된다.
--   태그는 리소스 그룹화, 자동화, 보안 및 비용 할당으로 많이 사용된다. 일반적으로 적은 태그보다 많은 태그를 가지는 것이 더 좋다.
--   태그를 사용해 리소스 그룹을 생성하고 여러 리소스를 그룹화할 수 있다.
--   동일한 태그를 사용해 리소스를 그룹화하면 태그 기반으로 그룹화된 SSM 작업을 할 수 있다.
 
+- 태그는 많은 리소스에 적용할 수 있는 Key Value 쌍이다. 다양한 리소스에서 사용된다.
+- 일반적으로 "Environment":"prod", "Team":"Infra" 등의 태그로 많이 정의된다.
+- 태그는 리소스 그룹화, 자동화, 보안 및 비용 할당으로 많이 사용된다. 일반적으로 적은 태그보다 많은 태그를 가지는 것이 더 좋다.
+- 태그를 사용해 리소스 그룹을 생성하고 여러 리소스를 그룹화할 수 있다.
+- 동일한 태그를 사용해 리소스를 그룹화하면 태그 기반으로 그룹화된 SSM 작업을 할 수 있다.
 
 ## **SSM Documents & SSM Run Command**
 
@@ -1206,8 +1252,8 @@ Run command를 사용하여 전체 Documents를 실행하거나(EC2 인스턴스
 
 run command에는 rate control 및 error contorl 기능이 있다. 예를 들어 1,000개의 인스턴스에 명령을 실행한다면 1,2 분 동안 다운될 것이다. 점진적으로 수행해야 하며, 오류가 발생할 경우 플릿의 명령을 중단할 수 있어야 한다.
 
-IAM & CloudTrail과 완전히 통합되어 있다. 
-그래서 누가 명령을 실행하는지 알 수 있다. 
+IAM & CloudTrail과 완전히 통합되어 있다.
+그래서 누가 명령을 실행하는지 알 수 있다.
 
 SSH가 필요 없다. 에이전트가 명령을 실행하지만 system manager는 명령을 실행하기 위해 인스턴스에 SSH 액세스 권한을 필요로 하지 않는다.
 
@@ -1218,21 +1264,22 @@ SSH가 필요 없다. 에이전트가 명령을 실행하지만 system manager�
 자동화와 EvnetBridge를 위한 CloudWatch Events의 실행 명령을 호출하는 데 사용될 수 있다.
 
 **정리**
--   SSM Documents는 JSON 또는 YAML로 작성될 수 있고, Document에 작업을 정의해 특정 서비스에서 정의된 매개변수와 함께 Document를 수행할 수 있다.
--   AWS에서는 미리 정의된 제공되는 Documents가 있으며, 사용자가 자체적으로 SSM Documents를 작성할 수도 있다. 또한 다른 사용자에게 내 Documents를 공유할 수도 있다.
--   Documents는 State Manager, Patch Manager, Automation 등의 다른 SSM 기능에 적용 가능하고 SSM Parameter Store에서 일부 데이터를 검색해 문서에 대한 일종의 모듈성과 동적성을 제공할 수 있다.
--   SSM Run Command를 사용하면 Documents를 적용할 수 있다.
--   Run Command를 사용해 이전에 만든 리소스 그룹(EC2 인스턴스 플릿 전체)을 활용하여 단일 명령을 실행할 수 있다.
--   Run Command에는 Rate Control 또는 Error Control이 있다.
-    -   Rate Control은 말그대로 한 번에 수행해야 할 인스턴스의 비율이다. 예를 들어 1,000개의 인스턴스에 한번에 명령어를 수행한다면 문제가 발생할 수 있으니 점진적으로 수행하는 기능이다.
-    -   Error Control은 명령어 수행 중 에러가 발생할 경우 Run Command 자체를 중단하는 기능이다. 예를들어 10개의 인스턴스가 있는 리소스 그룹에 대해 10%의 비율을 설정하게 되면 1개 이상의 Error가 발생하면 Command를 중단하는 것이다.
--   IAM & CloudTrail과 통합되어 있어 누가 명령을 실행하는 지 알 수 있다.
--   Output을 출력받아 콘솔에서 확인하거나 S3 또는 CloudWatch로 Export 가능하다.
--   명령 수행 상태를 확인하려면 콘솔을 살펴보거나 SNS로 정보를 보내 진행 중인지 성공 했는지 실패 했는지 등을 알 수 있다.
--   EventBridge나 CloudWatch Events를 연동해 Run Command를 호출할 수도 있다.
 
+- SSM Documents는 JSON 또는 YAML로 작성될 수 있고, Document에 작업을 정의해 특정 서비스에서 정의된 매개변수와 함께 Document를 수행할 수 있다.
+- AWS에서는 미리 정의된 제공되는 Documents가 있으며, 사용자가 자체적으로 SSM Documents를 작성할 수도 있다. 또한 다른 사용자에게 내 Documents를 공유할 수도 있다.
+- Documents는 State Manager, Patch Manager, Automation 등의 다른 SSM 기능에 적용 가능하고 SSM Parameter Store에서 일부 데이터를 검색해 문서에 대한 일종의 모듈성과 동적성을 제공할 수 있다.
+- SSM Run Command를 사용하면 Documents를 적용할 수 있다.
+- Run Command를 사용해 이전에 만든 리소스 그룹(EC2 인스턴스 플릿 전체)을 활용하여 단일 명령을 실행할 수 있다.
+- Run Command에는 Rate Control 또는 Error Control이 있다.
+  - Rate Control은 말그대로 한 번에 수행해야 할 인스턴스의 비율이다. 예를 들어 1,000개의 인스턴스에 한번에 명령어를 수행한다면 문제가 발생할 수 있으니 점진적으로 수행하는 기능이다.
+  - Error Control은 명령어 수행 중 에러가 발생할 경우 Run Command 자체를 중단하는 기능이다. 예를들어 10개의 인스턴스가 있는 리소스 그룹에 대해 10%의 비율을 설정하게 되면 1개 이상의 Error가 발생하면 Command를 중단하는 것이다.
+- IAM & CloudTrail과 통합되어 있어 누가 명령을 실행하는 지 알 수 있다.
+- Output을 출력받아 콘솔에서 확인하거나 S3 또는 CloudWatch로 Export 가능하다.
+- 명령 수행 상태를 확인하려면 콘솔을 살펴보거나 SNS로 정보를 보내 진행 중인지 성공 했는지 실패 했는지 등을 알 수 있다.
+- EventBridge나 CloudWatch Events를 연동해 Run Command를 호출할 수도 있다.
 
 ## **SSM Automation**
+
 Automation은 EC2 인스턴스나 다른 AWS 리소스를 위한 일반적인 유지 관리와 배포 작업을 단순화하도록 도와준다.
 
 예를 들어 Automation을 사용하면 인스턴스 재시작이나 AMI 생성, EBS 스냅샷 작업같은 걸 할 수 있다.
@@ -1253,13 +1300,14 @@ Documents가 실행될 곳을 선택할 수도 있다.
 simple execution, Rate control, Multi-account and Region, Manual execution 등이 가능하다.
 
 **정리**
--   Automation은 EC2 인스턴스나 다른 AWS 리소스를 위한 일반적인 유지 관리와 배포 작업을 단순화한다.
--   Run Command와의 다른 점은 Run Command는 단일 명령어 및 스크립트를 수행하는데, Automation은 여러 작업을 단계적으로 수행하거나 Task의 형태로 나누어 수행 가능하다.
--   Automation Runbook의 경우 자동화 형식이 될 문서의 이름이다. Runbook은 EC2 인스턴스나 AWS 리소스에 작업을 정의하고 수행하는 것이다. SSM Run Command로 비교하면 Documents == Runbook인 느낌
--   Runbook의 경우 AWS가 미리 정의한 Runbook도 있고 Custom Runbook을 만들 수도 있다.
--   Automation은 콘솔이나 CLI, SDK를 이용해 트리거 된다. EventBridge Rule을 이용해서 자동화할 수도 있다. 
--   SSM Maintenance Windows를 이용해서 특정 일정에 수행되는 자동화도 가능하다.
--   AWS Config rules remediation으로 규칙에 준수되지 않는 리소스를 발견할 때마다 수행하는 자동화도 가능하다.
+
+- Automation은 EC2 인스턴스나 다른 AWS 리소스를 위한 일반적인 유지 관리와 배포 작업을 단순화한다.
+- Run Command와의 다른 점은 Run Command는 단일 명령어 및 스크립트를 수행하는데, Automation은 여러 작업을 단계적으로 수행하거나 Task의 형태로 나누어 수행 가능하다.
+- Automation Runbook의 경우 자동화 형식이 될 문서의 이름이다. Runbook은 EC2 인스턴스나 AWS 리소스에 작업을 정의하고 수행하는 것이다. SSM Run Command로 비교하면 Documents == Runbook인 느낌
+- Runbook의 경우 AWS가 미리 정의한 Runbook도 있고 Custom Runbook을 만들 수도 있다.
+- Automation은 콘솔이나 CLI, SDK를 이용해 트리거 된다. EventBridge Rule을 이용해서 자동화할 수도 있다.
+- SSM Maintenance Windows를 이용해서 특정 일정에 수행되는 자동화도 가능하다.
+- AWS Config rules remediation으로 규칙에 준수되지 않는 리소스를 발견할 때마다 수행하는 자동화도 가능하다.
 
 ## **[SAA/DVA] SSM Parameter Store Overview**
 
@@ -1305,41 +1353,43 @@ Systems Manager에는 두 종류의 매개 변수 계층이 있다.
 하나는 Standard 하나는 Advanced이다.
 
 가장 큰 차이는 최대 변수 값 크기이다. Standard는 4KB Advanced는 8KB이다.
-그리고 매개 변수 정책의 가용성도 있다. 
+그리고 매개 변수 정책의 가용성도 있다.
 
 Standard는 공짜고 Advanced는 한달에 advanced parameter 당 0.05$이다.
 
 매개 변수 정책이란 무엇인가?
--    매개 변수에 TTL을 설정할수 있다. 만료일을 의미한다. 패스워드 같은 민감한 데이터를 업데이트하거나 삭제하도록 강요하는 것이다.
--    한번에 여러 가지 정책을 할당할 수 있다.
-    -    예를 들어서 매개 변수가 만료되기 15일 전에 이벤트 브릿지에서 알림을 받거나, 20일 동안 매개 변수가 업데이트되지 않는다면 알림을 받는 것처럼 두 개의 알림을 한번에 받을 수도 있다.
+
+- 매개 변수에 TTL을 설정할수 있다. 만료일을 의미한다. 패스워드 같은 민감한 데이터를 업데이트하거나 삭제하도록 강요하는 것이다.
+- 한번에 여러 가지 정책을 할당할 수 있다.
+- 예를 들어서 매개 변수가 만료되기 15일 전에 이벤트 브릿지에서 알림을 받거나, 20일 동안 매개 변수가 업데이트되지 않는다면 알림을 받는 것처럼 두 개의 알림을 한번에 받을 수도 있다.
 
 **정리**
--   SSM Parameter Store는 configuration과 secrets를 위한 보안 저장소이다. 파라미터 스토어는 Serverless이며, 확장 가능하고 사용이 쉬운 SDK가 특징이다.
--   선택적으로 configuration을 KMS 서비스를 이용해 암호화할 수도 있다.
--   CloudFormation과 통합해서 CloudFormation이 파라미터 스토어의 매개변수를 Stack의 input 매개 변수로 활용할 수 있다.
--   파라미터 스토어 매개 변수를 계층 구조와 함께 저장 가능하다.
-    -   예를 들어 특정 부서별 db를 관리하고 있고 해당 db에 대한 url과 패스워드 값을 파라미터로 저장해 특정 부서 경로에 액세스할 수 있도록 IAM 정책을 구성하면 부서 별 파라미터 접근 권한을 관리할 수 있다.
-    -   /infra-department/my-app/dev/db-url
-    -   /infra-department/my-app/dev/db-password
-    -   /dev-department/my-app/dev/db-url
-    -   /dev-department/my-app/dev/db-password 등등..
--   파라미터 스토어를 통해 secrets Manager에 접근할수도 있다.
-    -   /aws/reference/secretsmanager/secret_ID_in_Secrets_Manager
--   AWS가 관리하는 퍼블릭 파라미터를 사용할 수도 있다.
-    -   예를 들어 특정 Region에서 최신 AMI를 찾으려면 파라미터 스토어에서 값을 가져올 수 있다.
-    -   /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
--   Parameter Store에는 두 종류의 매개 변수 Tier가 있다.
-    -   Standard
-        -   무료 요금
-        -   Standard의 경우 매개 변수 정책을 설정할 수 없다.
-    -   Advanced
-        -   한달에 parameter 당 0.05$
-        -   매개 변수 정책 설정 가능
--   매개 변수 정책
-    -   매개 변수에 TTL을 설정해서 매개 변수가 만료되는 시점을 설정할 수 있다. 패스워드 같은 민감 데이터를 업데이트하거나 삭제하도록 강제하는 것이다.
-    -   한번에 여러 정책을 설정할 수 있다.
-        -   예를 들어 매개 변수가 만료되기 15일 전 이벤트 브릿지에서 알람을 받고, 20일 동안 매개 변수가 업데이트되지 않는다면 알람을 받아 두 개의 알람을 한 번에 받을수도 있다.
+
+- SSM Parameter Store는 configuration과 secrets를 위한 보안 저장소이다. 파라미터 스토어는 Serverless이며, 확장 가능하고 사용이 쉬운 SDK가 특징이다.
+- 선택적으로 configuration을 KMS 서비스를 이용해 암호화할 수도 있다.
+- CloudFormation과 통합해서 CloudFormation이 파라미터 스토어의 매개변수를 Stack의 input 매개 변수로 활용할 수 있다.
+- 파라미터 스토어 매개 변수를 계층 구조와 함께 저장 가능하다.
+  - 예를 들어 특정 부서별 db를 관리하고 있고 해당 db에 대한 url과 패스워드 값을 파라미터로 저장해 특정 부서 경로에 액세스할 수 있도록 IAM 정책을 구성하면 부서 별 파라미터 접근 권한을 관리할 수 있다.
+  - /infra-department/my-app/dev/db-url
+  - /infra-department/my-app/dev/db-password
+  - /dev-department/my-app/dev/db-url
+  - /dev-department/my-app/dev/db-password 등등..
+- 파라미터 스토어를 통해 secrets Manager에 접근할수도 있다.
+  - /aws/reference/secretsmanager/secret_ID_in_Secrets_Manager
+- AWS가 관리하는 퍼블릭 파라미터를 사용할 수도 있다.
+  - 예를 들어 특정 Region에서 최신 AMI를 찾으려면 파라미터 스토어에서 값을 가져올 수 있다.
+  - /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+- Parameter Store에는 두 종류의 매개 변수 Tier가 있다.
+  - Standard
+    - 무료 요금
+    - Standard의 경우 매개 변수 정책을 설정할 수 없다.
+  - Advanced
+    - 한달에 parameter 당 0.05$
+    - 매개 변수 정책 설정 가능
+- 매개 변수 정책
+  - 매개 변수에 TTL을 설정해서 매개 변수가 만료되는 시점을 설정할 수 있다. 패스워드 같은 민감 데이터를 업데이트하거나 삭제하도록 강제하는 것이다.
+  - 한번에 여러 정책을 설정할 수 있다.
+    - 예를 들어 매개 변수가 만료되기 15일 전 이벤트 브릿지에서 알람을 받고, 20일 동안 매개 변수가 업데이트되지 않는다면 알람을 받아 두 개의 알람을 한 번에 받을수도 있다.
 
 ## **SSM Inventory & State Manager**
 
@@ -1371,91 +1421,103 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 예를 들어 CloudWatch Agent를 설정하는 SSM Document를 생성할 수 있다.
 
 **정리**
--   SSM Inventory는 관리되는 인스턴스(EC2, 온프레미스)로부터 메타데이터를 수집하는 데 사용된다.
-    -   메타데이터에는 많은 것이 포함된다. 설치된 소프트웨어, OS 드라이버, Configurations, 설치된 업데이트, 실행중인 서비스 등등
-    -   AWS 콘솔에서 데이터를 보거나 S3에 데이터를 저장해 Athena를 이용해 쿼리 후 분석하거나 QuickSight를 이용해 데이터 대시보드를 구축할 수도 있다.
-    -   수집 간격은 분, 시간, 일 단위로 가능하다.
-    -   여러 계정 및 Region에서 데이터를 모아 하나의 계정에서 중앙 집중형으로 쿼리를 날릴 수 있다.
-    -   사용자 지정 인벤토리를 만들 수도 있으며, 설정 초기에 Click here to enable inventory on all instances 를 해주면 모든 인스턴스에 대한 inventory를 활성화 할 수 있다.
--   SSM State Manager는 관리되는 EC2를 우리가 정의한 상태로 유지하는 데 사용된다.
-    -   사용 사례는 소프트웨어의 인스턴스를 부트스트랩하거나, OS나 소프트웨어 업데이트를 일정에 따라 패치하는 것이다.
-    -   State Manager Association을 만들어 인스턴스가 유지되어야하는 상태를 정의할 수 있다. 예를 들어 무조건 포트 22번을 닫거나 EC2에 안티 바이러스를 설치해야 하는 등의 상태. 
-    -   그리고 해당 Configuration이 적용 될 스케줄을 지정해줄수 있다.
-    -   State manager를 활용하려면 SSM Documents를 사용하고 Association을 생성해야한다.
+
+- SSM Inventory는 관리되는 인스턴스(EC2, 온프레미스)로부터 메타데이터를 수집하는 데 사용된다.
+  - 메타데이터에는 많은 것이 포함된다. 설치된 소프트웨어, OS 드라이버, Configurations, 설치된 업데이트, 실행중인 서비스 등등
+  - AWS 콘솔에서 데이터를 보거나 S3에 데이터를 저장해 Athena를 이용해 쿼리 후 분석하거나 QuickSight를 이용해 데이터 대시보드를 구축할 수도 있다.
+  - 수집 간격은 분, 시간, 일 단위로 가능하다.
+  - 여러 계정 및 Region에서 데이터를 모아 하나의 계정에서 중앙 집중형으로 쿼리를 날릴 수 있다.
+  - 사용자 지정 인벤토리를 만들 수도 있으며, 설정 초기에 Click here to enable inventory on all instances 를 해주면 모든 인스턴스에 대한 inventory를 활성화 할 수 있다.
+- SSM State Manager는 관리되는 EC2를 우리가 정의한 상태로 유지하는 데 사용된다.
+  - 사용 사례는 소프트웨어의 인스턴스를 부트스트랩하거나, OS나 소프트웨어 업데이트를 일정에 따라 패치하는 것이다.
+  - State Manager Association을 만들어 인스턴스가 유지되어야하는 상태를 정의할 수 있다. 예를 들어 무조건 포트 22번을 닫거나 EC2에 안티 바이러스를 설치해야 하는 등의 상태.
+  - 그리고 해당 Configuration이 적용 될 스케줄을 지정해줄수 있다.
+  - State manager를 활용하려면 SSM Documents를 사용하고 Association을 생성해야한다.
 
 ## **SSM Patch Manager and Maintenance Windows**
 
 SSM 패치 매니저 개요
--   패치 매니저를 사용하여 관리되는 인스턴스의 패치 프로세스를 자동화
--   OS 업데이트, 응용 프로그램 업데이트 및 보안 업데이트를 포함한다.
--   EC2 인스턴스 및 온프레미스 서버, Linux, MacOS 및 Windows를 모두 지원한다.
 
--   패치 관리자를 사용하여 패치를 원할 때 실행하거나 Maintenance Windows를 사용하려면 일정에 따라 패치 관리자를 실행할 수 있다.
--   패치 관리자는 인스턴스를 스캔하고 패치 컴플라이언스 보고서를 생성한다. 이 보고서는 모든 Machine의 목록이고, 이 보고서에 따른 조치를 취할 수 있다.
+- 패치 매니저를 사용하여 관리되는 인스턴스의 패치 프로세스를 자동화
+- OS 업데이트, 응용 프로그램 업데이트 및 보안 업데이트를 포함한다.
+- EC2 인스턴스 및 온프레미스 서버, Linux, MacOS 및 Windows를 모두 지원한다.
+
+- 패치 관리자를 사용하여 패치를 원할 때 실행하거나 Maintenance Windows를 사용하려면 일정에 따라 패치 관리자를 실행할 수 있다.
+- 패치 관리자는 인스턴스를 스캔하고 패치 컴플라이언스 보고서를 생성한다. 이 보고서는 모든 Machine의 목록이고, 이 보고서에 따른 조치를 취할 수 있다.
 
 **패치 매니저 구성 요소**
--   패치 베이스라인
-    -   패치 베이스라인은 EC2 인스턴스에 설치해야하는 패치와 설치해서는 안되는 패치를 정의하며 사용자 정의 패치 베이스라인을 생성할 수 있다.
-    -   사용자 정의 패치 베이스라인을 사용하여 인스턴스에서 승인 또는 거부된 패치를 지정할 수 있다. 패치는 출시된 지 일정 기간 이내에 자동으로 승인될 수도 있다.
-    -   기본적으로 패치 베이스라인은 SSM 매니지드 인스턴스에 크리티컬 패치 및 보안 관련 패치만을 설치하도록 설정된다.
--   패치 그룹
-    -   특정 패치 베이스라인을 정의하는 경우 배치 그룹을 생성하여 이를 연결할 수 있다. 예를들어 dev, test, prod에 대한 패치 그룹을 생성할 수 있다.
-    -   패치 그룹을 사용할 때는 인스턴스가 tag key가 정의되어야 하고, 각 인스턴스는 언제든지 하나의 패치 그룹에만 속할 수 있다.
-    -   패치 그룹은 하나의 패치 베이스라인에만 등록될 수 있다.
+
+- 패치 베이스라인
+  - 패치 베이스라인은 EC2 인스턴스에 설치해야하는 패치와 설치해서는 안되는 패치를 정의하며 사용자 정의 패치 베이스라인을 생성할 수 있다.
+  - 사용자 정의 패치 베이스라인을 사용하여 인스턴스에서 승인 또는 거부된 패치를 지정할 수 있다. 패치는 출시된 지 일정 기간 이내에 자동으로 승인될 수도 있다.
+  - 기본적으로 패치 베이스라인은 SSM 매니지드 인스턴스에 크리티컬 패치 및 보안 관련 패치만을 설치하도록 설정된다.
+- 패치 그룹
+  - 특정 패치 베이스라인을 정의하는 경우 배치 그룹을 생성하여 이를 연결할 수 있다. 예를들어 dev, test, prod에 대한 패치 그룹을 생성할 수 있다.
+  - 패치 그룹을 사용할 때는 인스턴스가 tag key가 정의되어야 하고, 각 인스턴스는 언제든지 하나의 패치 그룹에만 속할 수 있다.
+  - 패치 그룹은 하나의 패치 베이스라인에만 등록될 수 있다.
 
 **패치 베이스라인 종류**
--   패치 베이스라인은 미리 정의된 베이스라인이 있고, 이는 AWS에서 관리하며 수정할 수 없다.
--   또한 사용자 정의 패치 베이스라인을 정의할 수 있다.
-    -   여기에는 자동으로 승인되는 패치, 허용되는 패치, 거부되는 패치 및 운영체제가 포함될 수 있다.
-    -   또한 사용자 지정 또는 대체 패치 저장소를 지정할 수 있다.
+
+- 패치 베이스라인은 미리 정의된 베이스라인이 있고, 이는 AWS에서 관리하며 수정할 수 없다.
+- 또한 사용자 정의 패치 베이스라인을 정의할 수 있다.
+  - 여기에는 자동으로 승인되는 패치, 허용되는 패치, 거부되는 패치 및 운영체제가 포함될 수 있다.
+  - 또한 사용자 지정 또는 대체 패치 저장소를 지정할 수 있다.
 
 **Maintenance Windows**
--   인스턴스에서 작업을 수행할 일정을 정의할 때 사용된다.
--   OS 패치, 드라이버 업데이트 및 소프츠웨어 설치 등의 작업을 할 수 있으며, 특정 시간 및 기간에 수행 가능하다. (03:00 ~ 05:00 등)
--   Maintenance window는 일정과 기간 그리고 등록된 인스턴스의 집합 그리고 수행되어야할 태스크 등이 포함되어 있다.
+
+- 인스턴스에서 작업을 수행할 일정을 정의할 때 사용된다.
+- OS 패치, 드라이버 업데이트 및 소프츠웨어 설치 등의 작업을 할 수 있으며, 특정 시간 및 기간에 수행 가능하다. (03:00 ~ 05:00 등)
+- Maintenance window는 일정과 기간 그리고 등록된 인스턴스의 집합 그리고 수행되어야할 태스크 등이 포함되어 있다.
 
 **시험 관점에서 알아야할 내용**
--   패치 매니저가 인스턴스에 패치를 적용하는 데 사용된다는 것
--   필요하다면 특정 Maintenance Windows에서 특정 rate control도 가능하다.
+
+- 패치 매니저가 인스턴스에 패치를 적용하는 데 사용된다는 것
+- 필요하다면 특정 Maintenance Windows에서 특정 rate control도 가능하다.
 
 **정리**
--   Patch Manager는 관리되는 인스턴스의 패치 프로세스를 자동화할 수 있다.
--   OS 업데이트, 응용 프로그램 업데이트 및 보안 업데이트를 포함하고, EC2 및 온프레미스 서버, Linux/MacOS/Windows OS를 모두 지원한다.
--   패치 매니저를 사용하여 패치를 원할 때 실행하거나 Maintenance Windows를 사용하여 일정에 따라 패치 매니저를 실행할 수 있다.
--   인스턴스를 스캔하고 모든 관리되는 인스턴스에 대한 패치 컴플라이언스 보고서를 생성하고, 이 보고서에 따른 조치를 취할 수 있다.
--   패치 매니저는 구성 요소가 있음
-    -   패치 베이스 라인
-        -   패치 베이스라인은 EC2 인스턴스에 설치해야되는 패치와 설치해서는 안되는 패치를 정의하며, 사용자 정의 패치 베이스라인을 생성할 수 있다.
-        -   패치는 승인 또는 거부할 수 있으며 승인의 경우 자동 승인을 설정해 일정 기간까지 패치를 완료하거나 일정 기간 이후 패치를 완료하도록 설정할 수 있다.
-        -   custom 베이스라인을 사용하게 되면 심각도 카테고리를 설정해 critical patch 및 important patch만을 패치를 설치하도록 구성할 수도 있다.
-    -   패치 그룹
-        -   특정 패치 베이스라인을 정의하는 경우 배치 그룹을 생성해 이를 연결할 수 있다.
-        -   패치 그룹을 사용할 때는 인스턴스에 `Patch Group` 또는 `PatchGroup` 태그가 설정되어야 하고, 각 인스턴스는 key value만 같다면 언제든지 하나의 패치 그룹에 속한다. 또한 한 인스턴스는 하나의 패치 그룹에만 속할 수 있고, 패치 그룹은 하나의 패치 베이스라인에만 등록될 수 있다.
--   Maintenance Windows
-    -   인스턴스에서 작업을 수행할 일정을 정의할 때 사용된다.
-    -   OS 패치, 드라이버 업데이트 및 소프트웨어 설치 등의 작업을 할 수 있으며, 특정 시간 및 기간에 수행 가능하다. (03:00 ~ 05:00 등)
-    -   일정과 기간 그리고 등록된 인스턴스의 집합 그리고 수행되어야할 태스크 등이 포함 돼 있다.
--   시험관점에서는 패치 매니저가 인스턴스에 패치를 적용하는 데 사용된다는 것, 필요하다면 특정 Maintenance Windows에서 특정 rate control도 가능하다는 것을 알면 된다.
+
+- Patch Manager는 관리되는 인스턴스의 패치 프로세스를 자동화할 수 있다.
+- OS 업데이트, 응용 프로그램 업데이트 및 보안 업데이트를 포함하고, EC2 및 온프레미스 서버, Linux/MacOS/Windows OS를 모두 지원한다.
+- 패치 매니저를 사용하여 패치를 원할 때 실행하거나 Maintenance Windows를 사용하여 일정에 따라 패치 매니저를 실행할 수 있다.
+- 인스턴스를 스캔하고 모든 관리되는 인스턴스에 대한 패치 컴플라이언스 보고서를 생성하고, 이 보고서에 따른 조치를 취할 수 있다.
+- 패치 매니저는 구성 요소가 있음
+  - 패치 베이스 라인
+    - 패치 베이스라인은 EC2 인스턴스에 설치해야되는 패치와 설치해서는 안되는 패치를 정의하며, 사용자 정의 패치 베이스라인을 생성할 수 있다.
+    - 패치는 승인 또는 거부할 수 있으며 승인의 경우 자동 승인을 설정해 일정 기간까지 패치를 완료하거나 일정 기간 이후 패치를 완료하도록 설정할 수 있다.
+    - custom 베이스라인을 사용하게 되면 심각도 카테고리를 설정해 critical patch 및 important patch만을 패치를 설치하도록 구성할 수도 있다.
+  - 패치 그룹
+    - 특정 패치 베이스라인을 정의하는 경우 배치 그룹을 생성해 이를 연결할 수 있다.
+    - 패치 그룹을 사용할 때는 인스턴스에 `Patch Group` 또는 `PatchGroup` 태그가 설정되어야 하고, 각 인스턴스는 key value만 같다면 언제든지 하나의 패치 그룹에 속한다. 또한 한 인스턴스는 하나의 패치 그룹에만 속할 수 있고, 패치 그룹은 하나의 패치 베이스라인에만 등록될 수 있다.
+- Maintenance Windows
+  - 인스턴스에서 작업을 수행할 일정을 정의할 때 사용된다.
+  - OS 패치, 드라이버 업데이트 및 소프트웨어 설치 등의 작업을 할 수 있으며, 특정 시간 및 기간에 수행 가능하다. (03:00 ~ 05:00 등)
+  - 일정과 기간 그리고 등록된 인스턴스의 집합 그리고 수행되어야할 태스크 등이 포함 돼 있다.
+- 시험관점에서는 패치 매니저가 인스턴스에 패치를 적용하는 데 사용된다는 것, 필요하다면 특정 Maintenance Windows에서 특정 rate control도 가능하다는 것을 알면 된다.
 
 ## **SSM Session Manager Overview**
+
 **개요**
--   EC2 인스턴스 및 온프레미스 서버에서 안전한 셸 환경을 시작하는 방법
--   콘솔, CLI 또는 세션 매니저 SDK를 통한 액세스를 지원하며, 세션 매니저의 중요한 이점은 인스턴스에 직접 SSH 액세스가 필요하지 않다는 것
--   배스쳔 호스트나 SSH 키가 필요하지 않다.
+
+- EC2 인스턴스 및 온프레미스 서버에서 안전한 셸 환경을 시작하는 방법
+- 콘솔, CLI 또는 세션 매니저 SDK를 통한 액세스를 지원하며, 세션 매니저의 중요한 이점은 인스턴스에 직접 SSH 액세스가 필요하지 않다는 것
+- 배스쳔 호스트나 SSH 키가 필요하지 않다.
 
 **작동 방식**
--   EC2 인스턴스는 SSM 에이전트를 실행하고 SSM 서비스에 등록할 Role이 있어야한다.
--   사용자는 올바른 IAM 권한으로 세션 매니저 서비스에 연결한다.
--   세션 매니저는 EC2 인스턴스에서 명령을 실행하여 Run commands 서비스 기능과 유사한 기능을 제공한다.
--   Linux, MacOS, Windows에 대한 공통 쉘 인터페이스를 제공한다.
--   모든 연결, 인스턴스 및 실행된 명령은 로그로 기록되며 로그는 Amazon S3 또는 CloudWatch Logs로 전송할 수 있다.
+
+- EC2 인스턴스는 SSM 에이전트를 실행하고 SSM 서비스에 등록할 Role이 있어야한다.
+- 사용자는 올바른 IAM 권한으로 세션 매니저 서비스에 연결한다.
+- 세션 매니저는 EC2 인스턴스에서 명령을 실행하여 Run commands 서비스 기능과 유사한 기능을 제공한다.
+- Linux, MacOS, Windows에 대한 공통 쉘 인터페이스를 제공한다.
+- 모든 연결, 인스턴스 및 실행된 명령은 로그로 기록되며 로그는 Amazon S3 또는 CloudWatch Logs로 전송할 수 있다.
 
 **보안 및 규정 준수**
--   CloudTrail은 StartSession 이벤트를 확인할 수 있어 자동화, 규정 준수 및 경고에 대한 가시성을 제공한다.
--   IAM Policy는 사용자 또는 그룹이 세션 매니저에 액세스하고 인스턴스 액세스를 정의하는 데 사용된다.
--   태그를 사용해 특정 EC2 인스턴스에만 액세스를 제한할 수 있다.
+
+- CloudTrail은 StartSession 이벤트를 확인할 수 있어 자동화, 규정 준수 및 경고에 대한 가시성을 제공한다.
+- IAM Policy는 사용자 또는 그룹이 세션 매니저에 액세스하고 인스턴스 액세스를 정의하는 데 사용된다.
+- 태그를 사용해 특정 EC2 인스턴스에만 액세스를 제한할 수 있다.
 
 **IAM 정책 예시**
+
 ```json
 {
   "Effect": "Allow",
@@ -1470,270 +1532,299 @@ SSM 패치 매니저 개요
 ```
 
 **추가 정보**
--   SSM에 액세스하고 S3 및 CloudWatch에 쓰기 권한이 필요하다.
--   선택적으로 세션에서 사용자가 실행할 수 있는 명령을 제한할 수 있다.
+
+- SSM에 액세스하고 S3 및 CloudWatch에 쓰기 권한이 필요하다.
+- 선택적으로 세션에서 사용자가 실행할 수 있는 명령을 제한할 수 있다.
 
 **정리**
--   세션 매니저는 EC2 인스턴스 및 온프레미스 서버에서 셸 환경을 안전하게 시작하는 방법이다.
--   콘솔, CLI 또는 세션 매니저 SDK를 통한 액세스를 지원하며, 세션 매니저는 인스턴스에 직접 SSH 연결하거나 배스쳔 호스트를 사용 하지 않아서 굉장한 이점이 있다.
--   EC2 인스턴스는 SSM Agent를 실행하고 SSM 서비스에 등록할 Role이 있어야 한다. 사용자는 IAM 권한을 사용해 세션 매니저 서비스에 연결한다. 세션 매니저는 EC2 인스턴스에서 명령을 실행한다.
--   Linux, MacOS, Windows에 대한 공통 셸 인터페이스를 제공한다.
--   모든 연결, 인스턴스에서 실행된 명령은 로그로 기록되며 로그는 S3, CloudWatch Logs로 전송할 수 있다.
--   CloudTrail은 StartSession 이벤트를 확인할 수 있어 자동화, 규정 준수 및 경고에 대한 가시성을 제공한다.
--   IAM Policy는 사용자 또는 그룹이 세션 매니저에 액세스하고 인스턴스 액세스를 정의하는 데 사용된다.
--   태그를 사용해 특정 EC2 인스턴스에만 액세스할 수 있도록 제한할 수 있다.
--   선택적으로 세션에서 사용자가 실행할 수 있는 명령을 제한할 수 있다.
 
+- 세션 매니저는 EC2 인스턴스 및 온프레미스 서버에서 셸 환경을 안전하게 시작하는 방법이다.
+- 콘솔, CLI 또는 세션 매니저 SDK를 통한 액세스를 지원하며, 세션 매니저는 인스턴스에 직접 SSH 연결하거나 배스쳔 호스트를 사용 하지 않아서 굉장한 이점이 있다.
+- EC2 인스턴스는 SSM Agent를 실행하고 SSM 서비스에 등록할 Role이 있어야 한다. 사용자는 IAM 권한을 사용해 세션 매니저 서비스에 연결한다. 세션 매니저는 EC2 인스턴스에서 명령을 실행한다.
+- Linux, MacOS, Windows에 대한 공통 셸 인터페이스를 제공한다.
+- 모든 연결, 인스턴스에서 실행된 명령은 로그로 기록되며 로그는 S3, CloudWatch Logs로 전송할 수 있다.
+- CloudTrail은 StartSession 이벤트를 확인할 수 있어 자동화, 규정 준수 및 경고에 대한 가시성을 제공한다.
+- IAM Policy는 사용자 또는 그룹이 세션 매니저에 액세스하고 인스턴스 액세스를 정의하는 데 사용된다.
+- 태그를 사용해 특정 EC2 인스턴스에만 액세스할 수 있도록 제한할 수 있다.
+- 선택적으로 세션에서 사용자가 실행할 수 있는 명령을 제한할 수 있다.
 
 ## **[SAA/DVA] What is High Availability and Scalability?**
+
 **Scalability와 고가용성**
--   Scalability는 응용프로그램 시스템이 적응해 더 큰 부하를 견딜 수 있다는 것을 의미한다.
--   Scalability는 수직 Scalability, 수평 Scalability로 나뉜다.
--   Scalability는 Availability와는 다른 말이다.
+
+- Scalability는 응용프로그램 시스템이 적응해 더 큰 부하를 견딜 수 있다는 것을 의미한다.
+- Scalability는 수직 Scalability, 수평 Scalability로 나뉜다.
+- Scalability는 Availability와는 다른 말이다.
 
 **수직 Scalability**
--   인스턴스의 사이즈를 증가해야 한다는 것을 의미한다.
--   인스턴스 타입을 t2.micro 에서 t2.large로 업스케일링하는 경우를 말한다.
--   비분산 시스템의 경우 수직 Scalability를 사용해야한다. 예를 들어 데이터베이스가 있다.
--   일반적으로 수직으로 얼마나 확장할 수 있는지에는 제한이 있다.
+
+- 인스턴스의 사이즈를 증가해야 한다는 것을 의미한다.
+- 인스턴스 타입을 t2.micro 에서 t2.large로 업스케일링하는 경우를 말한다.
+- 비분산 시스템의 경우 수직 Scalability를 사용해야한다. 예를 들어 데이터베이스가 있다.
+- 일반적으로 수직으로 얼마나 확장할 수 있는지에는 제한이 있다.
 
 **수평 Scalability**
--   응용 프로그램에 대한 인스턴스/시스템 수를 증가시킨다는 것을 의미한다.
--   모든 응용 프로그램이 분산 시스템이 될수 있는 것은 아니다.
+
+- 응용 프로그램에 대한 인스턴스/시스템 수를 증가시킨다는 것을 의미한다.
+- 모든 응용 프로그램이 분산 시스템이 될수 있는 것은 아니다.
 
 **High Availability**
--   일반적으로 수평 Scalability와 함께 진행되지만 항상 그런것은 아니다.
--   응용 프로그램 또는 시스템을 최소한 두 개의 데이터 센터 또는 AWS의 두 가용 영역에서 실행한다는 것을 의미한다.
--   고가용성의 목표는 데이터 센터 손실을 견딜 수 있도록 하는 것이므로 한 센터가 다운 되더라도 여전히 운영이 가능하다.
--   RDS Multi AZ에서는 수동 형태의 고가용성이 있을 수 있다.
+
+- 일반적으로 수평 Scalability와 함께 진행되지만 항상 그런것은 아니다.
+- 응용 프로그램 또는 시스템을 최소한 두 개의 데이터 센터 또는 AWS의 두 가용 영역에서 실행한다는 것을 의미한다.
+- 고가용성의 목표는 데이터 센터 손실을 견딜 수 있도록 하는 것이므로 한 센터가 다운 되더라도 여전히 운영이 가능하다.
+- RDS Multi AZ에서는 수동 형태의 고가용성이 있을 수 있다.
 
 인스턴스를 수평으로 확장/축소 하는 것은 scale out/in 이라고 한다. 그리고 수직으로 확장/축소 하는 것은 scale up/down 이라고 한다.
 
 고가용성은 Multi AZ가 활성화된 오토 스케일러 그룹이나 로드 밸런서를 위한 것이다.
 
 ## **[SAA/DVA] Elastic Load Balancing (ELB) Overview**
+
 **개요**
--   로드 밸런서는 받은 트래픽을 여러 백엔드 또는 다운스트림 EC2 인스턴스 또는 서버로 전달하는 서버이다.
--   사용자가 많아질수록 로드는 EC2 인스턴스 전체에 고르게 분배된다. 그런데 핵심은 사용자가 어떤 백엔드 인스턴스에 연결되어 있는지 모른다는 것이다.
--   ELB를 사용해야하는 이유는 우리의 응용 프로그램에 대한 단일 액세스 포인트를 노출하기 때문이다.
--   다운스트림 인스턴스의 장애를 원활하게 처리할 수 있다.
--   로드 밸런서는 헬스 체크 매커니즘을 갖추고 있으며 어떤 인스턴스에 트래픽을 보내지 않아야 하는지 이해할 수 있다.
--   웹 사이트에 HTTPS 암호화 트래픽이 있는 경우 SSL Termination을 수행할 수 있다.
--   쿠키를 사용해 지속성을 강제할 수 있다.
+
+- 로드 밸런서는 받은 트래픽을 여러 백엔드 또는 다운스트림 EC2 인스턴스 또는 서버로 전달하는 서버이다.
+- 사용자가 많아질수록 로드는 EC2 인스턴스 전체에 고르게 분배된다. 그런데 핵심은 사용자가 어떤 백엔드 인스턴스에 연결되어 있는지 모른다는 것이다.
+- ELB를 사용해야하는 이유는 우리의 응용 프로그램에 대한 단일 액세스 포인트를 노출하기 때문이다.
+- 다운스트림 인스턴스의 장애를 원활하게 처리할 수 있다.
+- 로드 밸런서는 헬스 체크 매커니즘을 갖추고 있으며 어떤 인스턴스에 트래픽을 보내지 않아야 하는지 이해할 수 있다.
+- 웹 사이트에 HTTPS 암호화 트래픽이 있는 경우 SSL Termination을 수행할 수 있다.
+- 쿠키를 사용해 지속성을 강제할 수 있다.
 
 **ELB란?**
--   ELB는 관리형 로드 밸런서이다. AWS가 관리하고 무슨 일이 있든 작동함을 보장한다. 업그레이드, 유지보수 및 고가용성을 처리한다.
--   자체 로드 밸런서를 관리해야 한다면 확장성 측면에서 어려움이 있을 것이다.
--   로드 밸런서는 다양한 AWS 오퍼링 및 서비스와 통합되어 있다. ASG, ECS, ACM, CloudWatch 등등 많은 서비스와 통합된다.
+
+- ELB는 관리형 로드 밸런서이다. AWS가 관리하고 무슨 일이 있든 작동함을 보장한다. 업그레이드, 유지보수 및 고가용성을 처리한다.
+- 자체 로드 밸런서를 관리해야 한다면 확장성 측면에서 어려움이 있을 것이다.
+- 로드 밸런서는 다양한 AWS 오퍼링 및 서비스와 통합되어 있다. ASG, ECS, ACM, CloudWatch 등등 많은 서비스와 통합된다.
 
 **Health check**
--   헬스 체크는 우리의 ELB가 EC2 인스턴스가 제대로 작동하는지 여부를 확인하는 방법이다. EC2가 제대로 작동하지 않는다면 해당 인스턴스로 트래픽을 보내고 싶지 않기 때문이다.
--   헬스 체크는 포트와 라우트를 사용하여 수행된다. 예를들어 프로토콜은 HTTP이고 포트는 4567이며 엔드 포인트는 /health이다. 이 같은 경우 200 상태 코드를 응답하지 않으면 인스턴스는 건강하지 않다고 표시될 것이다. 건강하지 않다고 생각이 되면 트래픽을 보내지 않을 것이다.
+
+- 헬스 체크는 우리의 ELB가 EC2 인스턴스가 제대로 작동하는지 여부를 확인하는 방법이다. EC2가 제대로 작동하지 않는다면 해당 인스턴스로 트래픽을 보내고 싶지 않기 때문이다.
+- 헬스 체크는 포트와 라우트를 사용하여 수행된다. 예를들어 프로토콜은 HTTP이고 포트는 4567이며 엔드 포인트는 /health이다. 이 같은 경우 200 상태 코드를 응답하지 않으면 인스턴스는 건강하지 않다고 표시될 것이다. 건강하지 않다고 생각이 되면 트래픽을 보내지 않을 것이다.
 
 **ELB 종류**
--   CLB (Classic Load Balancer)
-    -   구 버전 로드 밸런서이다.
-    -   HTTP, HTTPS, TCP, SSL 등과 호환된다.
-    -   전반적으로 AWS에서는 더이상 이 로드 밸런서를 사용하지 않기를 원한다.
--   ALB (Application Load Balancer)
-    -   HTTP, HTTPS, 웹 소켓을 지원한다.
--   NLB (Network Load Balancer)
-    -   TCP, TLS, UDP 프로토콜을 지원한다.
--   GWLB (Gateway Load Balancer)
-    -   네트워크 레이어에서 작동하므로 세 가지 및 IP 프로토콜이 있다.
 
--   전반적으로 더 최신 세대의 로드 밸런서를 사용하는 것이 좋다.
--   네트워크나 외부 공개 로드 밸런서로 설정되거나 내부로 설정될 수 있다.
+- CLB (Classic Load Balancer)
+  - 구 버전 로드 밸런서이다.
+  - HTTP, HTTPS, TCP, SSL 등과 호환된다.
+  - 전반적으로 AWS에서는 더이상 이 로드 밸런서를 사용하지 않기를 원한다.
+- ALB (Application Load Balancer)
+  - HTTP, HTTPS, 웹 소켓을 지원한다.
+- NLB (Network Load Balancer)
+  - TCP, TLS, UDP 프로토콜을 지원한다.
+- GWLB (Gateway Load Balancer)
+
+  - 네트워크 레이어에서 작동하므로 세 가지 및 IP 프로토콜이 있다.
+
+- 전반적으로 더 최신 세대의 로드 밸런서를 사용하는 것이 좋다.
+- 네트워크나 외부 공개 로드 밸런서로 설정되거나 내부로 설정될 수 있다.
 
 ## **[SAA/DVA] Application Load Balancer (ALB)**
 
 **개요**
--   레이어 7에서만 작동하는 로드 밸런서, 즉 HTTP에 특화되어 있다. 여러 대의 머신에 HTTP 응용 프로그램으로 라우팅할 수 있게 해준다.
--   여러 대의 머신은 대상 그룹(Target Group)이라 불리는 것에 그룹화된다.
--   컨테이너와 ECS를 사용할 때 유용하다
--   HTTP/2와 웹소켓을 지원하며, 리다이렉트를 지원한다. 로드 밸런서 수준에서 HTTP에서 HTTPS로 트래픽을 자동으로 리다이렉트 한다.
--   URL의 대상 경로를 기반으로 경로 라우팅을 지원한다. 예를들어 example.com/users 및 example.com/posts와 같이 URL의 대상 경로를 기반으로 라우팅할 수 있다.
--   또한 URL의 hostname 기반으로 라우팅할 수도 있다. 따라서 one.example.com 또는 other.example.com 을 사용해 액세스되는 경우 서로 다른 대상 그룹으로 라우팅될 수 있다.
--   그리고 쿼리 문자열과 헤더를 기반으로 라우팅할 수도 있다. 예를 들어 example.com/reserves 및 id=123&order=false는 서로 다른 대상 그룹으로 라우팅될 수 있다.
--   ALB는 마이크로 서비스와 컨테이너 기반 애플리케이션을 보유할 때 훌룡하다.
--   Auto Scaling 그룹에 의해서 ALB 뒤에 있는 애플리케이션이 관리될 수 있다.
--   Lambda 함수를 ALB 뒤에 둘수도 있다.
--   IP 주소를 ALB 뒤에 둘 수도 있으며, 이 IP는 반드시 Private IP 주소여야한다.
--   헬스 체크는 대상 그룹 수준에서 이뤄진다. 대상 그룹을 구성하려면 서버의 사설 IP를 지정해야한다.
--   ALB는 고정된 hostname을 얻게 된다. 
--   애플리케이션 서버는 클라이언트의 IP를 직접적으로 확인할 수 없다 클라이언트의 실제 IP는 X-Forwarded-For 헤더에 삽입된다.
--   X-Forwarded-Ports를 사용해 실제 클라이언트의 포트를 얻을 수 있고, X-Forwarded-Proto를 사용해 사용중인 프로토콜도 얻을 수 있다.
+
+- 레이어 7에서만 작동하는 로드 밸런서, 즉 HTTP에 특화되어 있다. 여러 대의 머신에 HTTP 응용 프로그램으로 라우팅할 수 있게 해준다.
+- 여러 대의 머신은 대상 그룹(Target Group)이라 불리는 것에 그룹화된다.
+- 컨테이너와 ECS를 사용할 때 유용하다
+- HTTP/2와 웹소켓을 지원하며, 리다이렉트를 지원한다. 로드 밸런서 수준에서 HTTP에서 HTTPS로 트래픽을 자동으로 리다이렉트 한다.
+- URL의 대상 경로를 기반으로 경로 라우팅을 지원한다. 예를들어 example.com/users 및 example.com/posts와 같이 URL의 대상 경로를 기반으로 라우팅할 수 있다.
+- 또한 URL의 hostname 기반으로 라우팅할 수도 있다. 따라서 one.example.com 또는 other.example.com 을 사용해 액세스되는 경우 서로 다른 대상 그룹으로 라우팅될 수 있다.
+- 그리고 쿼리 문자열과 헤더를 기반으로 라우팅할 수도 있다. 예를 들어 example.com/reserves 및 id=123&order=false는 서로 다른 대상 그룹으로 라우팅될 수 있다.
+- ALB는 마이크로 서비스와 컨테이너 기반 애플리케이션을 보유할 때 훌룡하다.
+- Auto Scaling 그룹에 의해서 ALB 뒤에 있는 애플리케이션이 관리될 수 있다.
+- Lambda 함수를 ALB 뒤에 둘수도 있다.
+- IP 주소를 ALB 뒤에 둘 수도 있으며, 이 IP는 반드시 Private IP 주소여야한다.
+- 헬스 체크는 대상 그룹 수준에서 이뤄진다. 대상 그룹을 구성하려면 서버의 사설 IP를 지정해야한다.
+- ALB는 고정된 hostname을 얻게 된다.
+- 애플리케이션 서버는 클라이언트의 IP를 직접적으로 확인할 수 없다 클라이언트의 실제 IP는 X-Forwarded-For 헤더에 삽입된다.
+- X-Forwarded-Ports를 사용해 실제 클라이언트의 포트를 얻을 수 있고, X-Forwarded-Proto를 사용해 사용중인 프로토콜도 얻을 수 있다.
 
 ## **[SAA/DVA] Network Load Balancer (NLB)**
--   레이어 4 로드 밸런서이며 TCP 및 UDP 트래픽을 처리할 수 있다.
--   매우 높은 성능을 가지고 있어 백만 건 이상의 요청을 처리할 수 있다.
--   ALB에 비해 대기 시간이 줄어든다. 약 400밀리초 대비 100밀리초 정도가 된다.
--   가용 영역당 정적 IP가 하나뿐이며 각 AZ에 Elastic IP를 할당할 수 있다. 응용 프로그램을 정적 IP 집합으로 노출해야할 때 매우 유용하다. 시험에서 "애플리케이션은 오직 한/두/세 개의 다른 IP에서만 액세스 가능하다" 라고 한다면 NLB를 옵션으로 생각해야 한다.
--   극도의 성능, TCP 또는 UDP, 정적 IP를 보면 NLB라고 생각하면 된다.
+
+- 레이어 4 로드 밸런서이며 TCP 및 UDP 트래픽을 처리할 수 있다.
+- 매우 높은 성능을 가지고 있어 백만 건 이상의 요청을 처리할 수 있다.
+- ALB에 비해 대기 시간이 줄어든다. 약 400밀리초 대비 100밀리초 정도가 된다.
+- 가용 영역당 정적 IP가 하나뿐이며 각 AZ에 Elastic IP를 할당할 수 있다. 응용 프로그램을 정적 IP 집합으로 노출해야할 때 매우 유용하다. 시험에서 "애플리케이션은 오직 한/두/세 개의 다른 IP에서만 액세스 가능하다" 라고 한다면 NLB를 옵션으로 생각해야 한다.
+- 극도의 성능, TCP 또는 UDP, 정적 IP를 보면 NLB라고 생각하면 된다.
 
 **NLB 작동**
--   ALB와 매우 유사하게 작동한다.
--   대상 그룹을 생성하고 NLB가 해당 대상 그룹으로 리디렉션한다.
--   대상 그룹은 EC2 인스턴스가 될 수 있으며, IP 주소도 등록할 수 있다. IP 주소는 하드 코딩되어 있어야 하며, Private IP여야 한다. 소유한 EC2 인스턴스의 Private IP를 등록하거나 자체 데이터 센터에 있는 서버의 Private IP를 사용할수도 있다.
--   NLB를 ALB 앞에 놓을 수도 있다. 이렇게 하는 이유는 NLB 덕분에 고정 IP 주소를 얻을 수 있고, ALB 덕분에 HTTP 유형의 트래픽 처리에 대한 모든 규칙을 얻을 수 있다.
--   NLB 대상 그룹에서 수행되는 헬스 체크는 TCP, HTTP, HTTPS 의 세 가지 다른 종류의 프로토콜을 지원한다. 백엔드 애플리케이션이 HTTP 또는 HTTPS 프로토콜을 지원하는 경우 이러한 프로토콜에 대한 헬스 체크를 정의할 수 있다.
 
+- ALB와 매우 유사하게 작동한다.
+- 대상 그룹을 생성하고 NLB가 해당 대상 그룹으로 리디렉션한다.
+- 대상 그룹은 EC2 인스턴스가 될 수 있으며, IP 주소도 등록할 수 있다. IP 주소는 하드 코딩되어 있어야 하며, Private IP여야 한다. 소유한 EC2 인스턴스의 Private IP를 등록하거나 자체 데이터 센터에 있는 서버의 Private IP를 사용할수도 있다.
+- NLB를 ALB 앞에 놓을 수도 있다. 이렇게 하는 이유는 NLB 덕분에 고정 IP 주소를 얻을 수 있고, ALB 덕분에 HTTP 유형의 트래픽 처리에 대한 모든 규칙을 얻을 수 있다.
+- NLB 대상 그룹에서 수행되는 헬스 체크는 TCP, HTTP, HTTPS 의 세 가지 다른 종류의 프로토콜을 지원한다. 백엔드 애플리케이션이 HTTP 또는 HTTPS 프로토콜을 지원하는 경우 이러한 프로토콜에 대한 헬스 체크를 정의할 수 있다.
 
 ## **[SAA/DVA] Gateway Load Balancer (GWLB)**
--   게이트웨이 로드밸런서는 모든 네트워크 트래픽이 방화벽, 침입 탐지 및 방지 시스템(IDPS) 또는 패킷 검사 시스템을 통화하도록 하거나 네트워크 수준에서 일부 페이로드를 수정하려는 경우 사용한다.
--   사용자가 애플리케이션에 액세스할 때 모든 네트워크 트래픽을 애플리케이션에 도달하기 전에 검사하고 싶으면 third-party 어플라이언스(EC2와 같은)를 배치해야 했는데 GWLB를 사용하면 매우 간단해진다.
--   GWLB를 통과하면 로드 밸런서는 해당 트래픽을 가상 어플라이언스의 대상 그룹에 분산시킨다. 따라서 모든 트래픽은 애플라이언스에 도달하게 되고 애플라이언스는 트래픽을 분석하고 해야 할 작업을 수행한다. 작업은 방화벽, 침입자 탐지 등이 있을 수 있다. 만약 해당 작업에서 만족하지 않다면 트래픽을 드롭할 수 있다.(방화벽의 경우) 트래픽은 게이트웨이 로드 밸런서를 다시 통과하고 게이트웨이 로드 밸런서가 트래픽을 애플리케이션으로 전달한다.
--   위 과정을 정리하면 모든 트래픽이 GWLB를 통과하고 분산된 third-party appliance가 모든 네트워크 트래픽을 분석하고 필요에 따라 드롭했다고 보면 된다.
--   게이트웨이 로드 밸런서는 L3에서 동작한다. 
--   게이트웨이 로드 밸런서는 두 가지 기능이 있다.
-    1.  명료한 네트워크 게이트웨이.
-        -   왜냐하면 VPC의 모든 트래픽이 단일 진입 및 단일 탈출인 게이트웨이 로드 밸런서를 통과하기 때문이다.
-    2.  로드 밸런싱
-        -   트래픽을 가상 어플라이언스 및 대상 그룹의 세트에 분산 시킨다.
--   시험에서 "GENEVE 프로토콜을 사용하고 포트 6081에서 사용하려면" 이라면 게이트웨이 로드 밸런서를 사용한다는 것이다.
--   게이트웨이 로드 밸런서의 대상 그룹이 될 수 있는 것은 Third-party 애플라이언스이다. 이것은 EC2 인스턴스일 수 있고 인스턴스 ID로 등록할 수 있다. 그리고 Private IP 주소로 등록할 수 있다. 자체 네트워크 또는 자체 데이터 센터의 서버도 등록 가능하다.
 
+- 게이트웨이 로드밸런서는 모든 네트워크 트래픽이 방화벽, 침입 탐지 및 방지 시스템(IDPS) 또는 패킷 검사 시스템을 통화하도록 하거나 네트워크 수준에서 일부 페이로드를 수정하려는 경우 사용한다.
+- 사용자가 애플리케이션에 액세스할 때 모든 네트워크 트래픽을 애플리케이션에 도달하기 전에 검사하고 싶으면 third-party 어플라이언스(EC2와 같은)를 배치해야 했는데 GWLB를 사용하면 매우 간단해진다.
+- GWLB를 통과하면 로드 밸런서는 해당 트래픽을 가상 어플라이언스의 대상 그룹에 분산시킨다. 따라서 모든 트래픽은 애플라이언스에 도달하게 되고 애플라이언스는 트래픽을 분석하고 해야 할 작업을 수행한다. 작업은 방화벽, 침입자 탐지 등이 있을 수 있다. 만약 해당 작업에서 만족하지 않다면 트래픽을 드롭할 수 있다.(방화벽의 경우) 트래픽은 게이트웨이 로드 밸런서를 다시 통과하고 게이트웨이 로드 밸런서가 트래픽을 애플리케이션으로 전달한다.
+- 위 과정을 정리하면 모든 트래픽이 GWLB를 통과하고 분산된 third-party appliance가 모든 네트워크 트래픽을 분석하고 필요에 따라 드롭했다고 보면 된다.
+- 게이트웨이 로드 밸런서는 L3에서 동작한다.
+- 게이트웨이 로드 밸런서는 두 가지 기능이 있다.
+  1.  명료한 네트워크 게이트웨이.
+      - 왜냐하면 VPC의 모든 트래픽이 단일 진입 및 단일 탈출인 게이트웨이 로드 밸런서를 통과하기 때문이다.
+  2.  로드 밸런싱
+      - 트래픽을 가상 어플라이언스 및 대상 그룹의 세트에 분산 시킨다.
+- 시험에서 "GENEVE 프로토콜을 사용하고 포트 6081에서 사용하려면" 이라면 게이트웨이 로드 밸런서를 사용한다는 것이다.
+- 게이트웨이 로드 밸런서의 대상 그룹이 될 수 있는 것은 Third-party 애플라이언스이다. 이것은 EC2 인스턴스일 수 있고 인스턴스 ID로 등록할 수 있다. 그리고 Private IP 주소로 등록할 수 있다. 자체 네트워크 또는 자체 데이터 센터의 서버도 등록 가능하다.
 
 ## **[SAA/DVA] Elastic Load Balancer - Sticky Sessions**
--   ELB에 대해 스티키 세션 또는 세션 어피니티를 구현하는 것이 가능하다.
--   이것은 로드 밸런서로 두 번의 요청을 하는 클라이언트가 동일한 백엔드 인스턴스를 가지고 응답하도록 하는 것이다.
--   클라이언트에서 로드 밸런서로 요청할 때 요청과 함께 쿠키가 전송되며 쿠키 안에는 스티키 세션이 있고 만료 날짜가 있다. 따라서 쿠키가 만료되면 클라이언트는 다른 EC2 인스턴스로 리디렉션될 수 있다.
--   사용 사례는 사용자가 세션 데이터를 잃지 않기 위해 동일한 백엔드 인스턴스에 연결되어 있는지 확인하는 것이다. 세션 데이터에는 사용자의 로그인과 같은 중요한 정보가 포함될 수 있다.
--   스티키 세션을 활성화 하면 일부 인스턴스에 요청이 고정 돼 인스턴스에 불균형을 초래할 수 있다.
--   쿠키 자체는 어떻게 되는걸까? 스티키 세션에는 두 가지 유형의 쿠키가 있다.
-    -   첫 번째는 응용 프로그램 기반 쿠키
-        -   응용 프로그램 기반 쿠키의 경우 대상(응용 프로그램 자체)에서 생성하는 사용자 정의 쿠키이다.
-        -   여기에는 응용 프로그램에서 필요한 모든 사용자 정의 속성을 포함할 수 있다.
-        -   쿠키 이름은 각 대상 그룹에 대해 개별적으로 지정되어야하며 다음 이름을 사용해서는 안된다. AWSALB, AWSALBAPP, AWSALBTG. 이것은 이미 ALB에서 사용하기 위해 예약되어 있다.
-    -   두 번째는 기간 기반 쿠키
-        -   ALB의 경우 쿠키 이름은 AWSALB이고, CLB의 경우 AWSELB이다. 이 쿠키는 특정 기간에 기반하여 만료되며, 해당 기간은 로드 밸런서에서 생성된다.
-    -   응용 프로그램 기반 쿠키의 경우 응용 프로그램 자체에서 지정할 수 있다.
--   스티키 세션은 타겟 그룹에서 설정 가능하다.
--   기간형 스티키 세션의 경우 1초에서 7일 사이의 기간을 설정 가능하다. 또는 응용 프로그램 기반 쿠키로 1초에서 7일까지의 기간을 설정할 수 있지만 애플리케이션에서 로드 밸런서로 전송하는 쿠키 이름을 지정해야 한다.
+
+- ELB에 대해 스티키 세션 또는 세션 어피니티를 구현하는 것이 가능하다.
+- 이것은 로드 밸런서로 두 번의 요청을 하는 클라이언트가 동일한 백엔드 인스턴스를 가지고 응답하도록 하는 것이다.
+- 클라이언트에서 로드 밸런서로 요청할 때 요청과 함께 쿠키가 전송되며 쿠키 안에는 스티키 세션이 있고 만료 날짜가 있다. 따라서 쿠키가 만료되면 클라이언트는 다른 EC2 인스턴스로 리디렉션될 수 있다.
+- 사용 사례는 사용자가 세션 데이터를 잃지 않기 위해 동일한 백엔드 인스턴스에 연결되어 있는지 확인하는 것이다. 세션 데이터에는 사용자의 로그인과 같은 중요한 정보가 포함될 수 있다.
+- 스티키 세션을 활성화 하면 일부 인스턴스에 요청이 고정 돼 인스턴스에 불균형을 초래할 수 있다.
+- 쿠키 자체는 어떻게 되는걸까? 스티키 세션에는 두 가지 유형의 쿠키가 있다.
+  - 첫 번째는 응용 프로그램 기반 쿠키
+    - 응용 프로그램 기반 쿠키의 경우 대상(응용 프로그램 자체)에서 생성하는 사용자 정의 쿠키이다.
+    - 여기에는 응용 프로그램에서 필요한 모든 사용자 정의 속성을 포함할 수 있다.
+    - 쿠키 이름은 각 대상 그룹에 대해 개별적으로 지정되어야하며 다음 이름을 사용해서는 안된다. AWSALB, AWSALBAPP, AWSALBTG. 이것은 이미 ALB에서 사용하기 위해 예약되어 있다.
+  - 두 번째는 기간 기반 쿠키
+    - ALB의 경우 쿠키 이름은 AWSALB이고, CLB의 경우 AWSELB이다. 이 쿠키는 특정 기간에 기반하여 만료되며, 해당 기간은 로드 밸런서에서 생성된다.
+  - 응용 프로그램 기반 쿠키의 경우 응용 프로그램 자체에서 지정할 수 있다.
+- 스티키 세션은 타겟 그룹에서 설정 가능하다.
+- 기간형 스티키 세션의 경우 1초에서 7일 사이의 기간을 설정 가능하다. 또는 응용 프로그램 기반 쿠키로 1초에서 7일까지의 기간을 설정할 수 있지만 애플리케이션에서 로드 밸런서로 전송하는 쿠키 이름을 지정해야 한다.
 
 ## **[SAA/DVA] Elastic Load Balancer - Cross Zone Load Balancing**
--   예를 들어 두 가용 영역이 있고 첫 번째 영역에는 두 개의 인스턴스가 그리고 두 번째 영역에는 여덟 개의 EC2 인스턴스가 있다고 가정할때 Cross Zone Load Balancing을 사용하면 로드 밸런스에 등록된 인스턴스에 트래픽이 고르게 분배된다.
--   기존에는 ALB에 부여된 타겟 그룹을 기준으로 50% / 50% 의 트래픽을 분산시키지만 위와 같은 경우에는 불균형을 초래할 수 있으니 10개의 인스턴스를 기준으로 트래픽을 리디렉션해 고르게 분배한다.
--   Cross Zone을 사용하지 않는 경우 트래픽이 각 AZ 내에서 유지된다.
--   ALB의 경우 Cross Zone Load Balancing이 기본적으로 활성화되어 있지만 타겟 그룹 수준에서 비활성화할 수 있으며 AZ 간에 데이터 이동 시 원래는 비용을 지불해야 하지만 활성화 된 경우 요금이 부과되지 않는다.
--   NLB, GWLB의 경우 Cross Zone Load Balancing이 기본적으로 비활성화되어 있다. ALB 같은 경우와 다르게 GWLB의 경우 기본적으로 비활성화 상태에서 활성화를 하게 되면 AZ 간 데이터 이동 시 일정량의 비용이 발생한다.
+
+- 예를 들어 두 가용 영역이 있고 첫 번째 영역에는 두 개의 인스턴스가 그리고 두 번째 영역에는 여덟 개의 EC2 인스턴스가 있다고 가정할때 Cross Zone Load Balancing을 사용하면 로드 밸런스에 등록된 인스턴스에 트래픽이 고르게 분배된다.
+- 기존에는 ALB에 부여된 타겟 그룹을 기준으로 50% / 50% 의 트래픽을 분산시키지만 위와 같은 경우에는 불균형을 초래할 수 있으니 10개의 인스턴스를 기준으로 트래픽을 리디렉션해 고르게 분배한다.
+- Cross Zone을 사용하지 않는 경우 트래픽이 각 AZ 내에서 유지된다.
+- ALB의 경우 Cross Zone Load Balancing이 기본적으로 활성화되어 있지만 타겟 그룹 수준에서 비활성화할 수 있으며 AZ 간에 데이터 이동 시 원래는 비용을 지불해야 하지만 활성화 된 경우 요금이 부과되지 않는다.
+- NLB, GWLB의 경우 Cross Zone Load Balancing이 기본적으로 비활성화되어 있다. ALB 같은 경우와 다르게 GWLB의 경우 기본적으로 비활성화 상태에서 활성화를 하게 되면 AZ 간 데이터 이동 시 일정량의 비용이 발생한다.
 
 ## **[SAA/DVA] Elastic Load Balancer - SSL Certificates**
--   SSL 인증서는 클라이언트와 로드 밸런서 간의 트래픽을 전송 중에 암호화할 수 있게 한다. 이를 "In-flight encryption"이라고 한다. 데이터가 네트워크를 통과하는 동안 암호화되고 보내는 사람 및 수신자만 해독할 수 있다.
--   SSL은 Secure Sockets Layer의 약자이며 전송 연결을 암호화하는 데 사용된다. TLS는 SSL의 최신 버전으로 Transport Layer Security를 나타낸다.
--   Public SSL 인증서는 Certificate Authorities(인증 기관)에 의해서 발급되며, CA는 Letsencrypt/symantec/GoDaddy/Digicert 등이 있다.
--   Public SSL 인증서를 로드 밸런서에 연결해 클라이언트와 로드 밸런서 간의 연결을 암호화할 수 있다.
--   SSL 인증서는 설정한 만료 날짜를 가지고 정기적으로 갱신되어야 한다.
--   인증서의 만료일은 ACM(AWS Certificate Manager)을 사용하여 AWS에서 관리할 수 있으며, 필요한 경우 ACM에 직접 인증서를 업로드할 수도 있다.
--   HTTPS 리스너를 설정할 때는 기본적으로 인증서를 지정해야 한다. 다중 도메인을 지원하는 선택적인 인증서 목록을 추가할 수 있으며, SNI(Server Name Indication)을 사용해 hostname을 지정할 수 있다.
--   예를 들어 ALB가 두 개의 SSL 인증서, domain1.example.com domain2.example.com 두 개의 도메인 주소를 가지며 해당하는 타겟 그룹이 각각 있다고 가정했을 때, ALB에 클라이언트가 domain1.example.com에 들어오고자 하면 ALB는 그에 맞는 SSL 인증서와 타겟그룹을 사용해야할 것이다. 
--   ALB는 올바른 SSL 인증서를 가져와서 트래픽을 암호화 한 다음 경로를 통해 올바른 타겟 그룹으로 리디렉션할 것이다. SNI를 사용하면 다른 SSL 인증서를 사용해 여러 웹 사이트에 대한 여러 타겟 그룹을 가질 수 있다는 말이다.
--   CLB의 경우 하나의 SSL 인증서만 지원할 수 있고, ALB v2의 경우 여러 리스너와 여러 SSL 인증서를 지원할 수 있다.
--   NLB의 경우도 SNI를 지원한다.
+
+- SSL 인증서는 클라이언트와 로드 밸런서 간의 트래픽을 전송 중에 암호화할 수 있게 한다. 이를 "In-flight encryption"이라고 한다. 데이터가 네트워크를 통과하는 동안 암호화되고 보내는 사람 및 수신자만 해독할 수 있다.
+- SSL은 Secure Sockets Layer의 약자이며 전송 연결을 암호화하는 데 사용된다. TLS는 SSL의 최신 버전으로 Transport Layer Security를 나타낸다.
+- Public SSL 인증서는 Certificate Authorities(인증 기관)에 의해서 발급되며, CA는 Letsencrypt/symantec/GoDaddy/Digicert 등이 있다.
+- Public SSL 인증서를 로드 밸런서에 연결해 클라이언트와 로드 밸런서 간의 연결을 암호화할 수 있다.
+- SSL 인증서는 설정한 만료 날짜를 가지고 정기적으로 갱신되어야 한다.
+- 인증서의 만료일은 ACM(AWS Certificate Manager)을 사용하여 AWS에서 관리할 수 있으며, 필요한 경우 ACM에 직접 인증서를 업로드할 수도 있다.
+- HTTPS 리스너를 설정할 때는 기본적으로 인증서를 지정해야 한다. 다중 도메인을 지원하는 선택적인 인증서 목록을 추가할 수 있으며, SNI(Server Name Indication)을 사용해 hostname을 지정할 수 있다.
+- 예를 들어 ALB가 두 개의 SSL 인증서, domain1.example.com domain2.example.com 두 개의 도메인 주소를 가지며 해당하는 타겟 그룹이 각각 있다고 가정했을 때, ALB에 클라이언트가 domain1.example.com에 들어오고자 하면 ALB는 그에 맞는 SSL 인증서와 타겟그룹을 사용해야할 것이다.
+- ALB는 올바른 SSL 인증서를 가져와서 트래픽을 암호화 한 다음 경로를 통해 올바른 타겟 그룹으로 리디렉션할 것이다. SNI를 사용하면 다른 SSL 인증서를 사용해 여러 웹 사이트에 대한 여러 타겟 그룹을 가질 수 있다는 말이다.
+- CLB의 경우 하나의 SSL 인증서만 지원할 수 있고, ALB v2의 경우 여러 리스너와 여러 SSL 인증서를 지원할 수 있다.
+- NLB의 경우도 SNI를 지원한다.
 
 ## **[SAA/DVA] Elastic Load Balancer - Connection Draining**
--   CLB를 사용하는 경우 Connection Draining 이라고 하지만 ALB 또는 NLB를 사용하는 경우 Deregistration Delay 라고 불린다.
--   인스턴스가 Deregestration 즉, 등록 해제되거나 Unhealthy 상태로 표시될 때 In-flight 요청 또는 active 요청을 완료할 충분한 시간을 제공하는 것이다.
--   인스턴스가 Drain 되어서 연결이 드레인되면, ELB는 인스턴스가 Deregistration되는 동안 드레인 중인 EC2 인스턴스로 요청을 보내지 않는다.
--   deregistration_delay.timeout_seconds 파라미터 값이 존재하는 데 이는 기본값 300초(5분)이며, 값이 0으로 설정되면 Drain이 발생하지 않는다. 최소 1에서 최대 3,600 사이의 값을 설정할 수 있다.
--   애플리케이션의 요청이 짧은 경우(ex:1초 미만) 매개변수를 30초로 설정하는 것이 좋다. 이렇게 하면 EC2 인스턴스가 매우 빨리 드레인되고 오프라인으로 전환된다. 업로드 또는 긴 지속 요청이 있는 경우 값을 높게 설정하는 대신에 인스턴스가 빨리 사라지지는 않을 것이다.
+
+- CLB를 사용하는 경우 Connection Draining 이라고 하지만 ALB 또는 NLB를 사용하는 경우 Deregistration Delay 라고 불린다.
+- 인스턴스가 Deregestration 즉, 등록 해제되거나 Unhealthy 상태로 표시될 때 In-flight 요청 또는 active 요청을 완료할 충분한 시간을 제공하는 것이다.
+- 인스턴스가 Drain 되어서 연결이 드레인되면, ELB는 인스턴스가 Deregistration되는 동안 드레인 중인 EC2 인스턴스로 요청을 보내지 않는다.
+- deregistration_delay.timeout_seconds 파라미터 값이 존재하는 데 이는 기본값 300초(5분)이며, 값이 0으로 설정되면 Drain이 발생하지 않는다. 최소 1에서 최대 3,600 사이의 값을 설정할 수 있다.
+- 애플리케이션의 요청이 짧은 경우(ex:1초 미만) 매개변수를 30초로 설정하는 것이 좋다. 이렇게 하면 EC2 인스턴스가 매우 빨리 드레인되고 오프라인으로 전환된다. 업로드 또는 긴 지속 요청이 있는 경우 값을 높게 설정하는 대신에 인스턴스가 빨리 사라지지는 않을 것이다.
 
 ## **Elastic Load Balancer - Health Checks**
--   ALB 또는 대상 그룹 자체에서 Health check를 설정할 수 있다.
--   예를 들어 백엔드 인스턴스에 Health check 설정을 한다고 가정해보자.
--   프로토콜은 HTTP 프로토콜을 사용하고, 포트는 인스턴스에 연결할 포트이다. 기본적으로 80은 HTTP 포트지만 사용자 정의할 수 있다. Check path는 Health check 요청을 보낼 위치이다. 
--   path가 "/" 로 되어 있는 경우는 웹 사이트의 루트로 보내라는 것을 의미하지만 많은 웹 사이트나 애플리케이션은 "/health" 경로를 가지고 있으며 이는 EC2 인스턴스에서 특정 테스트를 하기 위한 health check 경로이다.
--   check timeout은 health check가 실패로 간주되기까지의 시간으로 기본적으로 5초이다. 따라서 5초 안에 health check 가 성공하지 않으면 5초 후에 실패로 간주된다.
--   interval은 대상 그룹 또는 ALB가 Health check를 수행하는 빈도이다. 매우 낮은 값을 설정하면 응용 프로그램이 과도하게 사용될 수 있다. 30초가 health check 하는 좋은 기본값이지만 물론 이를 감소시킬 수 있다.
--   healthy threshold counts는 대상이 건강한 것으로 간주되기 전에 health check가 성공해야 하는 횟수이며, unhealthy threshold counts는 인스턴스가 건강하지 않다고 간주되기 전에 연속으로 health check가 실패해야 하는 횟수이다.
--   health status는 초기 등록 중인 경우 healthy, 건강하지 않은 경우 unhealthy, 사용되지 않는 경우 unused(대상이 등록되지 않음), 드레인 중인 경우 draining(대상이 등록 해제 중), health check가 비활성화된 경우 unavailable이 있다.
--   시험에서 알면 좋은 것은 대상 그룹에 unhealthy만 포함된 경우 ELB는 모든 unhealthy 대상으로 요청을 라우팅할 것이다. 이 경우는 health check 자체가 잘못 되었고, 인스턴스는 여전히 작동할수도 있기 때문에 health check가 잘못되었다고 가정하고 요청을 라우팅하는 것이다.
--   health check가 EC2 인스턴스의 다른 포트에서 수행되는 경우 트래픽 포트 오버라이드를 수행할 수 있다.
--   health check 를 완료하고 200 status code를 재전송하는 대신에 특정 code를 설정할 수 있다.
+
+- ALB 또는 대상 그룹 자체에서 Health check를 설정할 수 있다.
+- 예를 들어 백엔드 인스턴스에 Health check 설정을 한다고 가정해보자.
+- 프로토콜은 HTTP 프로토콜을 사용하고, 포트는 인스턴스에 연결할 포트이다. 기본적으로 80은 HTTP 포트지만 사용자 정의할 수 있다. Check path는 Health check 요청을 보낼 위치이다.
+- path가 "/" 로 되어 있는 경우는 웹 사이트의 루트로 보내라는 것을 의미하지만 많은 웹 사이트나 애플리케이션은 "/health" 경로를 가지고 있으며 이는 EC2 인스턴스에서 특정 테스트를 하기 위한 health check 경로이다.
+- check timeout은 health check가 실패로 간주되기까지의 시간으로 기본적으로 5초이다. 따라서 5초 안에 health check 가 성공하지 않으면 5초 후에 실패로 간주된다.
+- interval은 대상 그룹 또는 ALB가 Health check를 수행하는 빈도이다. 매우 낮은 값을 설정하면 응용 프로그램이 과도하게 사용될 수 있다. 30초가 health check 하는 좋은 기본값이지만 물론 이를 감소시킬 수 있다.
+- healthy threshold counts는 대상이 건강한 것으로 간주되기 전에 health check가 성공해야 하는 횟수이며, unhealthy threshold counts는 인스턴스가 건강하지 않다고 간주되기 전에 연속으로 health check가 실패해야 하는 횟수이다.
+- health status는 초기 등록 중인 경우 healthy, 건강하지 않은 경우 unhealthy, 사용되지 않는 경우 unused(대상이 등록되지 않음), 드레인 중인 경우 draining(대상이 등록 해제 중), health check가 비활성화된 경우 unavailable이 있다.
+- 시험에서 알면 좋은 것은 대상 그룹에 unhealthy만 포함된 경우 ELB는 모든 unhealthy 대상으로 요청을 라우팅할 것이다. 이 경우는 health check 자체가 잘못 되었고, 인스턴스는 여전히 작동할수도 있기 때문에 health check가 잘못되었다고 가정하고 요청을 라우팅하는 것이다.
+- health check가 EC2 인스턴스의 다른 포트에서 수행되는 경우 트래픽 포트 오버라이드를 수행할 수 있다.
+- health check 를 완료하고 200 status code를 재전송하는 대신에 특정 code를 설정할 수 있다.
 
 ## **Elastic Load Balancer - Monitoring, Troubleshooting, Logging and Tracing**
+
 **개요**
--   로드밸런서에서 발생할 수 있는 에러 유형을 살펴보자
--   일반적으로 성공적인 요청은 200으로 나타난다.
--   클라이언트의 웹 브라우저에서 오류가 발생하는 등 클라이언트가 오류를 발생시키면 4XX 유형의 오류를 수신하게 된다.
-    -   400은 잘못된 요청, 401은 권한 없음, 403은 Forbidden, 460은 클라이언트가 연결을 닫음, 463은 헤더 X-forwarded-for가 잘못된 경우
--   로드 밸런서 또는 백엔드 EC2 인스턴스가 잘못되어 서버 측에서 발생하는 모든 오류는 5XX 유형의 코드가 된다.
-    -   500은 내부 서버 오류, 502는 잘못된 게이트웨이, 503은 서비스를 사용할 수 없음(EC2 인스턴스가 로드 밸런서에 응답을 보낼 수 없는 경우), 504는 게이트웨이 시간 초과, 561은 권한 없음
--   시험 관점에서 4XX 코드는 클라이언트 측 오류이므로 클라이언트 문제를 나타내며, 5XX 오류는 서버 문제이다. 이것은 로드 밸런서에서 확인할 메트릭 유형을 결정하는 데 도움이 되는 정보이다.
+
+- 로드밸런서에서 발생할 수 있는 에러 유형을 살펴보자
+- 일반적으로 성공적인 요청은 200으로 나타난다.
+- 클라이언트의 웹 브라우저에서 오류가 발생하는 등 클라이언트가 오류를 발생시키면 4XX 유형의 오류를 수신하게 된다.
+  - 400은 잘못된 요청, 401은 권한 없음, 403은 Forbidden, 460은 클라이언트가 연결을 닫음, 463은 헤더 X-forwarded-for가 잘못된 경우
+- 로드 밸런서 또는 백엔드 EC2 인스턴스가 잘못되어 서버 측에서 발생하는 모든 오류는 5XX 유형의 코드가 된다.
+  - 500은 내부 서버 오류, 502는 잘못된 게이트웨이, 503은 서비스를 사용할 수 없음(EC2 인스턴스가 로드 밸런서에 응답을 보낼 수 없는 경우), 504는 게이트웨이 시간 초과, 561은 권한 없음
+- 시험 관점에서 4XX 코드는 클라이언트 측 오류이므로 클라이언트 문제를 나타내며, 5XX 오류는 서버 문제이다. 이것은 로드 밸런서에서 확인할 메트릭 유형을 결정하는 데 도움이 되는 정보이다.
 
 **로드 밸런서의 메트릭**
--   로드 밸런서에서 CloudWatch 메트릭으로 직접 전송되는 메트릭이 있다.
--   예를들어 백엔드 연결 오류를 모니터링해 EC2 인스턴스가 오류를 발생시키는지 확인할 수 있다.
--   UnHealthyHostCount와 HealthyHostCount는 매우 중요하다. 로드 밸런서에 6개에 인스턴스가 등록되어 있고 2개가 다운되었다고 가정할 때 HealthyHostCount는 4개이고, UnHealthyHostCount는 2개이다.
--   다음으로 2XX, 3XX, 4XX, 5XX 가 있다.
--   클라이언트에게 요청을 얼마나 빨리 받아올 수 있는지에 대한 정보인 latency 정보가 있다.
--   로드 밸런서의 전체 요청 횟수를 나타내는 RequestCounts
--   평균적으로 얼마나 많은 EC2 인스턴스가 요청을 받는지에 대한 RequestCountPerTarget
--   대기 중이며 Healthy한 인스턴스로 라우팅중인 총 요청 수이며, ASG를 확장하는 데 도움이 될 수 있는 SurgeQueueLength. 최대 값은 1024이며, 큰 요청 대기열이 필요가 없기 때문에 이 대기열이 0에 가깝게 유지 되도록 해야한다. 큐가 가득 차면 추가 요청이나 연결이 거부되기 때문에.
--   SpilloverCount는 대기열이 가득 차서 거부된 요청의 수이다. 0보다 큰 값을 갖는 것을 절대로 피해야한다. 0보다 크다면 백엔드를 확장해 추가 요청을 처리하고 클라이언트가 일부 요청을 잃고 있는지 확인해야 한다.
+
+- 로드 밸런서에서 CloudWatch 메트릭으로 직접 전송되는 메트릭이 있다.
+- 예를들어 백엔드 연결 오류를 모니터링해 EC2 인스턴스가 오류를 발생시키는지 확인할 수 있다.
+- UnHealthyHostCount와 HealthyHostCount는 매우 중요하다. 로드 밸런서에 6개에 인스턴스가 등록되어 있고 2개가 다운되었다고 가정할 때 HealthyHostCount는 4개이고, UnHealthyHostCount는 2개이다.
+- 다음으로 2XX, 3XX, 4XX, 5XX 가 있다.
+- 클라이언트에게 요청을 얼마나 빨리 받아올 수 있는지에 대한 정보인 latency 정보가 있다.
+- 로드 밸런서의 전체 요청 횟수를 나타내는 RequestCounts
+- 평균적으로 얼마나 많은 EC2 인스턴스가 요청을 받는지에 대한 RequestCountPerTarget
+- 대기 중이며 Healthy한 인스턴스로 라우팅중인 총 요청 수이며, ASG를 확장하는 데 도움이 될 수 있는 SurgeQueueLength. 최대 값은 1024이며, 큰 요청 대기열이 필요가 없기 때문에 이 대기열이 0에 가깝게 유지 되도록 해야한다. 큐가 가득 차면 추가 요청이나 연결이 거부되기 때문에.
+- SpilloverCount는 대기열이 가득 차서 거부된 요청의 수이다. 0보다 큰 값을 갖는 것을 절대로 피해야한다. 0보다 크다면 백엔드를 확장해 추가 요청을 처리하고 클라이언트가 일부 요청을 잃고 있는지 확인해야 한다.
 
 **예시**
--   메트릭을 사용해 문제를 해결하려면 다음과 같다.
-    -   400 Bad Request는 클라이언트가 잘못된 요청을 보냈다는 것을 의미한다.
-    -   503은 로드 밸런서에 사용가능한 healthy한 인스턴스가 없다는 것을 의미하므로 HealthyHostCount 메트릭 및 CloudWatch를 확인할 수 있다.
-    -   504는 게이트웨이 시간 초과다. EC2 인스턴스의 keep-alive 설정이 활성화되어 있는지 확인하고, keep-alive timeout이 로드 밸런서의 idle timeout 설정보다 큰지 확인해야한다.
+
+- 메트릭을 사용해 문제를 해결하려면 다음과 같다.
+  - 400 Bad Request는 클라이언트가 잘못된 요청을 보냈다는 것을 의미한다.
+  - 503은 로드 밸런서에 사용가능한 healthy한 인스턴스가 없다는 것을 의미하므로 HealthyHostCount 메트릭 및 CloudWatch를 확인할 수 있다.
+  - 504는 게이트웨이 시간 초과다. EC2 인스턴스의 keep-alive 설정이 활성화되어 있는지 확인하고, keep-alive timeout이 로드 밸런서의 idle timeout 설정보다 큰지 확인해야한다.
 
 전반적으로 로드 밸런서에대한 Alarm을 설정하고 문서 기반의 문제 해결을 해야한다.
 
 **Load Balancer Access Log**
--   로드 밸런서의 액세스 로그는 S3에 저장될 수 있다. 이 로그에는 로드 밸런서에 대한 모든 요청이 포함된다.
--   time, client IP address, latencies, request paths, server response, trace ID와 같은 메타데이터가 포함된다.
--   S3로 로그를 전송할 때 비용이 발생하고 전송 비용만 지불하게 된다.
--   액세스 로그는 규정 준수 및 디버깅에 매우 유용하며 ELB 또는 EC2 인스턴스가 종료된 후에도 액세스 데이터를 보관하는 데 도움이 된다.
--   액세스 로그는 추가 보안을 위해서 암호화된다.
-asdasd
+
+- 로드 밸런서의 액세스 로그는 S3에 저장될 수 있다. 이 로그에는 로드 밸런서에 대한 모든 요청이 포함된다.
+- time, client IP address, latencies, request paths, server response, trace ID와 같은 메타데이터가 포함된다.
+- S3로 로그를 전송할 때 비용이 발생하고 전송 비용만 지불하게 된다.
+- 액세스 로그는 규정 준수 및 디버깅에 매우 유용하며 ELB 또는 EC2 인스턴스가 종료된 후에도 액세스 데이터를 보관하는 데 도움이 된다.
+- 액세스 로그는 추가 보안을 위해서 암호화된다.
+
 **request tracing**
--   X-Amzn-Trace-Id라는 사용자 지정 헤더가 각 HTTP 요청에 추가된다.
--   이 헤더는 단일 요청을 추적하는 데 분산 추적 플랫폼이나 로그에서 매우 유용하다.
--   ~~주의할 점은 ALB가 아직 X-Ray와 통합되어 있지 않다는 것이며 따라서 X-Ray에서 이러한 request tracing이 나타나지 않을 것이다.~~
-    -   240227 기준으로 HTTP 요청을 추적할 수 있다. [확인 링크](https://docs.aws.amazon.com/ko_kr/elasticloadbalancing/latest/application/load-balancer-request-tracing.html)
+
+- X-Amzn-Trace-Id라는 사용자 지정 헤더가 각 HTTP 요청에 추가된다.
+- 이 헤더는 단일 요청을 추적하는 데 분산 추적 플랫폼이나 로그에서 매우 유용하다.
+- ~~주의할 점은 ALB가 아직 X-Ray와 통합되어 있지 않다는 것이며 따라서 X-Ray에서 이러한 request tracing이 나타나지 않을 것이다.~~
+  - 240227 기준으로 HTTP 요청을 추적할 수 있다. [확인 링크](https://docs.aws.amazon.com/ko_kr/elasticloadbalancing/latest/application/load-balancer-request-tracing.html)
 
 **모니터링 옵션**
--   ELB 콘솔창에서 확인할 경우 Monitoring 탭에서는 모든 로드 밸런서에 대한 사용 가능한 메트릭을 확인할 수 있다.
--   Target Response Time, 부하 확인하기에 좋은 
-Requests(시간 당 요청 수), 어디서 문제가 발생했는지 이해하기 위한 오류 코드 메트릭, ASG에서 scale용도로 사용하기 좋은 ActiveConnectionCount, 로드 밸런서가 실제로 얼마나 지불하는 지에 대한 Consumed Load Balancer Capacity Units(ConsumedLCUs) 등 중요한 메트릭이 있다.
--   로그에 대한 옵션을 살펴볼수도 있다. 액세스 로그를 모니터링하려면 속성을 편집하고 활성화할 수 있으며, 로드 밸런서로 전송된 모든 로그를 S3 버킷으로 전송하도록 설정할 수 있다.
--   Amazon Athena 서비스를 사용해 이러한 액세스 로그를 쿼리할 수 있다.
+
+- ELB 콘솔창에서 확인할 경우 Monitoring 탭에서는 모든 로드 밸런서에 대한 사용 가능한 메트릭을 확인할 수 있다.
+- Target Response Time, 부하 확인하기에 좋은
+  Requests(시간 당 요청 수), 어디서 문제가 발생했는지 이해하기 위한 오류 코드 메트릭, ASG에서 scale용도로 사용하기 좋은 ActiveConnectionCount, 로드 밸런서가 실제로 얼마나 지불하는 지에 대한 Consumed Load Balancer Capacity Units(ConsumedLCUs) 등 중요한 메트릭이 있다.
+- 로그에 대한 옵션을 살펴볼수도 있다. 액세스 로그를 모니터링하려면 속성을 편집하고 활성화할 수 있으며, 로드 밸런서로 전송된 모든 로그를 S3 버킷으로 전송하도록 설정할 수 있다.
+- Amazon Athena 서비스를 사용해 이러한 액세스 로그를 쿼리할 수 있다.
 
 ## **Elastic Load Balancer - Monitoring, Troubleshooting, Logging and Tracing**
--   대상 그룹에 설정할 수 있는 모든 옵션을 살펴보자
--   등록 취소 지연 (deregistration delay)
-    -   로드 밸런서가 대상을 등록 취소하기 전에 대기해야 하는 시간에 해당하는 초 단위의 시간 제한이다.
--   느린 시작 (slow start)
-    -   느린 시작 모드를 사용하면 로드 밸런서가 대상으로 전체 요청 공유를 보내기 전에 대상에 워밍업 시간이 제공된다. 초 단위의 워밍업 시간
--   라우팅 알고리즘이 있다.
-    -   라운드 로빈
-    -   최소 미해결 요청
-    -   흐름 해시 알고리즘(Flow hash)
--   스티키 설정이 있다.
-    -   활성화 여부, type(애플리케이션 기반 또는 기간 기반), 쿠키 이름(애플리케이션 기반, 기간 기반), 초 단위의 애플리케이션 기반의 쿠키 만료 기간
--   slow start 와 routing 알고리즘의 차이를 알아보자
-    -   slow start는 기본적으로 타겟 그룹에서 온라인 상태가 될 때마다 전체 요청을 수신하기 때문에 트래픽을 EC2 인스턴스로 점진적으로 전송하는 방법이다. slow start를 사용하지 않으면 EC2 인스턴스가 대상 그룹의 일부가 되자마자 전체 요청을 받게 되어 인스턴스에 과부하가 걸릴 수 있다.
-    -   따라서 로드 밸런서는 0에서 시작해 슬로우 스타트가 종료될 때까지 대상에 보내는 요청의 수를 선형적으로 증가시킨 다음 전체 몫을 차지하게 된다.
-    -   slow start를 사용하지 않으려면 slow start duration을 0으로 설정하면 된다. duration은 최대 900초까지 설정 가능하다.
-    -   라우팅 알고리즘 중 **최소 미해결 요청**은 기본적으로 가장 사용량이 적은 인스턴스가 다음 요청을 수신할 인스턴스가 된다. 일반적으로 수신되는 요청의 복잡성이 다양하고 등록된 대상의 처리 능력이 다를때 사용된다.
-    -   최소 미해결 요청은 slow start 모드에서는 사용할 수 없다.
-    -   **라운드 로빈**의 경우 사용 가능한 요청의 수에 관계없이 대상이 차례로 다음 요청을 받게 된다. 대상 그룹에 3개의 인스턴스가 있다고 가정하면 1, 2, 3 의 순서대로 요청을 전달하고 다시 1에게 요청을 받게되는 것
-    -   NLB에는 **flow hash 요청 라우팅**이 있는데, 프로토콜의 해시, 소스 대상 IP 주소, 소스 대상 포트 및 TCP 시퀀스 번호를 기반으로 대상이 선택된다. 각 TCP 및 UDP 연결은 연결이 지속되는 동안 단일 대상으로 라우팅되며, NLB의 스티키 세션과 동일하다. 간단하게 사용자가 요청을 할 때마다 방금 말한 모든 정보가 flow hash 알고리즘을 통해 해시된다. 그리고 해시 번호 덕분에 TCP 연결이 열려 있는 한 동일한 사용자의 동일한 요청을 동일한 EC2 인스턴스로 라우팅 할 수 있다.
+
+- 대상 그룹에 설정할 수 있는 모든 옵션을 살펴보자
+- 등록 취소 지연 (deregistration delay)
+  - 로드 밸런서가 대상을 등록 취소하기 전에 대기해야 하는 시간에 해당하는 초 단위의 시간 제한이다.
+- 느린 시작 (slow start)
+  - 느린 시작 모드를 사용하면 로드 밸런서가 대상으로 전체 요청 공유를 보내기 전에 대상에 워밍업 시간이 제공된다. 초 단위의 워밍업 시간
+- 라우팅 알고리즘이 있다.
+  - 라운드 로빈
+  - 최소 미해결 요청
+  - 흐름 해시 알고리즘(Flow hash)
+- 스티키 설정이 있다.
+  - 활성화 여부, type(애플리케이션 기반 또는 기간 기반), 쿠키 이름(애플리케이션 기반, 기간 기반), 초 단위의 애플리케이션 기반의 쿠키 만료 기간
+- slow start 와 routing 알고리즘의 차이를 알아보자
+  - slow start는 기본적으로 타겟 그룹에서 온라인 상태가 될 때마다 전체 요청을 수신하기 때문에 트래픽을 EC2 인스턴스로 점진적으로 전송하는 방법이다. slow start를 사용하지 않으면 EC2 인스턴스가 대상 그룹의 일부가 되자마자 전체 요청을 받게 되어 인스턴스에 과부하가 걸릴 수 있다.
+  - 따라서 로드 밸런서는 0에서 시작해 슬로우 스타트가 종료될 때까지 대상에 보내는 요청의 수를 선형적으로 증가시킨 다음 전체 몫을 차지하게 된다.
+  - slow start를 사용하지 않으려면 slow start duration을 0으로 설정하면 된다. duration은 최대 900초까지 설정 가능하다.
+  - 라우팅 알고리즘 중 **최소 미해결 요청**은 기본적으로 가장 사용량이 적은 인스턴스가 다음 요청을 수신할 인스턴스가 된다. 일반적으로 수신되는 요청의 복잡성이 다양하고 등록된 대상의 처리 능력이 다를때 사용된다.
+  - 최소 미해결 요청은 slow start 모드에서는 사용할 수 없다.
+  - **라운드 로빈**의 경우 사용 가능한 요청의 수에 관계없이 대상이 차례로 다음 요청을 받게 된다. 대상 그룹에 3개의 인스턴스가 있다고 가정하면 1, 2, 3 의 순서대로 요청을 전달하고 다시 1에게 요청을 받게되는 것
+  - NLB에는 **flow hash 요청 라우팅**이 있는데, 프로토콜의 해시, 소스 대상 IP 주소, 소스 대상 포트 및 TCP 시퀀스 번호를 기반으로 대상이 선택된다. 각 TCP 및 UDP 연결은 연결이 지속되는 동안 단일 대상으로 라우팅되며, NLB의 스티키 세션과 동일하다. 간단하게 사용자가 요청을 할 때마다 방금 말한 모든 정보가 flow hash 알고리즘을 통해 해시된다. 그리고 해시 번호 덕분에 TCP 연결이 열려 있는 한 동일한 사용자의 동일한 요청을 동일한 EC2 인스턴스로 라우팅 할 수 있다.
 
 ## ALB Rules - Deep Dive
--   ALB에는 리스너 규칙(Listener Rule)이 있다.
--   ALB는 여러 규칙이나 한 규칙만 가질 수 있고, 항상 가장 마지막으로 수행되는 기본 규칙이 있다. 각 규칙은 특정 대상을 가진다.
--   규칙은 순서(Priority)가 있으며 순서대로 처리된다.
--   예를 들면 특정 대상 그룹으로 전달하거나 다른 특정 URL로 리디렉션하거나 고정 response를 보낼 수 있다.
--   기본 규칙을 제외한 나머지 규칙은 특정 조건을 가질 수 있다.
-    -   예를 들어 host header 규칙, HTTP request method(GET 또는 POST인지 확인하는), path pattern("/myapp1","/myapp2"), Source IP(어디서 요청이 오는지 확인), http-header, query-string 등이 있다.
-    -   이와 같은 특정 조건을 이용해 다양한 대상 그룹으로의 복잡한 라우팅을 만들 수 있게 해준다.
--   ALB의 단일 규칙에서 대상으로서 여러 대상 그룹을 가질수 있다.
-    -   하나의 규칙 내에서 각 대상 그룹에 대한 가중치를 지정할 수 있게하는 방법이다.
-    -   가중치를 통해 백엔드 서비스를 한 대상 그룹에서 다른 대상 그룹으로 업데이트할 수 있다. 예를 들어 v1을 한 대상 그룹에 두고 v2를 다른 대상에 둔 후 가중치를 사용해 트래픽을 제어해 v2를 시험해볼 수도 있다.
+
+- ALB에는 리스너 규칙(Listener Rule)이 있다.
+- ALB는 여러 규칙이나 한 규칙만 가질 수 있고, 항상 가장 마지막으로 수행되는 기본 규칙이 있다. 각 규칙은 특정 대상을 가진다.
+- 규칙은 순서(Priority)가 있으며 순서대로 처리된다.
+- 예를 들면 특정 대상 그룹으로 전달하거나 다른 특정 URL로 리디렉션하거나 고정 response를 보낼 수 있다.
+- 기본 규칙을 제외한 나머지 규칙은 특정 조건을 가질 수 있다.
+  - 예를 들어 host header 규칙, HTTP request method(GET 또는 POST인지 확인하는), path pattern("/myapp1","/myapp2"), Source IP(어디서 요청이 오는지 확인), http-header, query-string 등이 있다.
+  - 이와 같은 특정 조건을 이용해 다양한 대상 그룹으로의 복잡한 라우팅을 만들 수 있게 해준다.
+- ALB의 단일 규칙에서 대상으로서 여러 대상 그룹을 가질수 있다.
+  - 하나의 규칙 내에서 각 대상 그룹에 대한 가중치를 지정할 수 있게하는 방법이다.
+  - 가중치를 통해 백엔드 서비스를 한 대상 그룹에서 다른 대상 그룹으로 업데이트할 수 있다. 예를 들어 v1을 한 대상 그룹에 두고 v2를 다른 대상에 둔 후 가중치를 사용해 트래픽을 제어해 v2를 시험해볼 수도 있다.
 
 ## [SAA/DVA] Auto Scaling Groups (ASG) Overview
+
 웹 사이트나 응용 프로그램을 배포할 때 시간이 지남에 따라 웹 사이트를 방문하는 사용자가 많아져 부하가 변경될 수 있다.
 
 AWS에서 EC2 인스턴스 생성 API 호출로 서버를 빠르게 생성하고 제거할 수 있기 때문에 이를 자동화한 것이 Auto Scaling Group이다.
@@ -1749,142 +1840,153 @@ ASG는 로드 밸런서와 결합하는 경우 ASG의 일부로 있는 모든 EC
 ASG는 무료이며 EC2 인스턴스와 같은 하위 리소스가 생성된 만큼만 요금을 지불하면 된다.
 
 ASG는 최소한으로 필요한 인스턴스 수인 minimum capacity 을 설정하고 최대 인스턴스 수인 maximum capacity를 설정하고, Desired capacity를 최대 용량보다는 작게 필요에 따라 확장할 수 있다.
-ELB는 EC2의 상태를 health check를 사용해 확인하고 해당 상태를 ASG에 전달할 수 있다. 로드 밸런서의 판단에 따라 ASG가 해당 EC2 인스턴스를 종료할 수 있어  편리하다.
+ELB는 EC2의 상태를 health check를 사용해 확인하고 해당 상태를 ASG에 전달할 수 있다. 로드 밸런서의 판단에 따라 ASG가 해당 EC2 인스턴스를 종료할 수 있어 편리하다.
 ASG에 인스턴스가 추가되면 ELB도 트래픽을 해당 인스턴스로 보내고 부하를 분산 시킬 것이다. 따라서 로드 밸런서와 ASG를 함께 사용하는 것은 훌룡한 조합이다.
 
 ASG를 만들려면 launch templates을 만들어야한다. launch configurations가 templates 이전에 있었지만 현재는 사용되지 않는 개념이다.
 
--   launch template
-    -   런치 템플릿은 ASG 내에서 EC2 인스턴스를 시작하는 방법에 대한 정보를 포함한다.
-    -   AMI 및 인스턴스 유형, EC2 User data, EBS 볼륨, 보안 그룹, SSH 키페어, EC2 인스턴스용 IAM 역할, 네트워크 및 서브넷 정보, 로드 밸런서 정보 등이 포함된다. 이 모든 매개변수는 우리가 EC2 인스턴스를 생성할 때 지정한 것과 매우 유사하다.
+- launch template
+  - 런치 템플릿은 ASG 내에서 EC2 인스턴스를 시작하는 방법에 대한 정보를 포함한다.
+  - AMI 및 인스턴스 유형, EC2 User data, EBS 볼륨, 보안 그룹, SSH 키페어, EC2 인스턴스용 IAM 역할, 네트워크 및 서브넷 정보, 로드 밸런서 정보 등이 포함된다. 이 모든 매개변수는 우리가 EC2 인스턴스를 생성할 때 지정한 것과 매우 유사하다.
 
 ASG에는 우리가 정의해야 할 최소 크기, 최대 크기 및 초기 용량이 있으며 스케일링 정책도 있다.
--   스케일링 정책
-    -   CloudWatch 알람을 기반으로 ASG의 인스턴스를 확장 및 축소할 수 있다.
-    -   예를 들어 ASG 전체의 평균 CPU와 같은 메트릭을 기반으로 알람을 생성하고 평균 CPU가 너무 높다면 알람이 발생해 트리거되고 ASG에서 스케일링을 하게 된다. 
-    -   결과적으로 알람을 기반으로 스케일 아웃 또는 스케일 인 정책을 생성해 인스턴스를 증가 또는 감소할 수 있다.
 
+- 스케일링 정책
+  - CloudWatch 알람을 기반으로 ASG의 인스턴스를 확장 및 축소할 수 있다.
+  - 예를 들어 ASG 전체의 평균 CPU와 같은 메트릭을 기반으로 알람을 생성하고 평균 CPU가 너무 높다면 알람이 발생해 트리거되고 ASG에서 스케일링을 하게 된다.
+  - 결과적으로 알람을 기반으로 스케일 아웃 또는 스케일 인 정책을 생성해 인스턴스를 증가 또는 감소할 수 있다.
 
 ## [SAA/DVA] Auto Scaling Groups - Scaling Policies
+
 **ASG에는 여러가지 스케일링 정책이 있다.**
--   동적 스케일링
-    -   트래픽의 변화에 따라 ASG의 용량을 조정하는 정책
-    -   Target tracking scaling
-        -   CPU 사용률 같이 ASG에 대한 메트릭을 정의하고 목표 값을 정의하는 것이다.
-        -   CPU 사용률을 40%로 설정하면 ASG는 자동으로 확장 또는 축소 해 메트릭을 약 40%로 유지한다.
-    -   Step scaling과 Simple scaling의 경우 CloudWatch 알람을 정의해 ASG에 용량 단위를 추가하거나 제거하려는 경우 트리거 되게 된다.
--   예약된 스케일링(scheduled scaling)
-    -   운영자가 알고 있는 사용 패턴을 기반으로 스케일링을 예측하는 경우
-    -   예를 들어 매주 금요일 오후 5시에 사용자가 발생할 것으로 예상되면 최소 용량을 늘릴 수 있다.
--   예측 스케일링(predictive scaling)
-    -   주기적인 데이터가 있는 경우 매우 유용하다.
-    -   ASG는 자동으로 기존에 남아있는 기록을 분석한 다음 예측을 생성하고 예측을 기반으로 스케줄링 작업을 수행한다.
--   스케일링을 위한 좋은 메트릭은 의문이다. 보통 여러가지가 있다.
--   첫 번째는 CPU 사용률이다. 왜냐하면 모든 인스턴스의 평균 CPU 사용률을 확인하고 이 값이 높아지면 인스턴스가 더 많이 사용된다는 의미이므로 이를 기반으로 스케일링하는 것이 좋다.
--   두번째는 RequestCountPerTarget이다. 응용 프로그램에 특화된 메트릭이다. 3 개의 인스턴스가 있는 ASG가 있고 ALB가 이를 통해 요청을 분산하고 있을 때 RequestCountPerTarget 메트릭 값은 3이다. 왜냐하면 각 인스턴스는 평균적으로 3개의 요청이 처리 대기 중이기 때문이다.
--   다음으로는 ASGAverageNetworkIn, ASGAverageNetworkOut이 있다. 응용 프로그램이 네트워크에 제한되어 있고 업로드 및 다운로드가 많은 경우 인스턴스에 대한 평균 네트워크 In 또는 Out 바이트수를 기준으로 스케일을 조절할 수 있다.
--   그리고 CloudWatch에서 설정하는 사용자 지정 메트릭 중 하나를 사용할 수 있어 응용 프로그램 별로 사용자 지정 메트릭을 설정하고 이를 기반으로 스케일링 정책을 설정할 수 있다.
+
+- 동적 스케일링
+  - 트래픽의 변화에 따라 ASG의 용량을 조정하는 정책
+  - Target tracking scaling
+    - CPU 사용률 같이 ASG에 대한 메트릭을 정의하고 목표 값을 정의하는 것이다.
+    - CPU 사용률을 40%로 설정하면 ASG는 자동으로 확장 또는 축소 해 메트릭을 약 40%로 유지한다.
+  - Step scaling과 Simple scaling의 경우 CloudWatch 알람을 정의해 ASG에 용량 단위를 추가하거나 제거하려는 경우 트리거 되게 된다.
+- 예약된 스케일링(scheduled scaling)
+  - 운영자가 알고 있는 사용 패턴을 기반으로 스케일링을 예측하는 경우
+  - 예를 들어 매주 금요일 오후 5시에 사용자가 발생할 것으로 예상되면 최소 용량을 늘릴 수 있다.
+- 예측 스케일링(predictive scaling)
+  - 주기적인 데이터가 있는 경우 매우 유용하다.
+  - ASG는 자동으로 기존에 남아있는 기록을 분석한 다음 예측을 생성하고 예측을 기반으로 스케줄링 작업을 수행한다.
+- 스케일링을 위한 좋은 메트릭은 의문이다. 보통 여러가지가 있다.
+- 첫 번째는 CPU 사용률이다. 왜냐하면 모든 인스턴스의 평균 CPU 사용률을 확인하고 이 값이 높아지면 인스턴스가 더 많이 사용된다는 의미이므로 이를 기반으로 스케일링하는 것이 좋다.
+- 두번째는 RequestCountPerTarget이다. 응용 프로그램에 특화된 메트릭이다. 3 개의 인스턴스가 있는 ASG가 있고 ALB가 이를 통해 요청을 분산하고 있을 때 RequestCountPerTarget 메트릭 값은 3이다. 왜냐하면 각 인스턴스는 평균적으로 3개의 요청이 처리 대기 중이기 때문이다.
+- 다음으로는 ASGAverageNetworkIn, ASGAverageNetworkOut이 있다. 응용 프로그램이 네트워크에 제한되어 있고 업로드 및 다운로드가 많은 경우 인스턴스에 대한 평균 네트워크 In 또는 Out 바이트수를 기준으로 스케일을 조절할 수 있다.
+- 그리고 CloudWatch에서 설정하는 사용자 지정 메트릭 중 하나를 사용할 수 있어 응용 프로그램 별로 사용자 지정 메트릭을 설정하고 이를 기반으로 스케일링 정책을 설정할 수 있다.
 
 **스케일링 쿨다운**
--   인스턴스를 추가하거나 제거하는 등의 스케일링이 발생한 후 항상 쿨다운 기간에 들어가는데 그 동안 ASG는 추가로 인스턴스를 시작하거나 종료하지 않는다. 기본 300초/5분이다.
--   이유는 메트릭이 안정화되고 새로운 인스턴스가 이펙트를 발휘하여 메트릭이 어떻게 변화되는지 확인하기 위해서.
--   그래서 스케일링 활동이 발생하면 쿨다운이 적용되었는지 여부를 확인하게 된다.
--   쿨다운이 기본적으로 적용되어 있다면 scaling을 무시하고 그렇지 않다면 scaling을 진행한다.
--   한 가지 팁은 인스턴스의 구성 시간을 줄이기 위해 준비된 AMI를 사용하는 것이다. 인스턴스를 구성하는 데 시간을 낭비하지 않으면 인스턴스가 즉시 활성화돼 요청에 빠르게 응답할 수 있다. 그리고 활성화되는 시간이 더 빨라 쿨다운 기간은 줄일 수 있고 ASG의 더 동적인 스케일링을 얻을 수 있다
--   ASG에 대한 Detailed monitoring을 활성화해 메트릭을 1분마다 얻고 이러한 메트릭이 충분히 빠르게 업데이트되도록 확인하는 것도 방법이다.
+
+- 인스턴스를 추가하거나 제거하는 등의 스케일링이 발생한 후 항상 쿨다운 기간에 들어가는데 그 동안 ASG는 추가로 인스턴스를 시작하거나 종료하지 않는다. 기본 300초/5분이다.
+- 이유는 메트릭이 안정화되고 새로운 인스턴스가 이펙트를 발휘하여 메트릭이 어떻게 변화되는지 확인하기 위해서.
+- 그래서 스케일링 활동이 발생하면 쿨다운이 적용되었는지 여부를 확인하게 된다.
+- 쿨다운이 기본적으로 적용되어 있다면 scaling을 무시하고 그렇지 않다면 scaling을 진행한다.
+- 한 가지 팁은 인스턴스의 구성 시간을 줄이기 위해 준비된 AMI를 사용하는 것이다. 인스턴스를 구성하는 데 시간을 낭비하지 않으면 인스턴스가 즉시 활성화돼 요청에 빠르게 응답할 수 있다. 그리고 활성화되는 시간이 더 빨라 쿨다운 기간은 줄일 수 있고 ASG의 더 동적인 스케일링을 얻을 수 있다
+- ASG에 대한 Detailed monitoring을 활성화해 메트릭을 1분마다 얻고 이러한 메트릭이 충분히 빠르게 업데이트되도록 확인하는 것도 방법이다.
 
 ## **ASG for SysOps**
--   시험에 참여하기 전에 알아야 할 몇 가지 기능을 살펴보자.
--   ASG에 속해있는 인스턴스에 대한 라이프사이클 훅이 있다.
--   인스턴스를 시작하거나 종료할 때 실행되는 것을 의미한다.
--   기본적으로 인스턴스를 생성하면 pending 상태에서 in service 상태로 즉시 전환된다. 그러나 추가적인 단계를 수행하기 위해 라이프사이클 훅을 설정할 수 있다.
--   pending 후에 라이프사이클 훅의 일부로 pending wait 상태로 이동할 수 있으며 이 상태에서는 인스턴스가 시작될 때 실행할 스크립트를 정의할 수 있다. 예를 들어 초기 설정을 위해 EC2 인스턴스의 초기 설정이 완료되면 pending proceed 상태로 이동하도록 만들 수 있다.
--   그 후에 in service 상태로 이동한다. 따라서 이 라이프사이클 훅을 사용하면 pending과 in service 상태 사이에서 사용자 지정 로직을 수행할 수 있다.
--   또한 인스턴스가 종료되기 전에 어떤 작업을 수행할 수도 있다. 예를 들어 인스턴스가 in service에서 terminating으로 전환된다면 라이프사이클 훅의 일부로 termination wait 상태로 이동할 수 있다. 이 상태에서 다시 스크립트를 실행하거나 몇 가지 로그를 가져오거나 원하는 작업을 수행하거나 정보를 가져오거나 AMI를 만들거나 EBS 스냅샷을 찍을 수도 있다.
--   그 다음 terminating proceed로 이동한 후 terminated 상태로 전환된다.
--   이러한 모든 라이프사이클 훅의 사용 사례는 인스턴스가 시작되고 서비스로 전환되기 전에 cleanup, 로그 추출 또는 특수 헬스 체크를 수행하는 것이다.
--   라이프사이클 훅에 스크립트를 통합하려면 EventBridge, SNS 및 SQS를 사용하면 된다. 라이프사이클 이벤트가 트리거될 때 이 세 가지 대상 중 하나로 메시지가 전송될 수 있다.
--   예를 들어 EventBridge로 전송되면 람다 함수를 호출해 추가적인 스크립팅을 수행할 수 있다.
--   ASG에는 launch configurations, launch templates가 있다.
--   두 가지 모두 EC2 인스턴스를 시작하기 위한 AMI, 인스턴스 유형, 키페어, 보안 그룹 및 기타 매개변수를 지정할 수 있게 해주며, 태그 및 사용자 데이터가 포함된다. 이것은 모두 ASG가 인스턴스를 시작하는 데 사용된다.
--   런치 구성은 편집할 수는 없다. 따라서 새로운 환경 설정의 런치 구성을 만들고 싶을 때마다 실제로 런치 구성을 새로 만들어야한다.
--   그리고 런치 템플릿의 경우 새 버전을 만들어야 한다.
--   ***런치 구성은 AWS의 레거시한 부분이어서 실제로 더이상 사용되지 않는다.***
--   런치 템플릿은 매개 변수 하위 집합을 만들 수 있어서 구성 재사용 및 상속을 위해 다른 런치 템플릿을 기반으로 하는 런치 템플릿을 가질 수 있다.
 
--   런치 템플릿의 일부로 온디맨드 및 스팟 인스턴스 또는 둘을 혼합하여 프로비저닝 해 최적화된 Fleet을 가질 수 있다. (런치 구성으로는 불가능함)
--   런치 템플릿은 Placement Group, capacity reserve, dedicated host 및 여러 인스턴스 유형을 지원한다.
--   T2 무제한 버스트 기능을 사용할 수 있다.
+- 시험에 참여하기 전에 알아야 할 몇 가지 기능을 살펴보자.
+- ASG에 속해있는 인스턴스에 대한 라이프사이클 훅이 있다.
+- 인스턴스를 시작하거나 종료할 때 실행되는 것을 의미한다.
+- 기본적으로 인스턴스를 생성하면 pending 상태에서 in service 상태로 즉시 전환된다. 그러나 추가적인 단계를 수행하기 위해 라이프사이클 훅을 설정할 수 있다.
+- pending 후에 라이프사이클 훅의 일부로 pending wait 상태로 이동할 수 있으며 이 상태에서는 인스턴스가 시작될 때 실행할 스크립트를 정의할 수 있다. 예를 들어 초기 설정을 위해 EC2 인스턴스의 초기 설정이 완료되면 pending proceed 상태로 이동하도록 만들 수 있다.
+- 그 후에 in service 상태로 이동한다. 따라서 이 라이프사이클 훅을 사용하면 pending과 in service 상태 사이에서 사용자 지정 로직을 수행할 수 있다.
+- 또한 인스턴스가 종료되기 전에 어떤 작업을 수행할 수도 있다. 예를 들어 인스턴스가 in service에서 terminating으로 전환된다면 라이프사이클 훅의 일부로 termination wait 상태로 이동할 수 있다. 이 상태에서 다시 스크립트를 실행하거나 몇 가지 로그를 가져오거나 원하는 작업을 수행하거나 정보를 가져오거나 AMI를 만들거나 EBS 스냅샷을 찍을 수도 있다.
+- 그 다음 terminating proceed로 이동한 후 terminated 상태로 전환된다.
+- 이러한 모든 라이프사이클 훅의 사용 사례는 인스턴스가 시작되고 서비스로 전환되기 전에 cleanup, 로그 추출 또는 특수 헬스 체크를 수행하는 것이다.
+- 라이프사이클 훅에 스크립트를 통합하려면 EventBridge, SNS 및 SQS를 사용하면 된다. 라이프사이클 이벤트가 트리거될 때 이 세 가지 대상 중 하나로 메시지가 전송될 수 있다.
+- 예를 들어 EventBridge로 전송되면 람다 함수를 호출해 추가적인 스크립팅을 수행할 수 있다.
+- ASG에는 launch configurations, launch templates가 있다.
+- 두 가지 모두 EC2 인스턴스를 시작하기 위한 AMI, 인스턴스 유형, 키페어, 보안 그룹 및 기타 매개변수를 지정할 수 있게 해주며, 태그 및 사용자 데이터가 포함된다. 이것은 모두 ASG가 인스턴스를 시작하는 데 사용된다.
+- 런치 구성은 편집할 수는 없다. 따라서 새로운 환경 설정의 런치 구성을 만들고 싶을 때마다 실제로 런치 구성을 새로 만들어야한다.
+- 그리고 런치 템플릿의 경우 새 버전을 만들어야 한다.
+- **_런치 구성은 AWS의 레거시한 부분이어서 실제로 더이상 사용되지 않는다._**
+- 런치 템플릿은 매개 변수 하위 집합을 만들 수 있어서 구성 재사용 및 상속을 위해 다른 런치 템플릿을 기반으로 하는 런치 템플릿을 가질 수 있다.
+
+- 런치 템플릿의 일부로 온디맨드 및 스팟 인스턴스 또는 둘을 혼합하여 프로비저닝 해 최적화된 Fleet을 가질 수 있다. (런치 구성으로는 불가능함)
+- 런치 템플릿은 Placement Group, capacity reserve, dedicated host 및 여러 인스턴스 유형을 지원한다.
+- T2 무제한 버스트 기능을 사용할 수 있다.
 
 SQS와 Auto Scaling
--   어떻게 SQS 큐 상태를 기반으로 ASG를 스케일링할 것인가에 대한 내용이다.
--   SQS 큐와 해당 큐에서 메시지를 처리하는 여러 EC2 인스턴스가 있다고 가정해보자, 여기서 할 일은 SQS 큐에 있는 메시지의 양에 따라 ASG를 조정하는 것이다.
--   이를 위해서 CloudWatch 메트릭을 만들 수 있다. 예를 들어 queue length에 대한 메트릭이다. 메트릭은 ApproximateNumberOfMessages 이다.
--   처리해야 할 메시지가 너무 많은 큐 길이가 너무 길때 알람을 발생하고 ASG에서 스케일링 정책을 트리거할 수 있다.
+
+- 어떻게 SQS 큐 상태를 기반으로 ASG를 스케일링할 것인가에 대한 내용이다.
+- SQS 큐와 해당 큐에서 메시지를 처리하는 여러 EC2 인스턴스가 있다고 가정해보자, 여기서 할 일은 SQS 큐에 있는 메시지의 양에 따라 ASG를 조정하는 것이다.
+- 이를 위해서 CloudWatch 메트릭을 만들 수 있다. 예를 들어 queue length에 대한 메트릭이다. 메트릭은 ApproximateNumberOfMessages 이다.
+- 처리해야 할 메시지가 너무 많은 큐 길이가 너무 길때 알람을 발생하고 ASG에서 스케일링 정책을 트리거할 수 있다.
 
 ASG 헬스체크
--   고가용성을 보장하려면 ASG에 적어도 두 개의 인스턴스가 있어야 한다.
--   그리고 EC2 health check와 같은 몇 가지 헬스 체크를 수행할 수 있다. EC2 인스턴스의 기본 소프트웨어 및 하드웨어가 여전히 작동 중인지 확인하기 위한 것으로 기본적으로 활성화되어 있다.
--   ELB 헬스 체크도 있다. 애플리케이션이 대상 그룹 및 ALB에 연결되어 있다면 해당 애플리케이션이 ELB에 의해 헬스 체크되는지 확인하기 위한 것이다. ELB에 대항하는 인스턴스가 건강하지 않다고 판단하면 ASG에서 해당 인스턴스를 종료한다.
--   사용자가 수동으로 또는 CLI, SDK를 사용하여 ASG에 인스턴스 health check를 자동으로 보내는 사용자 정의 헬스 체크도 있다.
--   인스턴스 헬스 체크가 실패하게 되면 인스턴스를 종료한 후에 새 인스턴스를 시작하며, Unhealthy의 인스턴스는 재부팅하지 않는다.
--   사용자 정의 헬스 체크에 사용되는 API 호출을 하는 `set-instance-health` 명령어가 있다. 사용해보기 좋을 것이다.
--   `terminate-instance-in-auto-scaling-group`와 같이 지정된 인스턴스 종료를 요청하는 명령어도 있다.
+
+- 고가용성을 보장하려면 ASG에 적어도 두 개의 인스턴스가 있어야 한다.
+- 그리고 EC2 health check와 같은 몇 가지 헬스 체크를 수행할 수 있다. EC2 인스턴스의 기본 소프트웨어 및 하드웨어가 여전히 작동 중인지 확인하기 위한 것으로 기본적으로 활성화되어 있다.
+- ELB 헬스 체크도 있다. 애플리케이션이 대상 그룹 및 ALB에 연결되어 있다면 해당 애플리케이션이 ELB에 의해 헬스 체크되는지 확인하기 위한 것이다. ELB에 대항하는 인스턴스가 건강하지 않다고 판단하면 ASG에서 해당 인스턴스를 종료한다.
+- 사용자가 수동으로 또는 CLI, SDK를 사용하여 ASG에 인스턴스 health check를 자동으로 보내는 사용자 정의 헬스 체크도 있다.
+- 인스턴스 헬스 체크가 실패하게 되면 인스턴스를 종료한 후에 새 인스턴스를 시작하며, Unhealthy의 인스턴스는 재부팅하지 않는다.
+- 사용자 정의 헬스 체크에 사용되는 API 호출을 하는 `set-instance-health` 명령어가 있다. 사용해보기 좋을 것이다.
+- `terminate-instance-in-auto-scaling-group`와 같이 지정된 인스턴스 종료를 요청하는 명령어도 있다.
 
 ASG의 몇 가지 일반적인 문제 해결 방법
--   이미 실행중인 인ㅇ스턴스가 있지만 새로운 EC2 인스턴스를 시작할 수 없는 경우가 있다.
--   ASG가 최대 용량 매개변수로 설정한 제한에 도달한 경우일 수 있다. 이 경우 더 많은 인스턴스를 할당하기 위해서 최대 용량을 늘려야한다.
--   또 다른 경우는 AZ에서 용량 문제가 있는 경우이다.
--   전체 중 특정 EC2를 시작하는 것이 실패하는 경우 보안 그룹이 존재하지 않는 경우일 수 있다.
--   키페어가 존재하지 않을 수 있다.
--   ASG가 24시간 동안 인스턴스를 시작하는 데 문제가 있는 경우 자동으로 디버그를 위해 ASG의 자동 스케일링 프로세스를 중지한다.
+
+- 이미 실행중인 인ㅇ스턴스가 있지만 새로운 EC2 인스턴스를 시작할 수 없는 경우가 있다.
+- ASG가 최대 용량 매개변수로 설정한 제한에 도달한 경우일 수 있다. 이 경우 더 많은 인스턴스를 할당하기 위해서 최대 용량을 늘려야한다.
+- 또 다른 경우는 AZ에서 용량 문제가 있는 경우이다.
+- 전체 중 특정 EC2를 시작하는 것이 실패하는 경우 보안 그룹이 존재하지 않는 경우일 수 있다.
+- 키페어가 존재하지 않을 수 있다.
+- ASG가 24시간 동안 인스턴스를 시작하는 데 문제가 있는 경우 자동으로 디버그를 위해 ASG의 자동 스케일링 프로세스를 중지한다.
 
 ## **CloudWatch for ASG**
 
 **ASG 수준 메트릭 (Opt-in)**
--   1분마다 수집되는 ASG 수준의 메트릭.
--   GroupMinSize: ASG 내의 최소 인스턴스 수.
--   GroupMaxSize: ASG 내의 최대 인스턴스 수.
--   GroupDesiredCapacity: ASG 내의 원하는 인스턴스 수.
--   GroupInServiceInstances: "InService" 상태의 인스턴스 수.
--   PendingInstances: "Pending" 상태의 인스턴스 수.
--   StandbyInstances: "Standby" 상태의 인스턴스 수.
--   TerminatingInstances: "Terminating" 상태의 인스턴스 수.
--   TotalInstances: ASG 내의 총 인스턴스 수.
--   참고: 이러한 메트릭에 액세스하려면 ASG 수준에서 메트릭 수집을 활성화해야 합니다.
+
+- 1분마다 수집되는 ASG 수준의 메트릭.
+- GroupMinSize: ASG 내의 최소 인스턴스 수.
+- GroupMaxSize: ASG 내의 최대 인스턴스 수.
+- GroupDesiredCapacity: ASG 내의 원하는 인스턴스 수.
+- GroupInServiceInstances: "InService" 상태의 인스턴스 수.
+- PendingInstances: "Pending" 상태의 인스턴스 수.
+- StandbyInstances: "Standby" 상태의 인스턴스 수.
+- TerminatingInstances: "Terminating" 상태의 인스턴스 수.
+- TotalInstances: ASG 내의 총 인스턴스 수.
+- 참고: 이러한 메트릭에 액세스하려면 ASG 수준에서 메트릭 수집을 활성화해야 합니다.
 
 **EC2 수준 메트릭 (기본 활성화)**
 
--   CPU Utilization: EC2 인스턴스의 CPU 사용량.
--   Network In/Out: 네트워크 트래픽의 데이터 전송률.
--   Disk Read/Write: 디스크 I/O 메트릭(인스턴스 스토어의 경우 해당 없음).
--   Status Checks: EC2 인스턴스의 상태 확인.
--   참고: 기본 모니터링은 5분 간격으로 메트릭을 제공하며, 상세 모니터링은 1분 간격으로 제공됩니다.
+- CPU Utilization: EC2 인스턴스의 CPU 사용량.
+- Network In/Out: 네트워크 트래픽의 데이터 전송률.
+- Disk Read/Write: 디스크 I/O 메트릭(인스턴스 스토어의 경우 해당 없음).
+- Status Checks: EC2 인스턴스의 상태 확인.
+- 참고: 기본 모니터링은 5분 간격으로 메트릭을 제공하며, 상세 모니터링은 1분 간격으로 제공됩니다.
 
 **그룹 메트릭 수집**
--   
--   ASG 설정으로 이동합니다.
--   "Enable" 버튼을 클릭하여 그룹 수준 메트릭 수집을 시작합니다.
+
+-
+- ASG 설정으로 이동합니다.
+- "Enable" 버튼을 클릭하여 그룹 수준 메트릭 수집을 시작합니다.
 
 ## **Auto Scaling Overview**
--   AWS의 모든 확장 가능한 리소스에서 사용 가능하다.
--   EC2 인스턴스를 시작하거나 종료할 수 있게 해준다.
--   Spot Fleet 요청을 총해 Spot Fleet 요청 자체에서 인스턴스를 시작하거나 종료할 수 있다. 그리고 가격이나 용량 문제로 인해 중단된 인스턴스를 자동으로 교체할 수 있다.
--   ECS에도 사용되어 ECS 서비스의 원하는 수를 상향 및 하향 조정한다.
--   DynamoDB 테이블에서는 테이블이나 글로벌 보조 인덱스에 Auto Scaling을 사용해 시간에 따라 WCU(Write Capacity Units) RCU(Read Capacity Units)를 조정한다.
--   Aurora는 Dynamic Read Replica Auto Scaling을 위해 Auto Scaling을 사용한다.
--   Scaling Plans는 동적 스케일링을 포함한 여러 가지 스케일링 옵션을 제공한다.
--   동적 스케일링이 없으면 시간이 지남에 따라 동일한 용량을 유지한다. 그러나 동적 스케일링에서는 시간에 따라 용량을 조정한다. 
--   따라서 utilization을 안정화할 수 있다. 
--   또한 가용성을 최적화할 수 있으며, 이 경우 utilization의 40%를 목표로 설정할 수 있다.
--   또는 비용을 최적화할 수 있으며 이 경우 70%의 utilization을 목표로 삼는다.
--   그러나 100%에 가까워질수록 스케일링은 효율적이지 않아지고, 성능 병목 지점에 도달하게 된다.
--   자체 메트릭 또는 특정 값을 선택할 수도 있다. AWS에서는 Utilization을 권장 사항으로 제공한다.
--   동적 스케일링의 옵션으로는 scail in 비활성화가 있고, ASG의 쿨 다운 기간과 워밍업 시간 지정이 있다.
--   동적 스케일링의 대안으로는 예측 스케일링이 있다.
--   예측 스케일링은 AWS에서 제공하는 머신러닝 알고리즘을 사용해 과거 로드를 분석하고 예측을 생성한 다음 해당 예측을 기반으로 자동으로 스케줄링 작업이 수행된다.
+
+- AWS의 모든 확장 가능한 리소스에서 사용 가능하다.
+- EC2 인스턴스를 시작하거나 종료할 수 있게 해준다.
+- Spot Fleet 요청을 총해 Spot Fleet 요청 자체에서 인스턴스를 시작하거나 종료할 수 있다. 그리고 가격이나 용량 문제로 인해 중단된 인스턴스를 자동으로 교체할 수 있다.
+- ECS에도 사용되어 ECS 서비스의 원하는 수를 상향 및 하향 조정한다.
+- DynamoDB 테이블에서는 테이블이나 글로벌 보조 인덱스에 Auto Scaling을 사용해 시간에 따라 WCU(Write Capacity Units) RCU(Read Capacity Units)를 조정한다.
+- Aurora는 Dynamic Read Replica Auto Scaling을 위해 Auto Scaling을 사용한다.
+- Scaling Plans는 동적 스케일링을 포함한 여러 가지 스케일링 옵션을 제공한다.
+- 동적 스케일링이 없으면 시간이 지남에 따라 동일한 용량을 유지한다. 그러나 동적 스케일링에서는 시간에 따라 용량을 조정한다.
+- 따라서 utilization을 안정화할 수 있다.
+- 또한 가용성을 최적화할 수 있으며, 이 경우 utilization의 40%를 목표로 설정할 수 있다.
+- 또는 비용을 최적화할 수 있으며 이 경우 70%의 utilization을 목표로 삼는다.
+- 그러나 100%에 가까워질수록 스케일링은 효율적이지 않아지고, 성능 병목 지점에 도달하게 된다.
+- 자체 메트릭 또는 특정 값을 선택할 수도 있다. AWS에서는 Utilization을 권장 사항으로 제공한다.
+- 동적 스케일링의 옵션으로는 scail in 비활성화가 있고, ASG의 쿨 다운 기간과 워밍업 시간 지정이 있다.
+- 동적 스케일링의 대안으로는 예측 스케일링이 있다.
+- 예측 스케일링은 AWS에서 제공하는 머신러닝 알고리즘을 사용해 과거 로드를 분석하고 예측을 생성한 다음 해당 예측을 기반으로 자동으로 스케줄링 작업이 수행된다.
 
 ## **[SAA/DVA] Beanstalk Overview**
+
 배포할 애플리케이션이 많고 이러한 애플리케이션이 동일한 아키텍처를 따르는 경우 매번 재생성하는 것은 번거롭다.
 
 개발자의 입장에서 인프라를 관리하고 코드로 배포하는 것은 복잡할 수 있다.
@@ -1893,11 +1995,12 @@ Beanstalk는 AWS에서 애플리케이션을 배포하는 개발자 중심의 �
 아이디어는 단일 인터페이스에서 EC2, ASG, ELB, RDS와 같은 모든 구성 요소를 자동으로 배포하고 모든 구성 요소를 재사용하는 관리형 서비스이다.
 
 Beanstalk는 아래와 같은 간단한 기능을 한다.
--   용량 프로비저닝
--   로드 밸런서의 모든 구성
--   스케일링
--   응용 프로그램 상태 모니터링
--   인스턴스 구성 등
+
+- 용량 프로비저닝
+- 로드 밸런서의 모든 구성
+- 스케일링
+- 응용 프로그램 상태 모니터링
+- 인스턴스 구성 등
 
 Beanstalk를 사용하며 개발자로서 유일하게 신경써야할 부분은 코드 자체이다.
 
@@ -1908,16 +2011,18 @@ Beanstalk를 사용하며 개발자로서 유일하게 신경써야할 부분은
 Beanstalk 서비스는 그 자체로 무료이지만 ASG나 ELB에서 활용하는 기본 인스턴스에 대한 비용이 발생할 것이다.
 
 Beanstalk의 구성 요소는 아래와 같다.
--   애플리케이션
--   애플리케이션의 버전
-    -   말그대로이다. 버전 1, 버전 2, 버전 3 등이 될 수 있다.
--   환경 (Environment)
-    -   환경은 특정 응용 프로그램 버전을 실행하는 리소스의 모음이다.
-    -   한 번에 한 환경에서만 한 응용 프로그램 버전을 가질 수 있으며 버전 1에서 버전 2로 응용 프로그램 버전을 업데이트할 수 있다.
-    -   Tier: Beanstalk에는 웹 서버 Tier, Worker Tier 두 가지가 있다.
-    -   Beanstalk에서 여러 환경을 만들 수 있다. 예를들어 dev, test, prod와 같은 환경.
+
+- 애플리케이션
+- 애플리케이션의 버전
+  - 말그대로이다. 버전 1, 버전 2, 버전 3 등이 될 수 있다.
+- 환경 (Environment)
+  - 환경은 특정 응용 프로그램 버전을 실행하는 리소스의 모음이다.
+  - 한 번에 한 환경에서만 한 응용 프로그램 버전을 가질 수 있으며 버전 1에서 버전 2로 응용 프로그램 버전을 업데이트할 수 있다.
+  - Tier: Beanstalk에는 웹 서버 Tier, Worker Tier 두 가지가 있다.
+  - Beanstalk에서 여러 환경을 만들 수 있다. 예를들어 dev, test, prod와 같은 환경.
 
 전체적으로 프로세스를 정리하자면
+
 1.  응용 프로그램 생성
 2.  새 버전 업로드
 3.  환경 시작
@@ -1953,6 +2058,7 @@ Beanstalk에는 두 가지 배포 모드가 있다.
 시험에서 알아야할 점은 만약 Beanstalk의 배포 속도가 느리다면 Golden Image를 미리 구축해두는 것이 좋다.
 
 ## **[DVA] CloudFormation - Overview **
+
 CloudFormation은 코드만 사용해 모든 리소스에 대한 AWS 인프라를 개략적으로 설명하는 방법이다.
 
 CloudFormation 템플릿에서는 원하는 것을 선언해 이러한 모든 것이 존재하고 서로 연결되어야 한다고 한다.
@@ -1961,26 +2067,27 @@ CloudFormation 템플릿에서는 원하는 것을 선언해 이러한 모든 �
 CloudFormation은 자동으로 지정한 구성과 정확한 순서로 리소스들을 생성한다.
 따라서 수동으로 콘솔에서 구성하거나 수동으로 작업할 필요가 없이 모든 것이 CloudFormation을 통해 자동으로 프로비저닝 된다.
 
-템플릿을 작성할 때 YAML이나 JSON 형식의 코드가 많아질 것이다. 
+템플릿을 작성할 때 YAML이나 JSON 형식의 코드가 많아질 것이다.
 
 CloudFormation Designer에서는 템플릿에 작성한 이러한 리소스가 다이어그램으로 보여지는 것을 알 수 있다.
 
 **CloudFormation을 사용해야하는 이유는 무엇일까?**
--   IaC를 위해서 (Infrastructure as Code)
-    -   수동으로 생성된 리소스가 없다는 것을 의미하고 수동으로 관리하지 않아도 되어 제어에 뛰어나다.
-    -   CloudFormation code를 Git과 같은 version control을 이용해서 관리할 수 있다.
-    -   인프라에 대한 모든 변경은 코드 변경을 통해 검토된다.
--   비용 측면에서
-    -   스택 내의 모든 리소스가 식별자로 태그가 지정되므로 CloudFormation 스택이 비용을 얼마나 사용하는지 쉽게 확인할 수 있다.
-    -   또한 CloudFormation 템플릿을 사용하면 리소스 비용을 쉽게 추정할 수 있다.
-    -   마지막으로 절약을 할 수 있다. 예를 들어 개발 환경에 템플릿을 오후 5:00에 자동으로 삭제하고 오후 8:00에 안전하게 다시 생성할 수 있다.
--   생산성
-    -   클라우드에서 인프라를 실시간으로 파괴하고 다시 생성할 수 있다. 이는 클라우드의 전체적인 능력을 활용하는 것으로, 필요한 것만 생성하고 삭제하며 사용한 만큼만 비용을 지불하면 된다.
-    -   템플릿에 대한 다이어그램을 자동으로 생성할 수 있어 아키텍처 다이어그램에 매우 유용하고, 템플릿은 선언적 프로그래밍이다. 그래서 리소스의 생성 순서나 오케스트레이션 순서를 추론할 필요가 없다.
--   분리 고려사항
-    -   VPC Stack, Network Stack, App Stack 등과 같이 여러 애플리케이션 및 여러 레이어에 대한 많은 CloudFormation 스택을 만들 수 있다.
--   재사용
-    -   CloudFormation을 사용하면 웹 및 문서에서 기존 템플릿을 활용해 빠르게 자신의 CloudFormation 템플릿을 작성할 수 있다.
+
+- IaC를 위해서 (Infrastructure as Code)
+  - 수동으로 생성된 리소스가 없다는 것을 의미하고 수동으로 관리하지 않아도 되어 제어에 뛰어나다.
+  - CloudFormation code를 Git과 같은 version control을 이용해서 관리할 수 있다.
+  - 인프라에 대한 모든 변경은 코드 변경을 통해 검토된다.
+- 비용 측면에서
+  - 스택 내의 모든 리소스가 식별자로 태그가 지정되므로 CloudFormation 스택이 비용을 얼마나 사용하는지 쉽게 확인할 수 있다.
+  - 또한 CloudFormation 템플릿을 사용하면 리소스 비용을 쉽게 추정할 수 있다.
+  - 마지막으로 절약을 할 수 있다. 예를 들어 개발 환경에 템플릿을 오후 5:00에 자동으로 삭제하고 오후 8:00에 안전하게 다시 생성할 수 있다.
+- 생산성
+  - 클라우드에서 인프라를 실시간으로 파괴하고 다시 생성할 수 있다. 이는 클라우드의 전체적인 능력을 활용하는 것으로, 필요한 것만 생성하고 삭제하며 사용한 만큼만 비용을 지불하면 된다.
+  - 템플릿에 대한 다이어그램을 자동으로 생성할 수 있어 아키텍처 다이어그램에 매우 유용하고, 템플릿은 선언적 프로그래밍이다. 그래서 리소스의 생성 순서나 오케스트레이션 순서를 추론할 필요가 없다.
+- 분리 고려사항
+  - VPC Stack, Network Stack, App Stack 등과 같이 여러 애플리케이션 및 여러 레이어에 대한 많은 CloudFormation 스택을 만들 수 있다.
+- 재사용
+  - CloudFormation을 사용하면 웹 및 문서에서 기존 템플릿을 활용해 빠르게 자신의 CloudFormation 템플릿을 작성할 수 있다.
 
 **CloudFormation은 어떻게 작동하는가?**
 
@@ -1994,35 +2101,36 @@ CloudFormation 스택이란 무엇인가? 이것은 AWS 리소스로 구성되�
 스택은 리전 내에서 이름으로 식별되며 CloudFormation 스택을 삭제하면 CloudFormation에 의해 생성된 모든 아티팩트와 리소스가 삭제된다.
 
 CloudFormation 템플릿을 배포하는 방법은
--   수동 방법
-    -   CloudFormation 디자이너나 코드 편집기에서 템플릿을 편집하고
-    -   콘솔을 사용해 매개 변수를 입력한다.
-    -   학습 목적으로 전체 프로세스를 확인하기 위해 이 방법을 사용한다.
--   자동 방법
-    -   Yaml 파일로 템플릿을 편집하고
-    -   CLI 또는 CD 도구를 사용해 템플릿을 배포할 수 있다.
-    -   이는 플로우와 인프라를 완전히 자동화하려는 경우 권장되는 방법이다.
+
+- 수동 방법
+  - CloudFormation 디자이너나 코드 편집기에서 템플릿을 편집하고
+  - 콘솔을 사용해 매개 변수를 입력한다.
+  - 학습 목적으로 전체 프로세스를 확인하기 위해 이 방법을 사용한다.
+- 자동 방법
+  - Yaml 파일로 템플릿을 편집하고
+  - CLI 또는 CD 도구를 사용해 템플릿을 배포할 수 있다.
+  - 이는 플로우와 인프라를 완전히 자동화하려는 경우 권장되는 방법이다.
 
 CloudFormation의 기본 구성 요소
--   Template
-    -   AWSTemplateFormatVersion: 템플릿을 읽는 방법을 정의하는 버전이다. AWS 내부 용도로 사용한다.
-    -   Description: 템플릿에 대한 주석이다.
-    -   Resource(필수 요소): 템플릿에서 선언된 모든 AWS 리소스를 정의한다.
-    -   Parameter: 템플릿에 동적으로 입력 값을 주는 것이다.
-    -   Mappings: 템플릿의 정적 변수이며, 파라미터와는 차이점이 있다.
-    -   Outputs: 템플릿에서 어떤 항목들이 생성되었는지에 대한 출력이다.
-    -   Conditions: 리소스 생성을 수행하기 위한 조건
 
-
+- Template
+  - AWSTemplateFormatVersion: 템플릿을 읽는 방법을 정의하는 버전이다. AWS 내부 용도로 사용한다.
+  - Description: 템플릿에 대한 주석이다.
+  - Resource(필수 요소): 템플릿에서 선언된 모든 AWS 리소스를 정의한다.
+  - Parameter: 템플릿에 동적으로 입력 값을 주는 것이다.
+  - Mappings: 템플릿의 정적 변수이며, 파라미터와는 차이점이 있다.
+  - Outputs: 템플릿에서 어떤 항목들이 생성되었는지에 대한 출력이다.
+  - Conditions: 리소스 생성을 수행하기 위한 조건
 
 ## **[DVA] YAML Crash Course**
+
 CloudFormation에서 가장 자주 볼 것은 아마 YAML 템플릿일 것이다.
 
--   YAML은 JSON과 마찬가지로 키-값 쌍을 사용한다. JSON은 많은 문자 보간 등의 이유로 CloudFomation 템플릿을 작성하는 데 좋지 않고, 가독성과 쉽게 구성할 수 있는 측면에서 YAML이 매우 좋다고 생각한다.
--   YAML은 들여쓰기가 된 여러 키-값 쌍이 있다. 이것은 nested object라고 부르며 JSON 내에서는 nest object라고 한다.
--   그리고 배열을 지원한다. 하나의 오브젝트 내에서 여러개의 배열을 나타내는 마이너스 기호가 있다.
--   또한 다중 행 문자열을 지원하며 "|" 파이프 기호를 이용하면 된다.
--   "#" 을 이용해 주석을 추가할 수도 있다.
+- YAML은 JSON과 마찬가지로 키-값 쌍을 사용한다. JSON은 많은 문자 보간 등의 이유로 CloudFomation 템플릿을 작성하는 데 좋지 않고, 가독성과 쉽게 구성할 수 있는 측면에서 YAML이 매우 좋다고 생각한다.
+- YAML은 들여쓰기가 된 여러 키-값 쌍이 있다. 이것은 nested object라고 부르며 JSON 내에서는 nest object라고 한다.
+- 그리고 배열을 지원한다. 하나의 오브젝트 내에서 여러개의 배열을 나타내는 마이너스 기호가 있다.
+- 또한 다중 행 문자열을 지원하며 "|" 파이프 기호를 이용하면 된다.
+- "#" 을 이용해 주석을 추가할 수도 있다.
 
 ```yaml
 Resources:
@@ -2035,7 +2143,7 @@ Resources:
       SecurityGroups:
         - !Ref SSHSecurityGroup
       # we install our web server with user data
-      UserData: 
+      UserData:
         Fn::Base64: |
           #!/bin/bash -xe
           dnf update -y
@@ -2050,15 +2158,14 @@ Resources:
     Properties:
       GroupDescription: SSH and HTTP
       SecurityGroupIngress:
-      - CidrIp: 0.0.0.0/0
-        FromPort: 22
-        IpProtocol: tcp
-        ToPort: 22
-      - CidrIp: 0.0.0.0/0
-        FromPort: 80
-        IpProtocol: tcp
-        ToPort: 80
-
+        - CidrIp: 0.0.0.0/0
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
 ```
 
 ## **[DVA] CloudFormation - Resources**
@@ -2090,14 +2197,15 @@ Properties:
 일반적으로 콘솔에서 지정할 수 있는 모든 것은 CloudFormation을 통해서도 지정할 수 있다.
 
 리소스에 대해 몇 가지 자주 묻는 질문이 있다.
-1.  동적 수의 리소스를 생성할 수 있을까?
-    -   가능하다. Cloudformation macros와 Transform을 사용해야 하지만 이 강의의 범위에 포함되지 않는다.
-2.  모든 AWS 서비스가 지원되는가?
-    -   신규 서비스를 제외하고 거의 모든 서비스가 CloudFormation을 지원한다.
-    -   CloudFormation Custom Resources를 사용하면 지원되지 않는 서비스를 처리할 수 있다.
 
+1.  동적 수의 리소스를 생성할 수 있을까?
+    - 가능하다. Cloudformation macros와 Transform을 사용해야 하지만 이 강의의 범위에 포함되지 않는다.
+2.  모든 AWS 서비스가 지원되는가?
+    - 신규 서비스를 제외하고 거의 모든 서비스가 CloudFormation을 지원한다.
+    - CloudFormation Custom Resources를 사용하면 지원되지 않는 서비스를 처리할 수 있다.
 
 ## **[DVA] CloudFormation - Parameters**
+
 Parameter는 템플릿에 인풋을 제공하는 방법이다.
 
 CloudFormation 템플릿이 있고 사용자에게 매개 변수 값을 제공하려면 이러한 매개 변수는 CloudFormation 템플릿의 일부로 정의된다.
@@ -2136,15 +2244,14 @@ Type: String인 EC2 InstanceType을 선택할 수 있다.
 
 ```yaml
 AllowedValues:
-    - t2.micro
-    - t2.small
-    - t2.medium
+  - t2.micro
+  - t2.small
+  - t2.medium
 Default: t2.micro
 ```
 
 이런 형태로 있을 때 이 매개변수는 세 가지 값 중 하나만 선택할 수 있으며 선택권이 주어지지만 제어가 된다.
 기본 값이 t2.micro로 설정 되어 있기 때문에 기본적으로 t2.micro가 선택된다.
-
 
 또한 NoEcho 매개변수가 있다.
 
@@ -2164,7 +2271,6 @@ Fn::Ref 를 사용할 수도 있지만 !Ref라는 약식 버전이 있다.
 
 !Ref SecurityGroupDecription을 하게 되면 SecurityGroupDecription에 설정되어 있는 설명이 String의 형태로 참조되게 된다.
 
-
 이것이 !Ref 함수의 사용 방법이고 CloudFormation 템플릿 내에서 매개 변수를 참조하는 방법이다.
 
 !Ref 함수는 다른 위치에서도 사용된다.
@@ -2180,38 +2286,37 @@ AWS는 모든 CloudFormation 템플릿에서 Pseudo Parameter를 제공하고 �
 
 예를들어 아래와 같은 Pseudo Parameter가 있다.
 
--   AWS::AccountId
-    -   실제 계정 ID를 자동으로 확인할 수 있다.
--   AWS::Region
-    -   템플릿이 위치한 리전 값
--   AWS::StackId
-    -   스택 ID
--   AWS::StackName
-    -   스택 이름
--   AWS::NotificationARNs
-    -   알람 ARN 값
--   AWS::NoValue
-    -   아무 값도 리턴하지 않는 것
-
+- AWS::AccountId
+  - 실제 계정 ID를 자동으로 확인할 수 있다.
+- AWS::Region
+  - 템플릿이 위치한 리전 값
+- AWS::StackId
+  - 스택 ID
+- AWS::StackName
+  - 스택 이름
+- AWS::NotificationARNs
+  - 알람 ARN 값
+- AWS::NoValue
+  - 아무 값도 리턴하지 않는 것
 
 ## **[DVA] CloudFormation - Mappings**
 
 매칭은 클라우드포메이션 템플릿 내에서 고정된 변수이며, 다른 환경 간ㅇ ㅔ차이를 두고 싶을 때 매우 편리하다.
 
-예를 들어 dev, prod와 같이 다른 값을 제공하거나  AWS 지역이나 AMI 유형과 같은 Region에 따라 다른 값을 제공하고 싶을 때 유용하다.
+예를 들어 dev, prod와 같이 다른 값을 제공하거나 AWS 지역이나 AMI 유형과 같은 Region에 따라 다른 값을 제공하고 싶을 때 유용하다.
 
 ```yaml
-Mappings: 
-  RegionMap: 
-    us-east-1: 
+Mappings:
+  RegionMap:
+    us-east-1:
       "HVM64": "ami-0ff8a91507f77f867"
-    us-west-1: 
+    us-west-1:
       "HVM64": "ami-0bdb828fd58c52235"
-    eu-west-1: 
+    eu-west-1:
       "HVM64": "ami-047bb4163c506cd98"
-    ap-southeast-1: 
+    ap-southeast-1:
       "HVM64": "ami-08569b978cc4dfa10"
-    ap-northeast-1: 
+    ap-northeast-1:
       "HVM64": "ami-06cd52961ce9f0d85"
 ```
 
@@ -2221,14 +2326,12 @@ Mappings:
 `Fn::FindInMap: [ MapName, TopLevelKey, SecondLevelKey ]`
 `!FindInMap [ MapName, TopLevelKey, SecondLevelKey ]`
 
-언제 매핑을 사용하는 것이 좋고 언제 매개 변수를 사용하는 것이 좋을까? 
+언제 매핑을 사용하는 것이 좋고 언제 매개 변수를 사용하는 것이 좋을까?
 **매핑은 미리 모든 값을 알고 있고 지역, 가용 영역, AWS 계정, 환경(Dev, Prod)과 같은 변수에서 유도할 수 있는 경우에 좋다.**
 
 이러한 템플릿에 대해 더 안전한 제어를 제공한다.
 
 그러나 사용자가 원하는 값이 실행 시점에 어떤 것이며 사용자에게 최대한의 자유를 제공하려면 매개 변수를 사용해야 한다.
-
-
 
 ## **[DVA] CloudFormation - Outputs & Exports**
 
@@ -2252,19 +2355,19 @@ Outputs:
       Ref: PublicSubnet
     Export:
       Name:
-        'Fn::Sub': '${AWS::StackName}-SubnetID'
+        "Fn::Sub": "${AWS::StackName}-SubnetID"
   WebServerSecurityGroup:
     Description: The security group ID to use for public web servers
     Value:
-      'Fn::GetAtt':
+      "Fn::GetAtt":
         - WebServerSecurityGroup
         - GroupId
     Export:
       Name:
-        'Fn::Sub': '${AWS::StackName}-SecurityGroupID'
+        "Fn::Sub": "${AWS::StackName}-SecurityGroupID"
 ```
 
-위 코드에서는 Output이 있다. 
+위 코드에서는 Output이 있다.
 
 ```yaml
 Resources:
@@ -2275,19 +2378,18 @@ Resources:
       ImageId: ami-a1b23456
       NetworkInterfaces:
         - GroupSet:
-            - Fn::ImportValue: 
+            - Fn::ImportValue:
               'Fn::Sub': '${NetworkStackNameParameter}-SecurityGroupID'
           AssociatePublicIpAddress: 'true'
           DeviceIndex: '0'
           DeleteOnTermination: 'true'
-          SubnetId: Fn::ImportValue: 
+          SubnetId: Fn::ImportValue:
             'Fn::Sub': '${NetworkStackNameParameter}-SubnetID'
 ```
 
 Fn::ImportValue 함수를 이용하면 다른 스택에서 내보낸 값을 가져올 수 있다.
 
 두 개의 다른 CloudFormation 템플릿을 연결할 수 있는데, 연결된 상황에서 첫 번째 스택이 내보낸 값을 더 이상 참조하지 않을 때까지 첫 번째 스택을 삭제할 수 없다. **증요**
-
 
 ## **[DVA] CloudFormation - Conditions**
 
@@ -2303,15 +2405,15 @@ Condition은 특정 조건에 기반하여 리소스 또는 output의 생성을 
 각 Condition은 서로를 참조하고 매개변수 값이나 매핑을 참조할 수 있다.
 
 ```yaml
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Description: CloudFormation Condition 예제
 Parameters:
   EnableFeature:
     Type: String
-    AllowedValues: ['true', 'false']
+    AllowedValues: ["true", "false"]
     Description: 특정 기능을 활성화할지 여부를 선택합니다.
 Conditions:
-  EnableFeatureCondition: !Equals [!Ref EnableFeature, 'true']
+  EnableFeatureCondition: !Equals [!Ref EnableFeature, "true"]
 Resources:
   MyBucket:
     Type: AWS::S3::Bucket
@@ -2342,17 +2444,17 @@ EnableFeature의 파라미터와 동일하다면 true가 된다.
 
 Intrinsic Funtions(내장 함수)는 무조건 알아야 할 것이 있다.
 
--   **must know**
-    -   Ref
-    -   Fn::GetAtt
-    -   Fn::FindInMap
-    -   Fn::ImportValue
-    -   Condition Functions(Fn::If, Fn::Not, Fn::Equals etc...)
--   일반
-    -   Fn::Join
-    -   Fn::Sub
-    -   Fn::ForEach
-    -   Fn::ToJsonString
+- **must know**
+  - Ref
+  - Fn::GetAtt
+  - Fn::FindInMap
+  - Fn::ImportValue
+  - Condition Functions(Fn::If, Fn::Not, Fn::Equals etc...)
+- 일반
+  - Fn::Join
+  - Fn::Sub
+  - Fn::ForEach
+  - Fn::ToJsonString
 
 이러한 함수들은 CloudFormation 문서에서 확인 가능하다.
 
@@ -2371,8 +2473,8 @@ Resources:
       AvailabilityZones:
         - eu-west-1a
       Listeners:
-        - LoadBalancerPort: '80'
-          InstancePort: '80'
+        - LoadBalancerPort: "80"
+          InstancePort: "80"
           Protocol: HTTP
   myELBIngressGroup:
     Type: AWS::EC2::SecurityGroup
@@ -2399,6 +2501,7 @@ Base64 함수는 문자열을 Base64 표현으로 변환하는 데 사용된다.
 이런 식으로 내장 함수들은 템플릿 내에서 동적이고 유연한 작업을 수행하는 데 중요한 도구이다.
 
 ## **[DVA] CloudFormation - Rollbacks**
+
 **Stack failure options**
 스택을 생성하고 스택 생성이 실패하면 두 가지 옵션이 있다.
 
@@ -2439,7 +2542,7 @@ CloudFormation에 할당할 Service Role을 생성하고, 해당 역할은 버�
 
 리소스에 사용자가 부여한 이름이 지정된 경우 CAPABILITY_NAMED_IAM을 지정하고 그렇지 않으면 단순히 CAPABILITY_IAM을 사용한다.
 
-이렇게 하는 이유는 CloudFormation이 IAM 리소스를 생성할 것임을 명시적으로 인식하려는 것이다. 
+이렇게 하는 이유는 CloudFormation이 IAM 리소스를 생성할 것임을 명시적으로 인식하려는 것이다.
 
 **CAPABILITY_AUTO_EXPAND**도 있다.
 
@@ -2448,7 +2551,7 @@ CloudFormation에 할당할 Service Role을 생성하고, 해당 역할은 버�
 
 결과적으로 CAPABILITY_NAMED_IAM, CAPABILITY_IAM, CAPABILITY_AUTO_EXPAND 는 위 상황에 맞게끔 필수적으로 넣어줘야 하는 매개변수 같은 걸로 이해하면 된다. 없으면 스택 생성하거나 업데이트할 때 충돌이 발생함!
 
-InsufficientCapabilitiesException는 템플릿을 시작할 때 CloudFormation 템플릿이 Capabilities를 요청했지만 사용자가 이를 인증하지 않았다는 것을 의미한다. 
+InsufficientCapabilitiesException는 템플릿을 시작할 때 CloudFormation 템플릿이 Capabilities를 요청했지만 사용자가 이를 인증하지 않았다는 것을 의미한다.
 결국 템플릿을 다시 만들고, 업로드하고, Capabilities를 꼭 넣어줘야 한다.
 
 이 capability들은 CLI나 SDK를 사용할 경우 API 호출의 추가 매개변수이고, AWS 콘솔에서는 선택하는 체크박스로 나타난다.
@@ -2465,7 +2568,7 @@ Deletion Policy는 템플릿에서 리소스에 적용할 수 있는 설정으�
 
 DeletionPolicy: Retain는 템플릿에서 보존하려는 리소스를 지정하는 것이다.
 
-DeletionPolicy: Snapshot이 있다. 이는 리소스를 삭제하기 전에 마지막 스냅샷을 생성하는 것이다. 
+DeletionPolicy: Snapshot이 있다. 이는 리소스를 삭제하기 전에 마지막 스냅샷을 생성하는 것이다.
 EBS 볼륨, ElastiCache 클러스터, ElastiCache ReplicationGroup, RDS DBInstance, DB 클러스터, Redshift, Neptune, DocumentDB 등에서 지원된다.
 
 백업 및 안전성 목적으로 매우 유용하다.
@@ -2494,16 +2597,17 @@ Resources:
 ```
 
 **정리**
--   DeletionPolicy는 템플릿에서 리소스에 적용할 수 있는 설정으로 템플릿을 삭제할 때 리소스를 보존하고 백업하는 방법으로 사용된다.
--   기본적으로는 템플릿을 삭제하면 내부의 모든 리소스가 삭제 되지만 DeletionPolicy를 설정해주면 삭제되지 않는다.
--   옵션은 아래와 같다.
-    -   DeletionPolicy: 없음
-        -   DeletionPolicy가 Resource에 따로 지정되어 있지 않다면 리소스를 삭제한다는 이야기이다.
-    -   DeletionPolicy: Retain
-        -   Retain으로 지정하는 경우 리소스를 보존한다는 의미다.
-    -   DeletionPolicy: Snapshot
-        -   EBS 볼륨, ElastiCache 클러스터, ElastiCache ReplicationGroup, RDS DBInstance, DB 클러스터, Redshift, Neptune, DocumentDB 의 경우 Snapshot 옵션을 지원한다.
-        -   Snapshot의 경우 리소스를 삭제하기 이전에 마지막으로 스냅샷을 생성하고 리소스를 삭제한다.
+
+- DeletionPolicy는 템플릿에서 리소스에 적용할 수 있는 설정으로 템플릿을 삭제할 때 리소스를 보존하고 백업하는 방법으로 사용된다.
+- 기본적으로는 템플릿을 삭제하면 내부의 모든 리소스가 삭제 되지만 DeletionPolicy를 설정해주면 삭제되지 않는다.
+- 옵션은 아래와 같다.
+  - DeletionPolicy: 없음
+    - DeletionPolicy가 Resource에 따로 지정되어 있지 않다면 리소스를 삭제한다는 이야기이다.
+  - DeletionPolicy: Retain
+    - Retain으로 지정하는 경우 리소스를 보존한다는 의미다.
+  - DeletionPolicy: Snapshot
+    - EBS 볼륨, ElastiCache 클러스터, ElastiCache ReplicationGroup, RDS DBInstance, DB 클러스터, Redshift, Neptune, DocumentDB 의 경우 Snapshot 옵션을 지원한다.
+    - Snapshot의 경우 리소스를 삭제하기 이전에 마지막으로 스냅샷을 생성하고 리소스를 삭제한다.
 
 ## **[DVA] CloudFormation - Stack Policy**
 
@@ -2515,13 +2619,13 @@ Resources:
 
 ```json
 {
-  "Statement" : [
-  {
-    "Effect" : "Allow",
-    "Principal" : "*",
-    "Action" : "Update:*",
-    "Resource" : "*",
-  }
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "Update:*",
+      "Resource": "*"
+    }
   ]
 }
 ```
@@ -2530,7 +2634,6 @@ Resources:
 
 스택 정책은 의도하지 않은 업데이트로부터 리소스를 보호하는 것이며, 스택 정책을 설정하면 기본적으로 모든 리소스가 보호된다.
 업데이트를 허용하려는 리소스에 대해 명시적으로 "Allow"가 필요하다
-
 
 ## **[DVA] CloudFormation - Termination Protection**
 
@@ -2582,20 +2685,20 @@ CloudFormation을 이용하면 3가지 유형의 키를 사용해 Parameter Stor
 {{resolve:service-name:reference-key}} 아래와 같은 형태로 값을 불러올 수 있고 ssm 의 경우 {{resolve:ssm:parameter-name:version}}이다.
 
 ```yaml
-  MyRDSInstance:
-    Type: 'AWS::RDS::DBInstance'
-    Properties:
-      DBName: MyRDSInstance
-      AllocatedStorage: '20'
-      DBInstanceClass: db.t2.micro
-      Engine: mysql
-      MasterUsername: '{{resolve:secretsmanager:MyRDSSecret:SecretString:username}}'
-      MasterUserPassword: '{{resolve:secretsmanager:MyRDSSecret:SecretString:password}}'
+MyRDSInstance:
+  Type: "AWS::RDS::DBInstance"
+  Properties:
+    DBName: MyRDSInstance
+    AllocatedStorage: "20"
+    DBInstanceClass: db.t2.micro
+    Engine: mysql
+    MasterUsername: "{{resolve:secretsmanager:MyRDSSecret:SecretString:username}}"
+    MasterUserPassword: "{{resolve:secretsmanager:MyRDSSecret:SecretString:password}}"
 ```
 
 위 예문에서는 secretsmanager에 있는 사용자 이름과 암호를 동적 참조를 사용해 불러온다.
 
-AWS::RDS::DBCluster 예를 들어 aurora를 생성하는 스택을 만들면 ManageMasterUserPassword가 True로 설정되어 Secrets Manager에 마스터 사용자의 비밀번호가 암시적으로 생성된다. 
+AWS::RDS::DBCluster 예를 들어 aurora를 생성하는 스택을 만들면 ManageMasterUserPassword가 True로 설정되어 Secrets Manager에 마스터 사용자의 비밀번호가 암시적으로 생성된다.
 즉, RDS 서비스 자체가 Secrets Manager에 마스터 사용자 비밀번호 및 rotation을 관리하기 위한 비밀을 생성한다.
 
 ```yaml
@@ -2640,8 +2743,8 @@ MyDBInstance:
     AllocatedStorage: 20
     DBInstanceClass: db.t2.micro
     Engine: mysql
-    MasterUsername: '{{resolve:secretsmanager:MyDatabaseSecret:SecretString:username}}'
-    MasterUserPassword: '{{resolve:secretsmanager:MyDatabaseSecret:SecretString:password}}'
+    MasterUsername: "{{resolve:secretsmanager:MyDatabaseSecret:SecretString:username}}"
+    MasterUserPassword: "{{resolve:secretsmanager:MyDatabaseSecret:SecretString:password}}"
 ```
 
 그 다음으로는 DB 인스턴스가 있는데, 이 데이터베이스 인스턴스는 resolve 함수를 활용해 RDS 데이터베이스 인스턴스에서 비밀을 참조할 것이다. (실제로 값은 Secrets Manager에 저장)
@@ -2671,7 +2774,7 @@ User data 스크립트는 /var/log/cloud-init-output.log 라는 파일에도 저
 
 ```yaml
     Properties:
-        UserData: 
+        UserData:
             Fn::Base64: |
             #!/bin/bash -xe
             dnf update -y
@@ -2687,10 +2790,11 @@ Fn::Base64: | 에서 파이프 기호("|")는 이 전체 스크립트를 사용�
 인스턴스가 실행되고 userdata및 결과를 확인하려면 /var/log/cloud-init-output.log 파일을 확인해 clouds-init의 로그를 확인하면 명령과 결과를 확인할 수 있다.
 
 **정리**
--   콘솔에서 인스턴스를 생성할 때 Userdata를 작성하듯이 CloudFormation에서 UserData를 작성할 수 있다.
--   UserData는 EC2 인스턴스를 정의하는 템플릿에서 Properties 밑에 작성해야 하며, 꼭 Base64 함수를 이용해 인코딩 후 전달해야 한다.
--   스크립트는 실행된 EC2 인스턴스 내에 /var/log/cloud-init-output.log 파일에도 저장되고 파일을 확인하면 전체 로그가 남아 있다.
--   파이프 기호("|")는 전체 스크립트를 사용자 데이터로 다중 문자열로 전달한다는 것을 의미한다.
+
+- 콘솔에서 인스턴스를 생성할 때 Userdata를 작성하듯이 CloudFormation에서 UserData를 작성할 수 있다.
+- UserData는 EC2 인스턴스를 정의하는 템플릿에서 Properties 밑에 작성해야 하며, 꼭 Base64 함수를 이용해 인코딩 후 전달해야 한다.
+- 스크립트는 실행된 EC2 인스턴스 내에 /var/log/cloud-init-output.log 파일에도 저장되고 파일을 확인하면 전체 로그가 남아 있다.
+- 파이프 기호("|")는 전체 스크립트를 사용자 데이터로 다중 문자열로 전달한다는 것을 의미한다.
 
 ## **CloudFormation - cfn-init**
 
@@ -2717,14 +2821,13 @@ Resources:
       SecurityGroups:
         - !Ref SSHSecurityGroup
       # we install our web server with user data
-      UserData: 
-        Fn::Base64:
-          !Sub |
-            #!/bin/bash -xe
-            # Get the latest CloudFormation package
-            dnf update -y aws-cfn-bootstrap
-            # Start cfn-init
-            /opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyInstance --region ${AWS::Region} || error_exit 'Failed to run cfn-init'
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          # Get the latest CloudFormation package
+          dnf update -y aws-cfn-bootstrap
+          # Start cfn-init
+          /opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyInstance --region ${AWS::Region} || error_exit 'Failed to run cfn-init'
     Metadata:
       Comment: Install a simple Apache HTTP page
       AWS::CloudFormation::Init:
@@ -2737,15 +2840,15 @@ Resources:
               content: |
                 <h1>Hello World from EC2 instance!</h1>
                 <p>This was created using cfn-init</p>
-              mode: '000644'
+              mode: "000644"
           commands:
             hello:
               command: "echo 'hello world'"
           services:
             sysvinit:
               httpd:
-                enabled: 'true'
-                ensureRunning: 'true'
+                enabled: "true"
+                ensureRunning: "true"
 ```
 
 packages는 MySQL, PHP 등과 같은 미리 패키지화된 앱 및 구성 요소를 다운로드하고 설치하는 데 사용된다.
@@ -2755,7 +2858,7 @@ EC2 인스턴스에 파일을 생성하는 데 사용되는 files:
 일련의명령을 실행하는 데 사용되는 commands:
 서비스를 시작하는 데 사용되는 services가 있다.
 
-cfn-init 스크립트를 사용하면 복잡한 EC2 구성을 읽기 쉽게 만들 수 있다. 
+cfn-init 스크립트를 사용하면 복잡한 EC2 구성을 읽기 쉽게 만들 수 있다.
 작동 과정은 EC2 인스턴스는 init 데이터를 얻기 위해 CloudFormation 서비스에 쿼리를 날리고, CloudFormation은 EC2 인스턴스를 시작하고 인스턴스는 cfn-init 스크립트를 실행하며 init 데이터를 CloudFormation에서 직접 검색한다.
 
 CloudFormation init 블록을 리소스의 메타데이터에 정의해야한다.
@@ -2765,23 +2868,22 @@ CloudFormation init 블록을 리소스의 메타데이터에 정의해야한다
 예제 UserData에 `/opt/aws/bin/cfn-init -s ${AWS::StackId} -r MyInstance --region ${AWS::Region}` 명령어가 있는데 -s 인수로 StackId를 전달하고 -r 인수로 어떤 리소스에 메타데이터가 첨부되어 있는지를 찾을지 정해주는 것이다.
 
 **정리**
--   일반적으로 Userdata를 작성하는 데에는 문제가 있을 수 있다.
-    -   인스턴스 구성이 커서 스크립트가 많아지는 경우
-    -   Userdata는 인스턴스 첫 시작에만 적용 돼 Userdata를 다시 적용하려면 인스턴스를 종료하고 새로 만들어야 함
-    -   UserData를 더 읽기 쉽게 만들려면 어떻게 해야하는가?
-    -   UserData 스크립트 성공 여부를 어떻게 알 수 있을까?
--   위와 같은 문제가 있어서 CloudFormation helper scripts를 사용한다. script는 Python 스크립트이고 Amazon Linux AMI와 함께 제공되거나 yum이나 dnf를 사용해 설치 가능하다. cfn-init은 그 중 하나의 중요한 스크립트이다.
--   cfn-init은 Resources 내에서 Metadata 블록에 속하는 Config 블록으로 여러 구성 요소로 되어 있다.
-    -   packages는 MySQL, PHP 등과 같이 미리 패키지화 된 앱 및 구성 요소를 다운로드하고 설치하는 데 사용된다.
-    -   sources는 파일을 다운로드하고 EC2 인스턴스에 배치하는데 사용된다.
-    -   files는 EC2 인스턴스에 파일을 생성하는데 사용된다.
-    -   commands는 일련의 명령을 실행하는 데 사용된다.
-    -   services는 서비스를 시작하는데 사용된다.
--   cfn-init 스크립트를 사용하면 EC2 구성을 읽기 쉽게 만들 수 있다.
--   작동 과정은 이렇다. 
-    EC2 인스턴스는 init 데이터를 얻기위해 ClouFormation 서비스에 쿼리 전송 -> CloudFormation은 EC2 인스턴스를 시작하고 인스턴스는 cfn-init 스크립트 실행 -> init 데이터를 CloudFormation에서 직접 검색
 
-
+- 일반적으로 Userdata를 작성하는 데에는 문제가 있을 수 있다.
+  - 인스턴스 구성이 커서 스크립트가 많아지는 경우
+  - Userdata는 인스턴스 첫 시작에만 적용 돼 Userdata를 다시 적용하려면 인스턴스를 종료하고 새로 만들어야 함
+  - UserData를 더 읽기 쉽게 만들려면 어떻게 해야하는가?
+  - UserData 스크립트 성공 여부를 어떻게 알 수 있을까?
+- 위와 같은 문제가 있어서 CloudFormation helper scripts를 사용한다. script는 Python 스크립트이고 Amazon Linux AMI와 함께 제공되거나 yum이나 dnf를 사용해 설치 가능하다. cfn-init은 그 중 하나의 중요한 스크립트이다.
+- cfn-init은 Resources 내에서 Metadata 블록에 속하는 Config 블록으로 여러 구성 요소로 되어 있다.
+  - packages는 MySQL, PHP 등과 같이 미리 패키지화 된 앱 및 구성 요소를 다운로드하고 설치하는 데 사용된다.
+  - sources는 파일을 다운로드하고 EC2 인스턴스에 배치하는데 사용된다.
+  - files는 EC2 인스턴스에 파일을 생성하는데 사용된다.
+  - commands는 일련의 명령을 실행하는 데 사용된다.
+  - services는 서비스를 시작하는데 사용된다.
+- cfn-init 스크립트를 사용하면 EC2 구성을 읽기 쉽게 만들 수 있다.
+- 작동 과정은 이렇다.
+  EC2 인스턴스는 init 데이터를 얻기위해 ClouFormation 서비스에 쿼리 전송 -> CloudFormation은 EC2 인스턴스를 시작하고 인스턴스는 cfn-init 스크립트 실행 -> init 데이터를 CloudFormation에서 직접 검색
 
 ## **CloudFormation - cfn-signal & Wait Condition**
 
@@ -2799,7 +2901,7 @@ WaitCondition은 이름에서 알 수 있듯이 템플릿이 cfn-signal로부터
 
 ```yaml
 # 성공 스크립트
-UserData: 
+UserData:
         Fn::Base64:
           !Sub |
             #!/bin/bash -x
@@ -2850,20 +2952,19 @@ Metadata:
 예를 들어 CloudFormation은 EC2 인스턴스를 시작하고 WaitCondition이 발생할 것이다. EC2 인스턴스는 cfn-init을 실행할 것이고 init 데이터를 검색하지만, init 데이터 바로 뒤에 cfn-signal에서 신호를 수행하여 WaitCondition에서 데이터를 다시 CloudFormation으로 전달한다.
 
 ```yaml
-UserData: 
-        Fn::Base64:
-          !Sub |
-            #!/bin/bash -x
-            # Get the latest CloudFormation package
-            dnf update -y aws-cfn-bootstrap
-            # Initialize EC2 Instance
-            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource MyInstance --region ${AWS::Region}
-            # Get result of last command
-            INIT_STATUS=$?
-            # send result back using cfn-signal
-            /opt/aws/bin/cfn-signal -e $INIT_STATUS --stack ${AWS::StackName} --resource SampleWaitCondition --region ${AWS::Region}
-            # exit the script
-            exit $INIT_STATUS
+UserData:
+  Fn::Base64: !Sub |
+    #!/bin/bash -x
+    # Get the latest CloudFormation package
+    dnf update -y aws-cfn-bootstrap
+    # Initialize EC2 Instance
+    /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource MyInstance --region ${AWS::Region}
+    # Get result of last command
+    INIT_STATUS=$?
+    # send result back using cfn-signal
+    /opt/aws/bin/cfn-signal -e $INIT_STATUS --stack ${AWS::StackName} --resource SampleWaitCondition --region ${AWS::Region}
+    # exit the script
+    exit $INIT_STATUS
 ```
 
 여기 스크립트가 조금 다른 yaml 파일이 있다. 이전과 마찬가지로 cfn-init을 실행하는데, 마지막 명령의 결과를 INIT_STATUS라는 변수에 저장한다. 그래서 cfn-init이 성공했다면 변수는 0이 될것이다. 실패할 경우 0이 아닌 다른 오류 코드 가 될 것이다.
@@ -2872,21 +2973,21 @@ cfn-signal 스크립트에 INIT_STATUS를 전달하고 최종적으로 CloudForm
 
 WaitCondition에서 Count 1 에 해당하는 신호를 받는데까지 대기하는 시간(타임아웃)은 2분이다. 2분 내에 아무것도 받지 못하면 실패하고 성공 또는 실패 시그널을 받는다.
 
-최종적으로 정리하자면 /opt/aws/bin/cfn-init 스크립트를 실행하고 실행한 결과를 변수화 해 /opt/aws/bin/cfn-signal 스크립트에서 사용해 CloudFormation으로 전송하며, WaitCondition은 /opt/aws/bin/cfn-signal 에서 정상적인 신호를 받을 때까지 기다리는 것이다. 
+최종적으로 정리하자면 /opt/aws/bin/cfn-init 스크립트를 실행하고 실행한 결과를 변수화 해 /opt/aws/bin/cfn-signal 스크립트에서 사용해 CloudFormation으로 전송하며, WaitCondition은 /opt/aws/bin/cfn-signal 에서 정상적인 신호를 받을 때까지 기다리는 것이다.
 
 **정리**
--   cfn-signal 스크립트는 cfn-init 스크립트를 실행한 후 올바르게 구성 되었는지 여부를 알 수 있는 방법이다.
--   cfn-init 스크립트가 실행된 직후 cfn-signal 스크립트를 실행하고 리소스 생성이 성공했는지 실패했는지 CloudFormation에 알려준다.
--   필수적으로 WaitCondition을 정의해야 하는데 이는 템플릿이 cfn-signal로부터 신호를 받을때까지 기다린다.
-    -   CreationPolicy와 Type을 WaitCondition으로 지정해주어 하나 이상의 성공 신호를 확인해 2분의 타임아웃 시간동안 스크립트가 정상적으로 수행 되었는지 확인하는 것이다.
--   최종적으로 cfn-signal 스크립트는 cfn-init 스크립트를 실행하고 실행한 결과를 cfn-signal 스크립트에서 사용하고 CloudFormation으로 전송하고 WaitCondition은 cfn-signal에서 정상적인 신호를 받을 때까지 기다린다.
 
+- cfn-signal 스크립트는 cfn-init 스크립트를 실행한 후 올바르게 구성 되었는지 여부를 알 수 있는 방법이다.
+- cfn-init 스크립트가 실행된 직후 cfn-signal 스크립트를 실행하고 리소스 생성이 성공했는지 실패했는지 CloudFormation에 알려준다.
+- 필수적으로 WaitCondition을 정의해야 하는데 이는 템플릿이 cfn-signal로부터 신호를 받을때까지 기다린다.
+  - CreationPolicy와 Type을 WaitCondition으로 지정해주어 하나 이상의 성공 신호를 확인해 2분의 타임아웃 시간동안 스크립트가 정상적으로 수행 되었는지 확인하는 것이다.
+- 최종적으로 cfn-signal 스크립트는 cfn-init 스크립트를 실행하고 실행한 결과를 cfn-signal 스크립트에서 사용하고 CloudFormation으로 전송하고 WaitCondition은 cfn-signal에서 정상적인 신호를 받을 때까지 기다린다.
 
 ## **CloudFormation - cfn-signal Failures**
 
 ```yaml
 # 실패 스크립트
-UserData: 
+UserData:
         Fn::Base64:
           !Sub |
             #!/bin/bash -x
@@ -2952,13 +3053,14 @@ WaitCondition이 EC2 인스턴스로부터 필요한 수의 신호를 수신하�
 앞서 말했듯이 위와 같은 실패 상황에서 디버깅을 위해선 rollback 설정을 해제해야한다.
 
 **정리**
--   cfn-signal에서 WaitCondition이 EC2 인스턴스로부터 필요한 수의 신호를 받지 못했다는 문제가 시험에서 많이 나온다고 한다.
--   아래의 이유로 신호를 받지 못한다.
-    -   사용 중인 AMI에 CloudFormation helper scripts가 설치되지 않은 경우
-    -   EC2 인스턴스가 인터넷에 액세스할 수 있는지
-    -   특정 이유로 상태 코드가 0이 아닌 경우
--   cfn-init 및 cfn-signal 명령의 출력을 확인해보면 원인을 찾을 수 있다. 두 파일 모두 명령어들이 어떻게 실행되었는지 확인할 수 있다.
--   또한 인스턴스에서 실제로 무슨 일이 발생했는 지 확인하려면 CloudFormation Rollback 설정을 해제해야 한다.
+
+- cfn-signal에서 WaitCondition이 EC2 인스턴스로부터 필요한 수의 신호를 받지 못했다는 문제가 시험에서 많이 나온다고 한다.
+- 아래의 이유로 신호를 받지 못한다.
+  - 사용 중인 AMI에 CloudFormation helper scripts가 설치되지 않은 경우
+  - EC2 인스턴스가 인터넷에 액세스할 수 있는지
+  - 특정 이유로 상태 코드가 0이 아닌 경우
+- cfn-init 및 cfn-signal 명령의 출력을 확인해보면 원인을 찾을 수 있다. 두 파일 모두 명령어들이 어떻게 실행되었는지 확인할 수 있다.
+- 또한 인스턴스에서 실제로 무슨 일이 발생했는 지 확인하려면 CloudFormation Rollback 설정을 해제해야 한다.
 
 ## **CloudFormation - Nested Stacks**
 
@@ -2966,7 +3068,7 @@ Nested Stack(중첩 스택)은 다른 스택 안에 있는 스택이다.
 
 중첩 스택을 사용하면 반복되는 패턴과 공통 구성 요소를 별도의 스택에서 분리한 다음 다른 스택에서 호출할 수 있다.
 
-예를 들어 재사용되는 로드 밸런서 구성이 있는 경우 이를 중첩 스택으로 구성할 수 있다. 
+예를 들어 재사용되는 로드 밸런서 구성이 있는 경우 이를 중첩 스택으로 구성할 수 있다.
 
 중첩된 스택을 업데이트하기 위해서는 항상 상위 스택을 업데이트 해야한다. 루트 스택과 중첩된 스택은 그 자체 안에 중첩된 스택을 가질수 있다. 중첩된 스택안에 중첩된 스택을 다시 넣을수 있어 매우 깊이 들어갈 수 있다.
 
@@ -3006,19 +3108,20 @@ Outputs:
     Value: !GetAtt myStack.Outputs.WebsiteURL
 ```
 
-중첩 스택의 경우 Resources 안에 스택을 지정해서 사용한다. 
+중첩 스택의 경우 Resources 안에 스택을 지정해서 사용한다.
 위 예제에서는 스택의 위치를 TemplateURL로 지정하고 해당 스택에 있는 파라미터를 불러온다.
 
 CAPABILITY_AUTO_EXPAND는 중첩스택을 사용하는 스택을 생성할 때 반드시 필요하니 유의해야한다.
 
 **정리**
--   Nested Stack은 다른 스택 안에 있는 스택이다.
--   반복되는 패턴과 공통 구성 요소를 별도의 스택에서 분리한 다음 다른 스택에서 호출하기 위해 중첩된 스택을 사용한다.
--   중첩된 스택을 업데이트하려면 항상 상위 스택을 업데이트 해야한다.
--   중첩된 스택안에 다시 중첩된 스택을 넣을 수 있어 매우 깊게 들어갈 수 있다.
--   교차 스택이라는 개념도 있다. 교차 스택은 스택의 수명 주기가 다를 때 매우 유용하다.
--   예를 들어 VPC 스택의 일부 변수를 출력으로 내보내 Applicaion 스택으로 내보내는 것과 같이 한 스택의 출력을 다른 스택에서 사용하는 경우 편리하다.
--   CAPABILITY_AUTO_EXPAND는 중첩 스택을 사용하는 스택을 생성할 때 반드시 필요하니 반드시 유의해야한다.
+
+- Nested Stack은 다른 스택 안에 있는 스택이다.
+- 반복되는 패턴과 공통 구성 요소를 별도의 스택에서 분리한 다음 다른 스택에서 호출하기 위해 중첩된 스택을 사용한다.
+- 중첩된 스택을 업데이트하려면 항상 상위 스택을 업데이트 해야한다.
+- 중첩된 스택안에 다시 중첩된 스택을 넣을 수 있어 매우 깊게 들어갈 수 있다.
+- 교차 스택이라는 개념도 있다. 교차 스택은 스택의 수명 주기가 다를 때 매우 유용하다.
+- 예를 들어 VPC 스택의 일부 변수를 출력으로 내보내 Applicaion 스택으로 내보내는 것과 같이 한 스택의 출력을 다른 스택에서 사용하는 경우 편리하다.
+- CAPABILITY_AUTO_EXPAND는 중첩 스택을 사용하는 스택을 생성할 때 반드시 필요하니 반드시 유의해야한다.
 
 ## **CloudFormation - Depends On**
 
@@ -3050,15 +3153,17 @@ Resources:
 EC2 인스턴스가 생성 완료되자마자 MyBucket이 생성될 것이다.
 
 그리고 DependsOn 속성은 삭제에서도 똑같이 작용된다.
-생성된 역순으로 삭제가 된다. 
+생성된 역순으로 삭제가 된다.
 S3 버킷이 삭제된 이후에 인스턴스가 삭제될 것이다.
 
 **정리**
--   DependsOn은 리소스 생성을 위한 특정 순서를 지정할 수 있다. 예를 들어 특정 리소스가 먼저 생성되어야만 다음 리소스를 생성할 수 있게 설정할 수 있다.
--   사실 Intrinsic Function을 사용하면 CloudFormation은 특정 리소스에 대해 의존적이게 만들 수 있다. 예를 들어 !Ref 나 !GetAtt 함수를 사용해 특정 리소스들을 연결한다면 의존적이다.
--   DependsOn은 삭제에서도 똑같이 동작한다. 의존적인 리소스부터 의존을 받고있는 리소스로의 순서로 삭제된다.
+
+- DependsOn은 리소스 생성을 위한 특정 순서를 지정할 수 있다. 예를 들어 특정 리소스가 먼저 생성되어야만 다음 리소스를 생성할 수 있게 설정할 수 있다.
+- 사실 Intrinsic Function을 사용하면 CloudFormation은 특정 리소스에 대해 의존적이게 만들 수 있다. 예를 들어 !Ref 나 !GetAtt 함수를 사용해 특정 리소스들을 연결한다면 의존적이다.
+- DependsOn은 삭제에서도 똑같이 동작한다. 의존적인 리소스부터 의존을 받고있는 리소스로의 순서로 삭제된다.
 
 ## **CloudFormation - StackSets**
+
 스택셋은 한 번의 작업으로 여러 계정과 Region에 걸쳐 스택을 배포할 수 있는 방법이다.
 
 관리자 계정으로 스택 셋을 만들고 대상 계정은 스택 셋에서 인스턴스를 생성, 적용 및 삭제하는 데만 사용하도록 할 수 있다.
@@ -3067,7 +3172,7 @@ S3 버킷이 삭제된 이후에 인스턴스가 삭제될 것이다.
 
 또한 대상 계정과 관리자 계정을 정의하기 위해 AWS Organization 내의 계정에 이를 적용할 수도 있다.
 
-관리자 계정과 대상 계정의 개념이 있기 때문에 두 계정 모두 권한이 있어야한다. 
+관리자 계정과 대상 계정의 개념이 있기 때문에 두 계정 모두 권한이 있어야한다.
 
 그래서 관리자 계정과 대상 계정 모두 신뢰 관계(Trust Relationship)가 있는 IAM 역할을 만들어 놓고 해당 역할을 이용해 CloudFormation 템플릿을 대상 계정에 배포할 수 있다.
 
@@ -3088,12 +3193,13 @@ Organization을 사용하는 경우 자동으로 Organization이 사용자를 �
 보안 및 거버넌스 목적으로 Organization의 특정 구성원 계정에 스택 셋 관리를 위임할수도 있다. 위임된 관리자가 Organization에서 관리하는 계정에 배포할 수 있도록 조직 내에서 trusted access를 활성화 해야한다.
 
 **정리**
--   스택 셋은 한 번의 작업으로 여러 계정과 Region에 걸쳐 스택을 배포할 수 있는 방법이다.
--   관리자 계정에서 스택 셋을 만들고 대상 계정은 스택 셋에서 인스턴스와 같은 자원을 생성, 적용 및 삭제하는 데만 사용하도록 할 수 있다. 업데이트 또한 동일하게 관리자 계정에서만 해주면 모든 대상 계정이 업데이트를 받게 된다.
--   하나의 스택이 생성되는 즉시 모든 계정에 스택을 자동으로 배포하도록 설정할 수도 있다.
--   AWS Organization을 사용하면 관리자 계정과 대상 계정에 대한 권한 관리를 쉽게 할 수 있다. 관리자 계정이 조직 내의 모든 기능을 수행하려면 "Trusted access"를 사용하도록 설정해야 한다.
--   Organization을 사용해주지 않으면 수동으로 IAM 역할을 생성해야한다.
--   보안 및 거버넌스 목적으로 Organization의 특정 구성원 계정에 스택 셋 관리를 위임할 수도 있다. 이 또한 위임된 관리자가 대상 계정에 배포할 수 있도록 "Trusted access"를 사용하도록 해야한다.
+
+- 스택 셋은 한 번의 작업으로 여러 계정과 Region에 걸쳐 스택을 배포할 수 있는 방법이다.
+- 관리자 계정에서 스택 셋을 만들고 대상 계정은 스택 셋에서 인스턴스와 같은 자원을 생성, 적용 및 삭제하는 데만 사용하도록 할 수 있다. 업데이트 또한 동일하게 관리자 계정에서만 해주면 모든 대상 계정이 업데이트를 받게 된다.
+- 하나의 스택이 생성되는 즉시 모든 계정에 스택을 자동으로 배포하도록 설정할 수도 있다.
+- AWS Organization을 사용하면 관리자 계정과 대상 계정에 대한 권한 관리를 쉽게 할 수 있다. 관리자 계정이 조직 내의 모든 기능을 수행하려면 "Trusted access"를 사용하도록 설정해야 한다.
+- Organization을 사용해주지 않으면 수동으로 IAM 역할을 생성해야한다.
+- 보안 및 거버넌스 목적으로 Organization의 특정 구성원 계정에 스택 셋 관리를 위임할 수도 있다. 이 또한 위임된 관리자가 대상 계정에 배포할 수 있도록 "Trusted access"를 사용하도록 해야한다.
 
 ## **CloudFormation - Troubleshooting**
 
@@ -3127,21 +3233,22 @@ CloudFormation 외부에서 변경된 리소스, 충분하지 않은 IAM 권한,
 또는 StackSets는 동일한 스택을 여러 계정에 배포하기 때문에 권한, 할당량, 리소스 이름 등에 따라 일부 계정에서 작동하지 않을 수 있어 더 고려해봐야 한다.
 
 **정리**
--   스택이 DELETE_FAILED가 발생하면 확인해야할 사항이 있다.
-    -   S3 버킷과 같이 삭제 전에 반드시 비워져야하는 일부 리소스를 확인해야한다. S3 버킷을 수동으로 지우거나 Lambda 함수와 함께 Custom Resources를 사용해 S3 버킷을 비워야한다.
-    -   Stack 내부에 없는 인스턴스가 Stack 내부의 보안 그룹을 사용 중인 경우 보안 그룹을 삭제할 수 없다.
--   UPDATE_ROLLBACK_FAILED가 발생하면 업데이트가 실패하고 롤백이 시도 되었지만 롤백도 실패했음을 의미한다.
-    -   CloudFormation 외부에서 변경된 리소스, 충분하지 않은 IAM 권한, 충반한 signal을 받지 못한느 Auto Scaling Group이 이유가 될 수 있다.
-    -   위와 같은 경우 오류를 수동으로 수정하여 해결하고 이것이 작동하는지 확인해야 한다. 보통 이벤트 로그가 힌트를 제공해줄 것이다.
-    -   모든 오류를 수정하면 ContinueUpdateRollback이라는 API 호출을 해야한다. 롤백이 계속 진행되고 오류가 수정된 경우 롤백이 성공할 것이다.
--   특정 리소스를 삭제하는 데 문제가 있는 경우 DeletionPolicy=Retain을 사용해 해당 리소스의 삭제를 건너뛰고 문제를 찾아볼 수 있다.
--   StackSets에도 문제가 발생한다.
-    -   스택 상태가 OUTDATED로 나타날 수 있다.
-    -   이 경우 템플릿에서 지정된 리소스를 생성하는 데 필요한 대상 계정의 충분한 권한이 없어서 발생하는 문제일 수 있다.
-    -   템플릿이 전역 리소스를 생성하려 하지만 S3 버킷의 이름처럼 고유해야 하는 경우 리소스가 생성이 안될 수도 있다.
-    -   Trusted Relationship에 문제가 있을 수 있다. 대상 계정에 관리자 계정에 대한 신뢰 관계가 제대로 설정되어 있지 않을 수 있다.
-    -   StackSets는 동일한 스택을 여러 계정에 배포하기 때문에 권한, Quota, 리소스 이름에 따라 일부 계정에서 작동하지 않을 수 있어 꼼꼼히 고려해야 한다.
-   
+
+- 스택이 DELETE_FAILED가 발생하면 확인해야할 사항이 있다.
+  - S3 버킷과 같이 삭제 전에 반드시 비워져야하는 일부 리소스를 확인해야한다. S3 버킷을 수동으로 지우거나 Lambda 함수와 함께 Custom Resources를 사용해 S3 버킷을 비워야한다.
+  - Stack 내부에 없는 인스턴스가 Stack 내부의 보안 그룹을 사용 중인 경우 보안 그룹을 삭제할 수 없다.
+- UPDATE_ROLLBACK_FAILED가 발생하면 업데이트가 실패하고 롤백이 시도 되었지만 롤백도 실패했음을 의미한다.
+  - CloudFormation 외부에서 변경된 리소스, 충분하지 않은 IAM 권한, 충반한 signal을 받지 못한느 Auto Scaling Group이 이유가 될 수 있다.
+  - 위와 같은 경우 오류를 수동으로 수정하여 해결하고 이것이 작동하는지 확인해야 한다. 보통 이벤트 로그가 힌트를 제공해줄 것이다.
+  - 모든 오류를 수정하면 ContinueUpdateRollback이라는 API 호출을 해야한다. 롤백이 계속 진행되고 오류가 수정된 경우 롤백이 성공할 것이다.
+- 특정 리소스를 삭제하는 데 문제가 있는 경우 DeletionPolicy=Retain을 사용해 해당 리소스의 삭제를 건너뛰고 문제를 찾아볼 수 있다.
+- StackSets에도 문제가 발생한다.
+  - 스택 상태가 OUTDATED로 나타날 수 있다.
+  - 이 경우 템플릿에서 지정된 리소스를 생성하는 데 필요한 대상 계정의 충분한 권한이 없어서 발생하는 문제일 수 있다.
+  - 템플릿이 전역 리소스를 생성하려 하지만 S3 버킷의 이름처럼 고유해야 하는 경우 리소스가 생성이 안될 수도 있다.
+  - Trusted Relationship에 문제가 있을 수 있다. 대상 계정에 관리자 계정에 대한 신뢰 관계가 제대로 설정되어 있지 않을 수 있다.
+  - StackSets는 동일한 스택을 여러 계정에 배포하기 때문에 권한, Quota, 리소스 이름에 따라 일부 계정에서 작동하지 않을 수 있어 꼼꼼히 고려해야 한다.
+
 ## **Lambda - Overview**
 
 람다는 무엇일까요?
@@ -3165,13 +3272,14 @@ Lambda는 서버리스 함수이며, 관리할 서버가 없다.
 함수 인스턴스 및 동시성이 필요한 경우 자동으로 AWS가 더 많은 Lambda 함수를 프로비저닝한다.
 
 Lambda는 여러가지 이점이 있다.
--   가격을 책정하는 게 매우 간단하다.
-    -   호출 횟수(Lambda가 수신한 요청 수)와 실행 시간(Lambda가 실행되었던 컴퓨터 시간)에 대해 지불하게 된다.
--   많은 종류의 서비스와 통합되어 있다.
-    -   여러 가지 프로그래밍 언어를 사용할 수 있어 자유롭다.
--   CloudWatch와의 모니터링 통합이 매우 쉽다.
--   함수당 최대 10GB의 RAM을 프로비저닝할 수 있다.
--   함수의 RAM을 늘리면 CPU 및 네트워크의 품질과 성능도 같이 향상된다.
+
+- 가격을 책정하는 게 매우 간단하다.
+  - 호출 횟수(Lambda가 수신한 요청 수)와 실행 시간(Lambda가 실행되었던 컴퓨터 시간)에 대해 지불하게 된다.
+- 많은 종류의 서비스와 통합되어 있다.
+  - 여러 가지 프로그래밍 언어를 사용할 수 있어 자유롭다.
+- CloudWatch와의 모니터링 통합이 매우 쉽다.
+- 함수당 최대 10GB의 RAM을 프로비저닝할 수 있다.
+- 함수의 RAM을 늘리면 CPU 및 네트워크의 품질과 성능도 같이 향상된다.
 
 Lambda는 여러 언어를 지원한다.
 node.js(JavaScript), Python, Java(Java 8 호환 또는 Java 11), .NET Core의 C#, Golang, Powershell을 위한 C#, Ruby 등의 다양한 언어를 지원하게 된다.
@@ -3184,16 +3292,17 @@ Lambda 컨테이너 이미지는 이미지 자체 Lambda 런타임 API를 구현
 Lambda에서 컨테이너를 실행하려는 경우 해당 컨테이너가 Lambda 런타임 API를 구현하지 않은 경우 해당 컨테이너를 ECS 또는 Fargate에서 실행해야 한다.
 
 Lambda는 다양한 서비스와 통합되어 사용된다.
--   API Gateway는 REST API를 생성하고 Lambda 함수를 호출하는 데 사용된다.
--   Kinesis는 Lambda를 사용해 데이터를 실시간으로 변환한다.
--   DynamoDB는 트리거를 생성하는 데 사용된다. DB에 무언가 발생할 때 Lambda 함수가 트리거된다.
--   S3에 파일이 생성될 때마다 트리거된다.
--   CloudFront는 Lambda@Edge를 사용한다.
--   CloudWatch 이벤트 또는 EventBridge는 AWS 인프라에서 이벤트가 발생할 때 반응할 수 있도록 한다. 예를 들어 빌드 파이프라인 상태가 변경되면 그에 기반한 자동화를 수행하고 싶을 때 Lambda 함수를 사용할 수 있다.
--   CloudWatch Logs는 로그를 어디서든 스트리밍할 수 있다.
--   SNS 주제에서 알림에 반응하는 데 Lambda가 사용된다.
--   SQS 대기열에서 메시지를 처리하는 데 사용된다.
--   Cognito는 예를 들어 사용자가 데이터베이스에 로그인할 때 반응하는 데 사용된다.
+
+- API Gateway는 REST API를 생성하고 Lambda 함수를 호출하는 데 사용된다.
+- Kinesis는 Lambda를 사용해 데이터를 실시간으로 변환한다.
+- DynamoDB는 트리거를 생성하는 데 사용된다. DB에 무언가 발생할 때 Lambda 함수가 트리거된다.
+- S3에 파일이 생성될 때마다 트리거된다.
+- CloudFront는 Lambda@Edge를 사용한다.
+- CloudWatch 이벤트 또는 EventBridge는 AWS 인프라에서 이벤트가 발생할 때 반응할 수 있도록 한다. 예를 들어 빌드 파이프라인 상태가 변경되면 그에 기반한 자동화를 수행하고 싶을 때 Lambda 함수를 사용할 수 있다.
+- CloudWatch Logs는 로그를 어디서든 스트리밍할 수 있다.
+- SNS 주제에서 알림에 반응하는 데 Lambda가 사용된다.
+- SQS 대기열에서 메시지를 처리하는 데 사용된다.
+- Cognito는 예를 들어 사용자가 데이터베이스에 로그인할 때 반응하는 데 사용된다.
 
 예를 들어 Lambda를 이용해 서버리스 썸네일 생성을 할 수 있다.
 S3에 새 이미지가 업로드 되면 S3 이벤트 알림을 통해 Lambda 함수가 트리거 되고 썸네일이 생성된다. 생성되는 동시에 이미지에 대한 일부 메타데이터를 DynamoDB에 삽입 할 수도 있다.
@@ -3228,13 +3337,14 @@ CloudWatch Events 또는 EventBridge를 Lambda와 통합하는 방법에 대해 
 S3 Event Notification과 Lambda를 통합하는 방법을 알아보자
 
 S3 Event Notification은 개체가 생성, 제거, 복원, 복제가 일어날 때마다 알림을 받을 수 있는 방법이다.
-접두사 및 접미사 별로 필터링할 수 있다. 예: *.jpg
+접두사 및 접미사 별로 필터링할 수 있다. 예: \*.jpg
 
 가장 일반적인 사용 사례는 S3에 업로드된 모든 이미지의 썸네일 이미지를 생성하는 것이다.
 
 S3에 이벤트가 발생하면 S3에서는 이를 세 곳으로 보낼 수 있는데
-1.  SNS와 SNS 토픽에서 팬 아웃 패턴을 수행해 여러 SQS Queue로 보내거나, 
-2.  SQS Queue로 보내서 람다 함수가 해당 SQS Queue를 직접 읽도록 하거나, 
+
+1.  SNS와 SNS 토픽에서 팬 아웃 패턴을 수행해 여러 SQS Queue로 보내거나,
+2.  SQS Queue로 보내서 람다 함수가 해당 SQS Queue를 직접 읽도록 하거나,
 3.  S3 Event Notification이 람다 함수를 직접 비동기 호출로 호출하는 방법이 있다. 그리고 이 람다 함수는 해당 데이터로 원하는 모든 작업을 수행할 수 있으며, 문제가 발생할 경우 Dead Letter Queue를 설정할 수도 있다.
 
 S3 Event Notification은 일반적으로 몇 초 안에 이벤트를 전달하지만 때로는 1분 이상 걸릴 수 있으므로 이벤트 알림을 놓치지 않으려면 버킷에서 버전 관리를 활성화 해야한다.
@@ -3253,6 +3363,7 @@ S3 버킷에 새 파일 이벤트가 Lambda로 전송된다.
 그리고 관리형 정책을 사용할수도 있다.
 
 예를들어
+
 - AWSLambdaBasicExecutionRole 을 이용해서 CloudWatch에 Log를 업로드하거나,
 - AWSLambdaKinesisExecutionRole 를 이용해서 Kinesis에서 읽어오거나
 - AWSLambdaDynamoDBExecutionRole 를 이용해서 DynamoDB 스트림에서 읽어 오거나
@@ -3302,7 +3413,7 @@ AWSXRayDaemonWriteAccess라는 관리형 정책을 사용할 수 있다.
 X-Ray와 통신하기 위해 환경 변수를 설정해야 한다.
 이 환경 변수는 미리 예약되어 있어 함수 구성에서 설정할 수 없다.
 
-- _X_AMZN_TRACE_ID: X-Ray 추적 헤더이다. 간접 호출할 때마다 환경변수가 변경된다.
+- \_X_AMZN_TRACE_ID: X-Ray 추적 헤더이다. 간접 호출할 때마다 환경변수가 변경된다.
 - AWS_XRAY_CONTEXT_MISSING: 기본적으로 필요한 변수이다. LOG_ERROR로 설정하면 된다.
 - AWS_XRAY_DAEMON_ADDRESS: 람다 함수와 관련해 엑스레이 데몬의 IP와 포트가 실행되는 위치를 알려주는 데몬 주소이다. IP_ADDRESS:PORT의 형태로 알려준다.
 
@@ -3322,7 +3433,7 @@ vCPU 수를 직접 설정할 수는 없다. 암시적으로 더 많은 vCPU를 �
 
 이 이후로는 두 개 이상의 vCPU를 사용하게 되므로 추가된 vCPU의 이점을 누리려면 멀티스레딩을 사용해야 한다.
 
-애플리케이션이 CPU에 바인딩되어 있다는 것은 계산이 많다는 것을 의미하고, 애플리케이션의 성능을 개선하려면 (함수가 실행되는 시간을 줄이려면) 애플리케이션 즉 람다함수 RAM을 늘려야 한다. 
+애플리케이션이 CPU에 바인딩되어 있다는 것은 계산이 많다는 것을 의미하고, 애플리케이션의 성능을 개선하려면 (함수가 실행되는 시간을 줄이려면) 애플리케이션 즉 람다함수 RAM을 늘려야 한다.
 일반적으로 시험에 이런 문제가 나온다.
 
 Timeout이 있다.
@@ -3340,7 +3451,7 @@ execution context는 `/tmp` 디렉터리도 포함되며, 이 디렉터리는 �
 import os
 
 def get_user_handler(event, context):
-  
+
   DB_URL = os.getenv("DB_URL")
   db_client = db.connect(DB_URL)
   user = db_client.get(user_id = event["user_id"])
@@ -3360,7 +3471,7 @@ DB_URL = os.getenv("DB_URL")
 db_client = db.connect(DB_URL)
 
 def get_user_handler(event, context):
-  
+
   user = db_client.get(user_id = event["user_id"])
 
   return user
@@ -3398,7 +3509,7 @@ def get_user_handler(event, context):
 이를 위해 reserved concurrency(예약된 동시성)를 설정할 수 있으며 이는 함수 수준에서 설정된다.
 즉, "이 람다 함수는 최대 50개까지만 동시 실행이 가능합니다." 라는 제한을 설정할 수 있다.
 
-따라서 동시성 제한을 초과하여 호출할 때마다 Throttle이라는 것이 트리거된다. 그리고 스로틀이 동기식인 경우 다른 동작이 발생한다. 
+따라서 동시성 제한을 초과하여 호출할 때마다 Throttle이라는 것이 트리거된다. 그리고 스로틀이 동기식인 경우 다른 동작이 발생한다.
 ThrottleError - 429 에러를 반환하게 된다.
 
 비동기 호출인 경우 자동으로 재시도한 다음 DLQ(dead-letter queues)로 이동한다.
@@ -3459,7 +3570,9 @@ Lambda와 관련된 많은 CloudWatch 메트릭이 있다.
 위의 메트릭을 기반으로 알람을 만들 수 있다.
 
 1.  Invocations 메트릭을 기반으로 Lambda의 Invocations 수를 가져올 수 있다.
-  - 이 수치가 0과 같다면 람다 함수가 지속적으로 호출될 것으로 예상하기 때문에 문제일 수 있다.
+
+- 이 수치가 0과 같다면 람다 함수가 지속적으로 호출될 것으로 예상하기 때문에 문제일 수 있다.
+
 2.  또한 Errors 메트릭을 기반으로 오류가 0보다 큰지 살펴보고 람다 함수가 무언가를 처리하지 못했을 때 경고를 받을 수도 있다
 3.  Throttles 메트릭을 기반으로 0보다 큰지 살펴보고 용량이 부족한 지도 확인할 수 있다.
 
@@ -3475,6 +3588,7 @@ Insights를 이용해서 다양한 쿼리를 사용해 지난 100개의 오류�
 Lambda의 모니터링을 위한 Lambda Insights도 있다.
 
 Lambda Insights는 아래와 같은 메트릭을 수집, 집계, 요약한다.
+
 - 시스템 수준 메트릭
   - CPU time, 메모리, 디스크, 네트워크
 - 진단 정보
@@ -3501,7 +3615,7 @@ EBS 볼륨을 사용하면 인스턴스가 종료된 후에도 데이터를 지�
 인스턴스를 다시 생성하고 이전과 동일한 EBS 볼륨에 마운트하면 데이터를 다시 가져올 수 있다.
 
 따라서 이러한 EBS 볼륨은 한 번에 하나의 인스턴스에만 마운트할 수 있다.
-***이는 사실 Certified Cloud Practitioner 레벨에서의 설명이고 Multi Attach 를 이용하면 여러개의 인스턴스에 마운트 가능하다.***
+**_이는 사실 Certified Cloud Practitioner 레벨에서의 설명이고 Multi Attach 를 이용하면 여러개의 인스턴스에 마운트 가능하다._**
 
 그리고 EBS 볼륨을 생성하면 특정 가용 영역에 바인딩된다.
 
@@ -3513,7 +3627,7 @@ EC2 인스턴스에서 분리하여 다른 인스턴스에 매우 빠르게 연�
 
 EBS 볼륨은 특정 가용영역에 고정되어 있으므로 a zone 에서 생성된 경우 b zone에 연결할 수 없지만 스냅샷을 수행하면 다른 가용 영역에서 볼륨을 이동할 수 있다.
 
-볼륨이므로 용량을 미리 프로비저닝 해야한다. 미리 몇 GB를 원하는 지 초당 입출력 작업 수인 IOPS를 말해야 하며, 기본적으로 EBS 볼륨의 성능을 어떻게 정의할 지 정해야 한다. 
+볼륨이므로 용량을 미리 프로비저닝 해야한다. 미리 몇 GB를 원하는 지 초당 입출력 작업 수인 IOPS를 말해야 하며, 기본적으로 EBS 볼륨의 성능을 어떻게 정의할 지 정해야 한다.
 프로비저닝 용량에 대한 요금이 청구되며, 더 나은 성능이나 더 큰 용량을 원할 경우 시간이 지남에 따라 용량을 늘릴 수 있다.
 
 종료시 삭제라는 속성이 있는데, 콘솔에서 EBS 볼륨을 생성할 때 Delete on Termination이라는 옵션이 있다. 기본적으로 루트 EBS 볼륨은 종료되는 인스턴스와 함께 삭제된다.
@@ -3524,7 +3638,7 @@ EBS 볼륨은 특정 가용영역에 고정되어 있으므로 a zone 에서 생
 인스턴스 스토어의 경우 EBS와 다르게 네트워크 드라이브를 EC2 인스턴스에 연결하는 방법이 아니라 물리적 서버에 연결된 하드 드라이브이다.
 
 EC2 Instance Store는 더 나은 I/O 성능을 위해 사용된다.
-*확실한지는 모르겠다.*
+_확실한지는 모르겠다._
 
 EC2 Instance Store는 Throughput이 우수하므로 매우 높은 디스크 성능을 원할 때 훌룡한 선택이 될 수 있다.
 
@@ -3542,6 +3656,7 @@ EC2 인스턴스 스토어를 사용하기 위해서는 이를 백업하고 필�
 예로들어 비교하면 가장 성능이 좋은 인스턴스 스토어의 경우 읽기 IOPS와 쓰기 IOPS 모두 330만 또는 140만에 해당하는데 gp2의 경우 32,000 IOPS에 해당한다. 그래서 인스턴스 스토어가 IOPS 성능이 훨씬 뛰어나다.
 
 ## **[SAA/DVA] EBS Volume Types Deep Dive**
+
 EBS의 유형에 대해 알아보자
 
 첫 번째는 다양한 워크로드에서 가격과 성능의 균형을 맞출 수 있는 범용 SSD 볼륨인 gp2, gp3이다.
@@ -3553,7 +3668,6 @@ st1 볼륨은 자주 액세스하는 처리량 집약적인 워크로드를 위�
 
 sc1 볼륨은 가장 저렴한 HDD 볼륨으로 액세스 빈도가 낮은 워크로드를 위해 설계 되었다.
 
-
 EBS 볼륨은 크기 / 처리량 / IOPS 등 여러가지로 정의된다.
 
 그리고 이제 EC2 인스턴스의 경우 gp2와 gp3 그리고 io1과 io2 만 boot volume으로 사용할 수 있다. 이는 루트 OS가 실행되는 위치를 말한다. 결론적으로 루트 볼륨은 gp2/gp3/io1/io2만 가능하다는 이야기이다.
@@ -3562,7 +3676,7 @@ EBS 볼륨은 크기 / 처리량 / IOPS 등 여러가지로 정의된다.
 
 gp2의 경우 지연 시간이 짧고 비용 효율적인 스토리지로 시스템 부팅 볼륨, 가상 데스크톱, 개발 및 테스트 환경에 사용할 수 있다. 크기는 1GB에서 16TB 까지 다양하다.
 
-gp3는 새로운 세대의 볼륨이다. 
+gp3는 새로운 세대의 볼륨이다.
 gp3는 3000 IOPS와 초당 125MB의 처리량을 기본으로 제공하고, IOPS를 최대 16,000까지 그리고 처리량을 최대 초당 1,000MB까지 늘릴수 있다. IOPS와 처리량은 독립적으로 늘릴 수 있다.
 
 gp2의 경우, 최대 3,000 IOPS까지 버스트할 수 있으며 볼륨의 크기가 IOPS와 연결되어 있다. 즉 볼륨의 크기인 기가 바이트 수를 늘리면 IOPS가 최대 16,000 IOPS까지 증가한다. 3 IOPS 당 GB이므로 5,334 GB의 용량을 갖게 된다면 최대의 IOPS인 16,000 IOPS에 도달하는 것을 의미한다.
@@ -3588,13 +3702,13 @@ Throughput 최적화된 HDD (st1) 의 경우 빅데이터, 데이터 웨어하�
 Cold HDD (sc1)의 경우 액세스 빈도가 낮은 데이터, 가장 낮은 비용이 필요할 때 사용하는 경우이다.
 최대 처리량은 초당 250 MiB이고, 최대 IOPS도 250이다.
 
-
 시험에서는 아래와 같이 볼륨의 높은 수준에서 차이점만 이해하면된다.
 
 즉, 데이터베이스가 필요한 경우 범용 SSD와 Provisioned IOPS SSD, 높은 처리량과 최저 비용이 필요한 경우 st1 및 sc1 등
 또한 32,000 IOPS 이상을 얻으려면 io1 또는 io2와 함께 EC2 Nitro 계열이 필요하다.
 
 ## **[SAA] EBS Multi Attach**
+
 EBS 볼륨의 Multi Attachment 기능에 대해 알아보자
 
 이름에서 알 수 있듯이 멀티 어태치를 사용하면 동일한 EBS 볼륨을 동일한 가용 영역에 있는 여러 EC2 인스턴스에 연결할 수 있다.
@@ -3611,8 +3725,8 @@ Multi Attach는 동일한 볼륨을 연결할 수 있는 EC2 인스턴스가 한
 
 이 기능이 작동하려면 클러스터를 인식할 수 있는 파일 시스템을 사용해야한다. xfs나 ex4와는 다른 파일 시스템이다.
 
-
 ## **EBS Operation: Volume Resizing**
+
 EBS는 볼륨의 사이즈 또는 IOPS를 늘릴 수 있다.
 
 EBS 볼륨 크기를 조정한 후 해야 할 일은 드라이브를 다시 파티션하는 것이다.
@@ -3627,6 +3741,7 @@ EBS 볼륨의 크기를 줄일 수는 없다.
 그래서 250 GB 볼륨이 있다고 가정하고 1 TB로 볼륨을 확장한다고 가정하면 사용 중인 250 GB의 파티션을 확인하고 부족한 750 GB를 추가하기 위해 EBS 볼륨을 다시 파티션해야 EC2 인스턴스가 해당 용량을 사용할 수 있다.
 
 Linux OS의 경우 아래와 같은 과정을 거친다.
+
 ```bash
 # lsblk로 크기를 조정할 파티션 확인
 $ lsblk
@@ -3646,9 +3761,12 @@ $ df -h
 ```
 
 windows OS의 경우 아래와 같은 과정을 거친다.
+
 ```markdown
 1.  diskmgmt.msc 를 cmd에 입력 후 파티션 확인
-  - 추가된 볼륨 용량이 Unallocated 되어 있다.
+
+- 추가된 볼륨 용량이 Unallocated 되어 있다.
+
 2.  파티션 조절하고자 하는 볼륨에 우클릭 후 Extend Volume
 3.  추가하고자 하는 볼륨 용량을 Add 후 용량을 늘려준다.
 ```
@@ -3742,6 +3860,7 @@ EFS는 미리 용량을 Provisioning 할 필요 없이 자동으로 확장되며
 EFS는 수천 개의 동시 NFS 클라이언트와 10 GB 이상의 처리량을 제공하며, PB 규모의 네트워크 파일 시스템으로 자동 확장할 수 있다.
 
 EFS 네트워크 파일 시스템 생성 시 성능 모드(Performance mode)를 설정할 수 있으며 몇 가지 옵션이 있다.
+
 - 범용 모드 (General Purpose mode)
   - 웹 서버, CMS 등과 같이 지연 시간에 민감한 사용 사례에 사용된다.
 - 최대 I/O 모드 (Max I/O mode)
@@ -3749,6 +3868,7 @@ EFS 네트워크 파일 시스템 생성 시 성능 모드(Performance mode)를 
   - 빅 데이터 애플리케이션이나 미디어 처리가 필요한 경우 유용
 
 또한 처리량 모드(Throughput mode)에도 여러 옵션이 있다.
+
 - Elastic throughput (Recommend)
   - 워크로드에 따라 처리량을 자동으로 확장 및 축소할 수 있다. 워크로드가 예측할 수 없을 때 매우 유용하다.
   - 예를 들어, 워크로드에 따라 읽기는 초당 최대 3GiB, 쓰기는 초당 1GiB를 얻을 수 있다.
@@ -3759,6 +3879,7 @@ EFS 네트워크 파일 시스템 생성 시 성능 모드(Performance mode)를 
   - 프로비저닝된 처리량을 사용하면 1 TiB 기준 초당 1GiB를 사용할 수 있다. 스토리지와 처리량의 상관관계가 없어진다.
 
 스토리지 클래스도 있다.
+
 - 표준 계층
   - 자주 액세스하는 파일을 위한 것.
   - 수명 주기 정책을 사용해 며칠 후 파일을 다른 계층으로 옮길 수도 있다.
@@ -3862,7 +3983,6 @@ IOPS 유형 별, 유형 별 Throughput, PercentIOLimit, 현재 EFS 파일 시스
 
 실시간 정보를 얻으려면 시계열 또는 단일 값으로 선택할 수 있다.
 
-
 ## **[CCP/SAA/DVA] S3 Overview**
 
 S3는 파일 백업 및 저장을 위해 사용할 수 있다.
@@ -3890,7 +4010,6 @@ S3 버킷은 명명 규칙이 있다.
 버킷 이름은 대문자나 언더스코어가 없어야 하며 3에서 63자 사이여야 한다. IP가 아니어야하고, 소문자로 시작해야한다.
 그리고 몇 가지 접두사 제한이 있다. (특정 서비스에서 사용하는 접두사, 접미사)
 버킷 이름은 문자 또는 숫자로 시작하고 끝나야 한다.
-
 
 객체는 파일이며 키(key)라는 것이 있다.
 객체 키는 파일의 전체 경로를 나타낸다.
@@ -3937,27 +4056,25 @@ IAM 권한이 허용하거나 리소스 정책이 허용해 명시적으로 거�
 S3 Bucket Policy는 실제로 JSON 기반의 정책이며 읽기가 상당히 쉽다.
 
 아래는 예시이다.
+
 ```json
 {
-   "Version":"2012-10-17",
-   "Statement":[
-      {
-         "Principal":{
-            "AWS":"arn:aws:iam::111122223333:role/JohnDoe"
-         },
-         "Effect":"Allow",
-         "Action":[
-            "s3:GetObject",
-            "s3:GetObjectVersion"
-         ],
-         "Resource":"arn:aws:s3:::DOC-EXAMPLE-BUCKET/*",
-         "Condition":{
-            "StringEquals":{
-               "s3:ExistingObjectTag/environment":"production"
-            }
-         }
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Principal": {
+        "AWS": "arn:aws:iam::111122223333:role/JohnDoe"
+      },
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:GetObjectVersion"],
+      "Resource": "arn:aws:s3:::DOC-EXAMPLE-BUCKET/*",
+      "Condition": {
+        "StringEquals": {
+          "s3:ExistingObjectTag/environment": "production"
+        }
       }
-   ]
+    }
+  ]
 }
 ```
 
@@ -3986,9 +4103,9 @@ Cross-Account 액세스를 허용하려면 Bucket 정책을 사용해야 한다.
 
 S3 버킷 정책으로 버킷을 공개적으로 만드는 설정이 있더라도 Block Public Access이 활성화 된 경우 버킷은 절대로 공개되지 않는다.
 
-
 ## **S3 Security: Bucket Policy Advanced**
-***시험에서는 알 필요 없다.***
+
+**_시험에서는 알 필요 없다._**
 
 S3 Bucket Policy를 사용하면 버킷에 대한 공개 액세스를 허용하거나 업로드 시 객체를 강제로 암호화하거나 다른 Region 및 교차 계정에 액세스 권한을 부여하거나 공개 IP 또는 Elastic IP에 대한 조건을 지정하거나(Private IP에 대한 조건은 적용되지 않는다.), Source VPC 또는 Source VPC 엔드포인트, CloudFront 원본 ID, MFA 강제 등 여러가지 작업이 가능하다.
 
@@ -4000,7 +4117,7 @@ s3:x-amz-server-sideencryption를 이용해서 암호화되지 않은 객체의 
 
 NotIpAddress를 이용해서 SourceIp에서 제공한 IP 범위 내에 IP가 해당하지 않으면 업로드를 거부할 수 있다.
 
-Action 중 GetObject의 경우 Resource의 path 가 *로 되어야 모든 object에 대한 권한을 얻게 되고
+Action 중 GetObject의 경우 Resource의 path 가 \*로 되어야 모든 object에 대한 권한을 얻게 되고
 ListBucket의 경우 해당 Bucket의 이름만 기재해줘도 된다.
 
 MultiFactorAuthPresent 를 이용해서 MFA에 인증된 경우에만 객체를 가져올 수 있도록 한다.
@@ -4021,8 +4138,6 @@ http://bucket-name.s3-website.Region.amazonaws.com 등의 이름으로 나타날
 
 그래서 버킷 정책을 공개적으로 읽기 위해 활성화 하면 된다.
 403 에러가 발생하게 된다면 버킷이 공개되지 않았다는 의미이다.
-
-
 
 ## **[CCP/SAA/DVA] S3 Versioning**
 
@@ -4083,8 +4198,8 @@ SRR의 경우 로그를 여러 S3 버킷에 집계하거나 프로덕션 및 테
 
 예를 들어 버킷 1에서 버킷 2로 복제되고, 버킷 2가 버킷 3으로 복제된 경우 버킷 1의 객체는 버킷 3으로 복제되지 않는다.
 
-
 ## **[CCP/SAA/DVA] S3 Storage Classes Overview**
+
 S3는 다양한 Storage Class 가 있다.
 
 - Amazon S3 Standard - General Purpose
@@ -4113,7 +4228,6 @@ AWS 측면에서 두 가용 영역의 장애를 견딜 수 있다.
 
 사용 사례로는 대규모 데이터 분석, 모바일 및 게임 응용 프로그램, 콘텐츠 배포 등이 있다.
 
-
 다음으로 Amazon S3 Infrequent Access 가 있다.
 
 이는 덜 자주 액세스되는 데이터이지만 필요할 때 빠른 액세스가 필요한 데이터이다.
@@ -4126,7 +4240,7 @@ Amazon S3 One Zone-Infrequent Access, One Zone-IA는 단일 가용 영역 내에
 
 S3 One Zone-IA의 사용 사례는 예를 들어 온프레미스 데이터 또는 다시 생성할 수 있는 데이터의 백업의 보조 복사본을 저장하는 것이다.
 
-다음은 Glacier 스토리지 클래스가 있다. 
+다음은 Glacier 스토리지 클래스가 있다.
 
 Glacier는 아카이빙 및 백업을 위한 저렴한 객체 저장소이다.
 
@@ -4151,6 +4265,7 @@ Flexible은 최소 저장 기간이 90일이다.
 다음 장기 저장을 위한 Glacier Deep Archive가 있다.
 
 검색에 대한 두 가지 티어가 있다.
+
 - Standard는 12시간이고,
 - Bulk는 48시간이다.
 
@@ -4166,6 +4281,7 @@ S3 Intelligent-Tiering이라는 스토리지 클래스가 있다.
 S3 Intellignet-Tiering에서는 액세스 비용이 발생하지 않는다.
 
 Tier는 아래와 같다.
+
 - Frequent Access tier: 기본 tier
 - Infrequent Access tier: 30일 동안 액세스되지 않은 개체에 대한
 - Archive Instant Access: 90일 동안 액세스되지 않은 개체에 대한
@@ -4190,10 +4306,12 @@ S3 Intelligent-Tiering은 객체를 이동시키는 동안 우리가 해야할 �
 Lifecycle Rule은 여러 구성 요소로 이루어져 있다.
 
 Transition Actions: 객체를 다른 스토리지 클래스로 전환할 수 있도록 하는 작업
-- 예를 들어, 60일이 지난 객체를 Standard IA 클래스로 이동하거나, 
+
+- 예를 들어, 60일이 지난 객체를 Standard IA 클래스로 이동하거나,
 - 6개월이 지난 객체를 Glacier로 이동할 수 있다.
 
 Expiration Actions: 객체를 만료하는 만료 작업
+
 - 예를 들어 액세스 로그 파일은 365일 후에 삭제하려면 만료 작업을 설정할 수 있다.
 - 버전 관리를 활성화했다면 오래된 파일 버전을 삭제하는 데 Expiration 작업을 사용할 수 있다.
 - 또한 만약 Multi-Part upload가 2주 이상 지난 경우에는 불완전한 멀티파트 업로드를 삭제하는 데 이를 사용할 수 있다.
@@ -4213,12 +4331,11 @@ Expiration Actions: 객체를 만료하는 만료 작업
 
 Standard 형 및 Standard IA 형이 있다.
 
-One-Zone IA 또는 Glacier과 함께 작동하지는 않는다. 
+One-Zone IA 또는 Glacier과 함께 작동하지는 않는다.
 
 이 기능은 권장 사항과 통계를 담은 CSV 보고서를 생성할 것이며, 보고서는 매일 업데이트되며 데이터 분석 결과를 보려면 24 ~ 48 시간이 걸릴 수 있다.
 
 따라서 합리적인 라이프 사이클 규칙을 만들거나 개선하는데 도움을 줄 수 있다.
-
 
 ## **[SAA/DVA] S3 Event Notifications**
 
@@ -4280,7 +4397,7 @@ S3 성능을 최적화하는 방법은 아래와 같다.
 
 파일을 AWS 엣지 Location으로 전송해 엣지 Location이 데이터를 대상 지역의 S3 버킷으로 전달하여 전솔해 속도를 높이기 위한 것이다.
 
-Edge Location은 리전 이상이고, 200개 이상의 Edge Location이 있고 Location은 계속해서 증가하고 있다. 
+Edge Location은 리전 이상이고, 200개 이상의 Edge Location이 있고 Location은 계속해서 증가하고 있다.
 
 S3 Transfer Acceleration은 Multi Parts Upload와 호환된다.
 
@@ -4334,7 +4451,6 @@ Batch Operation으로 필터링 된 목록의 객체를 처리한다.
 
 다시 말해서 주요 사용 사례 중 하나는 S3 Inventory를 사용해서 암호화되지 않은 모든 객체를 찾고 S3 Batch Operations를 사용해 한꺼번에 모두 암호화하는 것이다.
 
-
 ## **S3 Inventory**
 
 S3 Inventory Job을 사용해서 S3 버킷의 모든 객체와 해당 메타데이터를 나열할 수 있다.
@@ -4351,8 +4467,6 @@ Inventory는 매일 또는 매주 생성할 수 있다.
 Presto, Hive 및 Spark는 AWS 내부에 있지 않아도 외부에서 사용할 수 있으며 S3 Select를 사용해 필터링된 보고서를 생성하고 해당 보고서를 S3 Batch Operations에 사용할 수 있다.
 
 Inventory는 비즈니스, 규정 준수 및 규정 요구에 사용을 한다.
-
-
 
 ## **S3 Glacier Overview**
 
@@ -4372,9 +4486,10 @@ Archive는 데이터를 부르는 명칭이라고 생각하면 된다. S3로 치
 
 기본적으로 모든 데이터는 AES-256을 사용하여 정적으로 암호화되며 키는 AWS에서 관리된다. 그래서 Glacier의 모든 데이터는 어떤 경우에도 자동으로 암호화된다.
 
-특정 기간 이후에 S3에 아카이브하려면 Glacier를 사용하고 백업 수명 주기 정책을 사용하면 된다. 
+특정 기간 이후에 S3에 아카이브하려면 Glacier를 사용하고 백업 수명 주기 정책을 사용하면 된다.
 
 몇 가지 알아두어야 할 Glacier 기능이 있다.
+
 - Vault를 만들고 삭제할 수 있으며 Vault는 비어있을 때만 삭제할 수 있다.
 - Vault에서 메타데이터를 검색할 수 있다. Vault의 생성일, 아카이브 수, 모든 아카이브의 총 크기등을 포함한다.
 - Vault의 Inventory를 다운로드할 수 있으며, 이는 모든 아카이브 단위의 목록이다. 아카이브 ID, 생성 날짜, 크기 등이 포함된다.
@@ -4412,7 +4527,7 @@ Glacier는 비동기적이기 때문에 복원 작업에 대한 알림이 필요
 
 또한 작업을 시작할 때 SNS Topic으로 알림을 보낼 수 있다.
 
-예를 들어 Glacier는 여러 Vault와 아카이브가 있고, 사용자가 아카이브 복원 작업을 시작하면 5시간에서 12시간 사이로 얻게 된다. 
+예를 들어 Glacier는 여러 Vault와 아카이브가 있고, 사용자가 아카이브 복원 작업을 시작하면 5시간에서 12시간 사이로 얻게 된다.
 
 이 작업은 시간이 걸리므로 아카이브가 다운로드할 준비가 되면 Glacier는 SNS Topic으로 알림을 보낼 수 있다.
 
@@ -4421,8 +4536,6 @@ Glacier는 비동기적이기 때문에 복원 작업에 대한 알림이 필요
 이는 S3 Glacier 저장 클래스에서 직접 객체를 복원할 때 사용된다.
 이 경우 S3 Object Restore Post로 객체 복원이 시작될 때 알림을 받고,
 S3 Object Restore Complete로 객체 복원이 완료되었을 때 알림을 받을 수 있다.
-
-
 
 ## **S3 Multi-Part Upload Deep Dive**
 
@@ -4471,7 +4584,7 @@ Athena는 **성능 향상**을 할 수 있다.
 
 또한 Apache Parquet 또는 ORC 형식으로 파일을 변환하려면 Glue와 같은 서비스를 사용해야 한다.
 
-Glue는 ETL 작업으로 데이터를 변환하는 데 매우 유용할 수 있다. 
+Glue는 ETL 작업으로 데이터를 변환하는 데 매우 유용할 수 있다.
 
 또한 더 적은 데이터를 스캔하려면 데이터를 압축해야 한다. 여러 가지 압축 메커니즘이 있다.
 
@@ -4527,7 +4640,7 @@ SEE-S3 메커니즘을 사용하기 위해서는 헤더를 "x-amz-server-side-en
 
 SSE-S3는 새 버킷 및 새 객체에 대해 기본적으로 활성화 되어 있어 올바른 헤더와 함께 파일을 업로드하면 된다.
 
-과정은 이렇다. 
+과정은 이렇다.
 사용자는 올바른 헤더와 함께 파일을 업로드하고 업로드 된 객체는 S3가 자체적으로 가지고 있는 키와 함께 암호화 되어 Bucket에 파일이 올라간다.
 
 SSE-KMS에 대해 알아보자
@@ -4550,7 +4663,7 @@ KMS 키에는 자체 API가 있는데, GenerateDataKey나 복호화할 때 사�
 이러한 각 API 호출은 KMS API 호출 제한(quota)에 기여하게 되며, Region에 따라 초당 5,000에서 30,000개의 요청이 있다.
 
 Service Quotas는 증가할 수 있지만, 매우 높은 처리량을 갖는 S3 버킷이 있고 모든 것이 KMS 키를 사용해 암호화된 경우에는 스레드 링크 유형의 사용 사례로 이어질 수 있다.
-*시험에 이 부분이 나올 수 있다.*
+_시험에 이 부분이 나올 수 있다._
 
 다음은 SSE-C 유형의 암호화이다.
 
@@ -4594,7 +4707,6 @@ Encryption in flight 는 SSL/TLS라고도 불린다.
 
 S3 버킷에 버킷 정책을 첨부하고 Condition이 "aws:SecureTransport": "false" 인 경우 GetObject 작업을 거부하도록 하는 정책을 첨부하면 된다.
 
-
 ## **[SAA/DVA] S3 Default Encryption**
 
 Default 암호화와 버킷 정책에 대해 간단히 알아보자
@@ -4610,7 +4722,6 @@ Default 암호화와 버킷 정책에 대해 간단히 알아보자
 예를 들어 SSE-KMS 또는 SSE-C의 경우이다.
 
 버킷 정책은 항상 기본 암호화 설정보다 먼저 평가된다.
-
 
 ## **[SAA/DVA] S3 CORS**
 
@@ -4637,7 +4748,7 @@ S3에서는 클라이언트가 S3 버킷에게 CORS 요청을 수행하는 경�
 
 빠르게 수행할 수 있는 한 가지 방법은 특정 출처를 허용하거나 아니면 모든 출처를 허용하는 것이다.
 
-*시험 문제에서 매우 인기 있음*
+_시험 문제에서 매우 인기 있음_
 
 ## **[SAA/DVA] S3 MFA Delete**
 
@@ -4653,8 +4764,6 @@ MFA 를 사용하려면 버킷에서 먼저 버전 관리를 활성화해야 한
 또한 MFA Delete를 활성화하거나 비활성화할 수 있는 것은 버킷 소유자인 루트 계정뿐이다.
 
 주로 기억해야할 부분은 MFA Delete가 특정 객체 버전의 영구적인 삭제를 방지하기 위한 추가적인 보호 기능임을 기억하면 된다.
-
-
 
 ## **[SAA/DVA] S3 Access Logs**
 
@@ -4798,6 +4907,7 @@ S3에서는 멀티 리전 액세스 포인트를 정의할 수도 있다.
 페일오버 제어는 Active/Passive 뿐만 아니라 Active/Active 유형의 설정에도 적용된다.
 
 ## **S3 VPC Endpoints**
+
 S3를 위한 VPC 엔드포인트 게이트웨이의 작동 방식에 대해 알아보자
 
 기본적으로 S3 버킷은 AWS 클라우드에 존재하지만, 액세스하려면 일반적으로 Public 인터넷을 통해 액세스해야 한다.
@@ -4846,8 +4956,9 @@ Snowball Edge 내의 인터페이스는 블록 스토리지 또는 Amazon S3 호
 Snowball Edge는 두 가지 유형이 있다.
 
 Snowball Edge Storage opimized
+
 - 하드웨어 디스크 용량이 80 TB, 블록 볼륨 또는 S3 호환 객체 스토리지에 작동
-Snowball Edge Compute Optimized
+  Snowball Edge Compute Optimized
 - 용량이 28TB 또는 42 TB
 
 용량을 더 많이 확보하려면 Storage Optimized를 선택하는 것이 좋다.
@@ -4861,8 +4972,9 @@ Snowcone은 매우 작은 휴대용 장치로, 건조하고 안전하며 가혹�
 두 가지 유형이 있다.
 
 Snowcone
+
 - HDD 스토리지, 8 TB
-Snowcone SSD
+  Snowcone SSD
 - SSD 스토리지, 14 TB
 
 Snowball이 맞지 않는 공간 제약 환경에 사용할 수 있으며, 배터리와 케이블은 별도로 제공해야 한다.
@@ -4907,7 +5019,7 @@ Edge Location은 실제로 인터넷이 없거나 클라우드에서 멀리 떨�
 
 엣지 컴퓨팅을 하려면 Snowball Edge 장치 또는 Snowcone을 주문해 이러한 엣지 위치에 장치를 설치하고 엣지 컴퓨팅을 시작한다.
 
-사용 사례로는 데이터를 사전 처리하거나 엣지에서 기계 학습을 수행하는 등이 있다. 
+사용 사례로는 데이터를 사전 처리하거나 엣지에서 기계 학습을 수행하는 등이 있다.
 
 데이터를 AWS로 다시 전송해야 할 경우 Snowcone 또는 Snowball Edge 장치를 다시 발송할 수 있다.
 
@@ -4917,7 +5029,7 @@ Edge Location은 실제로 인터넷이 없거나 클라우드에서 멀리 떨�
 
 FSx는 AWS에서 완전 관리되는 서비스로서 서드파티 고성능 파일 시스템을 시작할 수 있게 해준다.
 
-FSx의 경우 파일 시스템을 위한 RDS와 같은 것이다. 
+FSx의 경우 파일 시스템을 위한 RDS와 같은 것이다.
 
 **Amazon FSx for Windows File Server**의 경우
 
@@ -5050,11 +5162,11 @@ Disaster recovery를 수행하거나, 클라우드 마이그레이션을 수행�
 그리고 대부분의 데이터를 AWS에 저장하고 Storage Gateway를 온프레미스 캐시로 사용해 지연 시간이 낮은 파일 액세스를 수행할 수도 있다.
 
 여러 종류가 있다.
+
 1.  S3 File Gateway
 2.  FSx File Gateway
 3.  Volume Gateway
 4.  Tape Gateway
-
 
 **S3 File Gateway**은 S3 버킷이 있고 원하는 스토리지 클래스를 사용할 수 있다.
 그리고 이 S3 버킷을 온프레미스 응용 프로그램 서버에 연결하고 표준 NFS를 사용하려고 한다.
@@ -5095,7 +5207,6 @@ Gateway를 만드는 경우 자주 액세스하는 데이터에 대해 회사 �
 
 iSCSI 인터페이스를 사용해 테이프 기반 프로세스를 사용해 기존 데이터를 백업한다.
 
-
 **Storage Gateway Hardware Apliance**
 
 게이트웨이는 기업 데이터 센터에서 실행되어야 한다.
@@ -5109,14 +5220,14 @@ iSCSI 인터페이스를 사용해 테이프 기반 프로세스를 사용해 �
 
 가상화가 없는 작은 데이터 센터에서 일일 NFS 백업에 매우 유용하다.
 
-
-
 ## **Storage Gateway for SysOps**
 
 파일 게이트웨이는 POSIX 호환성을 갖는 것으로, Linux 파일 시스템이다.
+
 - 이는 S3 객체의 메타데이터 소유권, 권한 및 타임 스태프 정보를 S3 객체의 메타데이터에 저장한다는 것을 의미한다.
 
 Storage Gateway VM을 유지보수하기 위해 재부팅하려면 두 가지 방법이 있다.
+
 - 파일 게이트웨이인 경우 Storage Gateway VM을 간단히 다시 시작하면 된다.
 - 볼륨 또는 테이프 게이트웨이인 경우 콘솔이나 VM 로컬 콘솔 또는 Storage Gateway API를 통해 Storage Gateway 서비스를 중지해야 한다. 그 다음 Stogate Gateway VM을 다시 부팅하고 Storage Gateway 서비스를 다시 시작해야 한다. 그 다음 API 또는 콘솔을 통해 Storage Gateway 서비스를 다시 시작한다.
   - 정리하자면 아래와 같다.
@@ -5304,13 +5415,18 @@ TTL을 제어할 수 있으며, 헤더를 사용해 어떻게 하는지 알아�
 CloudFront는 3가지 방법으로 구성할 수 있다.
 
 1.  모든 헤더를 Origin으로 전달
-  - 이 경우 TTL은 0으로 설정되어야한다.
-  - 캐싱이 없고 모든 요청이 원본으로 전달된다.
-  - CloudFront를 사용하여 캐싱하지 않는다.
+
+- 이 경우 TTL은 0으로 설정되어야한다.
+- 캐싱이 없고 모든 요청이 원본으로 전달된다.
+- CloudFront를 사용하여 캐싱하지 않는다.
+
 2.  화이트 리스트 기반으로 전달
-  - 원하는 헤더의 화이트리스트를 전달하면 지정된 헤더의 모든 값에 기반하여 캐싱
+
+- 원하는 헤더의 화이트리스트를 전달하면 지정된 헤더의 모든 값에 기반하여 캐싱
+
 3.  요청에서 헤더 제거
-  - 헤더를 전달하지 않도록 하면 기본 헤더에 대해서만 전달되고 요청 헤더에 따른 캐싱이 없다.
+
+- 헤더를 전달하지 않도록 하면 기본 헤더에 대해서만 전달되고 요청 헤더에 따른 캐싱이 없다.
 
 모든 헤더를 전달할지, 화이트리스트 헤더를 전달할지 또는 헤더를 전혀 전달하지 않을지의 여부는 응용 프로그램에 따라 다르다.
 
@@ -5319,7 +5435,6 @@ CloudFront는 3가지 방법으로 구성할 수 있다.
 예를 들어 화이트리스트 설정의 경우 몇 가지 헤더를 화이트 리스트에 추가할 것이다.
 
 예를 들어 호스트 및 권한 부여 헤더를 화이트 리스트에 추가하면 헤더가 원본으로 전달되고 캐시가 발생할 것이다.
-
 
 그래서 결국 Action을 어떻게하고 싶은지는 사용자에게 달려 있다.
 
@@ -5360,18 +5475,23 @@ Behavior 레벨의 설정은 캐싱 설정이기 때문에 객체 캐싱을 위�
 이렇게 설정하면 최소 TTL 최대 TTL을 갖고 응용 프로그램은 Cache-Control를 반환할 것이다.
 이것은 선택 사항이지만 권장되는 것이고, Cache-Control이 최소 값보다 작은 경우 최소값이 사용된다. 최대 값보다 큰 경우 최대값이 사용된다. 또한 Cache-Control이 누락되면 이 설정에서 설정한 기본 TTL이 적용된다.
 
-
 쿠키와 쿼리 문자열 매개변수이다.
 
 쿠키는 특정 헤더로서 많은 키-값 쌍이 있다.
 
 쿠키는 세 가지 다른 설정을 가질 수 있다.
+
 1.  쿠키를 처리하지 않는 것(기본 깂)
-  - 캐싱이 쿠키에 기반하지 않으며 쿠키가 CloudFront에서 원본으로 전달되지 않는다.
+
+- 캐싱이 쿠키에 기반하지 않으며 쿠키가 CloudFront에서 원본으로 전달되지 않는다.
+
 2.  쿠키의 화이트리스트 기반 전달
-  - 캐싱은 지정된 모든 쿠키 값에 기반한다.
+
+- 캐싱은 지정된 모든 쿠키 값에 기반한다.
+
 3.  모든 쿠키를 전달
-  - 명백히 최악의 캐싱 성능을 제공하지만 응용 프로그램이 모든 것을 사용할 수 있다.
+
+- 명백히 최악의 캐싱 성능을 제공하지만 응용 프로그램이 모든 것을 사용할 수 있다.
 
 설정하는 것은 응용 프로그램에 따라 다르기 때문에 응용 프로그램 내에서 쿠키가 어떻게 사용되는 지가 매우 중요하다.
 
@@ -5380,12 +5500,17 @@ Behavior 레벨의 설정은 캐싱 설정이기 때문에 객체 캐싱을 위�
 GET /image/cat.jpg?border=red&size=large 등의 쿼리 문자열이 있다.
 
 1.  쿼리 문자열 처리하지 않기(기본 값)
-  - 원본으로 전달되지 않으며 캐싱이 이 쿼리 문자열에 기반하지 않는다.
+
+- 원본으로 전달되지 않으며 캐싱이 이 쿼리 문자열에 기반하지 않는다.
+
 2.  쿼리 문자열의 화이트리스트를 전달
-  - 이 경우 캐싱은 화이트리스트에 기반
+
+- 이 경우 캐싱은 화이트리스트에 기반
+
 3.  모든 쿼리 문자열을 전달
-  - 모든 매개변수를 기반으로 캐싱된다.
-  - 많은 값이 있기 때문에 최악의 캐싱 성능 제공
+
+- 모든 매개변수를 기반으로 캐싱된다.
+- 많은 값이 있기 때문에 최악의 캐싱 성능 제공
 
 캐시 히트를 극대화 하는 방법은 정적 및 동적 배포를 분리하는 것이다.
 
@@ -5397,7 +5522,8 @@ GET /image/cat.jpg?border=red&size=large 등의 쿼리 문자열이 있다.
 
 이 배포의 경우 응용 프로그램과 정확히 유사하게 헤더 및 쿠키를 맞춰 캐시를 극대화할 수 있다.
 
-요약하면 캐시 히트 비율을 높이려면 
+요약하면 캐시 히트 비율을 높이려면
+
 - CloudWatch 메트릭을 살펴보고 객체가 캐시에 있어야하는 기간을 지정.
 - Cache-Control max-age 헤더를 사용
 - 필요한 최소한의 헤더를 지정하거나 지정하지 않는다.
@@ -5448,7 +5574,7 @@ AWS에서 관리되는 RDS 엔진은 PostgreSQL, MySQL, MariaDB, Oracle, Microso
 - 업그레이드를 위한 Maintenance 창을 가지고 있으며, 인스턴스 유형을 증가시킴으로써 수직 스케일링과 읽기 복제본을 추가함으로써 수평 스케일링이 가능하다.
 - 스토리지는 EBS에 의해 백업되며, 이는 우리가 이미 알고 있는 gp2 볼륨 또는 io1이다.
 
-우리가 할 수 없는 것은 RDS 인스턴스에 SSH로 접속하는 것이다. 왜냐면 이것은 관리형 서비스이기 때문에 AWS가 서비스를 제공하고 기본 EC2 인스턴스에 액세스할 수 없다. 
+우리가 할 수 없는 것은 RDS 인스턴스에 SSH로 접속하는 것이다. 왜냐면 이것은 관리형 서비스이기 때문에 AWS가 서비스를 제공하고 기본 EC2 인스턴스에 액세스할 수 없다.
 EC2에 자체 데이터베이스 엔진을 배포하려면 설정해야 할 모든 것을 얻을 수 있기 때문에 접속하지 못한다고 꼭 안좋은 것은 아니다.
 
 시험에 나올 수 있는 기능이 하나 있는데, RDS 스토리지 자동 스케일링이다.
@@ -5471,6 +5597,7 @@ Read Replica를 먼저 알아보자
 이름에서 알 수 있듯이 읽기 복제본은 읽기를 확장하는 데 도움이 된다.
 
 **Read Replica의 특징**
+
 - 15개까지 읽기 복제본 생성 가능
   - 애플리케이션은 데이터베이스 인스턴스에 읽기 및 쓰기를 수행하지만 메인 데이터베이스 인스턴스는 너무 많은 요청을 받는다고 가정해보자. 이 경우 최대 15개의 읽기 복제본을 생성 가능하다.
 - 동일한 가용 영역 내, 가용 영역을 거쳐 또는 리전을 거쳐 배치할 수 있다.
@@ -5499,6 +5626,7 @@ AWS에서는 일반적으로 데이터가 한 가용 영역에서 다른 가용 
 Multi AZ는 주로 재해 복구를 위해 사용된다.
 
 Multi AZ 특징
+
 - 동기식 복제
   - 애플리케이션은 AZ A 에 있는 마스터 RDS에 읽기 및 쓰기를 수행하고 AZ B에 대기 중인 인스턴스로 동기 복제를 가지며, 마스터에서 발생하는 모든 변경 사항을 동기적을 복제한다. 따라서 응용 프로그램이 마스터에 쓰기를 하면 해당 변경 사항이 수락되기 위해 대기 중인 데이터베이스로도 복제되어야 한다.
 - 단일 DNS name
@@ -5524,6 +5652,7 @@ RDS가 자동으로 주 데이터베이스의 스냅샷을 촬영하고, 이 스
 ## **RDS Multi AZ – Failover Conditions**
 
 Multi AZ의 장애 조건은 무엇인가?
+
 - 주 데이터베이스의 장애가 있다.
   - 주 데이터 베이스의 fail
   - 주 데이터베이스의 운영 체제가 소프트웨어 패치 중인 경우
@@ -5541,6 +5670,7 @@ Multi AZ의 장애 조건은 무엇인가?
 RDS 프록시에 대해 알아보자
 
 RDS 프록시가 왜 필요한지 이해해야한다.
+
 - 람다 함수가 있고 RDS 데이터베이스에 액세스하려는 경우, 기본적으로 함수가 시작될 때 AWS의 해 소유된 VPC 내부가 아닌 외부에서 시작된다. 그래서 Public 서브넷에 없는 리소스에 액세스할 수 없다.
 - 보통 Private에 RDS 또는 ElastiCache 또는 ELB가 있는 경우가 있어 액세스할 수 없다.
 - 기본적인 람다 배포로는 Public Endpoint 또는 DynamoDB에만 액세스할 수 있다.
@@ -5574,6 +5704,7 @@ Public 서브넷에 배치할 수도 있다.
 그리고 프라이빗 서브넷에 배포된 프라이빗 RDS 프록시가 있다면 당연히 람다 함수를 VPC에 배포해야 한다.
 
 RDS 프록시는 설정 시 여러 옵션이 있다.
+
 - Idle client connection timeout
   - 응용 프로그램이 몇 분 이상 연결을 사용하지 않았다면 연결을 정리하는 옵션
   - 프록시가 connection을 어떻게 정리하는지에 대한 옵션이다.
@@ -5600,17 +5731,18 @@ RDS 프록시는 설정 시 여러 옵션이 있다.
 이 경우 데이터베이스를 다시 부팅해야 하지만, 기본 파라미터 그룹에서 사용자 정의 그룹으로 변경하는 것은 매우 편리하다.
 
 시험 관점에서 유용한 반드시 알아야 할 파라미터가 있다.
+
 - rds.force_ssl=1
   - PostgreSQL 및 SQL Server의 경우 이 값을 1로 설정해서 SSL 연결을 강제할 수 있다.
 - require_secure_transport=1
   - MySQL과 MariaDB에는 위와 비슷한 파라미터가 있어 SSL 연결을 강제할 수 있다.
-
 
 ## **RDS Backups and Snapshots**
 
 RDS에서 백업과 스냅샷의 차이에 대해 알아보자
 
 백업은 아래와 같다
+
 - 백업은 지속적으로 이루어지며 point in time recovery(시점 복구)를 허용한다.
 - 백업은 Maintenance windows에서 이루어진다.
 - 데이터베이스 인스턴스를 삭제할 때는 수행된 모든 자동 백업을 유지할 수 있다.
@@ -5618,9 +5750,10 @@ RDS에서 백업과 스냅샷의 차이에 대해 알아보자
 - 백업을 비활성화하려면 백업의 보존 기간을 0으로 설정하면 된다.
 
 > point-in-time recovery(시점 복구)란?
-> 사용자가 원하는 시간을 정해 해당 시점으로 복원할 수 있는 것을 말한다. 
+> 사용자가 원하는 시간을 정해 해당 시점으로 복원할 수 있는 것을 말한다.
 
 스냅샷은 아래와 같다.
+
 - 스냅샷은 IO 작업을 수행하고 스냅샷이 촬영되는 동안 데이터베이스가 몇 초에서 몇 분동안 중지된다.
 - Multi AZ가 활성화된 경우 스냅샷은 마스터에서가 아닌 Standby 데이터베이스에서 수행된다.
 - 스냅샷은 첫 번째 스냅샷 이후 점진적으로 이루어지며 첫 번째 스냅샷은 full 백업이 수행된다.
@@ -5667,12 +5800,12 @@ RDS 데이터베이스 인스턴스에는 일반 로그, 감사 로그, 오류 �
 
 콘솔에서는 24시간 동안의 데이터를 이벤트 탭을 클릭해 계정 내, 리전 내에서 발생한 모든 이벤트를 볼 수 있다.
 
-
 ## **RDS & CloudWatch**
 
 CloudWatch에서 RDS를 살펴보자
 
 하이퍼바이저로부터 다움과 같은 기본 메트릭을 얻을 수 있다.
+
 - 데이터베이스 연결 수
 - 스왑 사용량
 - 읽기 IOPS 쓰기 IOPS
@@ -5695,7 +5828,6 @@ CPU도 살펴볼 수 있다.
 기본적으로는 비활성화이고 따로 활성화 해주어야한다.
 
 per second granularity 가 있다. 이는 모니터링을 얼마나 세밀하게 할 것인지 정할 수 있다.
-
 
 ## **RDS Performance Insights**
 
@@ -5751,11 +5883,11 @@ Aurora는 4개의 복사본 중 3개만 필요로 하기 때문에 사용 가능
 
 하나의 볼륨에 의존하는 것이 아니라 수백 개의 볼륨에 의존한다.
 
-데이터를 작성한다고 가정했을 때 한 데이터를 작성하면 세 가용 영역에서 6개의 사본을 볼 수 있다. 
+데이터를 작성한다고 가정했을 때 한 데이터를 작성하면 세 가용 영역에서 6개의 사본을 볼 수 있다.
 
-Aurora는 RDS의 멀티 AZ와 같다. 기본적으로 하나의 인스턴스만 쓰기를 수행한다. 따라서 Aurora에는 마스터가 있고, 여기서 쓰기가 수행된다. 
+Aurora는 RDS의 멀티 AZ와 같다. 기본적으로 하나의 인스턴스만 쓰기를 수행한다. 따라서 Aurora에는 마스터가 있고, 여기서 쓰기가 수행된다.
 
-그리고 마스터가 작동하지 않으면 평균 30초 미만의 시간의 매우 빠른 장애 조치가 발생한다. 
+그리고 마스터가 작동하지 않으면 평균 30초 미만의 시간의 매우 빠른 장애 조치가 발생한다.
 
 마스터 위에 최대 15개의 읽기 전용 복제본을 가질 수 있으며 모든 복제본은 읽기를 처리한다. 많은 양의 읽기 워크로드를 확장할 수 있다.
 
@@ -5834,9 +5966,8 @@ AWS의 RDS 사용자 정의 서비스를 사용하는 경우를 제외하고는 
 감사 로그를 원한다면 RDS 및 오로라에서 시간이 지남에 따라 수행되는 쿼리 및 데이터베이스에서 발생하는 작업을 확인하기 위해 감사 로그를 사용할 수 있다.
 원하는 경우 CloudWatch Logs 서비스로 전송하여 장기간 보관할 수 있다.
 
-
-
 ## **Amazon Aurora for SysOps**
+
 SysOps 시험을 위한 오로라에 관한 정보이다.
 
 각 Read Replica에는 0에서 15 사이의 우선 순위 티어를 할당할 수 있다.
@@ -5848,6 +5979,7 @@ SysOps 시험을 위한 오로라에 관한 정보이다.
 이것은 RDS가 새로운 서비스를 사용하기 위해 오로라로 이동하는 데 도움을 주는 방법이다.
 
 Aurora에 대한 CloudWatch Metric에 대해 알아보자
+
 - AuroraReplicaLag
   - 이는 기본 인스턴스에서 업데이트를 복제할 때의 지연량이다.
   - 데이터를 Aurora 클러스터에 기록할 때 해당 데이터는 복제될 수 있으므로 그에 따른 지연이 발생할 수 있다.
@@ -5859,7 +5991,6 @@ Aurora에 대한 CloudWatch Metric에 대해 알아보자
   - 데이터베이스 인스턴스에 대한 현재 연결 수를 의미한다.
 - InsertLatency
   - INSERT 작업의 평균 지속 시간이다.
-
 
 ## **[SAA/DVA] ElastiCache Overview**
 
@@ -5882,7 +6013,7 @@ RDS와 마찬가지로 AWS가 운영 체제, 패치, 최적화, 설정, 구성, 
 
 우리에게 ElastiCache와 RDS 데이터베이스, 그리고 애플리케이션이 있다.
 
-애플리케이션은 ElastiCache에 쿼리를 실행해 해당 쿼리가 이미 수행되었는지 확인하고, 
+애플리케이션은 ElastiCache에 쿼리를 실행해 해당 쿼리가 이미 수행되었는지 확인하고,
 이미 수행되어 ElastiCache에 저장된 경우 이를 캐시 히트라고 한다.
 그리고 ElastiCache에서 직접 결과를 얻는다. 따라서 데이터베이스 쿼리를 실행하기 위한 과정을 절약할 수 있다.
 
@@ -5922,7 +6053,6 @@ Memcached에서는 여러 인스턴스가 함께 작동하고 있으며 어떤 �
 Memcached는 데이터 손실을 감수할 수 있는 분산 캐시이다.
 
 이것들이 두 기술 간의 주요 차이점이다.
-
 
 ## **ElastiCache Redis Cluster Modes**
 
@@ -5990,16 +6120,17 @@ Target Tracking 정책을 설ㅈ어해 대상 CPU 사용률이 약 60%로 유지
 Connection Endpoint에 대해 이야기 해보자
 
 Standalone Node
+
 - 이 경우 노드의 단일 엔드포인트를 사용해 읽기 및 쓰기를 수행한다.
-Cluster Mode Disabled Cluster
-- 이 경우 하나의 Primary 엔드포인트(모든 쓰기 작업에 대한 것)와 Reader 엔드포인트(모든 읽기 레플리카에 걸친 읽기 작업에 대한 것)이 있습니다. 
+  Cluster Mode Disabled Cluster
+- 이 경우 하나의 Primary 엔드포인트(모든 쓰기 작업에 대한 것)와 Reader 엔드포인트(모든 읽기 레플리카에 걸친 읽기 작업에 대한 것)이 있습니다.
 - 그리고 개별 노드에 액세스하여 읽기 작업을 수행하는 Node 엔드포인트도 있다.
-Cluster Mode Enabled Cluster
-- 클러스터 모드와 호환되는 모든 읽기 및 쓰기 작업에 대해 사용되는 Configuration 엔드포인트가 있다. 
+  Cluster Mode Enabled Cluster
+- 클러스터 모드와 호환되는 모든 읽기 및 쓰기 작업에 대해 사용되는 Configuration 엔드포인트가 있다.
 - 그리고 개별 노드에 액세스하여 읽기 작업을 수행하는 Node 엔드포인트가 있다.
 
-
 ## **ElastiCache Redis for SysOps**
+
 Redis가 SysOps 시험에서 어떻게 나오는지 알아보자
 
 먼저 Redis의 확장 방법을 알아야한다.
@@ -6020,12 +6151,16 @@ Redis에는 Cluster Enabled 모드와 Cluster Disabled 모드가 있다.
 이것이 Cluster Disabled 의 경우고 **Cluster Enabled** 의 경우를 살펴보자
 
 두 가지 유형의 확장이 있다.
+
 1.  온라인 확장
-  - 클러스터가 확장되는 동안 클러스터가 계속 가동되어 있다.
-  - 다운타임이 없고, 성능 저하가 발생할 수 있지만 Redis 클러스터는 계속 가동된다.
+
+- 클러스터가 확장되는 동안 클러스터가 계속 가동되어 있다.
+- 다운타임이 없고, 성능 저하가 발생할 수 있지만 Redis 클러스터는 계속 가동된다.
+
 2.  오프라인 확장
-  - 클러스터를 오프라인 상태로 가져간다.
-  - 확장 프로세스 중에 요청을 처리할 수 없게 된다.
+
+- 클러스터를 오프라인 상태로 가져간다.
+- 확장 프로세스 중에 요청을 처리할 수 없게 된다.
 
 Cluster Enabled의 경우의 수평 및 수직 확장을 살펴보자
 
@@ -6036,6 +6171,7 @@ Cluster Enabled의 경우의 수평 및 수직 확장을 살펴보자
 수직 확장은 노드 유형을 변경하는 것으로, 이것은 온라인 확장을 지원한다. 그리고 이는 한 번의 클릭으로 수행되며 내부에서 처리된다.
 
 모니터링할 Redis 메트릭
+
 - Evictions
   - 공간을 확보하기 위해 캐시가 새로운 쓰기 작업을 위해 만료되지 않은 항목을 삭제한 횟수를 나타낸다.
   - 쉽게말해 메모리가 과다하게 사용되는 경우를 의미한다.
@@ -6058,8 +6194,6 @@ Cluster Enabled의 경우의 수평 및 수직 확장을 살펴보자
   - 클러스터 낸 데이터의 복제에 관한 정보
   - 복제 지연은 낮아야한다.
   - 복제 노드와 주 노드 사이에 지연이 없어야 한다.
-
-
 
 ## **ElastiCache Memcached for SysOps**
 
@@ -6110,15 +6244,17 @@ Memcached의 자동 탐지(Auto Discovery)란 무엇인가?
 ## **CloudWatch Metrics**
 
 CloudWatch 메트릭
+
 - AWS의 모든 서비스에 대한 메트릭을 제공
 - 메트릭의 이름이 해당 메트릭이 의미하는 것을 대략적으로 알려준다. (CPUUtilization, NetworkIn 등...)
 - 메트릭은 Namespace에 속함
 - 메트릭의 속성인 dimension을 가진다. (Instance id, environment 등...)
 - 한 메트릭 당 최대 30개의 Dimension을 선택할 수 있다.
-- 메트릭에는 타임 스탬프가 포함되며, 
+- 메트릭에는 타임 스탬프가 포함되며,
 - CloudWatch 대시보드를 사용해 메트릭을 볼 수 있다.
 
 EC2 Detailed Monitoring
+
 - 기본적으로 EC2 인스턴스의 메트릭은 5분마다 수집되지만, 비용 추가로 EC2 Detailed 모니터링을 활성화하면 1분마다 메트릭 데이터를 얻을 수 있다.
 - 이를 활성화하면 EC2 인스턴스의 메트릭 변화에 더 빠르게 대응할 수 있으며, ASG에 대한 이점을 얻을 수 있다.
 - EC2 Detailed Monitoring은 10개까지 Free Tier이다.
@@ -6140,6 +6276,7 @@ CloudWatch 메트릭은 시간 범위를 선택하고 다양한 방식으로 필
 사용자는 세그먼트 메트릭에 Dimension 또는 Attribute를 추가할 수 있다. 예를 들어 Instance.id, Environment.name 등
 
 그리고 Metric Resolution이라는 API 매개변수로 메트릭 해상도를 지정할 수 있다.
+
 1.  Standard로 지정하면 1분마다 메트릭을 푸시할 수 있다.
 2.  High Resolution으로 지정하면 1, 5, 10, 30 초마다 메트릭을 푸시할 수 있다.
 
@@ -6157,6 +6294,7 @@ CloudWatch의 Agent는 정기적으로 PutMetricData API 호출을 사용해 메
 ## **CloudWatch Dashboards**
 
 CloudWatch 대시보드는 메트릭을 표시할 수 있다.
+
 - 주요 메트릭 및 Alarm에 액세스할 수 있으며, 대시보드는 Global이다. 즉 여러 리전 및 AWS의 다른 계정에서 다른 리전의 그래프를 포함할 수 있다. (시험 관점에서 중요)
 - 대시보드에서 타임 존 및 시간 범위를 변경할 수 있으며 자동 새로 고침을 설정할 수 있다.
 - AWS 계정이 없는 사람들과 대시보드를 공유할 수 있다.
@@ -6177,6 +6315,7 @@ CloudWatch Logs를 다양한 대상으로 보낼 수 있다. 예를 들어 S3로
 모든 로그는 기본적으로 암호화되며, 필요한 경우 자체 키를 사용해 KMS 기반 암호화를 설정할 수 있다.
 
 어떤 Resource의 로그 데이터를 보낼 수 있나?
+
 - SDK 또는 CloudWatch Logs Agent 또는 CloudWatch 통합 Agent를 사용해 로그를 전송할 수 있다. CloudWatch 통합 Agent는 로그를 CloudWatch로 보내며, CloudWatch Logs Agent는 이제 deprecated 되었다.
 - Elastic Beanstalk는 응용 프로그램에서 직접 로그를 수집해 CloudWatch에 보낸다.
 - ECS는 컨테이너에서 직접 로그를 CloudWatch로 조낸다.
@@ -6196,7 +6335,8 @@ Logs Insights는 Logs 내 쿼리 기능으로, 쿼리를 작성하고 적용할 
 
 CloudWatch Logs Insights 콘솔의 일부로 제공되는 간단한 쿼리가 많이 있다. 예를 들어 가장 최근 25개의 이벤트를 찾거나 로그에 "예외" 또는 "오류"가 있는 이벤트의 수를 살펴볼 수 있다. 또는 특정 IP를 찾을 수 있다.
 
-목적에 부합하는 쿼리 언어를 제공한다. 
+목적에 부합하는 쿼리 언어를 제공한다.
+
 - CloudWatch Logs에서 쿼리를 작성하는 데 필요한 모든 필드가 자동으로 감지되어 조건에 따라 필터링할 수 있다.
 - 통계를 계산하고 이벤트를 정렬하고 이벤트의 수를 제한할 수 있다.
 - 쿼리를 저장하고 CloudWatch 대시보드에 추가할 수도 있다.
@@ -6208,10 +6348,12 @@ CloudWatch Logs Insights 는 실시간 엔진이 아닌 쿼리 엔진이다. 따
 CloudWatch Logs는 대상이 여러개 있다.
 
 첫째로는 S3이다.
+
 - 모든 로그를 S3로 일괄적으로 내보내는 것이며, 최대 12시간이 걸릴 수 있다.
 - Export를 시작하는 API 호출은 CreateExportTask이다. 이것은 batch로 내보내는 것이므로 실시간 또는 Almost-realtime이 아니다. 실시간으로 하고 싶다면 CloudWatch Logs Subscription을 사용해야 한다.
 
 CloudWatch Logs Subscription
+
 - 로그 이벤트의 실시간 스트림을 받을 수 있으며, 처리 및 분석을 수행할 수 있다.
 - 이 데이터를 Kinesis Data Stream, Kinesis Data Firehose 또는 Lambda와 같은 여러 위치로 보낼 수 있다.
 - Subscription Filter를 지정해 목적지로 전달할 로그 이벤트 유형을 지정할 수 있다.
@@ -6231,7 +6373,6 @@ Logs Subscription을 수행하는 방법의 핵심은 목적지를 사용해야 
 
 이런 모든 사항이 갖춰지면 하나의 계정의 CloudWatch Logs에서 다른 계정의 목적지로 데이터를 보낼 수 있다.
 
-
 ## **CloudWatch Alarms**
 
 CloudWatch의 알람에 대해 논의해보자
@@ -6239,6 +6380,7 @@ CloudWatch의 알람에 대해 논의해보자
 알람은 모든 메트릭에서 알림을 트리거하는 데 사용된다. 다양한 옵션에 대해 복잡한 알람을 정의할 수 있다. 예를 들어 샘플링, %, 최대/최소 등이 있다.
 
 알람에는 세 가지 상태가 있다.
+
 - OK는 알람이 트리거되지 않은 상태를 나타낸다.
 - INSUFFICIENT_DATA는 알람이 상태를 결정할 데이터가 충분하지 않은 상태를 나타낸다.
 - ALARM은 임계값이 위반되었으며 따라서 알림이 전송될 것임을 의미한다.
@@ -6246,17 +6388,24 @@ CloudWatch의 알람에 대해 논의해보자
 period는 알람이 메트릭을 평가하는 데 걸리는 시간을 의미한다. 매우 짧을 수도 매우 길 수도 있으며 High Resolution 사용자 정의 메트릭에도 적용할 수 있다. 예를들어 10초, 30초 또는 60초의 배수이다.
 
 알람에는 세 가지 주요 대상이 있다.
+
 1.  EC2 인스턴스에 대한 작업이다.
-  - 예를 들어 Stopping, Terminating, rebooting, recovering
+
+- 예를 들어 Stopping, Terminating, rebooting, recovering
+
 2.  ASG의 작업을 트리거하는 것이다.
-  - 예를 들어 스케일 아웃 또는 스케일 인이다.
+
+- 예를 들어 스케일 아웃 또는 스케일 인이다.
+
 3.  마지막으로 SNS 서비스에 알림을 보내는 것이다.
-  - 예를 들어 SNS 서비스에서 Lambda 함수에 연결하여 알람이 위반되었을 때 Lambda 함수가 원하는 작업을 수행하도록 할 수 있다.
+
+- 예를 들어 SNS 서비스에서 Lambda 함수에 연결하여 알람이 위반되었을 때 Lambda 함수가 원하는 작업을 수행하도록 할 수 있다.
 
 Composite alarms(복합 알람)
+
 - CloudWatch 알람은 단일 메트릭에 대한 것이지만, 여러 메트릭을 사용하려면 복합 알람을 사용해야 한다.
 - 복합 알람은 실제로 여러 다른 알람의 상태를 측정하고 이러한 알람은 각각 다른 메트릭에 의존할 수 있다.
-따라서 복합 알람은 이러한 다른 알람을 결합하는 작업이다.
+  따라서 복합 알람은 이러한 다른 알람을 결합하는 작업이다.
 - AND 조건 또는 OR 조건을 사용해 검사 조건을 유연하게 지정할 수 있다.
 - 이는 "Alarm noise"를 줄이는 데 매우 유용하다.
 
@@ -6267,7 +6416,6 @@ EC2 instance recovery에 대해 이야기 해보자
 EC2 VM을 확인하는 Status health check 및 기본 하드웨어를 확인하는 System health check가 있다.
 
 이 두 가지 check에 대한 CloudWatch 알람을 정의할 수 있으며, 이렇게 하면 특정 EC2 인스턴스를 모니터링 할 수 있다.
-
 
 그리고 알람이 위반되면 EC2 인스턴스 복구를 시작할 수 있다.
 예를 들어 EC2 인스턴스를 한 호스트에서 다른 호스트로 이동하는 것과 같은 행위를 할 수 있다.
@@ -6284,7 +6432,6 @@ CloudWatch Logs 메트릭 필터 위에 알람을 생성할 수 있다.
 알람을 테스트하려면 set-alarm-state라는 CLI 호출을 사용할 수 있다. 이것은 특정 임계값에 도달하지 않았더라도 알람을 트리거하려는 경우에 유용하다.
 
 왜냐면 인프라에 대한 올바른 조치를 취하는지 여부를 확인하기 위해 알람이 트리거되는 것이 올바른지 확인하려고 할 때 도움이 된다.
-
 
 ## **CloudWatch Synthetics**
 
@@ -6310,16 +6457,17 @@ Synthetics Canary가 실행할 수 있는 스크립트는 Node.js 또는 Python�
 몇 가지 블루프린트가 있다
 
 Heartbeat Monitor
+
 - URL을 로드하고 스크린샷을 저장하고 HTTP 아카이브 파일을 저장하여 모든 것이 올바르게 작동하는지 확인
-API Canary
+  API Canary
 - REST API의 기본 읽기 및 쓰기 기능을 테스트하는
-Broken Link Checker
+  Broken Link Checker
 - 테스트하는 URL내의 모든 링크를 확인하여 깨진 링크로 연결되지 않는지 확인하는
-Visual monitoring
+  Visual monitoring
 - Canary run 중에 캡쳐된 스크린샷을 baseline 스크린샷과 비교하는
-Canary Recorder
+  Canary Recorder
 - CloudWatch Synthetics Recorder와 함께 사용되는, 웹사이트에서 수행한 작업을 기록하고 자동으로 스크립트가 생성되는
-GUI Workflow Builder
+  GUI Workflow Builder
 - 로그인 양식을 사용하여 웹 페이지에서 수행한 작업이 제대로 작동하는지 확인할 수 있는
 
 ## **[SAA/DVA] Amazon EventBridge**
@@ -6334,11 +6482,11 @@ EventBridge를 사용하면 많은 일을 할 수 있다. 예를들어 우리는
 
 또한 다양한 대상을 가질 수 있으며, Lambda 함수를 트리거하거나 SNS 및 SQS 메시지를 보낼 수 있다.
 
-
 이벤트브릿지는 다양한 Source를 가진다.
 이벤트 브릿지는 중앙에 위치하고 EventBridge로 이벤트를 보낼 수 있는 모든 소스가 있다.
+
 - 예를 들어 EC2 인스턴스가 시작될 때, 중지될 때, 종료될 때 등이다.
-- 예를 들어 CodeBuild에서 빌드가 실패하는 경우 
+- 예를 들어 CodeBuild에서 빌드가 실패하는 경우
 - 예를 들어 S3에 객체가 업로드 될 때마다 이벤트가 발생한다.
 - Trusted Advisor는 계정의 보안에 대한 새로운 발견이 있을 때 또는 CloudTrail과 EventBridge를 결합하여 AWS 계정 내에서 수행된 모든 API 호출을 가로챌 수 있다.
 - 또한 일정이나 cron을 설정할 수 있으므로 매 네 시간마다 또는 매월 월요일 오전 8시에 실행되도록 설정할 수도 있다.
@@ -6348,6 +6496,7 @@ EventBridge를 사용하면 많은 일을 할 수 있다. 예를들어 우리는
 이 JSON 문서는 이벤트가 많은 종류의 다른 대상으로 전송될 수 있도록 허용한다.
 
 이러한 대상으로는
+
 - Lambda 함수를 예약하고 트리거
 - AWS Batch에서 일괄 작업을 예약
 - ECS에 대한 ECS 작업을 시작
@@ -6364,7 +6513,7 @@ AWS가 SaaS와 같은 파트너와 통합되어 있으며 파트너가 직접 �
 
 따라서 Zendesk, Datadog, Auth0 등을 사용할 수 있다. 자세한 것은 파트너 목록을 확인해야 한다.
 
-이들 파트너는  지정된 파트너 이벤트 버스로 이벤트를 외부에서 직접 보낼 수 있으므로 AWS 계정에서 직접 변경 사항에 반응할 수 있다.
+이들 파트너는 지정된 파트너 이벤트 버스로 이벤트를 외부에서 직접 보낼 수 있으므로 AWS 계정에서 직접 변경 사항에 반응할 수 있다.
 
 마지막으로 사용자 정의 이벤트 버스가 있다.
 
@@ -6414,9 +6563,8 @@ AWS가 SaaS와 같은 파트너와 통합되어 있으며 파트너가 직접 �
 
 주로 계정 내의 모든 할다량을 모니터링하기 위해 서비스 쿼터 서비스에 CloudWatch 알람을 사용하는 것을 권장한다.
 
-
-
 ## **[SAA/DVA] CloudTrail**
+
 CloudTrail에 대해 이야기 해보자
 
 CloudTrail은 AWS 계정의 거버넌스, 컴프라이언스 및 감사를 위한 방법이다.
@@ -6432,18 +6580,23 @@ CloudTrail을 사용하면 AWS에서 무언가를 삭제한 사람이 누구인�
 CloudTrail에는 해당 API 호출이 포함되어 있으며, 누가 어떤 작업을 수행했는지 이해할 수 있다.
 
 CloudTrail에는 세 가지 유형의 이벤트가 있다.
+
 1. 관리 이벤트 (Management Events)
-  - 이는 AWS 계정의 리소스에 수행되는 작업을 나타낸다.
-  - 예를 들어 누군가 보안을 구성할 때 IAM AttachRolePolicy라는 API 호출을 사용할 것이다. 이러한 작업은 CloudTrail에 기록된다. EC2 CreateSubnet이나 CloudTrail CreateTrail 등의 작업도 기본적으로 기록된다.
-  - 기본적으로 트레일은 모든 관리 이벤트를 기록하도록 구성된다.
-  - 관리 이벤트는 두 가지 유형으로 분리할 수 있다.
-    - 리소스를 수정하지 않는 읽기 이벤트
-    - 리소스를 수정할 수 있는 쓰기 이벤트
+
+- 이는 AWS 계정의 리소스에 수행되는 작업을 나타낸다.
+- 예를 들어 누군가 보안을 구성할 때 IAM AttachRolePolicy라는 API 호출을 사용할 것이다. 이러한 작업은 CloudTrail에 기록된다. EC2 CreateSubnet이나 CloudTrail CreateTrail 등의 작업도 기본적으로 기록된다.
+- 기본적으로 트레일은 모든 관리 이벤트를 기록하도록 구성된다.
+- 관리 이벤트는 두 가지 유형으로 분리할 수 있다.
+  - 리소스를 수정하지 않는 읽기 이벤트
+  - 리소스를 수정할 수 있는 쓰기 이벤트
+
 2.  데이터 이벤트 (Data Events)
-  - 기본적으로 로깅되지 않는다. 이벤트가 고용량이기 때문에
-  - 데이터 이벤트는 S3 객체 수준의 활동이 포함된다. 
-  - 읽기 및 쓰기 이벤트를 분리할 수 있는 옵션이 있다. 읽기 이벤트는 GetObject이며 쓰기 이벤트는 DeleteObject 또는 PutObject가 될 것이다.
-  - 또한 AWS Lambda 함수 실행 활동이 있다. 이는 누군가 Invoke API를 사용할 때마다 Lambda 함수가 몇 번 호출되었는지에 대한 통찰력을 얻을 수 있다.
+
+- 기본적으로 로깅되지 않는다. 이벤트가 고용량이기 때문에
+- 데이터 이벤트는 S3 객체 수준의 활동이 포함된다.
+- 읽기 및 쓰기 이벤트를 분리할 수 있는 옵션이 있다. 읽기 이벤트는 GetObject이며 쓰기 이벤트는 DeleteObject 또는 PutObject가 될 것이다.
+- 또한 AWS Lambda 함수 실행 활동이 있다. 이는 누군가 Invoke API를 사용할 때마다 Lambda 함수가 몇 번 호출되었는지에 대한 통찰력을 얻을 수 있다.
+
 3.  CloudTrail Insights 이벤트
 
 CloudTrail Insight에 대해 자세히 알아보자
@@ -6453,9 +6606,10 @@ CloudTrail Insight에 대해 자세히 알아보자
 CloudTrail Insights를 사용하면 이벤트를 분석하고 계정에서 이상 활동을 감지하려고 노력한다.
 
 예를 들어 아래와 같은 이상 활동을 감지한다.
-- 부정확한 리소스 프로비저닝 
+
+- 부정확한 리소스 프로비저닝
 - 서비스 Limit 초과
-- AWS IAM 작업의 급증 
+- AWS IAM 작업의 급증
 - 주기적인 유지 관리 활동의 간격 등을 감지할 수 있다.
 
 작동 방식은 CloudTrail이 정상적인 Management Event가 어떻게 보이는지를 분석하여 기준선을 생성한 다음 올바른 유형의 이벤트를 계속 분석해 비정상적인 Write 패턴을 감지하는 것이다.
@@ -6465,6 +6619,7 @@ Management 이벤트는 CloudTrail Insights에 의해 계속 분석되며, 이�
 이상 활동 이벤트는 필요하다면 Amazon SNS에도 전송되고, 이벤트브릿지 이벤트로 전송된다.
 
 CloudTrial Insight를 기반으로 자동화하려면 아래와 같다.
+
 1. Management Event 발생
 2. CloudTrail Insight에서 분석
 3. Insight Event 생성
@@ -6478,7 +6633,6 @@ CloudTrial Insight를 기반으로 자동화하려면 아래와 같다.
 90일 이상으로 이벤트를 유지하려면 이를 S3에 기록해야 한다.
 
 S3에 기록된 로그들은 Athena를 이용해 분석하면 된다.
-
 
 ## **[SAA/DVA] CloudTrail - EventBridge Integration**
 
@@ -6508,6 +6662,7 @@ AssumeRole은 IAM 서비스의 API이며, 따라서 CloudTrail에 의해 로깅�
 AWS 내에서 API 호출을 수행할 때마다 CloudTrail에서 이를 로그로 기록할 수 있으며, 이 로그를 매 시간마다 Amazon S3로 전송할 수 있다.
 
 그러나 추가로 Diget File이라는 것도 생성할 수 있다.
+
 - Digest 파일은 지난 1시간 동안의 모든 로그 파일을 참조하고 각 로그 파일의 해시를 포함하는 파일이다.
 - 이는 로그 파일이 CloudTrail에 의해 전달된 후에 수정되거나 삭제되었는지를 확인하는 데 도움이 된다.
 - 따라서 로그 파일 해시가 Digest 파일 해시와 일치하면 해당 로그 파일이 수정되지 않았음을 확신할 수 있다.
@@ -6542,6 +6697,7 @@ Config는 AWS의 리소스에 대한 감사 및 준수 기록을 얻을 수 있�
 이를 통해 인프라에서 무엇이 발생했는지 빠르게 파악하여 필요한 경우 롤백하고 찾아낼 수 있다.
 
 Config로 해결할 수 있는 예시는 아래와 같다.
+
 - 보안 그룹에 무제한 SSH 액세스가 있는가?
 - public access가 설정된 버킷이 있는가?
 - 시간이 지나고 변경된 ALB configuration이 있는가?
@@ -6555,6 +6711,7 @@ Config는 리전 별 서비스이므로 필요한 경우 모든 리전에 대해
 모든 리소스의 구성을 S3에 저장하여 나중에 Athena와 같은 서버리스 쿼리 엔진을 통해 분석할 수도 있다.
 
 Config에 들어가는 Rule은 무엇인가?
+
 - AWS에서 관리되는 configuration rule을 사용할 수 있고, 75개 정도가 있다.
 - 또한 Custom Config Rule을 만들 수 있다. 이 경우 Lambda 함수를 사용해 해당 규칙을 정의해야 한다.
   - 예를 들어 각 EBS 디스크가 gp2 유형인지, 또는 개발 계정의 각 인스턴스가 t2.micro 유형인지 확인할 수 있다.
@@ -6591,12 +6748,11 @@ Automation Remediation 이후에도 리소스가 여전히 준수하지 않으�
 
 그리고 SNS 필터링을 사용해 일부 이벤트에 대해서만 필터링된 SNS 주제(Topic)를 만들고, 관리자 이메일이나 슬랙 채널로 이러한 알림을 전송할 수 있다.
 
-
 ## **Config - Aggregators**
 
 AWS Config Aggregator는 시험에 나온 질문 중 하나이다.
 
-Aggregator는 
+Aggregator는
 예를들어 여러 개의 계정과 이러한 계정 내의 여러 리전을 관리하고 있다고 가정 해보자
 Accout A, Account B가 있을 때 이것들은 Source Account라고 불린다.
 
@@ -6626,13 +6782,14 @@ AWS Organization을 사용하는 경우 개별 계정에서 인증을 수행할 
 CloudWatch CloudTrail Config 사이의 차이점을 명확하게 이해해야 하는 것이 시험에서 매우 흔한 문제이다.
 
 CloudWatch
+
 - 는 성능 메트릭을 위한 것이다. CPU, 네트워크 같은 메트릭 및 대시보드를 생성할 수 있다.
 - 사용자는 이벤트 및 경고를받을 수 있으며, 필요한 경우 로그 집계 및 분석 도구를 사용할 수도 있다.
-CloudTrail
+  CloudTrail
 - 기본적으로 계정 내의 모든 API 호출을 기록하는 것이다.
 - 특정 리소스에 대한 Trail을 정의할 수도 있으므로 EC2에 대한 자세한 정보를 얻을 수 있다.
 - Global 서비스이다.
-Config
+  Config
 - 구성 변경을 기록하고 리소스 구성을 규정 준수 규칙과 비교하는 것이다.
 - 변경 사항과 규정 준수에 대한 타임라인을 얻게 된다.
 
@@ -6672,7 +6829,7 @@ Service Health Dashboard의 경우 모든 서비스의 일반적인 상태를 �
 그리고 이 Account 대시보드에서 내 전체 Organization에 대한 데이터를 집계할 수 있다.
 
 그리고 Global 서비스이며, 직접 우리에게 영향을 미치는 장애를 보여준다.
-과거 이벤트를 볼 수 있는 Event Log를 제공한다. 
+과거 이벤트를 볼 수 있는 Event Log를 제공한다.
 
 예정된 변경 사항뿐만 아니라 예정된 활동에 대한 사전 통지, 경보, 개선 정보를 받게 된다.
 
@@ -6699,6 +6856,7 @@ Health 대시보드에서 인스턴스 만료 예정에 대한 이벤트를 Even
 
 > Instance retirement(인스턴스 만료)란?
 > AWS에서 인스턴스를 호스팅하는 기본 하드웨어의 복구 불가능한 장애가 검색되는 경우 인스턴스가 만료 대상으로 예약됩니다. 예약된 만료 날짜에 도달하면 인스턴스가 AWS에 의해 중지되거나 종료됩니다.
+>
 > - 인스턴스 루트 디바이스가 Amazon EBS 볼륨인 경우 인스턴스가 중지되며 언제든지 이 인스턴스를 다시 시작할 수 있습니다. 중지된 인스턴스를 시작하면 새 하드웨어로 마이그레이션됩니다.
 > - 인스턴스 루트 디바이스가 인스턴스 스토어 볼륨인 경우 인스턴스가 종료되어 다시 사용할 수 없습니다.
 
@@ -6736,7 +6894,7 @@ Oraganization을 사용하는 장점은 여러 계정을 가지고 있기 때문
 
 또한 Management 계정에서 Member 계정에 대한 Cross Account Role을 자동으로 설정할 수 있다.
 
-또한 Service Control Policy(SCP)를 정의할 수 있다. 
+또한 Service Control Policy(SCP)를 정의할 수 있다.
 SCP는 특정 OU 또는 계정에 적용되는 IAM 정책이며, 이를 통해 사용자 및 역할이 계정 내에서 수행할 수 있는 작업을 제한할 수 있다.
 
 SCP는 Management 계정을 제외한 모든 것에 적용되고, Management 계정은 영원히 완전한 관리자 권한을 갖게 된다.
@@ -6747,12 +6905,13 @@ Management 계정에 Deny SCP를 적용한다고 해도 아무 SCP가 적용되�
 SCP에는 블록 목록 또는 허용 목록 두 가지 전략이 있다.
 
 블록 목록은 "여기서는 사용하고 싶지 않은 서비스입니다."라고 하는 것과 동일하다.
-보통 모든 서비스에서 모든 작업을 허용하는 Allow * 을 먼저 첨부하고 DynamoDB 액세스를 거부하는 문을 추가하면 DynamoDB에 대한 액세스 만 거부된다.
+보통 모든 서비스에서 모든 작업을 허용하는 Allow \* 을 먼저 첨부하고 DynamoDB 액세스를 거부하는 문을 추가하면 DynamoDB에 대한 액세스 만 거부된다.
 
 허용 목록은 "특정 서비스 외에 허용하지 않는다."
 따라서 예를 들어 EC2와 CloudWatch만이 SCP가 첨부되었다면 첨부된 해당 계정에서 사용할 수 있으며 다른 서비스는 명시적 허용이 필요하기 때문에 사용할 수 없다.
 
 ## **[CCP] AWS Control Tower Overview**
+
 Control Tower는 Best Practice에 따라 안전하고 규정 준수되는 다중 계정 AWS 환경을 설정하고 관리하기 위한 간편한 방법이다.
 
 Organization을 수동으로 생성하고 보안 정책을 적용하는 대신 Control Tower를 사용해 몇 번의 클릭으로 다중 계정 AWS 환경을 만들 수 있다.
@@ -6827,7 +6986,7 @@ Billing Data는 하나의 리전에만 저장된다. us-east-1이며, CloudWatch
 그리고 이는 계정에 발생한 실제 비용을 나타낸다.
 
 Alarm을 생성할 때는 일단 Billing 에서 실제로 알람을 활성화 해줘야한다.
-Billing Preferences -> Receive Billing Alerts 
+Billing Preferences -> Receive Billing Alerts
 
 활성화 시 사용량 요금 및 수수료를 모니터링하는 것을 가능하게 한다.
 
@@ -6871,6 +7030,7 @@ Cost Explorer를 통해 사용량에 따라 Savings Plan을 설정하는 데 있
 이러한 유형의 사용 사례가 시험에서 나올 수 있다.
 
 ## **AWS Budgets**
+
 실제 청구 또는 미래 예상 청구를 기반으로 예산을 생성하고 비용이 예산을 초과할 때마다 알림을 보내고 싶다면 AWS Budgets를 사용한다.
 
 콘솔에서 설정할 수 있는 네 가지 유형의 예산이 있다.
@@ -6879,7 +7039,6 @@ Cost Explorer를 통해 사용량에 따라 Savings Plan을 설정하는 데 있
 예약 인스턴스에 대한 예산을 설정할 경우 전체 예약 인스턴스의 사용률을 추적할 수 있으며 EC2, ElastiCache, RDS 및 다양한 서비스에 대한 예약 인스턴스를 지원한다.
 
 예산당 최대 다섯 개의 알림을 설정할 수 있으며 서비스, 연결된 계정, 태그, 구매 옵션 등과 같은 다양한 옵션으로 예산을 필터링할 수 있다.
-
 
 ## **AWS Cost Allocation Tags & Cost & Usage Reports**
 
@@ -6914,8 +7073,6 @@ AWS에서 생성한 태그는 자동으로 생성되어 AWS에서 생성된 리�
 
 매일 S3로 보고서를 내보낼 수도 있으며, 이 데이터를 Athena, Redshift 또는 QuickSight를 사용해 분석할 수 있다.
 
-
-
 ## **[CCP] AWS Compute Optimizer Overview**
 
 Compute Optimizer는 워크로드에 대해 최적의 AWS 리소스를 추천하여 비용을 절감하고 성능을 향상시킨다.
@@ -6929,7 +7086,6 @@ Compute Optimizer는 워크로드에 대해 최적의 AWS 리소스를 추천하
 Compute Optimizer에서 지원하는 리소스에는 EC2 인스턴스, ASG, EBS 볼륨, Lambda 함수 등이 포함된다.
 
 추천 사항은 S3로 내보낼 수 있다.
-
 
 ## **[SAA] AWS DataSync**
 
@@ -6972,7 +7128,6 @@ DataSync 서비스를 사용하고 데이터뿐만 아니라 메타데이터도 
 DataSync는 거의 모든 것을 동기화할 수 있지만 지속적으로 동기화하는 것은 아니고, 일회성으로 예약된 작업을 수행하는 것이다.
 그리고 NFS 또는 SMB 서버에 연결하는 경우 DataSync 에이전트를 실행해야 한다.
 
-
 ## **[SAA] AWS Backup**
 
 AWS 백업은 매니지드 서비스로, 모든 AWS 서비스에 대한 백업을 중앙에서 관리하고 자동화할 수 있다.
@@ -6986,6 +7141,7 @@ AWS 백업은 교차 리전 백업을 지원한다. 재해 복구 전략을 위�
 Prod로 태그가 지정된 리소스만 백업하는 태그 기반 백업 정책도 있다.
 
 백업 계획이라고 알려진 backup 정책을 생성할 수 있다.
+
 - 주기 (매 12시간마다, 매일, 매 주, 매 월, Cron 표현식)
 - Backup window (백업 기간)
 - 백업을 Cold Storage로 전환. 보관 기간을 지정할 수 있다. (Never, Days, Weeks, Months, Years)
@@ -7101,7 +7257,8 @@ AWS의 고객은 8개의 서비스에 대해 사전 승인 없이 자체 인프�
 
 위 서비스에 대해서는 사전 승인이 필요하지 않으나 금지된 다른 유형의 활동을 수행하려면 승인이 필요하다.
 
-예를 들어 
+예를 들어
+
 - Route 53 호스팅 영역을 통한 zone walking을 수행할 수 없다.
 - 시스템에 DDoS를 수행할 수 없으며, DoS, 시뮬레이트된 DoS, 시뮬레이트된 DDoS도 수행할 수 없다.
 - 자체 인프라에 대한 서비스 거부 공격을 수행할 수 없다.
@@ -7118,11 +7275,12 @@ AWS의 고객은 8개의 서비스에 대해 사전 승인 없이 자체 인프�
 Inspector는 몇 가지 대상에 대해 자동 보안 평가를 실행할 수 있는 서비스이다.
 
 먼저 EC2 인스턴스에 대한 것이다.
+
 - EC2 인스턴스에서 System Manager Agent를 활용하고, Inspector가 해당 EC2 인스턴스의 보안을 평가한다.
 - 의도하지 않은 네트워크 접근성과 알려진 취약점을 가진 운영 체제를 지속적으로 분석한다.
-ECR에 Push된 컨테이너 이미지
+  ECR에 Push된 컨테이너 이미지
 - Docker 이미지의 경우 이미지가 ECR로 푸시되는 동안, 아마존 인스펙터가 알려진 취약점을 대상으로 분석한다.
-Lambda Function
+  Lambda Function
 - 함수가 배포될 때 함수 코드 및 패키지 종속성의 소프트웨어 취약점을 위해 Inspector가 분석한다.
 
 Inspector가 작업을 완료하면 AWS Security Hub에 보고하고 이러한 결과 및 이벤트를 EventBridge로 전송할 수도 있다.
@@ -7145,6 +7303,7 @@ CVE 데이터베이스가 업데이트 되면 Amazon Inspector가 자동으로 �
 기본적으로 규정 준수 요구 사항을 충족시키려면 AWS가 로그를 제공하는 많은 서비스가 있다. audit 로그나 security 로그일 수 있다.
 
 서비스의 로그에는 여러가지가 포함된다.
+
 - CloudTrail이 포함된다. CloudTrail은 모든 API 호출을 추적할 수 있다.
 - Config rule은 구성 및 규정 준수를 시간이 지남에 따라 추적할 수 있다.
 - CloudWatch Logs는 완전한 데이터 보유를 원하는 경우에 사용 가능하다. 예를 들어 애플리케이션 로그를 기록하려는 경우이다.
@@ -7175,6 +7334,7 @@ GuardDuty는 CloudTrail 이벤트 로그와 같은 다양한 입력 데이터를
 
 입력 데이터는 아래와 같다.
 CloudTrail Events Logs (비정상적 API 호출, 권한 없는 배포)
+
 - CloudTrail Management Event
   - VPC 서브넷 생성 이벤트 등을 검토
 - CloudTrail S3 Data Event
@@ -7197,7 +7357,7 @@ Macie는 AWS에서 기밀 데이터를 발견하고 보호하기 위해 머신�
 좀 더 구체적으로는 Macie는 개인 식별 정보(PII)와 같은 민감 데이터에 대한 경고를 발생시킨다.
 
 S3 버킷에 PII 데이터가 있다고 하면 Macie가 데이터를 분석해 PII로 분류될수 있는 데이터를 발견한다.
-발견 사항을 EventBridge를 통해 알려준다. 
+발견 사항을 EventBridge를 통해 알려준다.
 
 ## **[CCP/SAA] Trusted Advisor**
 
@@ -7206,6 +7366,7 @@ Trusted Advisor는 계정에 대한 고수준의 평가를 제공한다.
 예를 들어, EBS Public 스냅샷이 있는지, RDS Public 스냅샷이 있는지, 계정에 루트 계정을 사용하는지 등을 확인한다.
 
 Trusted Advisor는 여섯 가지 범주로 그룹화되어 위와같은 사항들을 확인한다.
+
 - 비용 최적화
 - 성능
 - 보안
@@ -7259,7 +7420,6 @@ Business 와 Enterprise Support Plan을 사용한다면 AWS Support API를 통�
 
 FTP 서버나 S3, EBS 볼륨 등을 사용할 수 있다.
 
-
 ## **[SAA/DVA] KMS Overview**
 
 AWS Key 관리 서비스가 있다.
@@ -7285,25 +7445,30 @@ KMS Key는 두가지 유형의 KMS 키가 있다.
 대칭 KMS 키와 비대칭 KMS 키가 있다.
 
 대칭 KMS 키 (AES-256)
+
 - 데이터를 암호화하고 해독하는 데 사용되는 단일 암호화 키
 - 그래서 KMS와 통합된 AWS의 모든 서비스는 대칭 키를 사용한다.
 - KMS 대칭 키를 생성하거나 사용할 때 우리는 키 자체에 액세스하지 않고 키를 활용하기 위해 KMS API 호출을 사용하기만 하면 된다.
 
 비대칭 KMS 키 (RSA & ECC key pair)
+
 - 데이터를 암호화하는 데 사용되는 공개 키와 데이터를 해독하는 데 사용되는 개인 키 두 가지가 있음을 의미한다.
 - 암/복호화 또는 서명/검증 유형의 작업에 사용된다.
 - 이 경우 KMS에서 공개 키를 다운로드할 수 있지만, 개인 키에는 액세스할 수 없다.
 - Private 키에 액세스하기 위해서도 API 호출만 사용할 수 있다.
 - 사용 사례는 암호화를 AWS 클라우드 외부에서 수행하려는 경우이다. KMS API 키에 액세스할 수 없거나 액세스할 수 없는 사용자가 데이터를 암호화하려는 경우이다.
 
-
 AWS KMS 키는 여러 가지 유형의 KMS 키가 있다.
+
 1.  AWS Owned key: 이것은 무료이며, SSE-S3 유형의 암호화 또는 SSE-DynamoDB와 같이 선택한 키를 사용하는 경우 사용하는 키이다. SSE-S3, SSE-SQS 등
 2.  AWS Managed Key: 이것은 무료이며, "aws/서비스 이름" 등의 이름으로 시작한다.
-  - 예를 들어 aws/rds 또는 aws/ebs 등이 있다.
-  - 원하는대로 사용할 수 있지만 할당된 서비스 내에서만 사용할 수 있다.
-3.  Customer Managed Key: 사용자 지정 키이며, 한 달에 $1의 비용이 든다. 
-  - key를 추가하고 싶다면 한 달에 $1의 비용을 추가하여 가져올 수 있다.
+
+- 예를 들어 aws/rds 또는 aws/ebs 등이 있다.
+- 원하는대로 사용할 수 있지만 할당된 서비스 내에서만 사용할 수 있다.
+
+3.  Customer Managed Key: 사용자 지정 키이며, 한 달에 $1의 비용이 든다.
+
+- key를 추가하고 싶다면 한 달에 $1의 비용을 추가하여 가져올 수 있다.
 
 KMS에는 KMS 서비스로 수행된 각 API 호출에 대해 지불해야 하는 가격이 있다. 10,000 API 호출 당 약 0.03$ 이다.
 
@@ -7318,7 +7483,7 @@ KMS 키는 리전 별 범위를 가지고 있다.
 
 특정 리전의 KMS 키로 암호화된 EBS 볼륨이 있다면 특정 리전에서 다른 리전으로 복사하려면 여러 단계를 수행해야 한다.
 
-먼저 EBS 볼륨의 스냅샷을 만들고(KMS key를 이용해 만들던지 아니던지) 다른 리전으로 복사하려면 다른 리전에 있는 다른 KMS 키를 사용해 스냅샷을 다시 암호화해야 한다. 
+먼저 EBS 볼륨의 스냅샷을 만들고(KMS key를 이용해 만들던지 아니던지) 다른 리전으로 복사하려면 다른 리전에 있는 다른 KMS 키를 사용해 스냅샷을 다시 암호화해야 한다.
 
 그리고 다른 KMS 키를 이용해 EBS 볼륨으로 복원하면 된다.
 
@@ -7327,6 +7492,7 @@ KMS는 Key Policies가 있다.
 KMS 키에 대한 액세스를 제어하기 위함이며, S3 버킷 정책과 유사하지만 KMS 키에 KMS 키 정책이 없으면 아무도 액세스할 수 없다.
 
 KMS 키 정책에는 두 가지 유형이 있다.
+
 - 기본 정책 (Default KMS key policy)
   - 특정 사용자 정의 KMS 키 정책을 제공하지 않으면 생성된다.
   - 계정 내 모든 사용자가 이 키에 액세스할 수 있도록 한다.
@@ -7334,7 +7500,7 @@ KMS 키 정책에는 두 가지 유형이 있다.
   - 더 구체적으로 제어하려면 사용자가 KMS 키에 액세스할 수 있는 사용자 및 역할을 정의하는 Custom KMS key policy를 사용할 수 있다.
   - 특히 다른 계정에서 KMS 키에 대한 교차 계정 액세스를 원할 경우 유용하다.
 
-스냅샷을 계정 간에 복사하는 경우 
+스냅샷을 계정 간에 복사하는 경우
 
 스냅샷을 자체 KMS 키로 암호화하고 고객 관리 키여야 하며 사용자 지정 키 정책을 첨부해야 한다.
 
@@ -7388,21 +7554,25 @@ API 관점에서 응용 프로그램이 키 변경을 감지하지 못하도록 
 KMS에 대해 더 알아보자
 
 EBS 볼륨에서 사용되는 암호화 키를 변경할 수 없다.
+
 - 만약 변경하려면 EBS 스냅샷을 만들어야 하며, 그런 다음 새로운 EBS 볼륨을 생성한다. 새로운 볼륨에서 새로운 KMS 키를 지정할 수 있다.
 - 이미 암호화된 EBS 볼륨에서 스냅샷을 만들고, 동일한 CMK가 사용되도록 할 때와 매우 유사하다. 그런 다음 새로운 볼륨을 만들 때 새로운 CMK로 암호를 해독하고 다시 암호화할 수 있다.
 - 이렇게 하면 한 볼륨에서 다른 볼륨으로 KMS 키를 전환할 수 있다.
 
 여러 계정 간에 암호화된 KMS 스냅샷을 공유하는 것
+
 - 대상 계정과 공유하려는 스냅샷에 대한 키 Policy를 작성해야 한다. 이 Key Policy를 사용해 다른 계정이 암호화 및 복호화 작업을 수행할 수 있도록 허용한다.
 - 예를 들어 암호화된 RDS DB 스냅샷을 공유하면 다른 계정이 액세스할 수 있으며, 이렇게 하면 다른 계정에서 해당 암호화된 스냅샷을 사용해 DB 인스턴스를 생성할 수 있다.
 
 KMS 키 삭제가 있다.
+
 - CMK를 삭제하도록 예약할 수 있으며, 7일에서 30일 사이의 대기 기간이 있다. 이 기간동안 삭제를 취소하고 CMK가 여전히 필요한 것으로 인식하면 삭제를 취소할 수 있다.
 - 삭제 중인 CMK는 암호 작업에 사용할 수 없다. 따라서 해당 CMK로 암호화된 객체에 액세스하려고 하면 작업이 실패하게 된다. 시험에서도 이러한 사항에 대해 테스트한다.
 - 키가 Rotaion되도록 예약된 경우 Rotaion은 발생하지 않는다.
 - 어떤 이유로든 해당 CMK를 여전히 사용 중이라고 판단된다면 삭제를 취소할 수 있다.
 
 삭제된 후에도 키가 여전히 사용 중인지 확인할 수 있는 자동화가 있다.
+
 - 이를 위해 CMK를 삭제하고 대기 중인 상태로 만들면 CMK를 사용하려고 할 때 API 호출이 거부되고 CloudTrail에 로그가 기록된다.
 - 그 다음 CloudTrail은 로그를 CloudWatch Logs로 보내고 메트릭 필터를 설정해 키가 삭제 대기 중인지 확인한다. 이 메트릭 필터가 한 번 이상 발생하면 CloudWatch Alert를 설정해 SMS 알림이나 이메일 알림을 받을 수 있다.
 - 이러한 스케줄에 따라 CMK를 삭제하고 위와같은 과정을 구현하면 CMK를 사용하려는 경우 알림을 받아 해당 CMK가 여전히 다른 사용자에 의해 사용 중임을 파악할 수 있다.
@@ -7419,7 +7589,7 @@ KMS의 경우 AWS가 암호화를 위한 소프트웨어를 관리하고 암호�
 CloudHSM 장치는 AWS의 클라우드 내에서 설정될 것이지만, FIPS 140-2 Level 3 규정을 준수하는 방식으로 침입 저항성을 가지고 있어, 누군가가 HSM 장치에 수동으로 액세스하려고 하면 차단된다.
 
 CloudHSM 장치는 대칭 및 비대칭 암호화 키를 모두 지원한다.
-따라서 SSL 및 TLS 키와 같은 것들도 사용할 수 있다. 
+따라서 SSL 및 TLS 키와 같은 것들도 사용할 수 있다.
 
 Free tier가 없다.
 
@@ -7452,6 +7622,7 @@ CloudHSM 클러스터를 생성하고 CloudHSM 클러스터에 연결된 KMS 사
 이렇게 하면 KMS 암호화를 사용해 암호화된 EBS 볼륨을 가진 RDS 데이터베이스 인스턴스를 생성할 때 내부적으로 CloudHSM 클러스터 내의 암호화 키를 활용한다.
 
 이렇게 하면 두 가지 이점이 있다.
+
 1.  우리는 실제로 우리의 CloudHSM 클러스터를 사용한다.
 2.  우리의 CloudHSM 클러스터에 도달하는 KMS를 통한 모든 API 호출은 CloudTrail에 로그된다.
 
@@ -7524,7 +7695,7 @@ ACM을 사용할 수 없는 것은 EC2 인스턴스이다. EC2 인스턴스에 �
 
 Public 인증서를 요청하는 프로세스는 먼저 인증서에 포함될 도메인 이름을 나열해야 한다.
 
-이는 corp.example.com 과 같은 완전히 정규화된 도메인 이름(FQDN)이거나, *.example.com과 같은 와일드카드 도메인일 수 있다.
+이는 corp.example.com 과 같은 완전히 정규화된 도메인 이름(FQDN)이거나, \*.example.com과 같은 와일드카드 도메인일 수 있다.
 
 원하는 만큼 많은 도메인을 포함할 수 있다.
 
@@ -7549,7 +7720,7 @@ ACM 밖에서 인증서를 생성하고 ACM으로 가져올 수 있는 옵션이
 
 하지만 이 경우 ACM 외부에서 생성되었기 때문에 자동 갱신이 없다. 따라서 기존 인증서가 만료되기 전에 새로운 인증서를 가져와야 한다.
 
-인증서가 언제 만료될지를 어떻게 알 수 있을까? 
+인증서가 언제 만료될지를 어떻게 알 수 있을까?
 ACM 서비스는 만료 45일 전부터 일일 만료 이벤트를 EventBridge 서비스로 보낸다. 일일 이벤트 횟수는 구성할 수 있다.
 
 45일, 30일 등을 설정할 수 있다. 이것은 매일 만료된 인증서에 대한 이벤트가 EventBridge에 전송됨을 의미한다.
@@ -7647,14 +7818,15 @@ Secrets Manager 모니터링에 대한 간단한 강의이다.
 이 non-API 서비스 이벤트는 어떤 것인가?
 
 RotationStarted 이벤트이다.
+
 - Rotation이 시작될 때마다 이벤트가 CloudTrail에 등록된다.
-RotationSucceeded 이벤트
+  RotationSucceeded 이벤트
 - 성공적인 Rotation을 의미한다.
-RotationFailed 이벤트는 매우 중요하다
+  RotationFailed 이벤트는 매우 중요하다
 - 실패한 Rotation을 의미한다.
-RotationAbandoned
+  RotationAbandoned
 - Auto Rotation이 아닌 대상 Secrets에 대한 수동 변경이 있는 경우이다.
-StartSecretVersionDelete 이벤트, CancelSecretVersionDelete 이벤트 및 EndSecretVersionDelete 이벤트도 있다.
+  StartSecretVersionDelete 이벤트, CancelSecretVersionDelete 이벤트 및 EndSecretVersionDelete 이벤트도 있다.
 
 이런 모든 것들은 Secret Manager 내에서 무언가 발생할 때 CloudTrail에 기록된다.
 이는 매우 중요한 이벤트이다.
@@ -7683,16 +7855,17 @@ Rotation이 실패했음을 알리려면 CloudTrail을 확인하거나 Lambda �
 SSM Parameter Store 와 Secrets Manager와의 차이를 알아보자
 
 Secrets Manager
-- 비용이 더 많이 들고, Lambda 함수를 사용해 Secret의 회전을 자동화할 수 있다. 
+
+- 비용이 더 많이 들고, Lambda 함수를 사용해 Secret의 회전을 자동화할 수 있다.
 - Lambda 함수 중 일부는 RDS, RedShift 또는 DocumentDB와 같은 강력한 Secrets Manager 통합을 갖춘 상태로 제공된다.
 - 시크릿에 대해 KMS 암호화가 필수적이며 CloudFormation과 통합할 수 있다.
-Parameter Store
+  Parameter Store
 - 더 넓은 유형의 사용 사례를 갖추고 있으며 비용이 덜 든다.
 - 간단한 API를 제공한다.
 - Secret Rotation 기능이 없다
 - EventBridge로 트리거된 람다 함수를 사용해 자체적으로 Rotation을 활성화할 수는 있다.
 - 선택 사항으로 KMS 암호화를 사용할 수 있다. 파라미터 저장소는 기본즉어르 파라미터만 저장할 수 있기 때문이다.
-- 파라미터 저장소 API를 이용해서 Secrets Manager에서 시크릿을 가져올 수 있다. 
+- 파라미터 저장소 API를 이용해서 Secrets Manager에서 시크릿을 가져올 수 있다.
 
 SSM Parameter Store 와 Secrets Manager 간의 Secert rotation을 살펴보자.
 
@@ -7765,7 +7938,8 @@ Federation은 AWS 외부의 사용자가 일시적인 역할을 가정해 AWS �
 이렇게 되는 이유는 Identity가 다른 곳에 저장되거나 Third party에 의해 저장되기 때문이다.
 
 이제 Third party 인증은 무엇인가?
-- LDAP 일수도 있고, 
+
+- LDAP 일수도 있고,
 - Microsoft Active Directory 일 수도 있다. AD는 SAML과 유사하다. SAML은 표준이고 Active Directory는 그를 이용한 구현이라고 보면 된다.
 - SSO
 - Open ID
@@ -7870,7 +8044,8 @@ STS는 AWS 의 중심에 있는 보안 서비스이다.
 또는 대상 계정에서 Role을 가정해 거기서 작업을 수행할 수 ㅣㅇㅆ다. AssumeRole은 자격 증명을 제공하고 나중에 만료된다.
 
 또한 AssumeRoleWithSAML을 할 수 있다.
--   그러면 사용자가 SAML로 로그인되어 있고, 그 SAML 토큰을 확장하여 STS에서 자격 증명을 받을 수 있다. 먼저 SAML 토큰을 교환하고 검증할 수 있어야하긴 한다.
+
+- 그러면 사용자가 SAML로 로그인되어 있고, 그 SAML 토큰을 확장하여 STS에서 자격 증명을 받을 수 있다. 먼저 SAML 토큰을 교환하고 검증할 수 있어야하긴 한다.
 
 또한 AssumeRoleWithWebIdnetity도 할 수 있다. 이 방법은 사용자가 Facebook 로그인, Google 로그인 또는 OIDC 호환 기타 로그인과 같은 IDP로 식별되었을 때 이 자격 증명을 다시 STS 자격 증명으로 교환한다.
 이 API 호출은 때때로 사용되지 않으며 AWS는 대신 Cognito를 사용하도록 권장한다.
@@ -7881,7 +8056,6 @@ GetSessionToken 도 있다. 이것은 사용자 또는 계정 루트 사용자�
 
 그래서 사용자가 동일한 또는 다른 계정의 역할에 액세스하려면 AssumeRole API를 STS에 대해 수행한다.
 물론 API 호출을 수행할 권한이 있어야 하며, STS는 권한을 확인하고 일시적인 자격 증명을 제공하고 이 자격 증명을 사용해 역할을 가정하게 된다.
-
 
 ## **[DVA] Cognito User Pools Overview**
 
@@ -7910,7 +8084,6 @@ API를 사용하는 경우 사용자는 CUP로 인증하고 거기서 JSON Web T
 
 ALB를 사용하면 ALB 리스너 및 규칙을 사용해 사용자를 CUP에 인증한 다음 완료되는 사용자를 Target Group의 백엔드로 전달할 수 있다. 백엔드는 EC2 인스턴스, 람다 함수 또는 ECS 컨테이너가 될 수 있다.
 
-
 ## **[DVA] Cognito Identity Pools Overview**
 
 Cognito Identity Pools 또는 Federated Identities를 알아보자
@@ -7936,7 +8109,6 @@ Cognito Idnetity Pool은 사용자가 신뢰할 수 있는 제 3자를 통해 �
 
 사용자가 받는 자격 증명은 Cognito Idnetity Pool에서 정의한 IAM 정책을 기반으로 사용자 ID의 값에 따라 사용자에게 맞춤화될 수 있다.
 
-
 Cognito Idnetity Pool를 활용할 때 먼저 사용자가 로그인하고 이 로그인에서 토큰을 획득하도록 해야한다.
 
 그래서 사용자가 CUP에 연결하거나 Google 로그인, Facebook 로그인과 같은 소셜 ID 제공자 또는 SAML 또는 OpenID Connect로 연결할 수 있다.
@@ -7946,7 +8118,6 @@ Cognito Idnetity Pool를 활용할 때 먼저 사용자가 로그인하고 이 �
 먼저 Cognito Idnetity Pool는 우리가 정의한 제공자로부터의 로그인을 확인하고, 인증된 후에 웹 및 모바일 애플리케이션 사용자를 위한 임시 자격 증명을 얻기 위해 STS 서비스와 통신할 것이다.
 
 이것이 완료되면 자격 증명은 애플리케이션으로 반환되고, 이를 통해 사용자는 이 자격 증명과 관련된 IAM 정책을 통해 AWS에 직접 액세스할 수 있다.
-
 
 Cognito Idnetity Pool를 Cognito User Pool과 함께 사용할 때는 어떻게 작동하는가?
 
@@ -7972,38 +8143,41 @@ Cognito Idnetity Pool은 인증된 사용자와 게스트 사용자 모두를 �
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement":[
-        {
-            "Action": ["s3:ListBucket"],
-            "Effect": "Allow",
-            "Resource": ["arniaws:s3:::mybucket"],
-            "Condition": {"StringLike": {"s3:prefix": ["$(cognito-identity.amazonaws.com/sub)/*"]}}
-        },
-        {
-            "Action": [
-                "s3: GetObject",
-                "s3:PutObject"
-            ],
-            "Effect": "Allow",
-            "Resource": ["arn:aws:s3:::mybucket/${cognito-identity.amazonaws.com:sub}/*"]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": ["s3:ListBucket"],
+      "Effect": "Allow",
+      "Resource": ["arniaws:s3:::mybucket"],
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["$(cognito-identity.amazonaws.com/sub)/*"]
         }
-    ]    
+      }
+    },
+    {
+      "Action": ["s3: GetObject", "s3:PutObject"],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::mybucket/${cognito-identity.amazonaws.com:sub}/*"
+      ]
+    }
+  ]
 }
 ```
-
 
 ## **[DVA] Cognito User Pools vs Cognito Identity Pools**
 
 Cognito User Pools와 Identity Pool 간의 차이를 이해해보자
 
 Cognito User Pools
+
 - 인증 즉, 신원 확인에 사용된다. 그래서 웹 및 모바일 애플리케이션의 사용자 데이터베이스가 될 것이다.
 - 로그인을 위한 페더레이션을 가지고 있으므로 Google, Facebook, Amazon 또는 OIDC와 같은 소셜 로그인 또는 SAML을 활용한 기업 로그인을 할 수 있다.
 - 인증 과정 동안 호스팅된 UI를 사용자 정의할 수 있어서 로고를 포함시킬 수 있다.
 - 인증 전/후에 Lambda와의 통합을 할 수 있다.
 - 로그인 환경을 다양한 위험 수준에 맞게 조정할 수도 있다. 적응형 인증 또는 MFA를 사용되도록 한다.
-Cognito Identity Pool
+  Cognito Identity Pool
 - 권한 또는 액세스 제어를 위한 것이다.
 - AWS 내부에서의 액세스 제어를 의미하며, 간단히 모바일 애플리케이션이 있고 사용자 데이터 베이스만 필요한 경우 Cognito User Pool을 사용하면 되지만 이러한 사용자가 DynamoDB 및 S3 버킷 등 AWS 환경에 액세스할 수 있도록 하려면 권한을 부여해야 하며, 이는 Cognito Identity Pool를 사용하여 수행된다.
 - 사용자에게 임시 자격 증명을 제공하고 이 자격 증명을 얻기 위해 토큰을 교환하는 방법이 소셜, OIDC, SMAL 또는 Cognito User Pool을 사용할 수 있다. 사용자가 식별된 위치에 관계없이 토큰을 교환하여 권한을 얻을 수 있다.
