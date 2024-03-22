@@ -366,10 +366,9 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 
 **InstanceLimitExceeded**
 리전당 최대 vCPU 수에 도달했음을 의미
-해결 방법은 다른 리전에서 인스턴스를 실행하는 것과 리전에 제한된 Service Quotas를 늘리면 된다.
+기본적으로 64GB인데 해결 방법은 다른 리전에서 인스턴스를 실행하는 것과 리전에 제한된 Service Quotas를 늘리면 된다.
 
 **InsufficientInstanceCapacity**
-리전 내에서 생성할 수 있는 최대 수치의 vCPU가 있다. 기본적으로 64GB인데 Service Quotas Request를 하게 되면 늘릴 수 있음
 
 온디맨드 또는 Spot 인스턴스는 Default로 64GB로 되어 있음.
 
