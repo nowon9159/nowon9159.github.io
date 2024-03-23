@@ -24,7 +24,7 @@ $contents
   * [How would you like ChatGPT to respond?](#how-would-you-like-chatgpt-to-respond-)
 - [목차](#--)
 - [SOA 시험 대비](#soa------)
-  * [**Enhanced Networking (향상된 네트워킹)**](#--enhanced-networking-------------)
+  * [**Enhanced Networking (향상된 네트워킹)**](#enhanced-networking-)
   * [**EC2 Placement Groups (배치 그룹)**](#--ec2-placement-groups----------)
     + [Cluster Placement Group (클러스터 배치 그룹)](#cluster-placement-group-------------)
     + [Spread Placement Group (분산 배치 그룹)](#spread-placement-group-----------)
@@ -354,15 +354,11 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 ## Troubleshooting EC2 Launch Issues
 
 **InstanceLimitExceeded**
-리전당 최대 vCPU 수에 도달했음을 의미
+리전 내에서 생성할 수 있는 최대 수치의 vCPU가 있다. 리전당 최대 vCPU 수에 도달했음을 의미한다. 기본적으로 온디맨드 또는 Spot 인스턴스는 64GB인데 Service Quotas Request를 하게 되면 늘릴 수 있음
 해결 방법은 다른 리전에서 인스턴스를 실행하는 것과 리전에 제한된 Service Quotas를 늘리면 된다.
 
 
 **InsufficientInstanceCapacity**
-리전 내에서 생성할 수 있는 최대 수치의 vCPU가 있다. 기본적으로 64GB인데 Service Quotas Request를 하게 되면 늘릴 수 있음
-
-온디맨드 또는 Spot 인스턴스는 Default로 64GB로 되어 있음. 
-
 만약 내가 Default 64GB인 상태에서 128GB의 인스턴스 타입을 선택하게 되면 인스턴스의 특정 AZ에 대해 온디맨드에 대한 특정 용량을 갖추지 못했다는 error임
 이는 AWS에서 발생하는 문제이기도 하다. 왜냐하면 AZ에서 64GB가 준비되지 않았을 수도 있으니까
 
