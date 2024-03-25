@@ -1572,7 +1572,7 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 고가용성은 Multi AZ가 활성화된 오토 스케일러 그룹이나 로드 밸런서를 위한 것이다.
 
 **정리**
-- 
+- asd
 
 ## **[SAA/DVA] Elastic Load Balancing (ELB) Overview**
 
