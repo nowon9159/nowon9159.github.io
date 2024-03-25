@@ -359,8 +359,7 @@ AWS Console이나 CLI의 우발적인 종료 동작을 막아준다.
 
 종료 설정이 되어 있어도 OS 내에서 shutdown 명령어를 내리게 되면 Terminate 된다.
 `$ sudo shutdown` 하게 되면 Terminated 되기 때문에 주의해야 함
-
-> 팁으로는 init 0 또는 systemctl poweroff 명령어도 동일하다.
+> init 0 또는 systemctl poweroff 명령어도 동일하다.
 
 ## Troubleshooting EC2 Launch Issues
 
@@ -7942,7 +7941,7 @@ Federation은 AWS 외부의 사용자가 일시적인 역할을 가정해 AWS �
 
 사용자 관리는 AWS 외부에서 수행된다.
 
-시험에선은 Identity Federation의 특정 형태에 대해 매우 구체적으로 물어볼 수 있다.
+시험에서는 Identity Federation의 특정 형태에 대해 매우 구체적으로 물어볼 수 있다.
 
 SAML 페더레이션은 기업을 위한 것이다.
 큰 기업이라면 Microsoft Active Directory를 이미 관리하거나 SAML 2.0 호환성을 갖춘 무언가를 갖고 있을 것이다.
