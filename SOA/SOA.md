@@ -965,7 +965,7 @@ INSTANCE status checks
 - 손상된 파일 시스템
 - 호환되지 않는 커널
 - 수정이 필요할 때는 직접 개입이 필요함
-- EC2 인스턴스를 다시 시작하거나, EC2 인스턴스 구성 변경
+- EC2 인스턴스를 restart하거나, EC2 인스턴스 구성 변경
 
 ## **EC2 Hibernate**
 
