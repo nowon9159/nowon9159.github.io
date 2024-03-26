@@ -1820,6 +1820,21 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - CLB의 경우 하나의 SSL 인증서만 지원할 수 있고, ALB v2의 경우 여러 리스너와 여러 SSL 인증서를 지원할 수 있다.
 - NLB의 경우도 SNI를 지원한다.
 
+**정리**
+- SSL은 Secure Sockets Layer의 약자이며 전송 연결을 암호화하는 데 사용된다. TLS는 SSL의 최신 버전으로 Transport Layer Security이다.
+- Public SSL 인증서는 Certificate Authorities(인증 기관)에 의해서 발급되며 CA는 Letsencrypt, symantec, godaddy, digicert 등 있다.
+- Public SSL 인증서를 로드 밸런서에 연결해 클라이언트와 로드 밸런서 간의 연결을 암호화할 수 있다.
+- SSL 인증서는 클라이언트와 로드 밸런서 간의 트래픽을 전송 중에 암호화할 수 있게 한다.(In-Flight Encryption). 데이터가 네트워크를 통과하는 동안 암호화되며, 보내는 사람 및 수신자만 해독 가능하다.
+- SSL 인증서는 만료 날짜가 있어, 정기적으로 갱신되어야 한다.
+- AWS에서는 ACM(AWS Certificate Manager)를 사용해 AWS에서 인증서를 관리할 수 있으며, 필요한 경우 외부 인증서를 ACM에 직접 업로드 할 수 있다.
+- 로드밸런서에서 HTTPS 리스너를 설정할 때는 기본적으로 인증서를 지정해야 한다. 다중 도메인을 지원하는 인증서 목록을 추가할 수 있으며, SNI(Server Name Indication)를 사용해 hostname을 지정할 수 있다.
+  - domain1.example.com, domain2.example.com 두 개의 도메인 주소가 있고, 해당하는 타겟 그룹이 있을 때 ALB에 클라이언트가 domain1.example.com에 들어온다면 ALB는 그에 맞는 SSL 인증서와 타겟그룹을 사용한다.
+  - ALB는 올바른 SSL 인증서를 가져와서 트래픽을 암호화하고 경로를 통해 올바른 타겟 그룹으로 리디렉션 한다. SNI를 사용하면 다른 SSL 인증서를 사용해 여러 웹 사이트에 대한 여러 타겟 그룹을 갖게된다.
+- CLB의 경우 하나의 SSL 인증서만 지원 가능하고, ALB v2의 경우 여러 리스너와 여러 SSL 인증서를 지원한다.
+- NLB도 SNI를 지원한다.
+
+
+
 ## **[SAA/DVA] Elastic Load Balancer - Connection Draining**
 
 - CLB를 사용하는 경우 Connection Draining 이라고 하지만 ALB 또는 NLB를 사용하는 경우 Deregistration Delay 라고 불린다.
