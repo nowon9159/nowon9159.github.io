@@ -1623,11 +1623,37 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - NLB (Network Load Balancer)
   - TCP, TLS, UDP 프로토콜을 지원한다.
 - GWLB (Gateway Load Balancer)
+  - 네트워크 레이어에서 작동하며 IP 프로토콜을 사용한다.
 
-  - 네트워크 레이어에서 작동하므로 세 가지 및 IP 프로토콜이 있다.
+전반적으로 더 최신 세대의 로드 밸런서를 사용하는 것이 좋다.
+네트워크나 외부 공개 로드 밸런서로 설정되거나 내부로 설정될 수 있다.
 
+**정리**
+- 로드 밸런서에 대한 개요
+  - 로드 밸런서는 받은 트래픽을 여러 백엔드 또는 다운스트림 EC2 인스턴스 또는 서버로 전달하는 서버이다.
+  - 사용자는 정확히 어떤 백엔드 인스턴스에 연결되어 있는지 모르고, 로드 밸런서를 통해서 대상 EC2 인스턴스 전체에 고르게 분배된다.
+  - ELB를 사용해야하는 이유는 응용 프로그램에 대한 단일 액세스 포인트를 노출할 수 있기 때문이다.
+  - 로드 밸런서는 헬스 체크 매커니즘을 갖추고 있어 어떤 인스턴스에 트래픽을 보내지 않아야 하는지 알 수 있다.
+  - 웹 사이트에 HTTPS 암호화 트래픽이 있는 경우 SSL Termination을 수행할 수 있다.
+  - 쿠키를 사용해 지속성을 강제할 수 있다.
+- ELB란?
+  - 관리형 로드 밸런서이며, AWS가 작동을 보장한다. 또한 관리 측면에서 유지보수 및 고가용성을 처리한다.
+  - 로드 밸런서는 ASG, ECS, ACM, CloudWatch 등 다양한 AWS 서비스와 통합되어 있다.
+- Health check
+  - 헬스 체크는 ELB가 대상 EC2 인스턴스가 제대로 작동하는 지 여부를 확인하는 방법이다. -> EC2가 제대로 작동하지 않는다면 해당 인스턴스로 트래픽을 보내지 않기 위해서
+  - 헬스 체크는 포트와 라우트를 사용해 수행한다. 예를 들어 프로토콜은 HTTP이고 포트는 4567이며 엔드포인트는 /health일 때 200 Status code를 응답하지 않으면 인스턴스는 Unhealthy로 표시될 거싱고 Unhealthy일 경우 트래픽을 보내지 않을 것이다.
+- ELB 종류
+  - CLB (Classic Load Balancer)
+    - 구 버전 로드 밸런서
+    - HTTP, HTTPS, TCP, SSL 등과 호환된다.
+  - ALB (Application Load Balancer)
+    - HTTP, HTTPS, 웹소켓을 지원한다.
+  - NLB (Network Load Balancer)
+    - TCP, TLS, UDP 프로토콜을 지원한다.
+  - GWLB (Gateway Load Balancer)
+    - 3계층인 네트워크 레이어에서 작동하고, IP 프로토콜을 사용한다.
 - 전반적으로 더 최신 세대의 로드 밸런서를 사용하는 것이 좋다.
-- 네트워크나 외부 공개 로드 밸런서로 설정되거나 내부로 설정될 수 있다.
+- 로드 밸런서는 internal(private, 내부)나 external(public, 외부 공개)으로 설정될 수 있다.
 
 ## **[SAA/DVA] Application Load Balancer (ALB)**
 
