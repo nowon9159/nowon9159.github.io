@@ -2081,6 +2081,22 @@ ASG에는 우리가 정의해야 할 최소 크기, 최대 크기 및 초기 용
   - 예를 들어 ASG 전체의 평균 CPU와 같은 메트릭을 기반으로 알람을 생성하고 평균 CPU가 너무 높다면 알람이 발생해 트리거되고 ASG에서 스케일링을 하게 된다.
   - 결과적으로 알람을 기반으로 스케일 아웃 또는 스케일 인 정책을 생성해 인스턴스를 증가 또는 감소할 수 있다.
 
+**정리**
+- 웹 사이트나 응용 프로그램은 시간이 지남에 따라 웹 사이트를 방문하는 사용자가 많아져 부하가 늘거나 줄 수 있다. 가변적인 부하에 맞춰 서버를 빠르게 생성하는 방법이 Auto Scaling Group이다.
+- ASG는 EC2 인스턴스를 확장 및 축소할 수 있다. 이를 Scale out/in 이라고 한다.
+- ASG는 Minimum capacity, Maximum capacity, Desired capacity 등의 매개변수를 정의해 EC2의 개수를 조정할 수 있다.
+- ASG는 로드 밸런서와 결합하는 경우 ASG에 속해 있는 모든 EC2 인스턴스가 로드 밸런서와 연결된다.
+- ASG에서 Health Check를 진행해 하나의 인스턴스가 Unhealthy 상태가 되면 해당 인스턴스가 종료되고 대신에 새로운 EC2 인스턴스가 생성된다.
+  - 또한 ELB는 EC2의 상태를 health check를 사용해 확인하고 해당 상태를 ASG에 전달할 수 있다. 로드밸런서의 판단에 따라 ASG가 해당 EC2 인스턴스를 종료할 수도 있다.
+- ASG에 인스턴스가 추가되면 ELB도 트래픽을 해당 인스턴스에 보내고 부하를 분산 시킬 것이므로, ASG와 ELB를 같이 사용하는 것은 좋은 조합이다.
+- ASG는 Launch templates를 기반으로 EC2 인스턴스를 시작하게 된다.
+  - Launch template는 ASG 내에서 EC2 인스턴스를 시작하는 AMI, Instance type, Userdata, EBS 볼륨, 보안 그룹, SSH 키페어, IAM 역할, 네트워크 및 서브넷 정보, 로드 밸런서 정보 등이 포함된다.
+- ASG에는 우리가 정의해야할 스케일링 정책이 있다.
+  - CloudWatch 알람을 기반으로 ASG의 인스턴스를 확장 및 축소할 수 있다.
+  - 예를 들어 평균 CPU와 같은 메트릭을 기반으로 알람을 생성하고 트리거를 발생해 ASG에서 스케일링 하게 된다.
+  - 알람 기반의 Scail in/out 정책을 생성해 인스턴스를 증가 또는 감소할 수 있다.
+
+
 ## [SAA/DVA] Auto Scaling Groups - Scaling Policies
 
 **ASG에는 여러가지 스케일링 정책이 있다.**
