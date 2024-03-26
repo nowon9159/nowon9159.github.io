@@ -1927,7 +1927,7 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - X-Amzn-Trace-Id라는 사용자 지정 헤더가 각 HTTP 요청에 추가된다.
 - 이 헤더는 단일 요청을 추적하는 데 분산 추적 플랫폼이나 로그에서 매우 유용하다.
 - ~~주의할 점은 ALB가 아직 X-Ray와 통합되어 있지 않다는 것이며 따라서 X-Ray에서 이러한 request tracing이 나타나지 않을 것이다.~~
-  - 240227 기준으로 HTTP 요청을 추적할 수 있다. [확인 링크](https://docs.aws.amazon.com/ko_kr/elasticloadbalancing/latest/application/load-balancer-request-tracing.html)
+  - 240227 기준으로 HTTP 요청을 추적할 수 있다. [확인 링크](https://docs.aws.amazon.com/ko_kr/xray/latest/devguide/xray-concepts.html#xray-concepts-tracingheader)
 
 **모니터링 옵션**
 
@@ -1936,6 +1936,50 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
   Requests(시간 당 요청 수), 어디서 문제가 발생했는지 이해하기 위한 오류 코드 메트릭, ASG에서 scale용도로 사용하기 좋은 ActiveConnectionCount, 로드 밸런서가 실제로 얼마나 지불하는 지에 대한 Consumed Load Balancer Capacity Units(ConsumedLCUs) 등 중요한 메트릭이 있다.
 - 로그에 대한 옵션을 살펴볼수도 있다. 액세스 로그를 모니터링하려면 속성을 편집하고 활성화할 수 있으며, 로드 밸런서로 전송된 모든 로그를 S3 버킷으로 전송하도록 설정할 수 있다.
 - Amazon Athena 서비스를 사용해 이러한 액세스 로그를 쿼리할 수 있다.
+
+**정리**
+- 로드 밸런서는 여러 오류 유형이 있음
+  - 일반적으로 성공적인 요청은 200
+  - 클라이언트의 웹 브라우저에서 오류가 발생하는 등 클라이언트의 오류이면 4XX 오류가 발생
+    - 400: Bad Request
+    - 401: Unauthorized
+    - 403: Forbidden
+    - 460: 클라이언트가 연결을 닫음
+    - 463: 헤더 X-forwarded-for가 잘못된 경우
+  - 로드 밸런서 또는 백엔드 EC2 인스턴스가 잘못되어 서버 측에서 발생하는 오류는 5XX 오류가 발생
+    - 500: Internal server error
+    - 502: Bad gateway
+    - 503: Service unavailable, EC2 인스턴스가 로드 밸런서에 응답을 보낼 수 없는 경우
+    - 504: Gateway timeout
+    - 561: Unauthorized
+  - 시험 관점에서 4XX 코드는 클라이언트의 문제이고, 5XX 코드는 서버 문제이다. 로드 밸런서에서 확인할 메트릭 유형을 결정하는 데 도움이 되는 정보이다.
+- 로드 밸런서는 여러 메트릭이 있다.
+  - UnHealthyHostCount와 HealthyHostCount는 매우 중요하다.
+    로드 밸런서에 6개의 인스턴스가 등록되어 있고 그 중 2개가 다운되면 UnHealthyHostCount는 2이고 HealthyHostCount는 4이다.
+  - 2XX, 3XX, 4XX, 5XX의 회수를 나타내는 메트릭이 있다.
+  - Latency: 클라이언트에게 요청을 얼마나 빨리 받아올 수 있는지에 대한 정보
+  - RequestCounts: 로드 밸런서의 전체 요청 횟수
+  - RequestCountPerTarget: 평균적으로 얼마나 많은 EC2 인스턴스가 요청을 받는지
+  - **SurgeQueueLength**: Helathy한 인스턴스로 라우팅 중인 총 요청 수이고, ASG를 확장하는 데 도움이 될 수 있다. 큰 요청 대기열이 필요 없기 때문에 0에 가깝게 유지 되도록 해야한다. 최대값인 1024에 가까울 수록 추가 요청이나 연결이 거부될 가능성이 커지기 때문이다.
+  - **SpilloverCount**: 대기열이 가득 차서 거부된 요청의 수이다. 0보다 큰 값을 갖는 것을 절대로 피해야한다. 0보다 크다면 백엔드를 확장해 추가 요청을 처리하고 클라이언트가 일부 요청을 잃고 있는지 확인해야 한다.
+- 해결 방법
+  - 400의 경우 클라이언트가 잘못된 요청을 보냈다는 것이다.
+  - 503의 경우 로드 밸런서에 사용 가능한 Healthy 상태의 인스턴스가 없다는 것을 의미하므로 HealthyHostCount 메트릭 및 CloudWatch를 확인해보면 된다.
+  - 504의 경우 게이트웨이 시간 초과다. EC2 인스턴스의 keep-alive 설정이 활성화되어 있는지 확인하고, keep-alive timeout이 로드 밸런서의 idle timeout 설정보다 큰지 확인해야 한다.
+- Load Balancer Access Log
+  - 로드 밸런서의 액세스 로그는 S3에 저장될 수 있다.
+  - 로그에는 로드 밸런서에 대한 모든 요청이 포함되며 "time, client ip address, latencies, request paths, server response, trace ID"와 같은 메타데이터가 포함된다.
+  - S3로 로그를 전송할 때 비용이 발생한다.
+  - 액세스 로그는 규정 준수 및 디버깅에 매우 유용하며 ELB 또는 EC2 인스턴스가 종료된 후에도 액세스 데이터를 보관하는 데 도움이 된다.
+  - Access Log의 경우 S3로 전송된 로그를 Athena 서비스를 사용해 쿼리할 수도 있다.
+- Tracing
+  - X-Amzn-Trace-Id라는 사용자 지정 헤더를 이용해 각 Request를 Trace할 수 있다.
+  - 이 헤더는 단일 요청을 추적하는 데, 분산 추적 플랫폼이나 로그에서 매우 유용하다.
+- ELB 모니터링
+  - Requests: 시간당 요청 수로서 부하 확인시 유용하다.
+  - TargetResponseTime: 로드 밸런서에서 요청 신호를 전송한 후 Target에서 응답 신호가 수신될 때까지 결과된 시간
+  - Error code: 4XX 5XX 등 어디서 문제가 발생했는지 이해하기 위함
+  - ConsumedLCUs: 로드 밸런서가 실제로 얼마나 지불하는지
 
 ## **Elastic Load Balancer - Monitoring, Troubleshooting, Logging and Tracing**
 
