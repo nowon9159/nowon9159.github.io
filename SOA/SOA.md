@@ -1799,6 +1799,13 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - ALB의 경우 Cross Zone Load Balancing이 기본적으로 활성화되어 있지만 타겟 그룹 수준에서 비활성화할 수 있으며 AZ 간에 데이터 이동 시 원래는 비용을 지불해야 하지만 활성화 된 경우 요금이 부과되지 않는다.
 - NLB, GWLB의 경우 Cross Zone Load Balancing이 기본적으로 비활성화되어 있다. ALB 같은 경우와 다르게 GWLB의 경우 기본적으로 비활성화 상태에서 활성화를 하게 되면 AZ 간 데이터 이동 시 일정량의 비용이 발생한다.
 
+**정리**
+- Cross zone load balancing은 가용 영역에 제한하지 않고 로드 밸런서에 등록된 인스턴스에 트래픽이 고르게 분배된다.
+- 예를 들어 두 가용 영역이 있고 A 가용 영역 B 가용 영역이 있다고 했을 때 A 가용 영역에는 2개의 인스턴스 B 가용영역은 8개의 인스턴스가 있을 때 Cross zone load balancing을 사용하면 등록된 대상을 기준으로 트래픽을 고르게 분배한다.
+- 기존에는 ALB에 부여된 타겟 그룹을 기준으로 50% 대 50%의 트래픽을 분산해 2개 대 8개로 불균형을 초래할 수 있는데, 10개 인스턴스를 기준으로 트래픽을 고르게 분산한다.
+- ALB의 경우 Cross Zone load balancing이 기본적으로 활성화되어 있지만 타겟 그룹 수준에서 비활성화할 수 있으며 AZ 간에 데이터 이동시 원래는 비용이 지불되지만 활성화 된 경우 요금이 부과되지 않는다.
+- NLB, GWLB의 경우 Cross Zone Load Balancing이 기본적으로 비활성화 되어 있다. ALB와는 다르게 GWLB는 AZ 간 데이터 이동 시 일정량의 비용이 발생한다.
+
 ## **[SAA/DVA] Elastic Load Balancer - SSL Certificates**
 
 - SSL 인증서는 클라이언트와 로드 밸런서 간의 트래픽을 전송 중에 암호화할 수 있게 한다. 이를 "In-flight encryption"이라고 한다. 데이터가 네트워크를 통과하는 동안 암호화되고 보내는 사람 및 수신자만 해독할 수 있다.
