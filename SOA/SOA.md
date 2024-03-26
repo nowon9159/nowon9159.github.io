@@ -1862,6 +1862,25 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - health check가 EC2 인스턴스의 다른 포트에서 수행되는 경우 트래픽 포트 오버라이드를 수행할 수 있다.
 - health check 를 완료하고 200 status code를 재전송하는 대신에 특정 code를 설정할 수 있다.
 
+**정리**
+- ALB 또는 대상 그룹 자체에서 Health check를 설정할 수 있다.
+  - HTTP 프로토콜, 인스턴스에 연결할 포트, Health Check 요청을 보낼 Path 등을 지정하여 health check를 할 수 있다.
+  - path는 주로 /health 경로를 이용한다. 이 경로는 많은 웹 사이트나 애플리케이션이 기본적으로 가지고 있는 path이다.
+- Health check는 여러 가지 매개변수가 있다.
+  - check timeout: health check가 실패로 간주되기까지의 시간이다. 기본적으로 5초이며, 5초 안에 health check가 성공하지 않으면 실패로 간주된다.
+  - interval: 대상 그룹 또는 ALB가 health check를 수행하는 빈도이다. 기본적으로 30초이며, 매우 낮은 값을 설정하면 응용 프로그램이 과도하게 사용될 수 있다.
+  - healthy threshold counts: 대상이 건강한 것으로 간주되기 전에 health check가 성공해야하는 횟수
+  - unhealthy threshold counts: 대상이 건강하지 않다고 간주되기 전에 연속으로 ehalth check가 실패해야 하는 횟수
+- health status는
+  - healthy: 초기 등록 중인 경우
+  - Unhealthy: 건강하지 않은 경우
+  - Unused: 대상이 등록되지 않아 사용되지 않는 경우
+  - Draining: 대상이 등록 해제 중인 경우
+  - Unavailable: health check가 비활성화된 경우
+- 시험에서 알아야할 것은 대상 그룹에 Unhealthy만 포함된 경우 ELB는 모든 Unhealthy 대상으로 요청을 라우팅한다는 것이다. 이 경우 health check 자체가 잘못 되었다고 가정하고 인스턴스는 여전히 작동할수도 있기 때문에 요청을 라우팅하는 것이다.
+- helath check가 EC2 인스턴스의 다른 포트에서 수행되는 경우 트래픽 포트 오버라이드를 수행할 수 있다.
+- health check를 완료하고 200 Status code를 전송하는 대신에 특정 code를 설정할 수 있다.
+
 ## **Elastic Load Balancer - Monitoring, Troubleshooting, Logging and Tracing**
 
 **개요**
