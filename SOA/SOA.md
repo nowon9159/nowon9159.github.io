@@ -1676,22 +1676,22 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - X-Forwarded-Ports를 사용해 실제 클라이언트의 포트를 얻을 수 있고, X-Forwarded-Proto를 사용해 사용중인 프로토콜도 얻을 수 있다.
 
 **정리**
-- ALB
-  - Layer 7에서만 작동하며, HTTP에 특화되어 있다.
-  - 여러 대의 머신에 HTTP 응용 프로그램으로 라우팅할 수 있게 해주며, 여러 대의 머신은 대상 그룹(Target Group)이라 불리는 것에 그룹화 된다.
-  - HTTP/2와 웹소켓을 지원하고, 로드 밸런서 수준에서 HTTP에서 HTTPS로 트래픽을 자동으로 리다이렉트를 지원한다.
-  - URL 대상 경로를 기반으로 경로 라우팅을 지원한다.
-    example.com/users 및 example.com/posts와 같이 URL의 대상 경로를 기반으로 라우팅할 수 있다.
-  - hostname 기반으로 라우팅할 수도 있다. 
-    one.example.com 또는 other.example.com 을 사용해 액세스되는 경우 서로 다른 대상 그룹으로 라우팅 될 수 있다.
-  - 쿼리 문자열과 헤더를 기반으로 라우팅할 수도 있다.
-    example.com/users?id=123&order=false와 같은 방식으로 라우팅할 수 있다.
-  - ALB는 마이크로 서비스와 컨테이너 기반 애플리케이션을 보유할 때 유용하다.
-  - Auto Scaling Group에 의해 ALB 뒤에 있는 애플리케이션이 관리될 수 있따.
-  - Lambda 함수를 ALB 뒤에 둘수도 있다.
-  - 대상 그룹을 IP 주소 유형으로 설정해 ALB뒤에 둘 수 있으며, 이 IP는 반드시 Private IP 주소여야한다.
-  - 애플리케이션 서버는 클라이언트의 IP를 직접적으로 확인할수 없다. 클라이언트의 실제 IP는 X-Forwarded-For 헤더에 삽입된다.
-  - X-Forwarded-Ports를 사용해 실제 클라이언트의 포트를 얻을 수 있고, X-Forwarded-Proto를 사용해 사용중인 프로토콜도 얻을 수 있다.
+
+- ALB는 Layer 7에서만 작동하며, HTTP에 특화되어 있다.
+- 여러 대의 머신에 HTTP 응용 프로그램으로 라우팅할 수 있게 해주며, 여러 대의 머신은 대상 그룹(Target Group)이라 불리는 것에 그룹화 된다.
+- HTTP/2와 웹소켓을 지원하고, 로드 밸런서 수준에서 HTTP에서 HTTPS로 트래픽을 자동으로 리다이렉트를 지원한다.
+- URL 대상 경로를 기반으로 경로 라우팅을 지원한다.
+  example.com/users 및 example.com/posts와 같이 URL의 대상 경로를 기반으로 라우팅할 수 있다.
+- hostname 기반으로 라우팅할 수도 있다. 
+  one.example.com 또는 other.example.com 을 사용해 액세스되는 경우 서로 다른 대상 그룹으로 라우팅 될 수 있다.
+- 쿼리 문자열과 헤더를 기반으로 라우팅할 수도 있다.
+  example.com/users?id=123&order=false와 같은 방식으로 라우팅할 수 있다.
+- ALB는 마이크로 서비스와 컨테이너 기반 애플리케이션을 보유할 때 유용하다.
+- Auto Scaling Group에 의해 ALB 뒤에 있는 애플리케이션이 관리될 수 있따.
+- Lambda 함수를 ALB 뒤에 둘수도 있다.
+- 대상 그룹을 IP 주소 유형으로 설정해 ALB뒤에 둘 수 있으며, 이 IP는 반드시 Private IP 주소여야한다.
+- 애플리케이션 서버는 클라이언트의 IP를 직접적으로 확인할수 없다. 클라이언트의 실제 IP는 X-Forwarded-For 헤더에 삽입된다.
+- X-Forwarded-Ports를 사용해 실제 클라이언트의 포트를 얻을 수 있고, X-Forwarded-Proto를 사용해 사용중인 프로토콜도 얻을 수 있다.
 
 
 
@@ -1710,6 +1710,19 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - 대상 그룹은 EC2 인스턴스가 될 수 있으며, IP 주소도 등록할 수 있다. IP 주소는 하드 코딩되어 있어야 하며, Private IP여야 한다. 소유한 EC2 인스턴스의 Private IP를 등록하거나 자체 데이터 센터에 있는 서버의 Private IP를 사용할수도 있다.
 - NLB를 ALB 앞에 놓을 수도 있다. 이렇게 하는 이유는 NLB 덕분에 고정 IP 주소를 얻을 수 있고, ALB 덕분에 HTTP 유형의 트래픽 처리에 대한 모든 규칙을 얻을 수 있다.
 - NLB 대상 그룹에서 수행되는 헬스 체크는 TCP, HTTP, HTTPS 의 세 가지 다른 종류의 프로토콜을 지원한다. 백엔드 애플리케이션이 HTTP 또는 HTTPS 프로토콜을 지원하는 경우 이러한 프로토콜에 대한 헬스 체크를 정의할 수 있다.
+
+**정리**
+- NLB는 레이어 4 로드 밸런서이며, TCP 및 UDP 트래픽을 처리할 수 있다.
+- 매우 높은 성능을 가지고 있어 백만 건 이상의 요청을 처리할 수 있다.
+- ALB에 비해 대기 시간이 줄어든다. ALB의 400 밀리초 대비 100 밀리초 정도이다.
+- 가용 영역당 정적 IP가 하나이고, 각 AZ에 Elastic IP를 할당할 수 있다. 그래서 애플리케이션이 정적 IP를 노출해야 한다면 유용하다.
+- 시험에서 "애플리케이션은 한개, 두개, 세개의 다른 IP에서만 액세스 가능하다"라고 한다면 NLB를 생각해봐야 한다. 또한 극도의 성능, TCP 또는 UDP, 정적 IP를 보면 NLB를 생각해야한다.
+- NLB 작동
+  - ALB와 매우 유사하다.
+  - 대상 그룹을 생성하고 NLB가 해당 대상 그룹으로 리디렉션 한다.
+  - 대상 그룹은 EC2 인스턴스, IP 주소가 될 수 있으며, IP 주소는 반드시 Private IP여야한다.
+  - NLB를 ALB앞에 놓을 수도 있다. 이렇게 하는 이유는 NLB 덕분에 고정 IP 주소를 얻을 수 있고, ALB 덕분에 HTTP 유형의 트래픽 처리에 대한 모든 규칙을 얻을 수 있다.
+  - NLB 대상 그룹에서 수행되는 헬스 체크는 TCP, HTTP, HTTPS 의 세 가지 다른 종류의 프로토콜을 지원한다. 백엔드 애플리케이션이 HTTP 또는 HTTPS 프로토콜을 지원하는 경우 이러한 프로토콜에 대한 헬스 체크를 정의할 수 있다.
 
 ## **[SAA/DVA] Gateway Load Balancer (GWLB)**
 
