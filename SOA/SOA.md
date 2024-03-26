@@ -1675,6 +1675,26 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - 애플리케이션 서버는 클라이언트의 IP를 직접적으로 확인할 수 없다 클라이언트의 실제 IP는 X-Forwarded-For 헤더에 삽입된다.
 - X-Forwarded-Ports를 사용해 실제 클라이언트의 포트를 얻을 수 있고, X-Forwarded-Proto를 사용해 사용중인 프로토콜도 얻을 수 있다.
 
+**정리**
+- ALB
+  - Layer 7에서만 작동하며, HTTP에 특화되어 있다.
+  - 여러 대의 머신에 HTTP 응용 프로그램으로 라우팅할 수 있게 해주며, 여러 대의 머신은 대상 그룹(Target Group)이라 불리는 것에 그룹화 된다.
+  - HTTP/2와 웹소켓을 지원하고, 로드 밸런서 수준에서 HTTP에서 HTTPS로 트래픽을 자동으로 리다이렉트를 지원한다.
+  - URL 대상 경로를 기반으로 경로 라우팅을 지원한다.
+    example.com/users 및 example.com/posts와 같이 URL의 대상 경로를 기반으로 라우팅할 수 있다.
+  - hostname 기반으로 라우팅할 수도 있다. 
+    one.example.com 또는 other.example.com 을 사용해 액세스되는 경우 서로 다른 대상 그룹으로 라우팅 될 수 있다.
+  - 쿼리 문자열과 헤더를 기반으로 라우팅할 수도 있다.
+    example.com/users?id=123&order=false와 같은 방식으로 라우팅할 수 있다.
+  - ALB는 마이크로 서비스와 컨테이너 기반 애플리케이션을 보유할 때 유용하다.
+  - Auto Scaling Group에 의해 ALB 뒤에 있는 애플리케이션이 관리될 수 있따.
+  - Lambda 함수를 ALB 뒤에 둘수도 있다.
+  - 대상 그룹을 IP 주소 유형으로 설정해 ALB뒤에 둘 수 있으며, 이 IP는 반드시 Private IP 주소여야한다.
+  - 애플리케이션 서버는 클라이언트의 IP를 직접적으로 확인할수 없다. 클라이언트의 실제 IP는 X-Forwarded-For 헤더에 삽입된다.
+  - X-Forwarded-Ports를 사용해 실제 클라이언트의 포트를 얻을 수 있고, X-Forwarded-Proto를 사용해 사용중인 프로토콜도 얻을 수 있다.
+
+
+
 ## **[SAA/DVA] Network Load Balancer (NLB)**
 
 - 레이어 4 로드 밸런서이며 TCP 및 UDP 트래픽을 처리할 수 있다.
