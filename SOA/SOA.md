@@ -1833,8 +1833,6 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - CLB의 경우 하나의 SSL 인증서만 지원 가능하고, ALB v2의 경우 여러 리스너와 여러 SSL 인증서를 지원한다.
 - NLB도 SNI를 지원한다.
 
-
-
 ## **[SAA/DVA] Elastic Load Balancer - Connection Draining**
 
 - CLB를 사용하는 경우 Connection Draining 이라고 하지만 ALB 또는 NLB를 사용하는 경우 Deregistration Delay 라고 불린다.
@@ -1842,6 +1840,13 @@ State Manager를 활용하려면 SSM Documents를 사용하고 Association을 �
 - 인스턴스가 Drain 되어서 연결이 드레인되면, ELB는 인스턴스가 Deregistration되는 동안 드레인 중인 EC2 인스턴스로 요청을 보내지 않는다.
 - deregistration_delay.timeout_seconds 파라미터 값이 존재하는 데 이는 기본값 300초(5분)이며, 값이 0으로 설정되면 Drain이 발생하지 않는다. 최소 1에서 최대 3,600 사이의 값을 설정할 수 있다.
 - 애플리케이션의 요청이 짧은 경우(ex:1초 미만) 매개변수를 30초로 설정하는 것이 좋다. 이렇게 하면 EC2 인스턴스가 매우 빨리 드레인되고 오프라인으로 전환된다. 업로드 또는 긴 지속 요청이 있는 경우 값을 높게 설정하는 대신에 인스턴스가 빨리 사라지지는 않을 것이다.
+
+**정리**
+- 인스턴스가 등록 해제(Deregestration)되거나 Unhealthy 상태로 표시될 때 In-flight 요청 또는 Active 요청을 완료할 충분할 시간이 필요하다. 이를 Deregistration Delay를 통해서 보장한다.
+- 인스턴스가 Drain 되어 연결이 Drain되면 ELB는 인스턴스가 Deregistration되는 동안 Drain 중인 EC2 인스턴스로 요청을 보내지 않는다. 그리고 존재하는 커넥션이 완성되길 기다린다.
+- CLI에서는 deregistration_delay.timeout_seconds 파라미터 값으로 시간을 조정하며, 기본 값은 300초(5분)이고 값을 0으로 설정하면 Drain이 발생하지 않는다. 최대 3,600의 값까지 설정 가능하다.
+- 애플리케이션의 요청이 짧은 경우 매개 변수를 30초 정도로 설정하는 것이 좋다. 이렇게 하면 EC2 인스턴스가 빨리 Drain되고 오프라인으로 전환된다. 
+- 업로드나 오래 지속되는 요청이 있는 경우 Deregistration을 높은 값으로 설정하고 싶지만 EC2가 빨리 사라지지 않으므로 Trade off가 될 수 있다.
 
 ## **Elastic Load Balancer - Health Checks**
 
