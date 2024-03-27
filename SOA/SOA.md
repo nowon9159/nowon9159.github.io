@@ -2795,7 +2795,7 @@ AWS는 모든 CloudFormation 템플릿에서 Pseudo Parameter를 제공하고 �
 
 ## **[DVA] CloudFormation - Mappings**
 
-매칭은 클라우드포메이션 템플릿 내에서 고정된 변수이며, 다른 환경 간에 차이를 두고 싶을 때 매우 편리하다.
+매핑은 클라우드포메이션 템플릿 내에서 고정된 변수이며, 다른 환경 간에 차이를 두고 싶을 때 매우 편리하다.
 
 예를 들어 dev, prod와 같이 다른 값을 제공하거나 AWS 지역이나 AMI 유형과 같은 Region에 따라 다른 값을 제공하고 싶을 때 유용하다.
 
@@ -2820,12 +2820,28 @@ Mappings:
 `Fn::FindInMap: [ MapName, TopLevelKey, SecondLevelKey ]`
 `!FindInMap [ MapName, TopLevelKey, SecondLevelKey ]`
 
+```yaml
+Resources:
+  MyEC2Instance:
+    Type: AWS: :EC2:: Instance
+    Properties:
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", HVM64]
+      InstanceType: t2.micro
+```
+
 언제 매핑을 사용하는 것이 좋고 언제 매개 변수를 사용하는 것이 좋을까?
 **매핑은 미리 모든 값을 알고 있고 지역, 가용 영역, AWS 계정, 환경(Dev, Prod)과 같은 변수에서 유도할 수 있는 경우에 좋다.**
 
 이러한 템플릿에 대해 더 안전한 제어를 제공한다.
 
 그러나 사용자가 원하는 값이 실행 시점에 어떤 것이며 사용자에게 최대한의 자유를 제공하려면 매개 변수를 사용해야 한다.
+
+**정리**
+- Mappings는 Templates 내에서 고정된 변수이며, 다른 환경 간에 차이를 두고 싶을 때 매우 편리하게 사용된다.
+- 예를들어 dev, prod에 따라 다른 값을 제공하거나 AWS Region이나 AMI 유형과 같이 Region에 따라 다른 값을 제공하고 싶을 때 유용하다.
+- Mappings는 미리 모든 값을 알고 있고 Region, Availability Zone, AWS 계정, 환경(Dev, Prod)과 같은 변수에서 유도할 수 있는 경우 좋다.
+- 매핑 값에 액세스하려면 !FindInMap 함수를 사용하면 된다. `!FindInMap [ MapName, TopLevelKey, SecondLevelKey ]`
+
 
 ## **[DVA] CloudFormation - Outputs & Exports**
 
