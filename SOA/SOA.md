@@ -2373,7 +2373,7 @@ Beanstalk에는 두 가지 배포 모드가 있다.
 
 첫 번째는 단일 인스턴스로, 개발 목적에 적합하다.
 이 경우 Elastic IP가 있는 하나의 EC2 인스턴스가 있을 것이고, 옵션으로 RDS 데이터베이스를 시작할 수도 있다.
-그리나 모든 것이 Elastic IP가 있는 인스턴스를 기반으로 한다.
+그러나 모든 것이 Elastic IP가 있는 인스턴스를 기반으로 한다.
 
 개발 목적으로는 훌룡하지만 실제로 사용할 때 Elastic Beanstalk를 확장하고 싶다면 로드 밸런서를 사용해 고가용성을 확보해야한다.
 
@@ -2382,6 +2382,47 @@ Beanstalk에는 두 가지 배포 모드가 있다.
 마지막으로 RDS 데이터베이스는 마스터와 스탠바이가 있는 멀티 AZ로 구성될 수 있다.
 
 시험에서 알아야할 점은 만약 Beanstalk의 배포 속도가 느리다면 Golden Image를 미리 구축해두는 것이 좋다.
+
+**정리**
+- Beanstalk는 단일 서비스로 개발자 중심의 애플리케이션을 배포하는데 유용함
+- 왜? 개발자는 인프라를 관리하는 지식이 부족하고, 배포할 애플리케이션이 동일한 아키텍쳐를 따르는 경우 매번 재생성할 수 없기 때문
+- 단일 인터페이스에서 EC2, ASG, ELB, RDS와 같은 모든 구성 요소를 자동으로 배포하고 재사용하는 관리형 서비스를 제공함. 그래서 개발자는 코드 자체만 신경쓰면 된다.
+- Beanstalk의 간단한 기능
+  - 용량 프로비저닝
+  - 로드 밸런서의 모든 구성
+  - 스케일링
+  - 응용 프로그램 상태 모니터링
+  - 인스턴스 구성
+- Beanstalk는 아래와 같은 구성요소
+  - 애플리케이션
+  - 애플리케이션의 버전
+    - 간단히 말해 코드의 버전 관리를 하는 것으로 생각하면 됨
+    - v1, v2, v3 등이 될 수 있다.
+  - 환경 (Environment)
+    - 환경은 특정 응용 프로그램 버전을 실행하는 리소스의 모음
+    - 한 번에 한 환경에서만 응용 프로그램 버전을 가질 수 있으며, v1에서 v2로 응용 프로그램 버전을 업데이트할 수 있다.
+    - Tier: Beanstalk 에는 `Web server Tier` 와 `Worker Tier` 두 가지가 있음
+    - Beanstalk에서 dev, test, prod와 같이 여러 환경을 만들 수 있다.
+- 전체적인 프로세스는 아래와 같지만 Manage Environment하는 과정에서 새 버전을 업데이트해서 새 버전으로 다시 배포할 수 있다.
+  1. 응용 프로그램 생성 (Create Application)
+  2. 새 버전 업로드 (Upload Version)
+  3.  환경 시작 (Launch Environment)
+  4.  환경 관리 (Manage Environment)
+- Beanstalk는 Go, Java SE, PHP,Python 등등 많은 프로그래밍 언어를 지원함.
+- Web Server Tier와 Worker Tier
+  - Web Server Tier는 로드 밸런서가 트래픽을 보내는 여러 EC2 인스턴스를 포함하는 ASG에 트래픽을 보내는 전통적인 아키텍처
+  - Worker Tier는 클라이언트가 직접 EC2 인스턴스에 액세스 하지 않고, SQS Queue를 사용해 메시지를 보내고 EC2 인스턴스는 Queue에서 메시지를 Pull한다.
+    - SQS 메시지에 따라 Worker 인스턴스가 스케일링된다.
+  - Web Server Tier에서 일부 메시지를 Worker Tier의 SQS로 보내 두 환경을 함께 사용할 수도 있다.
+- Beanstalk는 두 가지 배포 모드가 있다.
+  - 단일 인스턴스 (Single-instance environments)
+    - 개발 목적에 적합하다.
+    - Elastic IP가 있는 하나의 EC2 인스턴스와 선택적으로 RDS 데이터베이스도 함께 구성 가능하다.
+  - 로드밸런서 사용 고가용성 모드 (Load-balanced environments)
+    - 운영 목적에 적합하다.
+    - 운영 환경에서는 Beanstalk를 확장하고자 한다면 로드 밸런서를 사용해 여러 EC2 인스턴스에 부하를 분산하고 이를 ASG로 관리하며 여러 가용 영역을 사용해 고가용성을 확보해야한다.
+    - RDS 데이터베이스는 Multi-AZ로 구성 가능하다.
+  - **시험에서 알아야할 점은 Beanstalk의 배포 속도가 느리다면 AMI로 Golden Image를 미리 구축해두는 것이 좋다.**
 
 ## **[DVA] CloudFormation - Overview **
 
