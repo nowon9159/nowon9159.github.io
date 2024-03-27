@@ -2976,6 +2976,7 @@ Intrinsic Funtions(내장 함수)는 무조건 알아야 할 것이 있다.
   - Fn::FindInMap
   - Fn::ImportValue
   - Condition Functions(Fn::If, Fn::Not, Fn::Equals etc...)
+  - Fn::Base64
 - 일반
   - Fn::Join
   - Fn::Sub
@@ -2989,6 +2990,22 @@ Intrinsic Funtions(내장 함수)는 무조건 알아야 할 것이 있다.
 느낌표와 함께 항상 축약하여 사용된다. !Ref
 
 **GetAtt 함수**는 템플릿에서 생성한 모든 리소스에 연결된다. 이 함수는 속성을 가져오는 데 사용된다.
+
+```yaml
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      Imageld: ami-0742b4e673072066f
+      InstanceType: t2.micro
+
+EBSVolume:
+  Type: AWS::EC2::VoLume
+  Condition: CreateProdResources
+  Properties:
+    Size: 100
+    AvailabilityZone: !GetAtt EC2Instance.AvailabilityZone
+```
 
 ```yaml
 AWSTemplateFormatVersion: 2010-09-09
@@ -3025,6 +3042,28 @@ ImportValue 함수는 다른 스택에서 내보낸 값을 가져오는 데 사�
 Base64 함수는 문자열을 Base64 표현으로 변환하는 데 사용된다. 주로 EC2 인스턴스의 Userdata에 데이터를 전달할 때 사용된다.
 
 이런 식으로 내장 함수들은 템플릿 내에서 동적이고 유연한 작업을 수행하는 데 중요한 도구이다.
+
+**정리**
+- Intrinsic Functions
+  - 무조건 알아야하는 함수
+    - Ref
+      - Parameter에 대한 값 또는 EC2 인스턴스와 같은 생성된 리소스의 물리적 ID를 반환하는 등에 사용된다. 
+      - !Ref 이렇게 사용한다.
+    - Fn::GetAtt
+      - 템플릿에서 생성한 모든 리소스에 연결되며, 이 함수는 속성을 가져오는 데 사용된다.
+      - 예를 들어 다른 리소스에 있는 항목에 대한 값을 !GetAtt 를 이용해서 불러올 수 있다.
+    - Fn::FindInMap
+      - 특정 맵에서 특정 키의 값을 가져오는 데 사용됨. 주로 Mappings의 값을 가져오는 데 사용된다.
+    - Fn::ImportValue
+      - 주로 다른 스택에서 Export 한 값을 가져오는 데 사용된다.
+    - Condition Functions(Fn::If, Fn::Not, Fn::Equals etc...)
+    - Fn::Base64
+      - 문자열을 Base64로 변환하는 데 사용되며, 주로 EC2 인스턴스의 Userdata에 데이터를 전달할 때 사용된다.
+  - 일반
+    - Fn::Join
+    - Fn::Sub
+    - Fn::ForEach
+    - Fn::ToJsonString
 
 ## **[DVA] CloudFormation - Rollbacks**
 
