@@ -2901,6 +2901,14 @@ Fn::ImportValue 함수를 이용하면 다른 스택에서 내보낸 값을 가�
 
 두 개의 다른 CloudFormation 템플릿을 연결할 수 있는데, 연결된 상황에서 첫 번째 스택이 내보낸 값을 더 이상 참조하지 않을 때까지 첫 번째 스택을 삭제할 수 없다. **증요**
 
+**정리**
+- Outputs는 선택적으로 특정 값을 선언해서 출력하는 값이고, Export하게 되면 Console이나 CLI를 사용해서 output의 값을 볼 수 있다.
+- 예를들어 네트워크 스택을 정의하고 VPC ID, Subnet ID를 출력해 다른 스택에서 재사용하는 경우 Outputs이 매우 유용하다.
+- 또한 다른 Stack에서 해당 Output 값을 참조할 수 있다.
+  - Fn::ImportValue 함수를 이용하면 다른 스택에서 내보낸 값을 가져올 수 있다.
+  - **중요한 사항 중 하나는 Export와 ImportValue를 통해 스택 간 연결을 한 경우 ImportValue로 참조하지 않을 때까지 Export한 스택을 삭제할 수 없다.**
+
+
 ## **[DVA] CloudFormation - Conditions**
 
 Condition은 특정 조건에 기반하여 리소스 또는 output의 생성을 제어하는 데 사용된다.
@@ -2949,6 +2957,14 @@ EnableFeature의 파라미터와 동일하다면 true가 된다.
 조건을 리소스에 적용하지만 출력 등에도 적용할 수 있다.
 
 시험에서는 Conditions를 작성하는 방법을 알 필요는 없다. 조건이 존재한다는 것을 알기만 하면 된다.
+
+**정리**
+- Condition은 특정 조건에 기반하여 리소스 또는 Output의 생성을 제어하는 데 사용된다.
+- 주로 Environment(dev, prod), AWS Region, Parameter의 값 등으로 조건을 만드는 것이 흔하다.
+- 각 Condition은 서로를 참조하고 Parameters나 Mappings를 참조할 수 있다.
+- Conditions는 And, Equals, If, Not, Or과 같은 모든 함수를 사용할 수 있다.
+- 조건은 리소스 뿐만 아니라 Outputs에도 적용할 수 있다.
+
 
 ## **[DVA] CloudFormation - Intrinsic Functions**
 
