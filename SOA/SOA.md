@@ -2690,11 +2690,46 @@ Default: t2.micro
 
 매개 변수를 어떻게 사용하는지 살펴보자
 
-!Ref 함수를 사용하면 매개 변수를 참조하고 템플릿으 ㅣ어디에서나 사용할 수 있다.
+!Ref 함수를 사용하면 매개 변수를 참조하고 템플릿의 어디에서나 사용할 수 있다.
 
 Fn::Ref 를 사용할 수도 있지만 !Ref라는 약식 버전이 있다.
 
 이 함수는 매개 변수를 참조하는 것뿐만 아니라 템플릿 내의 다른 요소를 참조하는데 사용할 수 있다.
+
+```yaml
+Parameters:
+  SecurityGroupDescription:
+    Description: Security Group Description
+    Type: String
+
+Resources:
+  MyInstance:
+  Type: AWS:: EC2:: Instance
+  Properties:
+    AvailabilityZone: us-east-la
+    ImageId: ami-0a3c3a20c09d6f377.
+    InstanceType: t2.micro
+    SecurityGroups:
+      - !Ref SSHSecurityGroup
+      - !Ref ServerSecurityGroup
+```
+
+```yaml
+# our second EC2 security group
+ServerSecurityGroup:
+  Type: AWS::EC2::SecurityGroup
+  Properties:
+    GroupDescription: !Ref SecurityGroupDescription
+    SecurityGroupIngress:
+    - IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      CidrIp: 0.0.0.0/0
+    - IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      CidrIp: 192.168.1.1/32
+```
 
 예를들어 SecurityGroupDescription이라는 매개변수에 Description과 Type: String 을 설정하고 제약 조건이 없다고 가정해보자
 
@@ -2728,9 +2763,39 @@ AWS는 모든 CloudFormation 템플릿에서 Pseudo Parameter를 제공하고 �
 - AWS::NoValue
   - 아무 값도 리턴하지 않는 것
 
+**정리**
+- Parameter는 템플릿에 인풋을 제공하는 방법이다. 사용자로 하여금 인풋을 매개 변수를 이용해 입력하고, 결과적으로 여러 사람이 여러 매개 변수를 제공할 수 있도록 재사용할 수 있는 방법이다.
+- 예를 들어 SecurityGroupDescription 매개 변수를 설정했다면 해당 매개 변수를 이용해 보안 그룹의 설명을 설정할 수 있다.
+- 결과적으로 Parameter는 미래에 변경될 가능성이 있는 항목을 만드는 것이 좋다. 왜? 해당 값을 업데이트하려면 템플릿을 다시 업로드할 필요 없이 매개 변수만 수정하여 업데이트 하면 되기 때문. 또한 미리 결정할 수 없다면 매개 변수로 만들어야 함.
+- Parameter type 은 다양하다. String, Number, CommaDelimitedList, List, AWS-Specific Parameter, SSM Parameter, Description, ConstraintDescription(제약 조건), Min/MaxLength, Min/MaxValue, Default, AllowedValues(array), AllowedPattern(regex), NoEcho(Boolean) 등이 있다.
+- 모든 것을 기억할 필요 없고, 매개 변수는 단순한 문자열이 아닌것만 알아두면 된다.
+- 파라미터는 제약 조건과 유효성 검사를 가질 수 있어서 안전하게 사용 가능하다.
+- 예시
+  - InstanceType이라는 매개 변수가 있다고 했을 때 AllowedValues로 매개 변수를 제공하게 되면 해당 매개 변수 리스트에 있는 값 중 하나만 선택할 수 있다. 선택권은 주어지지만 변수의 값을 제어할수는 없다.
+  - DBPassword라는 매개 변수가 있을 때 NoEcho 매개 변수를 사용하면 DB에 대한 비밀번호를 어디에서도 표시되지 않도록 NoEcho: true 로 설정해 로그에서 제거할 수 있다.
+- 파라미터 사용
+  - Fn::Ref 또는 !Ref 를 사용해 매개 변수를 참조하고 템플릿의 어디에서나 사용할 수 있다.
+  - 이 함수는 매개 변수뿐만 아니라 템플릿 내의 다른 요소를 참조하는 데 사용할 수도 있다.
+  - 예를들어 `!Ref SecurityFroupDescription` 을 이용해서 설명을 String의 형태로 불러오거나, `!Ref SSHSecurityGroup` 를 이용해서 설정되어 있는 SecurityGroup 리소스의 리스트를 그대로 다른 SecurityGroup에서 참조하게 할 수도 있다.
+  - 그래서 매개 변수를 참조하는 데 리소스가 매개 변수와 동일한 이름을 가지지 않도록 주의해야 한다.
+- Pseudo Parameter
+  - AWS는 모든 CloudFormation 템플릿에서 따로 매개변수를 생성하지 않더라도 언제든지 사용할 수 있는 Parameter가 정의되어 있다.
+  - AWS::AccountId
+    - 실제 계정 ID를 자동으로 확인할 수 있다.
+  - AWS::Region
+    - 템플릿이 위치한 리전 값
+  - AWS::StackId
+    - 스택 ID
+  - AWS::StackName
+    - 스택 이름
+  - AWS::NotificationARNs
+    - 알람 ARN 값
+  - AWS::NoValue
+    - 아무 값도 리턴하지 않는 것
+
 ## **[DVA] CloudFormation - Mappings**
 
-매칭은 클라우드포메이션 템플릿 내에서 고정된 변수이며, 다른 환경 간ㅇ ㅔ차이를 두고 싶을 때 매우 편리하다.
+매칭은 클라우드포메이션 템플릿 내에서 고정된 변수이며, 다른 환경 간에 차이를 두고 싶을 때 매우 편리하다.
 
 예를 들어 dev, prod와 같이 다른 값을 제공하거나 AWS 지역이나 AMI 유형과 같은 Region에 따라 다른 값을 제공하고 싶을 때 유용하다.
 
