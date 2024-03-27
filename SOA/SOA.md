@@ -2478,7 +2478,7 @@ CloudFormation 템플릿을 배포하는 방법은
   - CLI 또는 CD 도구를 사용해 템플릿을 배포할 수 있다.
   - 이는 플로우와 인프라를 완전히 자동화하려는 경우 권장되는 방법이다.
 
-CloudFormation의 기본 구성 요소
+CloudFormation Templates의 기본 구성 요소
 
 - Template
   - AWSTemplateFormatVersion: 템플릿을 읽는 방법을 정의하는 버전이다. AWS 내부 용도로 사용한다.
@@ -2488,6 +2488,51 @@ CloudFormation의 기본 구성 요소
   - Mappings: 템플릿의 정적 변수이며, 파라미터와는 차이점이 있다.
   - Outputs: 템플릿에서 어떤 항목들이 생성되었는지에 대한 출력이다.
   - Conditions: 리소스 생성을 수행하기 위한 조건
+
+**정리**
+- CloudFormation은 AWS 인프라의 모든 리소스에 대해 코드만을 사용해 개략적으로 설명하는 방법이다.
+- CloudFormation Templates에서는 원하는 모든 것이 존재하고 서로 연결되어야 한다고 선언하는 것.
+- 자동으로 지정한 구성과 정확한 순서로 리소스들을 생성할 수 있고, 콘솔에서 구성하거나 수동으로 작업할 필요 없이 모든 리소스가 CloudFormation을 통해 자동으로 프로비저닝 된다.
+- CloudFormation Designer에서는 템플릿에서 작성한 리소스가 다이어그램으로 보여진다.
+- CloudFormation을 사용하는 이유
+  - IaC 측면
+    - 인프라에 대한 모든 변경은 코드 변경을 통해 검토된다.
+    - CloudFormation Code를 Git과 같은 SVC를 이용해서 관리할 수 있다.
+    - 콘솔 및 CLI 등 수동으로 생성된 리소스가 없으며 수동으로 생성하지 않아도 관리가 뛰어나다.
+  - 비용 측면
+    - 스택 내 모든 리소스가 동일한 태그가 지정되므로 CloudFormation 스택이 비용을 얼마나 사용하는지 쉽게 확인 가능하다.
+    - CloudFormation Templates를 사용하면 리소스 비용을 쉽게 추정할 수 있다.
+    - 개발 환경에 템플릿을 17:00에 자동으로 삭제하고 20:00에 다시 생성하는 등 스케줄링을 통해 절약을 할 수 있다.
+  - 생산성 측면
+    - 인프라를 실시간으로 생성하고 다시 완전히 삭제할 수 있다. 온프레미스와는 다르게 클라우드의 전체적인 능력을 활용하는 것으로 사용한 만큼만 비용을 지불하면 된다.
+  - 분리 고려사항 측면
+    - VPC Stack, Network Stack, App Stack 등과 같이 여러 애플리케이션 및 여러 레이어에 대한 많은 CloudFormation Stack을 만들어 유기적으로 사용 가능하다.
+  - 재사용 측면
+    - 웹 및 문서에 있는 기존 템플릿을 활용해 빠르게 자신의 템플릿을 작성할 수 있다.
+- CloudFormation 작동 방식
+  - 템플릿을 반드시 S3에 업로드하여 CloudFormation에서 참조한다.
+    - 템플릿을 업데이트하려면 새로운 버전의 템플릿을 S3에 다시 업로드하여 스택을 업데이트하는 방법밖에 없다.
+  - CloudFormation에서 해당 템플릿을 참조해 스택이 생성된다.
+    - 스택은 AWS 리소스로 구성되어 있고, AWS에서 생성할 수 있는 모든 종류의 리소스이다.
+  - 스택은 리소스를 생성한다.
+- CloudFormation 템플릿 배포 방법
+  - 수동 방법
+    - 전체 프로세스를 확인하기 위한 학습 목적으로 이 방법을 사용한다.
+    - CloudFormation 디자이너나 VSCode같은 Code Editor에서 템플릿을 편집하고 콘솔을 사용해 매개변수를 입력할 수 있다.
+  - 자동 방법
+    - 인프라를 완전히 자동화하려는 경우 권장되는 방법이다.
+    - Yaml 파일로 템플릿을 편집하고 CLI 또는 CD 도구를 사용해 템플릿을 배포하여 리소스를 배포할수 있다.
+- CloudFormation Templates의 기본 구성 요소
+  - AWSTemplateFormatVersion: 템플릿을 읽는 방법을 정의하는 버전이며, AWS 내부 용도로 사용한다. 예:"2010-09-09"
+  - Description: 템플릿에 대한 주석
+  - Resource(필수 요소): 템플릿에서 선언된 모든 AWS 리소스를 정의한다.
+  - Parameter: 템플릿에 동적으로 입력 값을 주는 것.
+  - Mappings: 템플릿의 정적 변수, 파라미터와는 다르다.
+  - Outputs: 템플릿에서 어떤 항목들이 생성되었는지에 대한 출력
+  - Conditions: 리소스 생성을 수행하기 위한 조건
+- Template Helper
+  - Reference
+  - Functions
 
 ## **[DVA] YAML Crash Course**
 
@@ -2535,6 +2580,14 @@ Resources:
           ToPort: 80
 ```
 
+**정리**
+- YAML은 JSON과 비슷한 키-값 쌍을 사용하는 문서 형식이다.
+- CloudFormation 템플릿을 작성할 때 가독성과 쉽게 구성할 수 있는 측면에서 YAML을 사용하고 있다.
+- 들여쓰기 된 여러 키-값 쌍이 있는데, 이를 YAML에서는 Nested Object라고 한다.
+- 배열을 지원하며 `-` 기호를 이용해 여러 개의 배열을 나타낸다.
+- 다중 행 문자열을 `|` 기호를 이용해 지원한다.
+- 주석을 `#` 기호를 이용해 지원한다.
+
 ## **[DVA] CloudFormation - Resources**
 
 Resources는 CloudForamtion 템플릿의 핵심이며 전체 CloudFormation 템플릿에서 유일하게 필수인 섹션이다.
@@ -2570,6 +2623,15 @@ Properties:
 2.  모든 AWS 서비스가 지원되는가?
     - 신규 서비스를 제외하고 거의 모든 서비스가 CloudFormation을 지원한다.
     - CloudFormation Custom Resources를 사용하면 지원되지 않는 서비스를 처리할 수 있다.
+
+**정리**
+- Resources는 CloudFormation 템플릿의 핵심이며 전체 템플릿에서 유일하게 필수인 섹션이다.
+- 여러 AWS 구성 요소를 나타내며 선언되고 서로 참조할 수 있으며, AWS 내부에서 자원의 생성, 업데이트 및 삭제를 우리 대신 처리해준다.
+- Resources의 Type은  `service-provider::service-name::data-type-name` 의 형식으로 되어 있으며, 예를 들어 EC2 인스턴스의 경우 `AWS::EC2::Instance` 로 표기한다.
+- Properties의 경우 key-value 쌍의 목록이며, 여러 개의 Properties를 지정할 수 있고 User guide 페이지를 확인하면 여러 항목을 어떻게 사용하는지 확인 가능하다.
+- Resource FAQ
+  - "동적인 수의 리소스를 생성할 수 있는지?": CloudFormation Macros와 Transform을 사용하면 가능하다. *강의 범위에 포함되지 않는다.*
+  - "모든 AWS 서비스가 지원되는 지?": 신규 서비스를 제외하고 거의 모든 서비스가 CloudFormation을 지원하며, CloudFormation Custom Resources를 사용하면 지원되지 않는 서비스를 처리할 수 있다.
 
 ## **[DVA] CloudFormation - Parameters**
 
