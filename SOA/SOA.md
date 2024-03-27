@@ -2180,6 +2180,31 @@ ASG에는 우리가 정의해야 할 최소 크기, 최대 크기 및 초기 용
 - 런치 템플릿은 Placement Group, capacity reserve, dedicated host 및 여러 인스턴스 유형을 지원한다.
 - T2 무제한 버스트 기능을 사용할 수 있다.
 
+**정리**
+- ASG에 속해있는 인스턴스에 대한 라이프사이클 훅이 있다. 인스턴스를 시작하거나 종료할 때 실행되는 것이다.
+  - Pending
+    - 기본적으로 인스턴스를 생성하면 Pending 상태에서 InService 상태로 즉시 전환된다. 그러나 추가적인 단계를 수행하기 위해 훅을 설정하는 것이다.
+  - Pending:Wait
+    - Pending 후에 훅의 일부로 Pending:Wait 상태로 이동할 수 있다. 인스턴스가 시작될 때 실행할 스크립트를 정의할 수 있다. 예를들어 인스턴스의 초기 설정을 위해 스크립트를 정의하고 수행이 완료되면 Pending:Proceed 상태로 이동하도록 한다.
+  - Pending:Proceed
+  - InService
+  - Terminating
+  - Terminating:Wait
+    - 인스턴스가 종료되기 전에 작업을 수행할 수도 있다.
+    - 인스턴스가 종료되기 전에 스크립트를 실행하거나, 몇 가지 로그를 가져오거나, 정보를 가져오거나, AMI를 만들거나, EBS 스냅샷을 찍을수도 있다.
+  - Terminating:Proceed
+  - Terminated
+  - 전반적인 과정은 차례대로의 순서대로 거친다. 사용자 지정 작업은 Pending:Wait 또는 Termination:Wait로 전환될 때 수행 가능하다.
+  - 라이프사이클 훅의 사용 사례는 인스턴스가 시작되고 InService로 전환되기 전에 구성하는 과정과, 로그 추출 또는 특수 Health Check를 수행하는 것이다.
+  - 라이프라이클 훅은 EventBridge, SNS 및 SQS를 이용해서 스크립트를 통합할수도 있다. 예를들어 라이프사이클 이벤트가 트리거 될 때 위 대상들에 메시지가 전송되며, 특히 EventBridge로 메시지를 전송하는 경우 Lambda와의 통합을 통해 함수를 호출해 추가적인 스크립팅을 수행 가능하다.
+- ASG는 Launch Templates이 있다.
+  - EC2를 시작하기 위해 필요한 AMI, 인스턴스 유형, 키페어, 보안그룹 및 기타 매개변수, 태그 및 Userdata와 같은 정보를 Launch Templates를 이용해 ASG가 인스턴스를 시작하는 데 이용할 수 있다.
+  - Launch Templates의 경우 편집은 할 수 없고 v1, v2 등 새로운 버전을 만들어 구성해야한다.
+  - 버저닝을 이용해서 매개 변수 하위 집합을 만들어 구성 재사용 및 상속을 위해 다른 템플릿을 기반으로 런치 템플릿을 만들수도 있다.
+  - Launch Templates를 이용해 온디맨드 및 스팟 인스턴스 또는 둘을 혼합해 최적화된 Fleet을 가질 수 있다.
+  - T2 Unlimited Burst 기능을 사용할 수 있다.
+  - Launch Configuration이라는 유사한 기능을 하는 서비스가 있지만 레거시한 기능이라 실제로 더 이상 사용되지 않는다.
+
 **SQS와 Auto Scaling**
 
 - 어떻게 SQS 큐 상태를 기반으로 ASG를 스케일링할 것인가에 대한 내용이다.
