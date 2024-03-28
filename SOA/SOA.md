@@ -4229,7 +4229,7 @@ S3 이벤트 알림의 경우 S3 버킷에 파일을 업로드하면 새 파일 
 
 예를 들어 일정이나 target의 utilization등의 지표에 대해 예약된 람다 함수를 충분히 확보해 사용할 준비가 되었는지 확인하고 콜드 스타트 문제를 최소화할 수 있다.
 
-이전에는 VPC에서 람다 함수를 실행할 때마다 시간이 오래 걸리곤 했는데, VPC의 콜드 스타트 시간을 획기적으로 줄이기 위해 별도의 발법이 있다. [링크](https://aws.amazon.com/ko/blogs/compute/announcing-improved-vpc-networking-for-aws-lambda-functions/)
+이전에는 VPC에서 람다 함수를 실행할 때마다 시간이 오래 걸리곤 했는데, VPC의 콜드 스타트 시간을 획기적으로 줄이기 위해 별도의 방법이 있다. [링크](https://aws.amazon.com/ko/blogs/compute/announcing-improved-vpc-networking-for-aws-lambda-functions/)
 
 ## **Lambda Monitoring - Extras**
 
