@@ -3111,6 +3111,11 @@ CloudFormation에 할당할 Service Role을 생성하고, 해당 역할은 버�
 
 보안을 위한 사용 사례로는 최소 권한 원칙을 실현하고 사용자에게 스택 리소스를 생성할 수 있는 모든 권한을 부여하지 않고 CloudFormation에서 서비스 역할을 호출할 수 있는 권한만 부여하려는 경우가 있다. 이를 위해 사용자는 iam:PassRole이라는 권한을 가지고 있어야 한다.
 
+**정리**
+- CloudFormation은 IAM 기반의 서비스 역할을 생성해 실제로 사용자를 대신해 스택 리소스를 생성 및 업데이트, 삭제할 수 있다.
+- 예를 들어 사용자는 템플릿을 생성할 수 있는 CloudFormation에 대한 모든 권한과 PassRole이 있을 때 사용자가 PassRole을 이용해서 역할을 전달할 수 있기 때문에 해당 역할에 버킷을 생성, 업데이트 및 삭제할 수 있는 권한이 있다면 이 서비스 역할을 사용해 S3 버킷을 생성할 수 있다.
+-  보안을 위해서는 최소 권한 원칙을 준수하고 사용자에게 스택 리소스를 생성할 수 있는 모든 권한을 부여하기 보다 CloudFormation에서 서비스 Role을 호출할 수 있는 권한만 부여하고, 사용자에게는 iam:PassRole 권한을 부여하면 된다.
+
 ## **[DVA] CloudFormation - Capabilities**
 
 **CAPABILITY_NAMED_IAM**과 **CAPABILITY_IAM**이 있다.
