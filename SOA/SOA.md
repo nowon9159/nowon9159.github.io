@@ -3997,6 +3997,12 @@ CloudWatch Events 또는 EventBridge를 Lambda와 통합하는 방법에 대해 
 
 또는 코드 파이프라인 상태가 변경될 때마다 감지하고 상태 변경시 Lambda 함수를 호출하여 작업을 수행하도록 하는 CodePipeline EventBridge 규칙을 만들 수도 있다.
 
+**정리**
+- CloudWatch Events 또는 EventBridge와 Lambda를 통합할 수 있다.
+- 서버리스 Cron 또는 Rate 기반 EventBridge Rule을 사용하는 방법
+  - 예를 들어 EventBridge Rule을 생성해 1시간마다 람다 함수가 작업을 수행하도록 트리거하는 것
+- CodePipeline EventBridge Rule을 이용해서 코드 파이프라인 상태를 감지하고 상태변경 시 Lambda 함수를 호출해 작업을 수핼할 수도 있다.
+
 ## **Lambda & S3 Event Notifications**
 
 S3 Event Notification과 Lambda를 통합하는 방법을 알아보자
@@ -4018,6 +4024,9 @@ S3 Event Notification은 일반적으로 몇 초 안에 이벤트를 전달하�
 메타데이터를 동기화하는 패턴이 있다.
 S3 버킷에 새 파일 이벤트가 Lambda로 전송된다.
 그리고 Lambda 함수는 해당 파일을 처리해 해당 데이터를 DynamoDB 테이블 또는 RDS 데이터베이스의 테이블에 삽입할 수도 있다.
+
+**정리**
+- 
 
 ## **Lambda Permissions - IAM Roles & Resource Policies**
 
