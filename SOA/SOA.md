@@ -3298,7 +3298,7 @@ CloudFormation을 이용하면 3가지 유형의 키를 사용해 Parameter Stor
 2.  Systems Manager Parameter Store에 저장된 보안 문자열을 나타내는 ssm-secure
 3.  그리고 Secrets Manager 서비스에 저장된 비밀 값을 나타내는 secretsmanager
 
-{{resolve:service-name:reference-key}} 아래와 같은 형태로 값을 불러올 수 있고 ssm 의 경우 {{resolve:ssm:parameter-name:version}}이다.
+{{resolve:[service-name]:reference-key}} 아래와 같은 형태로 값을 불러올 수 있고 ssm 의 경우 {{resolve:ssm:parameter-name:version}}이다.
 
 ```yaml
 MyRDSInstance:
@@ -3363,7 +3363,7 @@ MyDBInstance:
     MasterUserPassword: "{{resolve:secretsmanager:MyDatabaseSecret:SecretString:password}}"
 ```
 
-그 다음으로는 DB 인스턴스가 있는데, 이 데이터베이스 인스턴스는 resolve 함수를 활용해 RDS 데이터베이스 인스턴스에서 비밀을 참조할 것이다. (실제로 값은 Secrets Manager에 저장)
+그 다음으로는 DB 인스턴스가 있는데, 이 데이터베이스 인스턴스는 {{resolve}} 함수를 활용해 RDS 데이터베이스 인스턴스에서 비밀을 참조할 것이다. (실제로 값은 Secrets Manager에 저장)
 즉, 데이터베이스 인스턴스가 Secrets Manager에서 시크릿을 활용하게 된다.
 
 ```yaml
@@ -3376,6 +3376,18 @@ SecretRDSAttachment:
 ```
 
 마지막으로 위 두 가지를 서로 연결하고 비밀번호 Rotation이 있는지 확인하기 위해 SecretTargetAttachement를 만들어 데이터베이스에 Secrets Manager에서 이 Secret에 연결해야 한다는 것을 알려주면 시간이 지나면 Secret이 Rotate되고 RDS 데이터베이스가 자동으로 업데이트될 수 있다.
+
+**정리**
+- System Manager Parameter Store에 값을 저장하거나 Secrets Manager에 시크릿을 저장하고, 이 값들을 CloudFormation 템플릿에 참조할 수 있다.
+- 예를 들어 Secrets Manager에서 RDS 데이터베이스 인스턴스의 마스터 암호를 저장하고 불러올 수 있다.
+- CloudFormation에서 특정 값을 불러오려면 아래와 같은 Key를 사용해야한다.
+  - ssm: System manager parameter store에 저장된 평문 값을 나타낸다.
+  - ssm-secure: System manager parameter store에 저장된 보안 문자열을 나타낸다.
+  - secretsmanager: secrets manager 서비스에 저장된 비밀 값을 나타낸다.
+- 값을 불러올 때는 예를 들어 parameter store에 저장된 평문 값을 불러오고 싶다면 스택 내에서 {{resolve:ssm:parameter-name:version}} 라고 불러올 수 있다.
+- Secret의 ARN을 가져오기 위해서는 Output에서 !GetAtt 함수를 이용해서 불러올 수 있다.
+- 또한 GenerateSecretString를 잉요해서 직접 Secert을 생성할 수 있으며 CloudFormation 내에서 자동으로 비밀번호를 생성하고 동일하게 {{resolve}} 함수를 활용해 참조 가능하다.
+- 그리고 CloudFormation 내에서 자동으로 비밀번호를 생성한 경우 SecretTargetAttachment를 이용해 Target과 Secret을 연결해야 비밀번호 Rotation이 진행되어 자동으로 업데이트 된다.
 
 ## **CloudFormation - User Data**
 
