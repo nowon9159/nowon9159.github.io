@@ -4654,7 +4654,7 @@ EFS 는 여러 CloudWatch Metric이 있다.
 
 모든 모니터링 메트릭에는 파일 시스템을 클릭하고 Monitoring을 클릭해 직접 액세스할 수 있다.
 
-여기에서 Throughput은 75% 이상일 때 경고가 표시된다.
+예시로 Throughput을 75% 이상일 때 경고가 표시될 수 있다.
 
 IOPS 유형 별, 유형 별 Throughput, PercentIOLimit, 현재 EFS 파일 시스템에 연결된 클라이언트 수, EFS 파일 시스템에서 사용중인 스토리지 양 등이 있다.
 
