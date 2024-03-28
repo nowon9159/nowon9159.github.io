@@ -3502,7 +3502,7 @@ CloudFormation init 블록을 리소스의 메타데이터에 정의해야한다
   - Userdata는 인스턴스 첫 시작에만 적용 돼 Userdata를 다시 적용하려면 인스턴스를 종료하고 새로 만들어야 함
   - UserData를 더 읽기 쉽게 만들려면 어떻게 해야하는가?
   - UserData 스크립트 성공 여부를 어떻게 알 수 있을까?
-- 위와 같은 문제가 있어서 CloudFormation helper scripts를 사용한다. script는 Python 스크립트이고 Amazon Linux AMI와 함께 제공되거나 yum이나 dnf를 사용해 설치 가능하다. cfn-init은 그 중 하나의 중요한 스크립트이다.
+- 위와 같은 문제가 있어서 CloudFormation helper scripts를 사용한다. helper script는 Python 스크립트로 Amazon Linux AMI와 함께 제공되거나 yum이나 dnf를 사용해 설치 가능하다. cfn-init은 그 중 하나의 중요한 스크립트이다.
 - cfn-init은 Resources 내에서 Metadata 블록에 속하는 Config 블록으로 여러 구성 요소로 되어 있다.
   - packages는 MySQL, PHP 등과 같이 미리 패키지화 된 앱 및 구성 요소를 다운로드하고 설치하는 데 사용된다.
   - sources는 파일을 다운로드하고 EC2 인스턴스에 배치하는데 사용된다.
@@ -3609,7 +3609,7 @@ WaitCondition에서 Count 1 에 해당하는 신호를 받는데까지 대기하
 - cfn-init 스크립트가 실행된 직후 cfn-signal 스크립트를 실행하고 리소스 생성이 성공했는지 실패했는지 CloudFormation에 알려준다.
 - 필수적으로 WaitCondition을 정의해야 하는데 이는 템플릿이 cfn-signal로부터 신호를 받을때까지 기다린다.
   - CreationPolicy와 Type을 WaitCondition으로 지정해주어 하나 이상의 성공 신호를 확인해 2분의 타임아웃 시간동안 스크립트가 정상적으로 수행 되었는지 확인하는 것이다.
-- 최종적으로 cfn-signal 스크립트는 cfn-init 스크립트를 실행하고 실행한 결과를 cfn-signal 스크립트에서 사용하고 CloudFormation으로 전송하고 WaitCondition은 cfn-signal에서 정상적인 신호를 받을 때까지 기다린다.
+- 정리하자면 cfn-signal 스크립트는 cfn-init 스크립트를 실행하고 실행한 결과를 INIT_STATUS 변수로 저장해 cfn-signal 스크립트에서 사용하고 CloudFormation으로 쿼리를 전송하고 WaitCondition은 cfn-signal에서 정상적인 신호를 받을 때까지 기다리는 프로세스가 될 것이다.
 
 ## **CloudFormation - cfn-signal Failures**
 
