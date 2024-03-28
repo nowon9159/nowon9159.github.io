@@ -3236,11 +3236,19 @@ Resources:
 스택 정책은 의도하지 않은 업데이트로부터 리소스를 보호하는 것이며, 스택 정책을 설정하면 기본적으로 모든 리소스가 보호된다.
 업데이트를 허용하려는 리소스에 대해 명시적으로 "Allow"가 필요하다
 
+**정리**
+- Stack Policy는 전체 스택 또는 일부 스택을 업데이트로부터 보호할 경우 사용하면 유용하다.
+- Stack Policy는 JSON 문서로 스택 업데이트 중에 특정 리소스에서 허용되는 업데이트 작업을 정의한다.
+- Stack Policy를 설정하게 되면 기본적으로 모든 리소스가 보호되며 업데이트를 허용하려는 리소스에 대해 명시적으로 "Allow"가 필요하다.
+
 ## **[DVA] CloudFormation - Termination Protection**
 
 스택이 실수로 삭제되는 것을 방지하려면 Termination Protection을 사용해야한다.
 
 Termination Protection이 활성화되어 있으면 먼저 Termination Protection을 비활성화해야 스택을 삭제할수 있다고 출력이 될 것이다.
+
+**정리**
+- Termination Protection을 사용하면 스택이 실수로 삭제되는 것을 방지할 수 있고, 비활성화해야 스택을 삭제할 수 있다.
 
 ## **[DVA] CloudFormation - Custom Resources**
 
@@ -3263,12 +3271,19 @@ Resources:
 
 위 예제에서 볼 수 있듯이 Type 항목을 Custom::MyCustomResourceTypeName 로 지정했다. 예를 들어 Custom::MyLambdaResource 로 지정할수도 있다.
 
-ServiceToken은 Lamgda 함수의 ARN이나 SNS의 ARN을 기입하면 된다.
+ServiceToken은 Lambda 함수의 ARN이나 SNS의 ARN을 기입하면 된다.
 
 사용 사례는 S3 버킷에서 오브젝트를 삭제하는 게 있다.
 왜냐하면 비어 있지 않은 S3는 CloudFormation에서 삭제할 수 없기 때문이다.
 
 그래서 보통 유저가 delete stack을 할 때 Custom resource로 S3 버킷을 비우는 람다 함수를 생성해 사용한다.
+
+**정리**
+- CloudFormation에서 지원하지 않거나 CloudFormation 외부에서 사용자 정의 프로비저닝 로직을 정의하려면 사용자 정의 리소스가 필요하다.
+- 온프렘 리소스, Third-part 리소스, CloudFormation 스택의 생성, 업데이트 및 삭제 단계에서 Lambda 함수를 통해 사용자 지정 스크립트를 실행하려는 경우가 예다.
+- 시험에는 Lambda 함수를 실행해 S3 버킷을 삭제하기 전에 비우는 Custom Resource로 구성 된 스크립트가 자주 등장한다.
+- `Type: Custom::MyCustomResourceTypeName` 으로 정의하면 된다.
+- 만약 ServiceToken이 필요하다면 lambda 함수의 ARN을 기입하면 된다.
 
 ## **[DVA] CloudFormation - Dynamic References**
 
