@@ -4030,6 +4030,13 @@ S3 버킷에 새 파일 이벤트가 Lambda로 전송된다.
 - 가장 일반적으로 S3에 업로드된 모든 이미지의 썸네일 이미지를 생성하는 것이다.
 - S3에 이벤트가 발생하면 S3는 세 곳으로 보낼 수 있다.
   - SNS와 SNS 토픽에서 Fan out 패턴을 수행해 여러 SQS Queue로 보내는 방법
+  - SQS Queue로 보내서 람다 함수가 해당 SQS Queue를 직접 읽도록 하는 방법
+  - S3 Event Notification이 람다 함수를 직접 비동기 호출로 호출하는 방법, 그리고 이 람다 함수는 데이터로 원하는 모든 작업을 수행할 수 있고 문제가 발생할 경우 Dead Letter Queue를 설정할 수도 있다.
+- S3 Event Notification의 경우 일반적으로 몇 초 안에 이벤트를 전달하지만 1분 이상 걸릴 수도 있다. 그래서 Event Notification을 놓치지 않으려면 버킷에서 버전 관리를 활성화 해야하며, 비활성화일 경우 같은 개체에 두 개의 쓰기가 동시에 발생하는 경우 Notification을 두 개가 아닌 한 개만 받을 수도 있다.
+- 메타데이터를 동기화하는 패턴도 있다.
+  - S3 버킷에 새 파일 이벤트가 Lambda로 전송되면 Lambda는 해당 파일을 처리해 데이터를 DynamoDB 테이블 또는 RDS 데이터베이스의 테이블에 삽입할 수도 있다.
+
+
 
 ## **Lambda Permissions - IAM Roles & Resource Policies**
 
