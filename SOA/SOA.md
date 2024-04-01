@@ -4113,11 +4113,26 @@ AWSXRayDaemonWriteAccess라는 관리형 정책을 사용할 수 있다.
 X-Ray와 통신하기 위해 환경 변수를 설정해야 한다.
 이 환경 변수는 미리 예약되어 있어 함수 구성에서 설정할 수 없다.
 
-- \_X_AMZN_TRACE_ID: X-Ray 추적 헤더이다. 간접 호출할 때마다 환경변수가 변경된다.
+- X_AMZN_TRACE_ID: X-Ray 추적 헤더이다. 간접 호출할 때마다 환경변수가 변경된다.
 - AWS_XRAY_CONTEXT_MISSING: 기본적으로 필요한 변수이다. LOG_ERROR로 설정하면 된다.
 - AWS_XRAY_DAEMON_ADDRESS: 람다 함수와 관련해 엑스레이 데몬의 IP와 포트가 실행되는 위치를 알려주는 데몬 주소이다. IP_ADDRESS:PORT의 형태로 알려준다.
 
 환경 변수는 앞서 다른 환경 변수와 동일한 방식으로 액세스할 수 있다.
+
+**정리**
+- 람다는 로깅, 모니터링 및 Tracing을 수행할 수 있다.
+- Lambda Execution Log는 CloudWatch Logs에 자동으로 저장된다. 그런데, 올바른 IAM 정책이 있는 Execution Role이 포함되어 있는 경우에만 한해서이다.
+- CloudWatch 메트릭이 있다.
+  - Invocation, Duration, Concurrent Execution, Error Count, Success Rate, Throttles, Async Delivery Failure 등이 있다.
+  - Kinesis 또는 DynamoDB Stream 의 경우 Iterator Age라는 항목이 있는데, 스트림 읽기가 얼마나 지연되고 있는지를 의미한다.
+- Lambda는 X-Ray 서비스를 이용해서 Tracing할 수 있다.
+  - Lambda Configuration에서 활성화하면 되고, 활성화 하기만 하면 X-Ray 데몬이 자동으로 실행된다.
+  - 그래서 코드에서 X-Ray SDK를 사용하고, IAM Execution Role에 X-Ray에 쓸수 있는 권한이 있으면 된다. AWSXRayDaemonWriteAccess라는 관리형 정책을 사용할 수도 있다.
+  - SDK를 사용할 때 X-Ray와 통신하기 위해 환경 변수를 설정해야 한다.
+    - X-Amzn-Trace-Id: X-Ray Tracing 헤더이다. 
+    - AWS_XRAY_CONTEXT_MISSING: 기본적으로 필요한 변수이며, LOG_ERROR로 통상 설정한다.
+    - AWS_XRAY_DAEMON_ADDRESS: 가장 중요한 환경 변수로서, 엑스레이 데몬의 IP와 포트가 실행되는 위치를 알려주는 데몬 주소. IP_ADDRESS:PORT의 형태로 알려준다.
+
 
 ## **Lambda Function Performance**
 
