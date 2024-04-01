@@ -4353,6 +4353,29 @@ Lambda Insights는 기존 Lambda 함수에서 Lambda Layer로 사용해야하고
 
 따라서 함수를 실행하기만 해도 추가 확장 기능 덕분에 CloudWatch Logs 내에서 바로 Lambda Insights에 액세스할 수 있다.
 
+**정리**
+- 람다는 다양한 CloudWatch Metric이 있다.
+  - Invocations: 함수가 호출된 횟수를 제공한다. (성공/실패 모두 포함)
+  - Duration: 함수가 이벤트를 처리하는 데 소요되는 시간
+  - Errors: 에러가 발생한 호출의 횟수이다.
+  - Throttles: 스로틀 된 요청의 수를 나타낸다. 이는 동시성을 위한 용량이 부족했음을 의미한다.
+  - DeadLetterErrors: Lambda가 dead letter queues에 이벤트를 보내지 못한 횟수이다.
+  - IteratorAge: 스트림의 이벤트 소스 매핑에서 읽을 때마다 얼마나 멀리 떨어져 있는지 알 수 있다.
+  - ConcurrentExecutions: 동시에 이벤트를 처리하고 있는 함수 인스턴스의 수
+- 그리고 위 메트릭으로 아래와 같은 알람의 예시가 있다.
+  - Invocations 메트릭을 기반으로 함수가 호출된 수를 확인한다. 만약 0이라면 함수가 호출되고 있지 않은 것이기 때문에 문제가될 수 있다.
+  - Errors 메트릭을 기반으로 오류가 0보다 큰지 살펴보고 프로세스에 문제가 생겼을 때 알람을 받을 수 있다.
+  - Throttles 메트릭을 기반으로 0보다 큰지 살펴보고 용량이 부족한지 확인할 수 있다.
+- 람다의 로깅을 CloudWatch에서 확인할 수 있다.
+  - 함수 인스턴스마다 특정 로그 스트림을 갖도록 로그 그룹이 있는 CloudWatch Logs로 항목을 보낸다.
+  - 로그를 보낼 수 있도록 Execution Role에 로그 그룹을 생성하고 로그 스트림을 생성하고 로그 이벤트를 넣을 수 있는지 확인해야 한다.
+  - CloudWatch Logs Insights를 사용해 쿼리를 사용한 로그 검색도 가능하다. 예를 들어 지난 100개의 오류 검색, 전체 호출 중 cold start의 비율 검색, 메모리의 100%를 사용하는 호출을 몇 개나 되는지를 확인할 수 있다.
+- Lambda Insights
+  - 기존 람다 함수에서 Lambda Layer로 제공되는 람다 모니터링 Extension이다. 함수를 실행하기만 해도 CloudWatch Logs 내에서 바로 Lambda Insights에 액세스 가능하다.
+  - CPU Time, 메모리, 디스크, 네트워크 등의 시스템 수준 메트릭과 cold start, lambda worker shutdown 등의 진단 정보를 확인할 수 있다.
+  - 위와 같은 메트릭을 JSON 파일과 같은 문서로 남기고 CloudWatch Logs에서 Lambda Insights 로그 그룹(/aws/lambda-insights)으로 전송된다.
+  - 시스템 수준의 정보를 확인 가능하기 때문에 람다 함수와 관련된 문제를 매우 빠르게 격리할 수 있다.
+
 ## **[CCP/SAA/DVA] EBS Overview**
 
 EBS 볼륨이 무엇인지 정의해보자
