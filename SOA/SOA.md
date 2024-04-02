@@ -4917,6 +4917,15 @@ EFS는 라이프사이클 정책을 활성화하거나 IA로 전환하거나 IA 
 
 또한 EFS를 암호화하거나 암호화를 변경하려면 DataSync를 사용해야한다.
 
+**정리**
+- EFS는 라이프사이클 정책을 활성화할 수 있다. IA를 활성화 하거나, IA 설정을 변경할 수 있다.
+- 처리량 모드를 변경하거나, 프로비저닝된 처리량 수를 변경할 수 있다.
+- EFS Access Points를 생성할 수 있다.
+- 만약 EFS 파일 시스템 전체를 마이그레이션 하려면 DataSync 서비스를 사용해야한다. 
+  - DataSync가 모든 속성과 메타데이터를 복제하기 때문이다.
+  - 또한 암호화된 EFS로 마이그레이션 하거나, 다른 암호화 키를 사용하기 위해 마이그레이션 하려면 DataSync를 사용해야 한다.
+  - Max I/O와 같은 Performance mode를 활성화하려면 DataSync를 사용해야 한다.
+
 ## **EFS - CloudWatch Metrics**
 
 EFS 는 여러 CloudWatch Metric이 있다.
