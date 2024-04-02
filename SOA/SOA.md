@@ -5170,6 +5170,14 @@ http://bucket-name.s3-website.Region.amazonaws.com 등의 이름으로 나타날
 그래서 버킷 정책을 공개적으로 읽기 위해 활성화 하면 된다.
 403 에러가 발생하게 된다면 버킷이 공개되지 않았다는 의미이다.
 
+**정리**
+- S3를 사용해 정적 웹사이트를 호스팅하고 이를 인터넷에서 액세스할 수 있도록 제공할 수 있다.
+- 웹사이트의 URL은 AWS Region에 따라 달라진다.
+- Static Website Hosting 옵션을 활성화하게 되면 버킷의 HTML 파일이나 이미지와 같은 파일을 제공할 수 있다.
+- URL의 경우 http://bucket-name.s3-website-Region.amazonaws.com 등으로 사용자가 우리의 S3 버킷에 액세스할 수 있다.
+- S3 버킷에 Public 읽기 권한이 없으면 작동하지 않는다. Bucket Policy를 공개적으로 읽기 위해 활성화하면 된다.
+- 403 에러가 발생하게 된다면 버킷이 공개되지 않았다는 의미이다.
+
 ## **[CCP/SAA/DVA] S3 Versioning**
 
 S3에서는 파일을 버전으로 관리할 수 있으며 이는 버킷 레벨에서 활성화해야 하는 설정이다.
