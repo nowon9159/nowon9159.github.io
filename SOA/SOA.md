@@ -4948,6 +4948,18 @@ IOPS 유형 별, 유형 별 Throughput, PercentIOLimit, 현재 EFS 파일 시스
 
 실시간 정보를 얻으려면 시계열 또는 단일 값으로 선택할 수 있다.
 
+**정리**
+- PercnetIOLimit
+  - General Purpose mode의 경우 I/O Limit을 제공해준다.
+  - 100%에 가까워질수록 Max I/O로 전환하여 EFS 파일 시스템의 I/O 용량을 증가시키는 것이 좋다. 전환시에는 DataSync 서비스를 이용해야 한다.
+- BurstCreditBalance
+  - General Purpose mode의 경우 높은 처리량을 위한 Burst Credit이 있다.
+  - 이 Credit은 처리량이 100%에 도달하고 모든 크레딧을 사용한 경우 크레딧 잔액은 0이 될 것이고, 다시 사용할 수 있을 때까지 기다려야 한다.
+- StorageBytes
+  - 바이트 단위로 측정된 파일 시스템의 크기이며, 15분마다 업데이트 된다.
+  - Dimension이 있는데 Standard 클래스에 저장된 양, IA 클래스에 저장된 양, Total 저장된 양 (Standard + IA) 이 있다.
+- 모든 모니터링 메트릭은 콘솔의 경우 Monitoring 탭에서 확인 가능하다.
+
 ## **[CCP/SAA/DVA] S3 Overview**
 
 S3는 파일 백업 및 저장을 위해 사용할 수 있다.
