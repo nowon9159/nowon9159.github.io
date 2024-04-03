@@ -5506,6 +5506,21 @@ EventBridge에서는 Rule을 설정할 수 있다.
 EventBridge를 사용하면 고급 필터링 옵션을 사용할 수 있다. 메타데이터, 객체 크기 및 이름으로 필터링할 수 있으며 여러 대상에 동시에 전송할 수 있다.
 예를 들어 Step Functions, Kinesis Data Streams 또는 Firehose로 전송할 수 있다. 심지어 Event Bridge에서 직접 제공하는 기능도 이용 가능하다.
 
+**정리**
+- S3 Event Notification 에서 Event란 객체가 생성되거나 제거되거나 복원되는 등의 하나의 사건을 의미한다.
+- 이 이벤트를 필터링할 수 있다. 예를 들어 JPEG으로 끝나는 객체만 고려하고 싶다면 *.jpg 등으로 설정할 수 있다.
+- Event Notification의 사용 사례는 S3에 업로드 된 모든 이미지에 대한 썸네일을 자동으로 생성하고 싶을 때 등이 있다.
+- Event Notification를 생성해서 SNS Topic, SQS Queue, Lambda Function 등의 대상으로 보낼 수 있다.
+- Event는 일반적으로 몇 초 내에 대상으로 전달되지만 때로는 1분 이상 걸릴 수 있다.
+- Event Notification이 작동하려면 IAM 권한이 있어야한다. 예를 들어 SNS Topic이 대상인 경우 S3 버킷이 SNS Topic으로 직접 메시지를 보낼 수 있도록 SNS Resource Policy가 있어야한다.
+- SQS, Lambda도 동일하게 리소스 정책이 있어야 한다. 이 경우 S3의 IAM Role을 사용하지 않고 SNS, SQS, Lambda에 리소스 액세스 정책을 정의해 권한 관리를 해준다.
+- S3를 EventBridge와 같이 사용하는 방법이 있다.
+  - Event는 전부 S3 버킷으로 이동한다. 또한 모든 Event는 EventBridge로 이동한다.
+  - EventBridge에서는 Rule을 설정할 수 있고, Rule을 이용해 18개 이상의 다양한 AWS 서비스로 전송할 수 있다.
+  - EventBridge를 사용하면 고급 필터링 옵션을 사용해 메타데이터, 객체 크기 및 이름 등으로 필터링 해 여러 대상에 동시 전송할 수 있다. 예를 들어 Step Function, Kinesis Data Streams 또는 Firehose로 전송할 수 있다. EventBridge의 고유 기능을 바로 사용할 수도 있다.
+  - 결론적으로 이벤트를 보관하고, 이벤트를 replay할 수 있으며 보다 안정적인 전송이 가능하다.
+
+
 ## **[SAA/DVA] S3 Performance**
 
 S3의 기본 성능에 대해 이야기 해보자
