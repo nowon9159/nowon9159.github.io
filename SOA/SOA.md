@@ -5450,6 +5450,29 @@ One-Zone IA 또는 Glacier과 함께 작동하지는 않는다.
 
 따라서 합리적인 라이프 사이클 규칙을 만들거나 개선하는데 도움을 줄 수 있다.
 
+**정리**
+- 스토리지 클래스 간에 객체를 이동하는 방법이 있다.
+  - 조합 별로 설명하자면 Standard 클래스에서는 모든 클래스로 이동 가능하다.
+  - Standard IA는 Standard를 제외한 모든 클래스로 이동 가능하다.
+  - Intelligent Tiering은 Standard, Standard IA를 제외한 모든 클래스로 이동 가능하다.
+  - One-Zone IA는 Glacier Flexible Retrieval, Glacier Deep Archive에만 이동 가능하다.
+  - Glacier Instant Retrieval은 Glacier Flexible Retrieval, Glacier Deep Archive에만 이동 가능하다.
+  - Glacier Flexible Retrieval는 Glacier Deep Archive에만 이동 가능하다.
+- 객체가 자주 액세스되지 않을 것으로 예상되면 Standard IA로 이동하고, 아카이빙할 객체라면 Glacier 계층이나 Deep Archive 계층으로 이동하는 등의 방안이 있다.
+- 객체 이동은 수동으로 할 수 있지만, 라이프사이클 규칙을 사용해 자동화할 수 있다.
+  - 라이프사이클 규칙
+    - Transition Actions: 객체를 다른 스토리지 클래스로 이동하도록 설정한다. 예를 들어 "60일 후 Standard IA 클래스로 이동" 또는 "6개월 후 아카이빙을 위해 Glacier 클래스로 이동"
+    - Expiration Actions: 일정 기간 이후 객체를 삭제하도록 할 수 있음. 예를 들어 "액세스 로그 파일을 365일 후 삭제하도록 설정" 또는 버전 관리가 활성화된 경우 "오래된 파일 버전을 삭제" 또는 "2주 이상된 불완전한 멀티파트 업로드를 삭제" 등의 작업을 할 수 있다.
+    - 규칙은 특정 접두사에 대해 지정될 수 있으므로, 전체 버킷이나 버킷 내의 특정 경로에 적용될 수 있다.
+    - 특정 객체 태그에 대해 지정할 수도 있다. 예를 들어 "Department":"Finance" 객체 태그에 대해 룰을 적용 가능하다.
+    - "EC2에서 애플리케이션이 Amazon S3에 프로필 사진을 업로드하면 썸네일을 생성한다. 썸네일은 원본 사진에서 쉽게 재생성 가능하며, 60일만 보관하면 된다. 그러나 원본 이미지는 60일 동안 즉시 검색 가능해야 하며 그 이후에는 6시간 정도 기다려도 괜찮다." 이런 시나리오가 있을 때 솔루션은 "원본 이미지는 Standard 클래스에 두고 60일 후 Glacier로 전환하는 라이프사이클 규칙을 적용하며, 썸네일 이미지는 접두사를 사용해 원본과 구분하고, One-Zone IA 클래스에 두고 60일 후 삭제한다." 일 것이다.
+- 객체를 한 클래스에서 다른 클래스로 전환하기 위한 최적의 일수를 결정하기 위해 Amazon S3 Analytics를 사용할 수 있다.
+  - S3 Analytics는 Standard와 Standard IA에 대한 권장 사항을 제공한다.
+  - One Zone IA나 Glacier는 적용되지 않는다.
+  - S3 버킷에서 S3 Analytics를 실행하면 CSV 보고서가 생성되어 권장 사항과 통계를 제공한다.
+  - 보고서는 매일 업데이트 되며, 데이터 분석 결과는 24~48시간 후에 볼 수 있다.
+  - CSV 보고서를 바탕으로 합리적인 라이프사이클 규칙을 만들거나 개선할 수 있다.
+
 ## **[SAA/DVA] S3 Event Notifications**
 
 S3 이벤트 Notification에 대해 알아보자
