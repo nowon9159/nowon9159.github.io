@@ -1,3 +1,18 @@
+# Overview
+안녕하세요 SOA 강의를 듣고 정리한 내용입니다.
+
+공부 방법은 Udemy에서 Stephane Maarek 님의 강의를 영어 스크립트를 한글로 번역하여 참고했고, 한글로 번역하는 과정에서 Deepl, ChatGPT(3.5), Claude3를 이용했습니다.
+
+*밑에 Instructions 등의 내용도 있지만 중간부터는 번역이 더 이상해져 사용하지 않았습니다.*
+
+강의 내용을 기반으로 번역이 매끄럽게 되지 않는 부분은 AWS Docs를 참조하려고 했고, 디테일한 부분까지는 챙기지 못했습니다.
+
+이 문서는 240403 기준 아직 미완성입니다. Route53을 기준으로 이후 내용이 빠져 있습니다.
+
+참고하시는 분들께 제 합격 기운을 나눠 드립니다.
+부디 공부에 큰 도움이 되셨음 좋겠습니다.
+
+
 # Custom Instructions
 
 ## What would you like ChatGPT to know about you to provide better responses?
