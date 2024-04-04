@@ -3,15 +3,16 @@
 
 공부 방법은 Udemy에서 Stephane Maarek 님의 강의를 영어 스크립트를 한글로 번역하여 참고했고, 한글로 번역하는 과정에서 Deepl, ChatGPT(3.5), Claude3를 이용했습니다.
 
-*밑에 Instructions 등의 내용도 있지만 중간부터는 번역이 더 이상해져 사용하지 않았습니다.*
+*밑에 Instructions 등의 내용도 있지만 사용 중간부터는 번역이 이상해져 사용하지 않았습니다.*
 
-강의 내용을 기반으로 번역이 매끄럽게 되지 않는 부분은 AWS Docs를 참조하려고 했고, 디테일한 부분까지는 챙기지 못했습니다.
+강의 내용을 기반으로 번역이 매끄럽게 되지 않는 부분은 AWS Docs를 참조하려고 했습니다.
 
-이 문서는 240403 기준 아직 미완성입니다. Route53을 기준으로 이후 내용이 빠져 있습니다.
+시간이 없으신 분들은 각 파트의 `정리` 부분을 중점으로 참고하시거나 [Cheat Sheet]()를 참고하시면 됩니다.
+
+***이 문서는 240403 기준 아직 미완성입니다. Route53을 기준으로 이후 내용이 빠져 있습니다.***
 
 참고하시는 분들께 제 합격 기운을 나눠 드립니다.
 부디 공부에 큰 도움이 되셨음 좋겠습니다.
-
 
 # Custom Instructions
 
@@ -5832,7 +5833,7 @@ LifeCycle Rule을 만들 수 있으며 라이프 사이클을 이용해서 만�
 
 ## **[SAA] Athena**
 
-Ahena는 S3 버킷에 저장된 데이터를 분석하는 데 도움이 되는 서버리스 쿼리 서비스이다.
+Athena는 S3 버킷에 저장된 데이터를 분석하는 데 도움이 되는 서버리스 쿼리 서비스이다.
 
 데이터를 분석하기 위해 표준 SQL 언어를 사용해 파일을 쿼리하며, Presto 엔진을 기반으로 하고 있다. 이 엔진은 SQL 언어를 사용한다.
 
@@ -5895,6 +5896,36 @@ Data Source Connector를 사용해서 위와 같은 작업이 가능하다.
 Federated Query는 ElastiCache, DocumentDB, DynamoDB, RedShift, Aurora, SQL server, MySQL, EMR 서비스의 HBase 또는 온프레미스 데이터베이스를 포함한 쿼리를 실행할 수 있다.
 
 실행한 쿼리의 결과물은 다시 S3로 저장할 수 있다.
+
+**정리**
+- Athena는 S3 버킷에 저장된 데이터를 분석할 수 있는 서버리스 쿼리 서비스
+- 데이터를 분석하기 위해 표준 SQL 언어로 쿼리를 실행한다.
+- Athena는 Presto 엔진을 기반으로 구축 되었음
+- S3에 있는 데이터를 옮기지 않고 S3 버킷에 있는 데이터를 직접 쿼리하고 분석할 수 있다.
+- CSV, JSON, ORC, Avro, Parquet 등 다양한 형식을 지원한다.
+- 스캔한 데이터를 기준으로 5$/TB 의 요금이 부과된다.
+- AWS QuickSight라는 도구와 함께 일반적으로 사용되어 보고서와 대시보드를 생성한다.
+  - QuickSight는 Athena에 연결되고 Athena는 S3 버킷에 연결된다.
+- Athena는 특정 쿼리, 비즈니스 인텔리전스, 분석, 보고 및 AWS 서비스에서 생성되는 모든 유형의 로그 분석 및 쿼리이다.
+- VPC Flow log, Loadbalancer log, CloudTrail log 등이 대상으로 있다.
+- Athena 성능 개선 (시험에 나옴)
+  - TB 당 스캔한 데이터 양을 지불하므로 적은 데이터를 스캔할 수 있는 데이터 유형을 사용해야 한다.
+    - 필요한 열만 스캔해 비용을 절감할 수 있는 컬럼이나 데이터 유형을 사용할 수 있다.
+    - Athena에서 권장되는 형식은 Apache Parquet과 ORC이며, 엄청난 성능 향상을 제공한다. 기존에 있는 데이터를 Glue 서비스를 이용해서 Parquet 또는 ORC 형식으로 변환할 수 있다. Glue는 CSV에서 Parquet로 데이터를 변환하는 ETL 작업에 유용하다.
+  - 스캔할 데이터를 줄이기 위해, 더 작게 검색하기 위해서 데이터를 압축해야 한다. bzip2, gzip, Iz4, snappy, zlip, zstd 등 사용할 수 있는 다양한 압축 매커니즘이 있다.
+  - Partition Dataset을 이용해서 특정 열을 향상 쿼리할 수 있다.
+    - Dataset Partitioning은 S3 버킷 전체 경로와 슬래시가 있고 각 슬래시는 특정 값을 가진 다른 열 이름이 된다.
+    - S3에서 데이터를 구성하고 파티셔닝하여 쿼리할 때 어떤 폴더와 S3의 어떤 경로에서 데이터를 스캔해야 하는지 정확히 알 수 있다.
+    - 예로는 Parquet 형식의 항공편 데이터가 있다고 가정해보자. 각 연도마다 폴더가 있고 월, 일도 있다고 가정했을 때 Athena에서 특정 연도, 월, 일을 필터링해서 쿼리하면 S3의 어떤 폴더에서 데이터를 가져와야 하는지 정확히 알 수 있다.
+    - example: s3://athena-examples/flight/parquet/year= 1991/month=1/day=1/
+    - 이렇게 하면 데이터의 하위 집합만 검색하기 때문에 파티셔닝이 매우 잘 된다.
+  - 오버헤드를 최소화하기 위해 더 큰 파일을 사용하는 것이다.
+    - S3에 많은 작은 파일(128MB 미만의 경우)이 있으면 성능이 좋지 않아진다. 큰 파일이 더 스캔하고 검색하기가 쉽기 때문이다.
+- Federated Query
+  - Athena는 실제로 어디에서든 데이터를 쿼리할 수 있다.
+  - Data Source Connector라는 Lambda 함수를 사용해야 하며, 이 함수가 다른 서비스에서 Federated Query를 실행한다.
+  - CloudWatch Logs, DynamoDB, RDS, ElastiCache, DocumentDB, Redshift, Aurora, SQL Server, MySQL, EMR 서비스의 HBase, 온프레미스 데이터베이스 등의 대상에 쿼리를 실행할 수 있다.
+  - 쿼리의 결과를 S3 버킷에 저장하여 나중에 분석할 수 있다.
 
 ## **[SAA/DVA] S3 Encryption**
 
