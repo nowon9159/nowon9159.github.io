@@ -6204,7 +6204,7 @@ S3 Object Lock을 활성화하려면 먼저 Versioning을 활성화해야 한다
 
 따라서 특정 객체 버전이 지정된 시간 동안 삭제되지 않도록 S3 Object Lock을 수행하려는 것이다.
 
-두 가지 retension 모드가 있다.
+두 가지 retention 모드가 있다.
 
 첫째로는 compliance mode가 있다.
 
@@ -6228,6 +6228,24 @@ Legal hold는 보유 기간과 관계없이 S3 버킷의 모든 객체를 영구
 S3 PutObjectLegalHold IAM 권한을 갖는 사용자는 어떤 객체든 Legal hold를 놓거나 제거할 수 있다.
 
 이는 관리자가 PutObjectLegalHold 권한을 사용해 객체를 보호하고, 법적 조사가 종료되면 이 권한을 사용해 다시 제거하면 된다.
+
+**정리**
+- Glacier Vault Lock
+  - Glacier Vault를 잠금 처리해 한번 쓰고 여러번 읽을 수 있는 WORM 모델을 채택하는 것이다.
+  - Vault Lock 정책을 생성한 후 정책 자체를 잠가 향후 편집을 방지할수도 있고, 한번 정책을 잠그면 누구도 변경하거나 삭제할 수 없어 규정 준수 및 데이터 보존에 매우 유용
+- S3 Object Lock
+  - Vault Lock과 유사한 옵션이다.
+  - S3 객체 잠금을 활성화하려면 먼저 버전 관리를 활성화해야한다.
+  - WORM 모델을 적용할 수 있지만, 전체 S3 버킷 수준의 잠금 정책이 아닌 버킷 내 각 객체에 대해 잠금을 적용할 수 있다.
+  - 특정 객체 버전이 지정된 기간 동안 삭제되지 않도록 차단하는 것이며 두 가지 보존(retention) 모드가 있다.
+    - Compliance mode
+      - S3 Glacier Vault Lock과 유사하게 루트 사용자를 포함한 모든 사용자가 객체 버전을 덮어쓰거나 삭제할 수 없다.
+      - 보유 기간을 설정해 해당 기간 동안 보존되며 아무도 해당 보존 모드와 보존 기간을 변경할 수 없다.
+    - governance mode
+      - 유연성이 필요한 경우 사용하며, IAM을 통해 특별 권한을 가진 관리자 사용자는 보존 기간을 변경하거나 객체를 직접 삭제할 수 있다.
+  - Legal Hold는 S3 버킷의 모든 객체를 무기한 보호한다.
+    - 보존 기간과는 무관하게 Legal Hold를 적용하면 이전에 설정한 보존 모드와 보존 기간에 관계없이 영구적으로 보호된다.
+    - s3:PutObjectLegalHold IAM 권한을 이용해서 Legal Hold를 적용하거나 제거할 수 있다.
 
 ## **S3 Access Points**
 
@@ -6264,6 +6282,8 @@ S3 액세스 포인트의 VPC Origin에 대한 경우 이를 Private로 접근�
 VPC에 존재해 이를 통해 VPC 원본을 통해 Access Point로 Private 연결할 수 있다.
 
 VPC 엔드포인트에는 정책이 있으며 이 정책은 대상 버킷과 액세스 포인트에 액세스를 허용해야한다.
+
+
 
 ## **S3 Multi-Region Access Points**
 
