@@ -6283,7 +6283,13 @@ VPC에 존재해 이를 통해 VPC 원본을 통해 Access Point로 Private 연�
 
 VPC 엔드포인트에는 정책이 있으며 이 정책은 대상 버킷과 액세스 포인트에 액세스를 허용해야한다.
 
-
+**정리**
+- S3 Access Points는 예를 들어 한 버킷에 많은 데이터가 있는 경우 많은 사용자, 데이터가 추가되는 경우 권한 관리나 보안 관리를 하기 위해 사용한다.
+- Finance Data, Sales Data, Analytics Data 가 있다고 가정했을 때 Finance에 대한 액세스 포인트를 생성하고 Finance 데이터에 접두사 기반의 액세스 포인트 정책을 정의하면 사용자나 그룹이 데이터에 액세스하는 데 편리해진다.
+- 액세스 포인트마다 자체 보안인 액세스 포인트 정책이 있어 IAM 권한이 있으면 사용자가 특정 액세스 포인트에 액세스하고 버킷의 특정 부분에만 연결 가능하다. 
+- 액세스 포인트는 고유한 DNS 이름이 있다. 이를 통해 액세스 포인트에 연결할 수있고, 인터넷 또는 VPC를 통해 Private 트래픽으로 연결할 수 있다.
+- VPC Origin에서 Access Point에 연결하려면 VPC Endpoint를 생성해 Private로 접근할 수 있도록 정의할 수 있다.
+  - VPC Endpoint는 내부적으로 정책이 있으며 이 정책은 대상 버킷과 Access Point에 대한 액세스를 허용해야 한다.
 
 ## **S3 Multi-Region Access Points**
 
