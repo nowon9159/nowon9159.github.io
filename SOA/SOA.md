@@ -22,6 +22,7 @@
 
 <!-- TOC -->
 
+- [Overview](#overview)
 - [Custom Instructions](#custom-instructions)
     - [What would you like ChatGPT to know about you to provide better responses?](#what-would-you-like-chatgpt-to-know-about-you-to-provide-better-responses)
     - [How would you like ChatGPT to respond?](#how-would-you-like-chatgpt-to-respond)
@@ -5769,6 +5770,34 @@ S3 Object Restore Complete로 객체 복원이 완료되었을 때 알림을 받
   - Archive는 데이터를 부르는 명칭이다. S3로 치면 Object와 같은 것이다. 최대 40TB까지 한 Archive로 저장된다.
   - Vault의 경우 데이터를 담는 컨테이너이다. S3로 치면 Bucket과 같은 것이다.
 - 기본적으로 모든 데이터는 AES-256을 사용해 정적으로 암호화되며 키는 AWS에서 관리된다.
+- Lifecycle Rule을 이용해서 특정 기간 이후에 S3 Glacier에 아카이브할 수 있다.
+- Glacier는 몇 가지 알아야할 기능이 있다.
+  - Vault를 만들고 삭제할 수 있으며, Vault는 Bucket과 동일하게 비어있을 때만 삭제 가능하다.
+  - Vault에서 메타데이터를 검색할 수 있다. Vault의 생성일, 아카이브 수, 모든 아카이브의 총 크기 등을 포함한다.
+  - Vault의 Inventory를 다운로드할 수 있으며, 이는 모든 아카이브 단위의 목록이다. 아카이브 ID, 생성 날짜, 크기 등이 포함된다.
+- Vault는 직접 파일을 업로드하거나 큰 아카이브에 대해 Multi Parts 업로드를 사용할 수 있다.
+- Vault는 파일을 직접 다운로드할 수 있으며, 검색 작업을 수행한 후에 Glacier가 해당 파일을 다운로드할 수 있게 준비하고 주어진 시간 동안 다운로드할 수 있게 해준다.
+- 특정 Archive를 삭제할 수 있다.
+- Archive된 객체를 복원할 수 있다. Archive -> Bucket Object
+  - 복원 및 복원 링크 생성 시 세 가지 옵션이 있다.
+    - Expedited: 가장 비싼 옵션이며, 1~5분 정도의 간격으로 파일을 제공하며 0.03$/GB 및 1000개의 요청 당 10$를 지불해야한다.
+    - Standard: 조금 느리지만 저렴한 옵션, 3~5시간 소요되며 0.01$/GB 및 1000개의 요청 당 0.03$를 지불해야 한다.
+    - Bulk: 5~12시간 소요되며 0.0025$ 및 1000개의 요청 당 0.025$를 지불해야 한다.
+- Glacier는 Vault Policy와 Vault Lock이 있다.
+  - 각 Vault는 Vault Access Policy와 Vault Lock Policy가 있으며 이러한 정책은 JSON으로 작성된다.
+  - Vault Access Policy
+    - S3 Bucket Policy와 유사하며 사용자 및 계정 권한을 제한하는 데 사용된다.
+  - Vault Lock Policy
+    - 규정 및 규정 요구 사항을 위해 파일을 Glacier Vault에 잠글 수 있는 정책
+    - 정책이 변경될 수 없도록 만들고, 일단 잠기면 Lock Policy에서 설정한 수명 기간동안 모든 정책을 변경할 수 없으며 잠긴 상태로 유지된다.
+    - 예를 들어 아카이브를 1년 미만으로 삭제하지 못하도록 금지하거나 WORM(한번 쓰고 여러번 읽기)을 구현해 Vault 내 파일 또는 Vault 정책 자체를 삭제할 수 없도록 할 수 있다.
+- Vault Notification
+  - Glacier는 비동기적이라 복원 작업에 대한 알림이 필요하다. 시간이 지나고 복원이 됨을 마냥 기다릴 수 없기 때문이다.
+  - 작업이 시작되고 Archive가 다운로드할 준비가 되면 SNS Topic으로 알림을 보낼 수 있다.
+- S3 Event Notifications
+  - S3 Glacier Storage Class에서 직접 객체를 복원할 때 사용된다.
+  - s3:ObjectRestore:Post 로 객체 복원이 시작될 때 알림을 받고, s3:ObjectRestore:Complete로 객체 복원이 완료되었을 때 알림을 받을 수 있다.
+
 
 ## **S3 Multi-Part Upload Deep Dive**
 
