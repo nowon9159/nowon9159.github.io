@@ -2429,7 +2429,7 @@ Beanstalk에는 두 가지 배포 모드가 있다.
   2. 새 버전 업로드 (Upload Version)
   3.  환경 시작 (Launch Environment)
   4.  환경 관리 (Manage Environment)
-- Beanstalk는 Go, Java SE, PHP,Python 등등 많은 프로그래밍 언어를 지원함.
+- Beanstalk는 Go, Java SE, PHP, Python 등등 많은 프로그래밍 언어를 지원함.
 - Web Server Tier와 Worker Tier
   - Web Server Tier는 로드 밸런서가 트래픽을 보내는 여러 EC2 인스턴스를 포함하는 ASG에 트래픽을 보내는 전통적인 아키텍처
   - Worker Tier는 클라이언트가 직접 EC2 인스턴스에 액세스 하지 않고, SQS Queue를 사용해 메시지를 보내고 EC2 인스턴스는 Queue에서 메시지를 Pull한다.
@@ -6096,6 +6096,14 @@ S3에서는 클라이언트가 S3 버킷에게 CORS 요청을 수행하는 경�
 빠르게 수행할 수 있는 한 가지 방법은 특정 출처를 허용하거나 아니면 모든 출처를 허용하는 것이다.
 
 _시험 문제에서 매우 인기 있음_
+
+**정리**
+- CORS는 웹 브라우저 기반의 보안 매커니즘으로, 주 Origin에서 다른 Origin으로의 요청을 허용하거나 거부하는 데 사용한다.
+- CORS는 Cross-Origin Resource Sharing의 약자이다.
+- Same Origin이라는 것은 동일한 스키마, 동일한 호스트 및 동일한 포트를 가진 출처이다.
+- 웹 브라우저가 한 웹 사이트를 방문하고 다른 웹사이트에 요청을 해야 한다면, 다른 오리진에서 CORS 헤더를 사용해 요청을 허용하지 않는 한 해당 요청은 처리되지 않는다. 이 헤더를 Access-Control-Allow-Origin 헤더라고 부른다.
+- CORS를 웹 서버에서 구성하고 특정 다른 Origin에 대해 GET,PUT 등의 메서드를 허용한다고 가정하면 웹 브라우저에서 다른 Origin으로 요청을 보내 파일을 가져오고 호출을 할 수 있다.
+- S3에서는 클라이언트가 S3 버킷에 Cross Origin Request를 보내면 올바른 CORS 헤더를 활성화해야 한다.(시험에 자주 나옴) 특정 Origin을 허용하거나 *로 허용하여 모든 오리진을 빠르게 허용할 수 있다.
 
 ## **[SAA/DVA] S3 MFA Delete**
 
