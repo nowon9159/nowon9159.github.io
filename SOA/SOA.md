@@ -6534,7 +6534,7 @@ OpsHub를 통해 단일/클러스터 기기 잠금 해제 및 구성, 파일 전
 
 FSx는 AWS에서 완전 관리되는 서비스로서 서드파티 고성능 파일 시스템을 시작할 수 있게 해준다.
 
-FSx의 경우 파일 시스템을 위한 RDS와 같은 것이다.
+FSx의 경우 RDS와 비슷한 매니지드 서비스로서의 파일 시스템인 경우이다.
 
 **Amazon FSx for Windows File Server**의 경우
 
@@ -6613,7 +6613,7 @@ Auto Scaling 기능이 있어서 자동으로 축소 되거나 확장 된다.
 
 저렴한 비용, 데이터 압축을 할 수 있다.
 
-데이터 중복을 수행할 수 있다.
+데이터 중복 제거를 수행할 수 있다.
 
 NetApp ONTAP에서 파일의 중복 항목을 찾을 수 있다.
 
@@ -6626,6 +6626,61 @@ NetApp ONTAP에서 파일의 중복 항목을 찾을 수 있다.
 매우 높은 성능을 제공한다. 0.5 밀리초 미만의 지연 시간으로 최대 100만 IOPS까지 확장할 수 있으며 스냅샷, 압축 및 저렴한 비용을 지원하지만 데이터 중복을 지원하지는 않는다.
 
 시점 별 즉시 복제를 지원하여 새로운 워크로드를 테스트하는 데 매우 유용하다.
+
+**정리**
+- Amazon FSx는 완전 관리 서비스로서 서드파티 고성능 file system을 시작할 수 있게 해준다.
+- Amazon FSx for Windows File Server
+  - 완전 관리형 Windows File Server 공유 드라이브이고, Windows 이므로 SMB 프로토콜과 Windwows NTFS를 지원한다.
+  - 사용자 보안을 위해 MS Active Directory와 통합된다.
+  - ACL 및 사용자 할당량을 사용한다.
+  - 특이한 점은 Windows 전용으로 보이지만 Linux EC2 인스턴스에도 마운트할 수 있다.
+  - 기존에 온프레미스에 있는 Windows 파일 서버가 있다면 MS Distributed File System(DFS) 기능을 이용해 파일 시스템을 그룹화하여 온프레미스 Windows 파일 서버에 FSx for Windows File Server를 연결할 수 있다.
+  - 10GB/s, 수백만의 IOPS, 100 PB 데이터로 확장 가능하다.
+  - Storage Option
+    - SSD: 데이터베이스, 미디어 처리, 데이터 분석 등 매우 낮은 대기 시간과 민감한 워크로드에 적합한
+    - HDD: 홈 디렉터리 및 CMS와 같이 넓고 다양한 워크로드에 사용 가능한
+  - 액세스는 온프레미스 인프라에서 VPN이나 Direct Connect와 같은 Private 연결을 통해 가능하다.
+  - 고 가용성을 위해 Multi-AZ로 File server를 구성할 수도 있다.
+  - 모든 데이터는 재해 복구 목적으로 매일 Amazon S3로 백업 된다.
+- Amazon FSx for Lustre
+  - 대규모 컴퓨팅에 사용되는 분산 파일 시스템
+  - Lustre는 Linux와 Cluster에서 파생되었다.
+  - 머신 러닝, High Performance Computing, 비디오 처리, 금융 모델링, 전자 설계 자동화와 같은 애플리케이션에 사용 가능하다.
+  - 100 GB/s, 수 백만 IOPS, sub-ms의 대기 시간으로 확장 가능하다.
+  - Storage Option
+    - SSD: 매우 낮은 latency, IOPS 집중형 워크로드 및 작거나 랜덤 파일 작업을 위한
+    - HDD: 대량 및 순차 파일 작업, 처리량 집중형 워크로드의 경우 사용하는
+    - SSD가 HDD보다 비용이 더 많이 든다.
+  - S3와의 원활한 통합이 가능하다. FSx를 통해 S3를 파일 시스템으로 읽을 수 있고, FSx의 계산 결과를 S3로 쓸 수 있다.
+  - 온프레미스 서버에서 VPN 또는 Direct Connect를 통해 사용 가능하다.
+  - Deployment Options
+    - Scratch
+      - 임시 저장소로서 데이터가 복제되지 않는다.
+      - 파일이 있지만 서버에 장애가 발생하면 파일이 손실된다.
+      - 1TiB 당 200MBps 처리량으로 높은 버스트를 갖고 있다.
+      - 데이터의 한 가지 사본을 갖고, S3 Bucket을 데이터 저장소로 사용할 수도 있다.
+      - 사용 사례는 단기간 처리, 데이터를 복제하지 않고 비용을 최적화 하려는 경우가 있다.
+    - Persistent
+      - 장기 저장에 사용된다.
+      - 동일한 AZ 내에서 데이터가 복제됨
+      - 기본 서버의 장애가 발생하면 파일이 몇 분내에 교체된다.
+      - 데이터의 두 가지 사본을 갖는다.
+      - 사용 사례는 민감한 데이터의 장기 처리와 저장이다.
+- Amazon FSx for NetApp ONTAP
+  - AWS에서 관리되는 NetApp ONTAP 파일 시스템이다.
+  - NFS, SMB 및 iSCSI 프로토콜과 호환된다.
+  - 이미 ONTAP에서 실행 중인 워크로드를 FSx for NetApp ONTAP 파일 시스템을 사용해 AWS로 이동할 수 있다.
+  - 매우 넓은 호환성을 가지고 있어 Linux, Windows 및 MacOS, VMware Cloud on AWS, WorkSpaces, AppStream, EC2, ECS, EKS와 같은 서비스와 함께 작동한다.
+  - Auto Scaling 기능이 있어서 자동으로 축소되거나 확장된다.
+  - 스냅샷, 복제, 저렴한 비용, 데이터 압축, 데이터 중복 제거를 수행할 수 있다.
+  - point-in-time 순간 복제를 수행할 수 있어 새로운 워크로드를 테스트하고 싶은 경우 매우 유용하다.
+- Amazon FSx for OpenZFS
+  - 매니지드 OpenZFS 파일 시스템으로, 다양한 버전의 NFS 프로토콜과 호환된다.
+  - Linux, MacOS, Windows, VMWare Cloud on AWS, Amazon Workspaces & AppStream 2.0, EC2, ECS, EKS 등 넓은 호환성을 가지고 있다.
+  - 0.5 밀리초 미만의 지연 시간과 최대 100만 IOPS까지 확장 가능하다.
+  - 스냅샷, 압축, 저비용을 지원한다.
+  - 데이터 중복 제거를 지원하지는 않는다.
+  - 사용 사례는 이미 내부 ZFS에서 실행 중인 워크로드를 AWS로 이동하는 것이다.
 
 ## **FSx for SysOps**
 
