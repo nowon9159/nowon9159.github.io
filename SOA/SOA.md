@@ -6703,6 +6703,19 @@ Multi-AZ를 사용하려면 FSx for Windows Multi-AZ 옵션을 사용하는 것�
 
 FSx for Windows는 2개의 Single-AZ를 사용하고 자체 복제를 수행하는 대신 항상 Multi-AZ를 사용하는 것이 좋다. 장애 조치를 원하는 경우에는 항상 Multi-AZ를 선택해야한다. (시험에 나옴)
 
+**정리**
+- FSx for windows는 Single-AZ와 Multi-AZ 옵션이 있다.
+- Single-AZ
+  - 단일 가용 영역 파일 시스템이며, 해당 AZ 내에서만 데이터 복제가 자동으로 수행된다.
+  - 두 세대가 있으며 Single-AZ 1 (SSD) 와 Single-AZ 2 (SSD, HDD)가 있다.
+- Multi-AZ
+  - Multi-AZ를 사용하려면 FSx for Windows Multi-AZ 옵션을 사용하면 된다.
+  - 두 가용 영역이 있고, 두 파일 시스템 간 동기 복제가 수행된다.
+  - AZ 간 데이터가 자동으로 동기적으로 복제되며 문제가 발생할 경우 자동 장애 조치가 발생한다.
+  - 자동 장애 조치는 한 파일 시스템이라도 실패하면 Standby file server가 자동 장애 조치된다.
+- FSx for Windows는 2개의 Single-AZ를 사용하고 자체 복제를 수행하는 대신에, 항상 Multi-AZ를 사용하는 것이 좋다.
+- 장애 조치를 원하는 경우에는 항상 Multi-AZ를 선택해야 한다. (시험에 나옴)
+
 ## **[SAA] Storage Gateway Overview**
 
 AWS는 Hybrid 클라우드를 지원하고 있다.
