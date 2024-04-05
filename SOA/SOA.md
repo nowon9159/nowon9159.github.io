@@ -6335,6 +6335,10 @@ VPC 엔드포인트 게이트웨이는 인스턴스에서 S3 버킷으로 직접
 
 이 경우 "aws:SourceVpce" 를 사용해 하나 이상의 엔드포인트를 지정하거나, 미리 정의된 VPC 내의 모든 가능한 VPC 엔드포인트를 포함하는 "aws:SourceVpc" 조건을 지정할 수 있다.
 
+**정리**
+- S3 버킷에 액세스하기 위해서는 일반적으로 Public 인터넷을 통해야 한다. 이 방법을 통해 접근하기 위해서는 "aws:SourceIp" 조건 키를 이용해서 특정 Public IP 기반의 요청을 허용해야 한다.
+- S3 버킷에 대한
+
 ## **[CCP/SAA] AWS Snow Family Overview**
 
 Snow Family는 AWS의 Edge에서 데이터를 수집하고 처리하는 데 사용되거나 AWS로 데이터를 이동하는 데 사용될 수 있다.
