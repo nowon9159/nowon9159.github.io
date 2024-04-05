@@ -6337,7 +6337,9 @@ VPC 엔드포인트 게이트웨이는 인스턴스에서 S3 버킷으로 직접
 
 **정리**
 - S3 버킷에 액세스하기 위해서는 일반적으로 Public 인터넷을 통해야 한다. 이 방법을 통해 접근하기 위해서는 "aws:SourceIp" 조건 키를 이용해서 특정 Public IP 기반의 요청을 허용해야 한다.
-- S3 버킷에 대한
+- S3 버킷에 대한 Private 액세스를 활성화하려면 인스턴스를 Private 서브넷에 배치하고 VPC Endpoint Gateway를 생성해야한다.
+- VPC Endpoint Gateway는 인스턴스에서 S3 버킷으로 직접 Private 연결을 설정하고 Bucket Policy를 이용해 VPC Endpoint Gateway를 통하게끔 액세스를 강제할 수 있다.
+- "aws:SourceVpce"를 이용해 하나 이상의 Endpoint를 지정하는 방법, "aws:SourceVpc"를 이용해 VPC 내의 모든 VPC Endpoint를 포함하게끔 Bucket Policy 에서 설정 가능함
 
 ## **[CCP/SAA] AWS Snow Family Overview**
 
@@ -6436,11 +6438,31 @@ Edge Location은 실제로 인터넷이 없거나 클라우드에서 멀리 떨�
 
 엣지 컴퓨팅을 하려면 Snowball Edge 장치 또는 Snowcone을 주문해 이러한 엣지 위치에 장치를 설치하고 엣지 컴퓨팅을 시작한다.
 
-사용 사례로는 데이터를 사전 처리하거나 엣지에서 기계 학습을 수행하는 등이 있다.
+사용 사례로는 데이터를 사전 처리하거나 엣지에서 머신 러닝을 수행하고, 미디어 스트밀의 사전 트랜스코딩 등이 있다.
 
 데이터를 AWS로 다시 전송해야 할 경우 Snowcone 또는 Snowball Edge 장치를 다시 발송할 수 있다.
+즉, 데이터가 생성되는 곳 긑처에서 처리한 다음 AWS로 전송하는 방식이다.
 
-(시험 이후 재작성 필요, 스펙 및 OpsHub 등 내용 생략)
+엣지 컴퓨팅을 위해서는 Snowcone과 Snowcone SSD가 있다.
+
+이는 2 CPUs, 4GB memory, 유/무선 액세스를 제공하며 USB-C 전원 또는 옵션 배터리를 사용한다.
+
+Compute optimized Snowball Edge 가 있는데
+이는 104 vCPU, 416GB RAM, 옵션 GPU(비디오 처리/머신러닝 용), 28TB NVMe 또는 42 TB HDD의 스토리지를 제공한다. 16노드까지 스토리지 클러스터링도 가능해 총 스토리지 크기를 늘릴 수 있다.
+
+Storage optimized Snoball Edge는
+40 vCPU, 80GB RAM, 80TB 스토리지를 제공한다.
+
+Snowcone 기기 모두 EC2 인스턴스와 Lambda 함수를 실행할 수 있으며, Lambda의 경우 AWS IoT Greengrass 서비스를 활용한다.
+
+기기는 장기간 배치할 수 있으며 실제로 1년에서 3년동안 렌탈할 수 있는 장기 배치 옵션과 할인 가격이 있다.
+
+OpsHub라는 Snow Family 제품군이 있다.
+
+OpsHub는 컴퓨터나 랩톱에 설치하는 프로그램으로 클라우드에서 사용하는 게 아니다. 설치 후 연결하면 그래픽 인터페이스를 통해 Snow 기기에 연결, 구성, 사용할 수 있어 편리하다. CLI 도구를 사용하지 않아도 된다는 말이다.
+
+OpsHub를 통해 단일/클러스터 기기 잠금 해제 및 구성, 파일 전송, 인스턴스 실행 및 관리(Snow Family에서 실행되는 EC2 인스턴스), 기기 메트릭 모니터링, 기기에서 호환 AWS 서비스 실행(EC2 인스턴스, DataSync 또는 네트워크 파일 시스템 사용) 등의 작업을 할 수 있다.
+
 
 ## **[SAA/SAP] Amazon FSx**
 
