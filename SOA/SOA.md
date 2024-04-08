@@ -7299,6 +7299,15 @@ CloudFront를 Edge Location과 함께 설정했으며 잘 작동하도록 원한
 
 결론적으로 ALB와 스티키 세션을 사용하는 경우 CloudFront에서 모든 쿠키 또는 세션 어피니티를 제어하는 쿠키에 화이트리스트를 설정하면된다. 그리고 보안 조치로 캐시된 요청에 대한 TTL을 authentication cookie expire 보다 작은 값으로 설정해야 한다.
 
+**정리**
+- Sticky Session을 활성화하여 ALB와 CloudFront를 사용하는 방법
+- 예시가 있다. ALB와 Target Group이 있는 상황에서 Sticky Session을 활성화 했다. CloudFront를 Edge Location과 함께 설정했으며 잘 작동하도록 원할 때 세션 어피니티를 제어하는 쿠키를 Origin으로 전달해 세션 어피니티가 계속 작동하도록 하면 해결된다.
+- 세션 쿠키를 전달하지 않으면 ALB로 전달되지 않아 세션 어피니티가 작동하지 않는다.
+- 구체적으로는 사용자가 GET 요청을 보내면서 쿠키(AWSALB=값)를 전달하고, CloudFront는 이 AWSALB 쿠키를 Whitelist에 포함시켜야한다. 그러면 쿠키가 ALB로 전달된다.
+- ALB는 쿠키를 보고 같은 사용자의 요청을 항상 동일한 EC2 인스턴스로 보내게 되고, 다른 사용자가 요청을 보내면 쿠키 이름은 AWSALB로 같지만 값은 다르기에 ALB가 다른 EC2 인스턴스로 전달한다.
+- ALB에서 Sticky Session을 사용하고 CloudFront와 연동할 때는 모든 쿠키 또는 해당 쿠키를 화이트리스트에 포함시켜야 한다.
+- 보안 조치로 캐시된 요청의 TTL을 인증 쿠키보다 짧게 설정하는 것도 좋다.
+
 ## **[SAA/DVA] RDS Overview**
 
 RDS는 관계형 데이터베이스 서비스를 의미하며, 이는 SQL을 쿼리 언어로 사용하는 데이터베이스를 위한 관리형 데이터베이스 서비스이다.
