@@ -7061,6 +7061,22 @@ Viewer로 이동해 내가 어떤 종류의 사용자를 가지고 있는지에 
 마지막으로 해당 배포와 관련된 모니터링을 살펴볼 수 있다.
 Metric은 요청 합계, 데이터 전송량, 오류율, 4xx 또는 5xx 오류율, 원본까지의 지연 시간 및 캐시 오류율이 표시된다.
 
+**정리**
+- CloudFront는 Origin으로의 모든 요청을 로그로 기록하여 지정한 로깅 S3 버킷으로 보낸다.
+- 사용자가 CloudFront URL을 통해 웹 사이트에 액세스하고 각 Region 별 Edge Location이 로그 파일 또는 Distribution 로그 데이터를 S3 버킷으로 보내는 것이다. 이렇게 설정하면 CloudFront Distribution에 연결된 Origin 버킷과 로그 파일을 보내는 로그 버킷이 있는 것이다.
+- 추가적인 Distribution을 설정할 때 로그 버킷 내에 접두사를 추가해 로그를 분리할 수 있다.
+- CloudFront는 여러가지의 report가 있다.
+  - Cache Statistics report
+  - Popular Objects report
+  - Top Referrers
+  - Usage report
+  - Viewers report
+- report를 생성하려면 CloudFront는 액세스 로그 데이터를 사용하지만 액세스 로그를 활성화해 S3로 전송하지 않아도 report가 자동으로 생성된다.
+- Trouble Shooting
+  - S3나 Origin 서버에서 반환된 HTTP 4XX 및 5XX 상태 코드를 전체 캐시에 저장한다. Origin에 파일이 없어도 응답이 캐시되며, 4xx는 사용자가 기본 버킷에 액세스할 수 없거나(403), 객체가 존재하지 않음(404)을 의미한다. 5xx는 게이트웨이 문제를 나타낸다.
+- 콘솔에서 CloudFront 배포의 로깅 설정을 확인할 수 있고, 기존에 생성한 S3 버킷을 선택하고 접두사를 지정해 버킷에 로그를 전송할 수 있다. 액세스 로그를 Athena와 같은 서비스를 사용해 분석할 수도 있다.
+
+
 ## **CloudFront Caching - Deep Dive**
 
 CloudFront 캐싱에 대해 알아보자
@@ -7204,6 +7220,61 @@ GET /image/cat.jpg?border=red&size=large 등의 쿼리 문자열이 있다.
 - 필요한 최소한의 쿠키를 지정하거나 지정하지 않는다.
 - 그리고 쿼리 문자열 매개변수도 동일하게 지정
 - 정적 및 동적 배포를 분리하기
+
+**정리**
+- CloudFront는 여러 기준에 따라 캐싱할 수 있다.
+  - 헤더
+  - 세션
+  - 쿠키
+  - 쿼리 문자열 매개변수
+- 캐시는 전 세계 CloudFront Edge Location에 존재하고, 클라이언트가 Edge Location에 요청을 보내면 데이터가 캐시되어 있다면 헤더와 쿠키, 캐시의 TTL에 따라 캐시에서 데이터를 제공한다.
+- 데이터가 캐시에 없으면 요청을 오리진으로 전달하고 데이터를 가져와 클라이언트에 전송하고 결과를 캐싱한다.
+- Origin 요청을 최소화하려면 캐시 적중률을 최대화해야 한다.
+- 헤더를 사용해 TTL 을 제어할 수 있다. 제어할 수 있는 헤더는 Cache-Control 헤더와 Expires 헤더이다.
+- CreateInvalidation API를 사용해 캐시의 일부를 무효화할 수 있다.
+- 각각에 대한 캐싱 동작을 자세히 살펴보자
+  - Headers
+    - 클라이언트가 CloudFront 배포에 HTTP 요청을 보내면 헤더도 함께 전달된다.
+    - 헤더에는 Host, User-Agent, Date, Authorization, Keep-Alive, Accept-Ranges 등등이 있다.
+    - 이 헤더에 대해 세 가지 방식으로 행동(Behavior)을 지정할 수 있다.
+      - 모든 헤더를 오리진으로 전달: 이 경우 캐싱 되지 않고 모든 요청이 오리진으로 간다. CloudFront를 캐싱용으로 사용하지 않으므로 TTL은 0으로 설정해야 한다.
+      - Whitelist의 헤더만 전달: 이 경우 지정된 헤더의 모든 값을 기반으로 캐싱된다.
+      - 헤더를 전달하지 않는 경우: 기본 헤더만 전달되고 요청 헤더 기반 캐싱은 수행되지 않는다. 이 경우 헤더가 요청에서 제거되므로 가장 높은 캐싱 성능을 제공한다.
+    - CloudFront Caching - Whitelist
+      - 화이트리스트의 경우 Host와 Authorization 헤더를 화이트리스트에 포함시키고, 이러한 헤더만 오리진으로 전달되고 이 시점에서 캐싱이 발생한다.
+      - 클라이언트에서 오리진까지 전달되는 헤더 값이 적기 때문에 캐싱할 값이 적어져 캐싱 성능이 향상도니다.
+      - 동일한 요청에 동일한 헤더가 있으면 CloudFront가 직접 응답할 수 있다.
+    - Origin Headers vs Cache Behavior
+      - Origin Custom 헤더는 캐싱 용도가 아니며 오리진에 헤더를 전달하는 용도이다. 
+      - 그러나 Caching Behavior는 캐싱 관련 설정이며, 오리진으로 전달하고 캐싱할 헤더 목록이 포함된다. 
+      - CloudFront-is-desktop-viewer나 CloudFront-is-mobile-viewer 헤더를 화이트리스트에 포함하여 오리진으로 전달할 수 있음
+    - CloudFront Caching - TTL
+      - 원하는 경우 오리진에서 헤더로 응답해야 한다.
+      - 헤더는 Cache-Control: max-age이거나 Expires가 될 수 있지만, Cache-Control: max-age 헤더를 오리진에서 반환하는 것이 최신 표준이자 가장 좋은 방법이다.
+      - 오리진에서 항상 Cache-Control: max-age 헤더를 반환하면 TTL을 헤더로 직접 제어하고 애플리케이션으로 제어할 수 있다.
+      - TTL에 최소/최대 TTL을 설정하고 싶다면 Object Caching 설정에서 사용자가 지정할 수 있다. Cache-Control이 없으면 기본 TTL이 적용된다.
+      - 정리하자면, Behavior 설정에서 객체 캐싱에 대해  Use Origin Cache Header를 선택하는 경우 애플리케이션에서 캐시를 설정하게 되고 최소 TTL, 최대 TTL, 기본 TTL을 사용자 지정할 수 있다. 오리진의 응답에 Cache-Control 헤더가 없으면 기본 TTL 값이 적용된다. Cache-Control 헤더가 최소 TTL값 보다 작으면 최소값이 적용되고, 최대값보다 크면 최대값이 사용된다.
+    - CloudFront Cache Behavior
+      - 쿠키는 특정 헤더이지만 쿠키라는 헤더 이름에 많은 키-값 쌍이 포함된다.
+      - 예를들어 username=John Doe, location=UK, lang=eng 등 쿠키가 헤더에 포함되어 있을 수 있다.
+      - 쿠키에도 세 가지 설정이 있다.
+        - 쿠키를 처리하지 않는 것(기본값): 캐싱이 쿠키를 기반으로 하지 않고 CloudFront에서 오리진으로 쿠키를 전달하지 않는다.
+        - Whitelist의 쿠키만 전달: 지정된 큌 값을 기반으로 캐싱된다.
+        - 모든 쿠키를 전달: 이 경우 캐싱 성능이 가장 나빠지지만, 애플리케이션에서 모든 쿠키를 사용할 수 있다.
+      - 애플리케이션에서 쿠키를 어떻게 사용하는지에 따라 가장 좋은 캐싱 성능을 위해 CloudFront를 적절히 설정해야 한다.
+    - Query Strings
+      - GET 요청을 할때 ?border=red&size=large와 같은 쿼리 문자열이 URL에 포함되어 있을 때의 경우를 예로 들어보자.
+      - 여기에도 세 가지 옵션이 있다.
+        - 처리하지 않는것 (기본값): 쿼리 문자열이 오리진으로 전달되지 않고 캐싱 기준이 되지 않는다.
+        - Whitelist에 포함된 쿼리 문자열만 전달: 화이트리스트 쿼리 문자열을 기반으로 캐싱
+        - 모든 쿼리 문자열 매개변수 전달: 캐싱 성능이 가장 나빠지는데 값이 많기 때문이다.
+- 캐싱 적중률 최대화하는 방법
+  - 정적 컨텐츠와 동적 컨텐츠 배포를 분리: CloudFront 계층에서 정적 요청은 CloudFront를 통해 정적 컨텐츠 S3 버킷으로 전송. 이 경우 헤더, 쿠키, 세션 캐싱 규칙을 사용하지 않으므로 캐시 적중률이 극대화되며,
+    동적 컨텐츠의 경우 ALB + EC2 인스턴스나 API GW + 람다 등 애플리케이션으로 전달한다. 이 경우 헤더와 쿠키를 사용할 수 있고, 이때 CloudFront 배포를 애플리케이션에 맞게 설정하면 캐시 효율을 최대화할 수 있다.
+  - CloudWatch 메트릭 CacheHitRate 확인
+  - Cache-Control: max-age 헤더와 같은 캐시 보관 기간 지정
+  - 최소한의 헤더, 쿠키, 쿼리 문자열 매개변수 지정
+- 시험에서 CloudFront의 오리진 헤더와 캐시 동작에 대한 질문이 있을 수 있다.
 
 ## **CloudFront with ALB Sticky Sessions**
 
