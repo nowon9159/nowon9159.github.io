@@ -6973,7 +6973,12 @@ ALB를 사용하는 예시이다.
 마찬가지로 ALB는 공개 되어야 하며, 이 경우 백엔드 EC2 인스턴스는 프라이빗이 될 수 있다.
 
 단지 EC2 인스턴스 보안 그룹이 로드 밸런서의 보안 그룹을 허용하도록만 하면 된다.
-사용자는 Edge Location에 액세스하고, 애플리케이션 로드 밸렁너스이 보안 그룹에서 Edge Location의 공개 IP를 허용하여 연결을 설정할 수 있다.
+사용자는 Edge Location에 액세스하고, 애플리케이션 로드 밸런서의 보안 그룹에서 Edge Location의 공개 IP를 허용하여 연결을 설정할 수 있다.
+
+**정리**
+- CloudFront는 EC2나 ALB같은 사용자 정의 HTTP 백엔드에 액세스할 수 있다.
+- EC2 인스턴스의 경우 Public하게 공개되거나, Edge Location의 모든 Public IP 목록을 허용하는 보안 그룹이 있어야 한다. 해당 IP 목록은 따로 기재되어 있다.
+- ALB의 경우 ALB 또한 Public하게 공개 되어야 하며, 이 경우 백엔드 EC2는 프라이빗이 될 수 있다.
 
 ## **[SAA/DVA] CloudFront - Geo Restriction**
 
