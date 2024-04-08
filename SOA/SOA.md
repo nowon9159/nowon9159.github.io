@@ -6992,6 +6992,13 @@ CloudFront에는 지리적 제한(Geo Restriction)을 할수 있다.
 
 지리적 제한을 사용하는 사용 사례는 저작권 법률을 준수해 콘텐츠 액세스를 제어하는 것이다.
 
+**정리**
+- CloudFront는 지리적 제한(Geo Restriction)을 설정할 수 있다.
+- Client가 CloudFront 배포를 통해 Origin으로 액세스할 수 있는 국가를 제한하는 것이다.
+- 승인된 국가 목록을 정의하는 Allow 목록을 설정하거나 Deny할 국가 목록을 설정할 수 있다.
+- 국가는 사용자의 IP를 국가에 매칭하는 제 3자 Geo-IP 데이터베이스를 사용하여 결정된다.
+- 사용 사례는 저작권 법률을 준수해 콘텐츠 액세스를 제어하는 것이다.
+
 ## **CloudFront Reports, Logs and Troubleshooting**
 
 CloudFront의 액세스 로그에 대해 이야기 해보자
