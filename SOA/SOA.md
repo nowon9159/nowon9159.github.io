@@ -7724,7 +7724,7 @@ per second granularity 가 있다. 이는 모니터링을 얼마나 세밀하게
   - ReadThroughPut / Write ThroughPut
   - DiskQueueDepth
   - FreeStorageSpace
-  - 위 메트릭을 통해 여러 문제를 해결 가능하다. 예를 들어 지연 시간이 높으면 문제가 있거나, 읽기 IOPS가 급격히 증가하면 EBS 볼륨의 IOPS 한도에 도달하거나, 디스크 대기열 깊이가 너무 높으면 많은 작업이 실행되기를 기다리고 있다는 것을 의미한다.
+  - 위 메트릭을 통해 여러 문제를 해결 가능하다. 예를 들어 지연 시간이 높으면 문제가 있거나, 읽기 IOPS가 급격히 증가하면 EBS 볼륨의 IOPS 한도에 도달하거나, DiskQueueDepth가 너무 높으면 많은 작업이 실행되기를 기다리고 있다는 것을 의미한다.
 - 또한 향상된 모니터링(Enhanced Monitoring)을 활성화할 수 있다.
   - 향상된 모니터링은 일반적으로 DB 인스턴스에서 실행되는 에이전트로부터 수집되는 메트릭
   - CPU
