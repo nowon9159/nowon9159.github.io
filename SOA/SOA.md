@@ -7578,6 +7578,14 @@ RDS 프록시는 설정 시 여러 옵션이 있다.
 - require_secure_transport=1
   - MySQL과 MariaDB에는 위와 비슷한 파라미터가 있어 SSL 연결을 강제할 수 있다.
 
+**정리**
+- RDS Parameter Group은 데이터베이스 엔진을 사용자 정의할 수 있도록 파라미터를 지정하는 것
+- 두 종류가 있다. 즉시 적용되는 동적 파라미터, 데이터베이스 인스턴스가 다시 부팅된 후에만 적용되는 정적 파라미터
+- 또한 데이터베이스 인스턴스에서 파라미터 그룹을 전체적으로 다른 파라미터 그룹으로 변경할 수도 있다. 이 경우 데이터베이스를 다시 부팅해야 하지만, 사용자 정의 그룹으로 변경하는 것은 매우 편리하다.
+- 시험 관점에서 반드시 알아야 할 파라미터
+  - rds.force_ssl=1 : PostgreSQL 및 SQL 서버의 경우 이 값을 1로 설정해서 SSL 연결을 강제할 수 있다.
+  - require_secure_transport=1 : MySQL과 MariaDB에는 rds.force_ssl와 비슷한 파라미터인 require_secure_transport로 SSL 연결을 강제한다.
+
 ## **RDS Backups and Snapshots**
 
 RDS에서 백업과 스냅샷의 차이에 대해 알아보자
