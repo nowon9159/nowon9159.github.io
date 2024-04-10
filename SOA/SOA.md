@@ -10250,3 +10250,27 @@ Public Hosted Zone의 경우 브라우저가 example.com에 대한 쿼리를 요
 Private Hosted Zone의 경우 VPC 내부에서 존재하며, VPC 내부의 비공개 리소스를 비공개 도메인 이름으로 식별할 수 있게 해준다.
 예를 들어 특정 A 인스턴스에서 B 인스턴스로 트래픽을 전송하기 위해 api.example.internal을 Private Hosted Zone에 요청하면 B 인스턴스의 IP를 답변해준다.
 
+
+## **[SAA/DVA] Route 53 - Registering a Domain**
+
+우리는 Route53에서 도메인을 등록할 수 있다.
+
+example.com 등의 특정 도메인 이름을 등록할 수 있다. 
+
+도메인 이름을 등록하기 위해서는 연간 12달러를 지불해야 한다.
+
+Duration을 설정할 수 있으며 자동 갱신(Auto-renew)을 사용할 수 있다. 
+
+도메인을 유지하려면 자동 갱신을 둘 수 있으며, 자동 갱신을 사용하지 않으면 사용자가 도메인을 잃었을 때 다른 사람이 내 도메인을 사게될 것이다.
+
+Registrant contact 란에서 계정의 정보를 설정할 수 있으며, Admin Contact와 Tech Contact를 registrant contact와 동일하게 설정할 수 있다.
+
+Privacy protection을 설정하면 스팸을 받지 않을 수 있다. 웬만하면 개인 정보 보호를 활성화 하는 것이 좋다.
+그래서 우리의 실제 연락처 정보, 우리의 개인 주소, 전화 번호 등이 인터넷에서 숨겨진다.
+
+생성된 도메인을 확인하기 위해 Hosted Zone에서 우리가 생성한 도메인 이름을 클릭하면 여러 개의 레코드가 있을 것이다.
+
+기본적으로 NS 레코드와 SOA 레코드 두 개를 가지고 있을 것이다.
+
+## **[SAA/DVA] Route 53 - Creating our first records**
+
