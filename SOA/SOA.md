@@ -10199,3 +10199,54 @@ http는 프로토콜이다.
 9.  그리고 Local DNS Server는 누군가가 example.com을 물으면 즉시 대답을 해주기 위해 답을 캐시하게 된다.
 10. 따라서 Local DNS Server는 답을 캐시하고, 우리의 브라우저로 답을 보내고, 이제 우리의 브라우저는 답을 가지고 있고 이 IP 주소를 사용해 웹 서버에 액세스할 수 있을 것이다.
 
+## **[SAA/DVA] Route 53 Overview**
+
+Route53은 고가용성, 확장 가능성, 완전 관리형의 Authoritative DNS이다.
+
+Authoritative란 고객이 DNS 레코드를 업데이트할 수 있으므로 이 DNS에 완전한 제어권을 갖게 되며, 우리가 클라이언트를 가지고 있고, 클라이언트가 우리의 EC2 인스턴스 example.com에 액세스하려고 할 때 Route53 서비스가 클라이언트의 example.com 요청을 우리 서버의 공용 IP인 54.22.33.44로 반환해주는 것이다.
+
+따라서 Route53은 Domain Registrar이기도 하기 때문에, example.com과 같은 자체 도메인 이름을 등록할 수 있게 된다.
+
+Route53 내의 리소스의 상태를 확인 (health check)할 수 있는 능력을 갖고 있다.
+
+AWS에서 100% 가용성 SLA를 제공하는 유일한 서비스이다.
+
+Route53은 53이 전통적인 DNS 포트 번호이기 때문에 이렇게 부르는 것이다.
+
+**Route53 - Records**
+Route53에서는 여러 DNS 레코드를 정의하게 되며, 이 레코드들은 특정 도메인으로의 트래픽 라우팅 방법을 정의한다.
+
+각 레코드는 아래와 같은 것을 포함하고 있다.
+- Domain/subdomain Name: example.com과 같은 도메인
+- RecordType: A 나 AAAA 와 같은 레코드 유형
+- Value: 12.34.56.78과 같은 값
+- Routing Policy: Route53이 쿼리에 응답하는 방법
+- TTL: 레코드가 DNS 리졸버에서 캐시될 시간, Time To Live
+
+그리고 Route53에서 지원하는 다양한 DNS 레코드 유형이 있다.
+- 반드시 알아야하는 A, AAAA, CNAME, NS
+- 그 외에 CAA, DS, MX, NAPTR, PTR, SOA, TXT, SPF, SRV
+
+레코드 타입에 대해 자세히 알아보자
+- A 레코드는 호스트 이름을 IPv4 IP에 매핑하는 것이다. 예를 들어 example.com을 1.2.3.4로 지정하는 것이다.
+- AAAA 레코드는 호스트 이름을 IPv6 주소에 매핑하는 것이다.
+- CNAME은 호스트 이름을 다른 호스트 이름으로 매핑하는 데 사용된다. 그리고 대상 호스트 이름은 A 또는 AAAA 레코드가 될 수 있다. DNS 네임 스페이스의 탑 노드 또는 Zone Apex에서 CNAME을 생성할 수 없다. 예를 들어 example.com에 대해서는 CNAME을 생성할 수 없지만, www.example.com에 대해서는 CNAME 레코드를 생성할 수 있다.
+- NS는 호스팅된 존의 이름 서버를 의미한다. 이는 우리가 호스팅된 존에 대한 DNS 쿼리에 응답할 수 있는 서버의 DNS Name 또는 IP 주소이며, 이는 트래픽이 도메인으로 라우팅되는 방식을 제어한다.
+
+Route53에서 Hosted Zones란 무엇인가?
+호스팅된 존은 레코드들의 컨테이너이며, 트래픽을 도메인과 서브도메인으로 어떻게 라우팅할지를 정의한다.
+
+Public Hosted Zone과 Private Hosted Zone이 있다.
+
+Public Hosted Zone의 경우 mypublicdomain.com과 같은 public domain name을 구매할 때마다 생성될 수 있으며, 이는 공개적인 도메인 이름이므로 Public Hosted Zone을 생성할 수 있으며 이 공개적인 존은 쿼리에 답할 수 있다.
+
+Private Hosted Zone의 경우 공개적으로 이용할 수 없는 도메인 이름에 사용된다. 이것은 1개 또는 그 이상의 우리 VPC 내에서만 이 URL을 해결할 수 있다.
+예를 들어 application1.company.internal과 같은 것이다. 때때로 회사 내부에서만 액세스할 수 있는 URL이 있을텐데 이 URL이 비공개이며, 비공개 DNS 레코드가 있기 때문이다.
+
+AWS에서 생성하는 모든 hosted zone 별로 0.05$를 지불해야한다. Route53을 사용하는 것이 무료가 아님을 알수 있다.
+
+Public Hosted Zone의 경우 브라우저가 example.com에 대한 쿼리를 요청하면 IP가 반환된다.
+
+Private Hosted Zone의 경우 VPC 내부에서 존재하며, VPC 내부의 비공개 리소스를 비공개 도메인 이름으로 식별할 수 있게 해준다.
+예를 들어 특정 A 인스턴스에서 B 인스턴스로 트래픽을 전송하기 위해 api.example.internal을 Private Hosted Zone에 요청하면 B 인스턴스의 IP를 답변해준다.
+
