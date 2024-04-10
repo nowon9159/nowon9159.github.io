@@ -10150,3 +10150,52 @@ Cognito User Pools
 결국 CUP와 CIP를 동시에 사용하면 Authentication 과 Authorization이 제공되는 것이다.
 
 ## **[SAA/DVA] What is a DNS?**
+
+Route53을 이해하기 전에 DNS가 무엇인지부터 이야기 해보자
+
+DNS는 Domain Name System 으로 인간 친화적인 호스트 이름을 대상 서버 IP 주소로 변환해준다.
+
+예를 들어 웹 브라우저에 www.google.com을 입력하면 결국 IP 주소를 반환해 주는데, 이 IP 주소를 통해 웹 브라우저가 Gogle에서 데이터를 가져올 수 있다.
+www.google.com -> 172.217.18.36
+
+DNS는 인터넷의 중추이다. 이것은 URL이나 호스트 이름을 IP로 번역하는 방법을 이해하는 데 도움이 된다.
+
+DNS에는 계층적인 네이밍 구조가 있으며 예를 들어 www.google.com의 루트에는 .com이 있지만 조금 더 구체적으로 example.com이 있다. 그 다음 www.example.com이나 api.example.com이 있다.
+
+이 모든 것들이 도메인 이름의 계층 구조이다.
+
+**DNS 용어**
+- Domain Registrar: Amazon Route 53, GoDaddy 와 같이 도메인 이름을 등록하는 곳
+- DNS Records: A, AAAA, CNAME, NS 등이 있다.
+- Zone File: 모든 DNS Records를 포함하는 존 파일. 호스트 이름을 IP나 주소에 매핑하는 방법
+- Name Server: 실제로 DNS 쿼리를 해결하는 서버
+- Top Level Domain: .com, .us, .in, .gov, .org 등등
+- Second Level Domain: amazon.com, google.com 등등
+
+도메인의 수준의 경우 최상위 도메인은 .com, .us 등이지만 두 번째 수준 도메인은 amazon.com이나 google.com 이다.
+예를 들어 FQDN(전체 정규 도메인 이름)을 보면 http://api.www.example.com. 과 같은데, 
+마지막 점을 루트라고 하며, 모든 도메인 이름의 루트이다.
+그런 다음 .com은 Top Level Domain이다.
+example.com이 Second Level Domain이다.
+www.example.com은 Sub Domain이다.
+api.www.example.com은 FQDN 즉, 전체 정규 도메인 이름이다.
+http는 프로토콜이다.
+
+위와 같은 모든 것들이 함께 URL이 된다.
+
+**DNS는 어떻게 동작하는가?**
+웹 서버가 있고, 공용 IP를 가진 EC2 인스턴스의 경우 9.10.11.12의 IP를 가지고 있다고 했을 때 이 IP가 example.com 도메인 이름을 사용하여 액세스할 수 있기를 원한다.
+
+우리는 이 example.com 도메인 이름을 DNS에 등록한 다음 컴퓨터, 웹 브라우저가 어떻게 액세스하고 응답을 받을 수 있는지 알아보자
+
+1.  우리의 웹 브라우저는 example.com에 액세스하려고 할 것이다.
+2.  그리고 도메인에 접근하기 위해 Local DNS 서버에 질의할 것이다. "당신은 example.com을 알고 있나요?", 이 경우 로컬 DNS 서버는 보통 회사에 의해 할당되고 관리되거나 동적으로 우리의 ISP에 의해 할당된다.
+3.  그리고 로컬 DNS 서버가 이 쿼리를 이전에 본 적 없다면, ICANN이 관리하는 루트 DNS 서버에 물어볼 것이다.
+4.  그리고 루트 DNS 서버는 "해당 도메인을 본적 없지만, .com을 알고 있어"라고 답변할 것이다. 그리고 .com은 NS이므로, 네임 서버이고 네임 서버의 공용 IP인 1.2.3.4 를 알려준다.
+5.  그리고 다시 ICANN의 branch인 IANA가 관리하는 TLD DNS Server인 .com 네임 서버에 쿼리 된다. "example.com에 대해 알고 있나요?"
+6.  그럼 결국 TLD DNS Server는 "example.com에 대해 알고 있지만, 쿼리에 대한 답을 즉시 가지고 있지는 않아. example.com은 5.6.7.8의 공용 IP에 있어" 라고 말할 것이다.
+7.  그래서 로컬 DNS 서버는 최종적으로 Domain Registrar가 관리하는 SLD DNS Server인 example.com으로 이동할 것이다. "안녕 example.com에 대해 알고 있니?"라고 질의를 로컬 DNS 서버가 하게 되면 "example.com에 대해 알고 있어. example.com은 A 레코드이고 결과는 IP 9.10.11.12야" 라고 말할 것이다.
+8.  DNS 서버는 결국 재귀적으로 DNS Server에게 질의하여 답을 알게 되었다.
+9.  그리고 Local DNS Server는 누군가가 example.com을 물으면 즉시 대답을 해주기 위해 답을 캐시하게 된다.
+10. 따라서 Local DNS Server는 답을 캐시하고, 우리의 브라우저로 답을 보내고, 이제 우리의 브라우저는 답을 가지고 있고 이 IP 주소를 사용해 웹 서버에 액세스할 수 있을 것이다.
+
