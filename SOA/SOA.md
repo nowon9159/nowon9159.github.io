@@ -10561,3 +10561,26 @@ Route53은 여러 개의 값 또는 리소스를 반환한다.
 
 Simple 라우팅 정책에는 Health check가 허용되지 않으므로 쿼리에서 반환되는 리소스 중 하나가 건강하지 않을 수 있다.
 이것이 Multi Value가 더 강력한 레코드 유형인 이유이다.
+
+## **[SAA/DVA] 3rd Party Domains & Route 53**
+
+Domain Registar(도메인 등록 대행자)와 DNS 서비스의 차이점에 대해 알아보자
+
+도메인 이름은 원하는 Registar에서 구매할 수 있으며, 연간 요금을 지불해야 한다. Route53을 통해 Amazon Registar를 사용하거나, GoDaddy, Google Domain 등 다른 Registar를 이용할 수도 있다.
+
+일반적으로 Domain Registar를 통해 도메인을 등록하면 DNS 레코드 관리를 위한 DNS 서비스도 제공된다.
+
+Amazon에서 도메인을 등록하면 Route53 Hosted Zone에서 DNS 레코드를 관리할 수 있다.
+
+하지만 Amazon Domain Registar에서 도메인을 구매했다고 해서 반드시 Route53을 DNS 서비스로 사용핧 필요는 없다. 반대로 GoDaddy에서 도메인을 구매하고 DNS 레코드 관리를 위해 Route53 을 사용할 수도 있다.
+
+GoDaddy에서 도메인을 등록하고 Route53을 사용하는 경우에는 네임서버 옵션에서 사용자 지정 네임서버 (custom name server)를 지정해야 한다.
+
+입력할 값은 Route 53의 퍼블릭 호스팅 영역에서 찾을 수 있고, 호스팅 영역 세부 정보에서 오른쪽에 있는 4개의 네임서버 값을 GoDaddy 웹사이트에 입력하면 된다.
+
+이렇게 하면 GoDaddy에서 "어떤 네임서버를 사용해야 하나?" 라는 쿼리가 올 때, 해당 네임서버가 Route 53 네임서버를 가리키게 된다. 그러면 Rotue 53 콘솔에서 DNS 레코드를 관리할 수 있다.
+
+요약하면 제 3자 Registar에서 도메인을 구매했더라도 Route53을 DNS 서비스 제공자로 사용할 수 있다.
+
+Domain Registar는 DNS 기능을 일부 제공하지만 DNS 서비스 제공자와는 다르다.
+
