@@ -10564,15 +10564,15 @@ Simple 라우팅 정책에는 Health check가 허용되지 않으므로 쿼리�
 
 ## **[SAA/DVA] 3rd Party Domains & Route 53**
 
-Domain Registar(도메인 등록 대행자)와 DNS 서비스의 차이점에 대해 알아보자
+Domain Registrar(도메인 등록 대행자)와 DNS 서비스의 차이점에 대해 알아보자
 
-도메인 이름은 원하는 Registar에서 구매할 수 있으며, 연간 요금을 지불해야 한다. Route53을 통해 Amazon Registar를 사용하거나, GoDaddy, Google Domain 등 다른 Registar를 이용할 수도 있다.
+도메인 이름은 원하는 Registrar에서 구매할 수 있으며, 연간 요금을 지불해야 한다. Route53을 통해 Amazon Registrar를 사용하거나, GoDaddy, Google Domain 등 다른 Registrar를 이용할 수도 있다.
 
-일반적으로 Domain Registar를 통해 도메인을 등록하면 DNS 레코드 관리를 위한 DNS 서비스도 제공된다.
+일반적으로 Domain Registrar를 통해 도메인을 등록하면 DNS 레코드 관리를 위한 DNS 서비스도 제공된다.
 
 Amazon에서 도메인을 등록하면 Route53 Hosted Zone에서 DNS 레코드를 관리할 수 있다.
 
-하지만 Amazon Domain Registar에서 도메인을 구매했다고 해서 반드시 Route53을 DNS 서비스로 사용핧 필요는 없다. 반대로 GoDaddy에서 도메인을 구매하고 DNS 레코드 관리를 위해 Route53 을 사용할 수도 있다.
+하지만 Amazon Domain Registrar에서 도메인을 구매했다고 해서 반드시 Route53을 DNS 서비스로 사용핧 필요는 없다. 반대로 GoDaddy에서 도메인을 구매하고 DNS 레코드 관리를 위해 Route53 을 사용할 수도 있다.
 
 GoDaddy에서 도메인을 등록하고 Route53을 사용하는 경우에는 네임서버 옵션에서 사용자 지정 네임서버 (custom name server)를 지정해야 한다.
 
@@ -10580,9 +10580,9 @@ GoDaddy에서 도메인을 등록하고 Route53을 사용하는 경우에는 네
 
 이렇게 하면 GoDaddy에서 "어떤 네임서버를 사용해야 하나?" 라는 쿼리가 올 때, 해당 네임서버가 Route 53 네임서버를 가리키게 된다. 그러면 Rotue 53 콘솔에서 DNS 레코드를 관리할 수 있다.
 
-요약하면 제 3자 Registar에서 도메인을 구매했더라도 Route53을 DNS 서비스 제공자로 사용할 수 있다.
+요약하면 제 3자 Registrar에서 도메인을 구매했더라도 Route53을 DNS 서비스 제공자로 사용할 수 있다.
 
-Domain Registar는 DNS 기능을 일부 제공하지만 DNS 서비스 제공자와는 다르다.
+Domain Registrar는 DNS 기능을 일부 제공하지만 DNS 서비스 제공자와는 다르다.
 
 ## **S3 Website with Route 53**
 
@@ -10599,3 +10599,4 @@ Route 53으로 이동해 A 레코드 유형의 Alias 레코드를 생성한다.
 
 HTTP 트래픽에만 적용되며, HTTPS 지원을 위해서는 CloudFront 같은 CDN 솔루션을 사용해야 한다.
 
+## **Route 53 Resolvers & Hybrid DNS**
