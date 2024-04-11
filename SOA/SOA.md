@@ -10544,3 +10544,20 @@ Route53에서는 클라이언트의 IP 범위인 CIDR 목록을 정의하고, CI
 예를 들어 특정 인터넷 제공업체가 특정 CIDR IP 주소를 사용하는 것을 알고 있다면, 이 전략을 통해 그들을 특정 엔드포인트로 라우팅할 수 있다.
 
 예를 들어 200.5.4.100 IP를 가진 Client A와 203.0.113.56 IP를 가진 Client B가 있을 때 Location-1은 203.0.113.0/24 Location-2는 200.5.4.0/24로 지정하고 Record 값에서 A 인스턴스는 Location-1로 B 인스턴스틑 Location-2로 지정하게 되면 IP 기반으로 라우팅할 수 있는 것이다.
+
+## **[SAA/DVA] Routing Policy - Multi Value**
+
+이 정책은 여러 리소스로 트래픽을 라우팅하고자 할 때 사용된다.
+
+Route53은 여러 개의 값 또는 리소스를 반환한다.
+
+이들을 Health check와 연결할 수 있으므로 Multi Value 정책을 통해 반환되는 유일한 리소스는 Healthy한 리소스이다.
+
+각 Multi Value 쿼리에 대해 최대 여덟 개의 Healthy 레코드가 반환된다.
+이게 ELB를 대체하는 것은 아니고, 클라이언트 측의 로드 밸런싱이다.
+
+예를 들어 example.com에 대해 여러 개의 A 레코드를 설정하고 Health check와 연결했을 때 클라이언트가 Multi Value 쿼리를 수행하면 최대 여덟 개의 레코드가 반환되고 그 중 하나를 클라이언트가 선택한다.
+그러나 Health check와 결합해 최소한 여덟 개 중 하나의 레코드가 건강한 것임을 알 수 있고, Simple 라우팅에 여러 값이 있는 경우와는 다르다.
+
+Simple 라우팅 정책에는 Health check가 허용되지 않으므로 쿼리에서 반환되는 리소스 중 하나가 건강하지 않을 수 있다.
+이것이 Multi Value가 더 강력한 레코드 유형인 이유이다.
