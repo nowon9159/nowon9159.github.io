@@ -10293,3 +10293,36 @@ TTL은 Alias 레코드를 제외한 모든 레코드에 필수이다.
 캐시가 만료되기 전까지는 새로 질의하지 않고 캐시된 응답을 사용하며, 캐시 기간 중 레코드 값을 변경하여도 기존 캐시된 응답을 계속 사용한다.
 
 따라서 TTL 값에 따라 캐싱 기간이 결정되고, 이는 Route53 트래픽과 레코드 전파 시간에 영향을 미친다.
+
+## **[SAA/DVA] CNAME vs Alias**
+
+로드밸런서와 CloudFront와 같은 AWS 리소스에는 호스트 이름(LB 예: lb 1-1234.us-east-2.elb.amazonaws.com)이 할당된다. 이 호스트 이름을 사용자 지정 도메인에 매핑하고 싶을 때 두 가지 옵션이 있다.
+
+1.  CNAME
+  - CNAME은 호스트 이름을 다른 호스트 이름으로 매핑할 수 있다.
+  - 예를 들어 app.mydomain.com을 blabla.anything.com으로 매핑할 수 있다.
+  - 단, 루트 도메인 mydomain.com에는 사용할 수 없고, something.mydomain.com과 같은 서브 도메인에만 가능하다.
+2.  Alias 레코드
+  - Route53에 특화된 기능이다. 이를 통해 호스트 이름을 AWS 리소스로 직접 매핑할 수 있다.
+  - 예를 들어 app.mydomain.com을 blabla.amazonaws.com 리소스로 매핑한다.
+  - Alias는 루트/서브 도메인 모두에서 작동한다.
+
+Alias는 무료이며 네이티브 Health check 기능도 제공하므로 매우 유용하다.
+
+Alias는 AWS 리소스에만 매핑할 수 있다.
+예를 들어 Route53에서 example.com을 A 타입 Alias로 생성하고 로드밸런서 DNS 이름을 값으로 설정할 수 있다.
+기존 DNS 기능을 확장한 것이며, 대상 ALB의 IP가 변경되어도 Alias 레코드에 자동으로 반영된다.
+
+Alias는 CNAME과 달리 example.com과 같은 Zone Apex에도 사용 가능하다.
+레코드 타입은 IPv4(A) IPv6(AAAA)여야 하고, TTL을 수동으로 설정할 수 없고 Route53에서 자동 설정한다.
+
+Alias 대상으로는 ELB, CloudFront, API Gateway, Elastic Beanstalk 환경, S3 웹사이트, VPC 인터페이스 엔드포인트, Global Accelerator, 동일 호스팅 영역의 Route 53 레코드 등이 있다.
+
+단, EC2 DNS 이름에는 Alias를 설정할 수 없다.
+
+예를 들어 CNAME 레코드를 myapp.example.com으로 하고 ALB의 DNS 이름을 값으로 넣었을 때, ALB에 myapp.example.com로 접근할 수 있게 된다.
+
+그런데, CNAME은 AWS 기반 방식이 아니기 때문에 ALB에 리디렉션하는 경우에는 Alias 레코드를 생성하는 것이 더 낫다.
+
+CNAME은 Zone Apex에서 사용할 수 없지만, Alias 레코드는 Zone Apex에서도 작동한다는 것을 유의하면 좋다. 시험에서 나올 수 있음
+
