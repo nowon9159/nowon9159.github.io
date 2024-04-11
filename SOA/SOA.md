@@ -10453,3 +10453,22 @@ CloudWatch Metric으로 Private 서브넷의 EC2 인스턴스의 health status�
 
 결국 Private 리소스에 대한 Health check를 생성하는 가장 일반적인 사용 사례가 될 것이다.
 
+## **[SAA/DVA] Routing Policy - Failover**
+
+장애 조치(Failover) 라우팅 정책에 대해 이야기 해보자
+
+Route53이 중간에서 2개의 인스턴스가 있다. 한 개는 Primary 인스턴스이고 두 번째는 Secondary인 재해 복구 용 인스턴스이다.
+
+이 경우 Primary 인스턴스를 헬스 체크 설정을 하고 헬스 체크가 비정상이되면 Route53이 자동으로 두 번째 EC2 인스턴스로 장애 조치를 수행하고 두 번째 EC2에서 결과를 반환하게 된다.
+
+Primary와 Secondary는 각각 하나씩만 설정 가능하다.
+
+클라이언트가 DNS 요청을 할 때 자동으로 Health 상태로 간주되는 리소스를 받게 된다.
+
+따라서 Primary에 대한 Health check가 비정상이되면 자동으로 두 번째 레코드의 응답을 받게 된다.
+
+예를 들어 failover.example.com 의 A 레코드로 Primary 인스턴스를, 라우팅 정책은 failover로 지정한다.
+TTL의 경우 60초와 같이 매우 낮게 설정한다.
+
+failover record type은 Primary와 Secondary로 설정 가능하다.
+
