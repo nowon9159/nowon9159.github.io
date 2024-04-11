@@ -10584,3 +10584,18 @@ GoDaddy에서 도메인을 등록하고 Route53을 사용하는 경우에는 네
 
 Domain Registar는 DNS 기능을 일부 제공하지만 DNS 서비스 제공자와는 다르다.
 
+## **S3 Website with Route 53**
+
+S3 웹사이트를 Route 53과 연결하는 방법을 알아보자
+
+먼저 S3 버킷을 생성할 때 도메인 이름과 정확히 같은 이름으로 만든다. Route53 레코드 이름과 일치해야 한다. 예를 들어 domain.example.com과 같이 버킷 네임을 만들어야함
+
+버킷에 Web site hosting을 활성화하고 객체를 공개적으로 액세스 가능하도록 설정한다.
+
+Route 53으로 이동해 A 레코드 유형의 Alias 레코드를 생성한다.
+레코드 이름은 domain.example.com이고, 값은 S3 웹사이트 엔드포인트인 s3-website.{특정 region 값}.amazonaws.com
+
+버킷 이름과 레코드 이름이 정확히 일치하면 해당 URL(domain.example.com)로 S3 버킷에 액세스할 수 있다.
+
+HTTP 트래픽에만 적용되며, HTTPS 지원을 위해서는 CloudFront 같은 CDN 솔루션을 사용해야 한다.
+
