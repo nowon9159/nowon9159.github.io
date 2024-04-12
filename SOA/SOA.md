@@ -264,6 +264,23 @@ $contents
     - [**[DVA] Cognito Identity Pools Overview**](#dva-cognito-identity-pools-overview)
     - [**[DVA] Cognito User Pools vs Cognito Identity Pools**](#dva-cognito-user-pools-vs-cognito-identity-pools)
     - [**[SAA/DVA] What is a DNS?**](#saadva-what-is-a-dns)
+    - [**[SAA/DVA] Route 53 Overview**](#saadva-route-53-overview)
+    - [**[SAA/DVA] Route 53 - Registering a Domain**](#saadva-route-53---registering-a-domain)
+    - [**[SAA/DVA] Route 53 - TTL**](#saadva-route-53---ttl)
+    - [**[SAA/DVA] CNAME vs Alias**](#saadva-cname-vs-alias)
+    - [**[SAA/DVA] Routing Policy - Simple**](#saadva-routing-policy---simple)
+    - [**[SAA/DVA] Routing Policy - Weighted**](#saadva-routing-policy---weighted)
+    - [**[SAA/DVA] Routing Policy - Latency**](#saadva-routing-policy---latency)
+    - [**[SAA/DVA] Route 53 Health Checks**](#saadva-route-53-health-checks)
+    - [**[SAA/DVA] Routing Policy - Failover**](#saadva-routing-policy---failover)
+    - [**[SAA/DVA] Routing Policy - Geolocation**](#saadva-routing-policy---geolocation)
+    - [**[SAA/DVA] Routing Policy - Geoproximity**](#saadva-routing-policy---geoproximity)
+    - [**[SAA/DVA] Routing Policy - Traffic Flow & Geoproximity Hands On**](#saadva-routing-policy---traffic-flow--geoproximity-hands-on)
+    - [**[SAA/DVA] Routing Policy - IP-based**](#saadva-routing-policy---ip-based)
+    - [**[SAA/DVA] Routing Policy - Multi Value**](#saadva-routing-policy---multi-value)
+    - [**[SAA/DVA] 3rd Party Domains & Route 53**](#saadva-3rd-party-domains--route-53)
+    - [**S3 Website with Route 53**](#s3-website-with-route-53)
+    - [**Route 53 Resolvers & Hybrid DNS**](#route-53-resolvers--hybrid-dns)
 
 <!-- /TOC -->
 
@@ -10600,3 +10617,73 @@ Route 53으로 이동해 A 레코드 유형의 Alias 레코드를 생성한다.
 HTTP 트래픽에만 적용되며, HTTPS 지원을 위해서는 CloudFront 같은 CDN 솔루션을 사용해야 한다.
 
 ## **Route 53 Resolvers & Hybrid DNS**
+
+우리는 리전과 Route 53 리졸버를 가지고 있다.
+
+기본적으로 리졸버는 EC2 인스턴스의 로컬 도메인 이름에 대한 DNS 쿼리에 자동으로 응답할 것이다.
+
+프라이빗 호스팅 영역의 레코드 및 Public Hosted Zone이나 인터넷에 공개된 다른 모든 네임서버의 레코드에 쉽게 응답할 수 있다.
+
+이제 VPC와 다른 Private Network, 다른 DNS 리졸버가 있는 자신의 네트워크 간에 DNS 쿼리를 해결하려면 하이브리드 DNS가 필요하다.
+
+이러한 네트워크는 예를들어 Peered VPC이거나 Direct Connect 또는 AWS VPN을 통해 VPC에 연결되는 온프레미스 네트워크일 수 있다.
+
+이를 이해하기 위해서 리졸버 엔드포인트를 이해해야한다.
+인바운드 엔드포인트와 아웃바운드 엔드포인트가 있다.
+
+인바운드 엔드포인트는 외부 네트워크의 DNS 리졸버가 DNS 쿼리를 Route53 리졸버로 전달하고 이러한 쿼리에 응답할 수 있게 한다.
+
+이러한 리졸버는 EC2 인스턴스 또는 Route 53 Private Hosted Zone에 생성한 레코드와 같은 AWS 리소스의 도메인 이름을 Resolve하는 데 도움이 된다.
+
+내부 시스템과 AWS Private Hosted Zone에 대한 Response를 모두 받게 된다.
+
+아웃바운드 엔드포인트는 조건부로 DNS 쿼리를 온프레미스 DNS 리졸버로 전달하는 것이다.
+
+이를 위해 전달할 리졸버 규칙을 생성하면 된다. 이러한 엔드포인트를 동일 리전 내의 하나 이상의 VPC와 연결하고, 고가용성을 위해 두 개의 가용성 영역에 생성한다.
+
+각 엔드포인트는 IP 주소 당 초당 약 10,000개의 쿼리를 지원한다.
+더 많이 필요하다면 더 많은 IP 주소를 생성하면 된다.
+
+이러한 리졸버를 통해 이전에는 AWS에서 자체 DNS 리졸버를 실행하고 온프레미스 리졸버와 연결해야 했던 필요성이 없어진다.
+
+
+예를 들어 VPC에 있는 EC2 인스턴스와 aws.private라는 Private Hosted zone, 그리고 서버가 있는 온프레미스 데이터 센터가 있다고 가정 해보자
+EC2 인스턴스에는 app.aws.private라는 CNAME을 부여했다.
+
+여기서 web.onpremises.private의 서버가 AWS에 있는 EC2 인스턴스에 액세스하려고 한다. 그래서 먼저 온프레미스 센터와 AWS 클라우드가 VPN 연결 또는 Direct Connect를 사용하여 연결한다.
+
+온프레미스에도 몇 개의 DNS 리졸버가 있을 것이다. onpremise.private 영역을 위한 것을 말한다.
+그래서 서버가 app.aws.private에 대한 DNS 쿼리를 발행하면 온프레미스에 있는 DNS 리졸버는 "잘 모르겠는데?"라고 할 것이다.
+
+그래서 리졸버 인바운드 엔드포인트를 만들어야한다. 이 인바운드 엔드포인트 뒤에는 고가용성을 위해 두 개의 ENI가 있다. 이 ENI에는 프라이빗 IP 주소가 연결되어 있다.
+
+그래서 온프레미스 DNS 리졸버에서는 우리가 레코드 설정을 하듯이 aws.private 도메인 이름에 대해 이 두 개의 IP로 전달하도록 설정할 것이다. 
+
+그러면 app.aws.private에 대한 DNS 쿼리가 온프레미스에 구성된 이 도메인 이름과 일치하므로, DNS 리졸버는 "이 정보를 가진 DNS 서버로 이 쿼리를 전달해야겠구나"라고 말할 것이다. 그래서 두 개의 IP로 전달한다.
+
+이제 리졸버 인바운드 엔드포인트는 Route 53 리졸버와 연결되어 있고, Private Hosted Zone에서 최종 조회를 하여 이 쿼리에 대한 최종 정보를 제공한다.
+
+이것이 인바운드 엔드포인트라고 불리는 이유이다. 외부(온프레미스)에서 요청이 들어와 AWS 내부로 인바운드되기 때문이다.
+
+아웃바운드 엔드포인트는 반대 방향이다. 똑같은 설정이지만, 이번에는 온프레미스 데이터 센터의 DNS 이름을 해결할 수 있어야 한다.
+
+우리 EC2 인스턴스가 Route 53 Resolver에게 "web.onprem.private에 대해 알고 있니?"라고 묻는다. 이 과정이 진행되기 위해서는 두 개의 ENI를 가진 리졸버 아웃바운드 엔드포인트를 만들 것이다. 그리고 onprem.private 도메인 네임에 대한 온프렘 서버의 IP 172.16.0.10을 전달할 수 있도록 전달 규칙을 만든다.
+
+Route 53 리졸버는 이 쿼리를 이 엔드포인트로 보내고, 엔드포인트는 DNS 쿼리를 온프레미스 DNS 리졸버로 전달한다.
+그러면 온프레미스 데이터 센터 DNS에 저장된 레코드에서 자동으로 응답을 받게 된다.
+
+아웃바운드 엔드포인트를 관리하려면 Resolver Rule이 필요하다.
+이 규칙은 네트워크에서 DNS 쿼리를 어떻게 전달할지 설명한다.
+- Conditional Forwarding Rule (Forwarding Rule)
+  - 특정 DNS 쿼리에 대해 이 도메인은 이 대상 IP 주소로 전달하라고 말하는 것이다.
+  - 예를 들어 example.com 또는 acme.example.com에 대해서는 이 대상 IP를 사용하라고 말할 수 있다.
+- System Rule
+  - 전체 서브도메인에 대해 이 전달 규칙을 사용하지 말라고 정의하는 것이다.
+  - 일종의 Deny 규칙이라고 생각하면 될듯
+- Auto-defined System Rule
+  - 내부에서 해결되는 도메인에 대한 규칙이다.
+  - 예를 들어 AWS 내부나 Private Hosted Zone의 도메인 이름인 compute.amazonaws.com이나 ec2.internal 같은 것들이다.
+- 여러 규칙이 일치하는 경우 Route 53 리졸버는 적용할 규칙을 선택할 때 가장 적합한 규칙을 선택한다.
+- Resolver Rule은 AWS Resource Access Manager(RAM)를 사용해 계정 간에 공유할 수 있다. 
+  - 이 Resolver Rule을 위한 전용 계정에서 중앙 집중식으로 관리할 수 있다. 중앙 계정에서 리졸버 규칙을 중앙 집중식으로 관리할 수 있는 방법이다.
+  - 여러 VPC에서 규칙에 정의된 대상 IP로 DNS 쿼리를 보낼 수 있다.
