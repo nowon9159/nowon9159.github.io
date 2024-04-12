@@ -10987,3 +10987,40 @@ Interface Endpoint가 Gateway Endpoint보다 우선하는 경우는 온프레미
 또는 다른 VPC에서 이 Interface Endpoint를 통해 연결하고자 하는 경우에도 Interface Endpoint가 선호될 수 있다.
 
 대부분의 경우 Amazon S3와 DynamoDB에 대해 Gateway Endpoint가 선호된다.
+
+
+## **[SAA] VPC Flow Logs**
+
+VPC Flow Logs를 사용하면 인터페이스로 들어오는 IP 트래픽에서 정보를 캡처할 수 있다.
+
+이는 VPC 수준, 서브넷 수준, ENI 수준에서 가능하다. 세 가지 종류의 Flow logs가 있다.
+
+이 Log는 VPC 내에서 발생하는 연결 문제를 모니터링하고 해결하는 데 매우 유용하다.
+
+로그는 Amazon S3, CloudWatch Logs, Kinesis Data Firehose로 전송될 수 있다.
+
+ELB, RDS, ElastiCache, Redshift, WorkSpaces, NAT GW, Transit Gateway 등과 같은 AWS 관리형 인터페이스에 대한 정보도 캡쳐한다.
+
+버전, 계정 ID, 인터페이스 ID, 출발지 주소, 목적지 주소, 출발지 포트, 목적지 포트, 프로토콜, 패킷, 시작 및 작업, 로그 상태와 같은 메타데이터가 포함된다.
+
+VPC Flow Logs를 사용해 사용 패턴을 분석하거나 관리 동작, 포트 스캔 등을 감지하는 데 사용할 수 있다.
+
+Flow Logs를 쿼리하려면 Athena on S3를 사용하거나 Streaming 분석을 수행하려면 CloudWatch Logs Insights를 사용할 수 있다.
+
+Flow Logs를 사용해 보안 그룹 및 NACL 문제를 해결하는 방법은 무엇일까?
+
+ACTION 필드를 살펴보면 된다. NACL은 상태를 유지하지 않고 보안 그룹은 상태를 유지한다.
+
+Inbound 트래픽이 REJECT되는 것은 NACL이나 Security Group 의 문제일 수 있다. 그러나 Inbound 트래픽이 ACCEPT 되었는데, Outbound는 REJECT된다면 무조건 NACL의 문제이다.
+
+위와 동일하게 Outbound 트래픽이 ACCEPT 되었는데, Inbound는 REJECT된다면 무조건 NACL의 문제이다.
+
+몇 가지 VPC Flow Log 아키텍처를 살펴보자
+
+1.  VPC Flow Logs를 CloudWatch Logs로 보낼 수 있다.
+  - 이후 CloudWAtch Contributor Insights를 사용해 VPC에서 네트워크에 가장 많은 양을 기여하는 상위 10개의 IP 주소를 찾을 수 있다.
+  - 또는 CW Alarm으로 보내서 SSH 또는 RDP 프로토콜이 평소보다 훨씬 많은 것을 발견하면 CloudWatch 알람을 트리거하고 SNS Topic으로 경고를 보낼 수 있다. 네트워크에서 뭔가 수상한 일이 일어나고 있을 수 있기 때문이다.
+2.  Amazon S3 버킷으로 Flow Logs를 보낸다.
+  - Athena를 사용해 SQL로 VPC Flow Logs를 분석할 수 있다.
+  - Athena로 분석된 결과를 Amazon QuickSight로 시각화할 수도 있다.
+
