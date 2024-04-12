@@ -10844,3 +10844,27 @@ NAT 게이트웨이는 높은 가용성을 가지고 있다. NAT 게이트웨이
 NAT 게이트웨이와 NAT 인스턴스의 차이점은 NAT 게이트웨이는 특정 AZ 내에서 고가용성을 제공한다. NAT 인스턴스의 경우 인스턴스 간 장애 조치를 관리하는 스크립트가 있어야 고가용성이 제공된다.
 
 NAT 게이트웨이는 관리형 서비스이지만 소프트웨어나 OS 패치 등의 관리를 NAT 인스턴스는 해야한다.
+
+## **[SAA] DNS Resolution Options & Route 53 Private Zones**
+DNS Resolution이라고 하는 enableDNSSupport 옵션이 있다.
+
+이 옵션은 VPC에서 Route 53 Resolver로부터 DNS Resolution이 지원되는지 여부를 결정한다. 기본 설정은 true이다.
+
+이는 VPC 내의 169.254.169.253 IP를 갖고 있는 Amazon 제공 DNS 서버와, 이전에 언급한 서브넷 IP에 2를 더한 예약 IP에 있는 DNS 서버에 쿼리할 수 있음을 의미한다.
+
+enableDNSSupport가 true이면 Route 53 Resolver에 자동으로 연결하게 되는데 false인 경우 Route 53 Resolver 없이 자체 사용자 지정 DNS 서버를 만들고 도메인 쿼리에 대한 답변을 사용자 지정 서버에서 받아야한다. 대체로 AWS 관리형 서비스를 사용하는 것이 더 좋을 것이다.
+
+DNS Hostname의 경우 Default VPC에서는 true로 되어 있지만 새로 생성하는 VPC에서는 false로 되어 있다.
+
+앞서 언급한 enableDnsSupport가 true 가 아니라면 아무 작동도하지 않는다.
+
+DNS Hostname이 true면 EC2 인스턴스에 Public Hostname이 부여된다. 그리고 Public IP도 있어야 한다.
+
+DNS Hostname 설정이 disable이면 Public 서브넷에 있는 EC2 인스턴스라도 Private DNS만 가진다. 하지만 DNSSupport와 DNS Hostname이 모두 enable이면 EC2 인스턴스에 Private DNS 외에도 Public IP에 해당하는 Public DNS도 할당된다.
+
+두 가지 설정을 모두 활성화하는 이유는 Route 53의 Private Hosted Zone에 web.mycompany.private와 같은 사용자 지정 DNS 도메인 이름을 A 레코드로 만들 수 있기 때문이다.
+
+이렇게 하면 Private 서브넷의 EC2 인스턴스에 Private IP와 연결된 Private DNS 이름을 가질 수 있다.
+
+EC2 인스턴스가 해당 Pirvate DNS 이름을 요청하면 Route 53 Resolver를 통해 Private Hosted Zone을 조회해 서버의 IP를 알 수 있다. 그러면 EC2 인스턴스 간 통신이 가능해진다.
+
