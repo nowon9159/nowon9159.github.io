@@ -10950,3 +10950,40 @@ VPC 피어링은 동일한 계정 내에서 발생할 수 있지만, 다른 계�
 
 또한 같은 Region의 다른 계정에 있는 피어링 된 VPC의 보안 그룹을 참조할 수도 있다.
 
+## **[SAA] VPC Endpoints**
+
+VPC 엔드포인트는 특정 서비스를 Private하게 액세스하기 위해서 사용하는 것이다.
+
+전체 인프라가 DynamoDB나 CloudWatch 및 S3와 같은 다른 서비스에 접속하려면 모든 트래픽이 Public 인터넷을 통해 이동해야 했다. 
+
+인스턴스가 Public 인터넷을 통과하지 않고 이러한 서비스로 직접 AWS의 비공개 네트워크를 통해 이동할 수 있다.
+
+예를 들어 SNS 서비스에 접근하기 위해서 NAT GW -> IGW 를 거쳐서 SNS 서비스에 접근하는 방식이 있다. 이는 NAT 게이트웨이를 통해 가야 하기 때문에 비용이 발생하고 IGW를 통해 여러 단계를 거치게 되어 효율적이지 않다.
+
+대신 VPC 엔드포인트를 이용해서 Private 서브넷의 EC2 인스턴스가 VPC 엔드포인트를 통해 직접 SNS 서비스로 이동하도록할 수 있다. 어느 Public 인터넷에도 노출되지 않고 AWS PrivateLink에 의해 Private하게 액세스할 수 있다.
+
+VPC 엔드포인트는 중복되며, 수평적으로 확장되며, AWS 서비스에 액세스하기 위해 IGW나 NAT GW가 필요하지 않으므로 네트워크 인프라를 훨씬 간단하게 만들어 준다.
+
+문제가 발생한 경우에는 VPC의 DNS Resolution Setting를 확인하거나, Route Table을 확인해야 한다.
+
+두 가지 유형의 VPC 엔드포인트가 있다.
+
+PrivateLink로 제공되는 Interface Endpoint와 Gateway Endpoint가 있다.
+
+Interface Endpoint
+- VPC 내의 Private IP 주소인 ENI를 제공하며 이 ENI는 AWS 서비스로의 입구이다. 그리고 보안 그룹을 연결해야 한다.
+- 거의 모든 AWS 서비스를 지원한다.
+- GB당 데이터 처리 비용과 시간 당 비용이 부과된다.
+
+Gateway Endpoint
+- 게이트웨이를 프로비저닝하고 이를 Route Table의 대상으로 사용해야 한다. IP 주소를 활용하지 않고 보안 그룹을 활용하지 앟는다.
+- 게이트웨이 엔드포인트의 대상은 Amazon S3와 DynamoDB 두 가지 뿐이다.
+- 무료이며 자동으로 확장된다.
+
+Interface Endpoint가 Gateway Endpoint보다 우선하는 경우는 온프레미스에서 액세스가 필요한 경우일 수 있다.
+
+예를 들어 온프레미스 데이터 센터에서 Private 액세스를 원하는 경우, 이를 통해 Site to Site VPN 또는 Direct Connect를 통해 연결할 수 있다.
+
+또는 다른 VPC에서 이 Interface Endpoint를 통해 연결하고자 하는 경우에도 Interface Endpoint가 선호될 수 있다.
+
+대부분의 경우 Amazon S3와 DynamoDB에 대해 Gateway Endpoint가 선호된다.
