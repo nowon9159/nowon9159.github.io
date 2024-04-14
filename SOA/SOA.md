@@ -11065,3 +11065,70 @@ CloudHub는 다중 VPN 연결을 사용해 사이트 간의 안전한 통신을 
 
 설정 방법은 동일한 VGW에 여러 Site to Site VPN 연결을 설정하고, 동적 라우팅을 활성화한 후 라우팅 테이블을 구성하면 된다.
 
+
+## **[SAA] Direct Connect & Direct Connect Gateway**
+
+Direct Connect는 DX라고도 불리며 원격 네트워크에서 VPC로의 전용 개인 연결을 제공한다.
+
+Dedicated Connection을 설정해야하고, Direct Connect Location을 사용해야 한다.
+또한 온프레미스 데이터 센터와 AWS 간 연결을 위해 VPC 측에 VGW를 설정해야 한다.
+
+동일한 연결에서 S3와 같은 공용 리소스와 EC2 인스턴스와 같은 프라이빗 리소스에 모두 액세스할 수 있다.
+S3와 같은 공용 리소스는 Public VIF EC2와 같은 프라이빗 리소스는 Private VIF를 사용한다.
+
+Direct Connect의 사용 사례
+- 대역폭 처리량이 증가하므로 대규모 데이터 세트 작업 시 Public 인터넷을 통하지 않아 속도가 빨라진다.
+- Private한 connect를 사용하므로 비용이 절감된다.
+- Public 인터넷 사용 시 연결 문제가 있다면 Dircet Connect를 사용하면 Private 연결이므로 더 일관된 네트워크 환경을 구현할 수 있다.
+- 실시간(real-time) 데이터 피드를 사용하는 애플리케이션에 특히 도움이 된다.
+- 온프레미스 데이터 센터와 클라우드 간 연결이 지원되므로 하이브리드 환경을 지원한다.
+
+IPv4와 IPv6 를 모두 지원한다.
+
+Direct Connect는 아래와 같은 다이어 그램으로 구성된다.
+
+Region 안의 VPC 안의 VGW - AWS Direct Connect Location 안에 AWS Direct Connect Endpoint(AWS의 Cage) - AWS Direct Connect Location 안에 Customer or partner router(Customer or partner Cage) - Customer Network 안에 Customer router/firewall
+
+이 다이어 그램에서는 Private VIF를 사용하는 경우와 Public VIF를 사용하는 경우가 있다.
+Private VIF를 통해 EC2 인스턴스가 있는 프라이빗 서브넷에 액세스할 수 있으며, Public VIF의 경우 Amazon Glacier, Amazon S3와 같은 AWS 내 Public 서비스에 연결할 수 있다.
+
+Private 설정의 경우 수동으로 연결을 설정해야 하며, 1개월이 소요될 수 있지만 Public 인터넷을 통하지 않고 전체가 프라이빗하게 연결된다.
+
+Public의 경우 Private과 동일한 경로를 거치지만 VGW에 연결되지 않고 AWS에 직접 연결된다.
+
+
+그림으로는 자세히는 [링크](https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html)에서 확인하면 된다.
+
+
+
+다른 리전의 하나 이상의 VPC에 연결하려면 Direct Connect 게이트웨이를 사용해야 한다.
+
+Private VIF를 이용해서 Direct Connect Gateway와 VPC 여러 개를 연결해주면 된다.
+
+Direct Connect의 연결 유형
+- Dedicated Connections: 1,10 또는 100Gbps 대역폭 용량이고, 전용 물리적 이더넷 포트를 제공한다.
+  - 설정하기 위해서는 먼저 AWS에 요청을 해야 하고, AWS Direct Connect 파트너사에 의해 완료된다.
+- Hosted Connections: 50M, 500M, 10G bps 까지 다양한 속도가 있다.
+  - 동일하게 AWS Direct Connect 파트너사를 통해 연결을 요청한다.
+  - 필요에 따라 용량을 추가하거나 제거할 수 있어 전용 연결보다 유연하다.
+  - 특정 파트너사를 선택할 경우 1,2,5,10 Gbps를 사용할 수 있다.
+- 전용 또는 호스팅 연결을 설정하려면 대개 새 연결 설정에 1개월 이상의 시간이 소요된다.
+
+시험에서는 1주일 내에 데이터를 빠르게 전송해야한다는 문제가 나올 수 있으며, 이 경우 Direct Connect는 해당 사항이 없다.
+
+Direct Connect에는 암호화가 없다. 데이터 전송은 암호화되지 않지만 Private 연결이므로 보안은 유지된다.
+
+암호화가 필요하다면 VPN과 함께 Direct Connect를 설정하여 IPSec 암호화 Private 연결을 제공할 수 있다.
+
+설정 시 Direct Connect Location을 받은 후 연결에 VPN 연결을 설정하여 Direct Connect에 암호화를 추가하면 기업 데이터 센터와 AWS 간 모든 트래픽이 암호화된다.
+
+
+Direct Connect에 대한 Resiliency 문제가 나올 수 있다.
+
+복원력을 위한 두 가지 모드와 아키텍처가 있으며 둘 다 알아야 한다.
+
+중요 워크로드에 대한 높은 복원력을 위해 여러 Direct Connect를 설정하거나,
+
+두 개의 기업 데이터 센터와 두 개의 서로 다른 Direct Connect Location을 사용해 이중화를 제공한다.
+
+[링크](https://aws.amazon.com/ko/directconnect/resiliency-recommendation/) 에서 High Resiliency와 Maximum Resiliency를 참고하면 된다.
