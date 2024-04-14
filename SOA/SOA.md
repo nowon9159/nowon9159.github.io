@@ -11024,3 +11024,44 @@ Inbound 트래픽이 REJECT되는 것은 NACL이나 Security Group 의 문제일
   - Athena를 사용해 SQL로 VPC Flow Logs를 분석할 수 있다.
   - Athena로 분석된 결과를 Amazon QuickSight로 시각화할 수도 있다.
 
+## **[SAA] Site to Site VPN, Virtual Private Gateway & Customer Gateway**
+
+Site to Site VPN은 AWS와 기업의 데이터 센터를 연결하기 위한 기술이다.
+
+Site-to-Site VPN을 이용해 기업 데이터 센터를 연결하기 위해서는
+
+첫번째로 가상 프라이빗 게이트웨이(VGW)가 필요하다
+
+VFW는 AWS 측 VPN 연결의 VPN 연결기이다. VGW는 사이트 간 VPN 연결을 생성하려는 VPC에 생성되고 연결된다.
+
+ASN(Autonomous System Number) 번호를 아록 있다면 이를 사용자 정의할 수 있다.
+
+둘째로 고객 게이트웨이(CGW)는 데이터 센터 측의 실제 소프트웨어 애플리케이션 또는 물리적 디바이스이다.
+
+AWS에서 테스트한 많은 디바이스가 있어 [목록](https://docs.aws.amazon.com/vpn/latest/s2svpn/your-cgw.html#DevicesTested)을 살펴볼 수 있다.
+
+**Site-to-Site VPN Connections**
+
+Site to Site 연결을 설정하려면 고객 게이트웨이가 있는 기업 데이터 센터와 VGW가 있는 VPC가 있으면 된다.
+
+온프레미스 고객 게이트웨이 디바이스를 어떤 IP 주소를 사용하여 설정해야 하는가?
+
+고객 게이트웨이가 공개되어 있다면 고객 게이트웨이 디바이스의 공인 인터넷 라우팅 가능한 IP 주소를 사용하면 된다. 그러면 VGW와 CGW 간 연결이 해당 CGW의 Public IP를 통해 설정된다.
+
+고객 게이트웨이가 사설일 수도 있으며, 사설 IP를 가질 수도 있다.
+이경우 일반적으로 NAT traversal(NAT-T)가 활성화된 NAT 디바이스 뒤에 있다. 그러면 해당 NAT 디바이스에 Public IP가 있으므로, CGW에 사용해야 할 IP 주소는 NAT 디바이스의 Public IP이다.
+
+시험에 나올 수 있는 내용은 VPC 내 서브넷에서 Route Propagation을 설정하지 않으면 VGW 연결이 작동하지 않는다.
+그리고 온프레미스에서 AWS의 EC2 인스턴스에 ping을 보내려면 보안 그룹의 인바운드에서 ICMP 프로토콜을 허용해야 한다. 그렇지 않으면 연결이 작동하지 않는다.
+
+마지막으로 알아야 할 한 가지는 AWS VPN CloudHub이다.
+
+VGW가 있는 VPC와 각각 자체 고객 게이트웨이가 있는 여러 고객 네트워크, 여러 데이터 센터가 있다는 개념이다.
+
+CloudHub는 다중 VPN 연결을 사용해 사이트 간의 안전한 통신을 제공하기 위한 것이다.
+이는 서로 다른 위치 간의 기본 또는 보조 네트워크 연결을 위한 저렴한 허브-앤-스포크 모델이지만 VPN만 사용한다.
+
+따라서 VPC 내의 단일 VGW와 CGW 간에 사이트 간 VPN을 설정하게 된다.
+
+설정 방법은 동일한 VGW에 여러 Site to Site VPN 연결을 설정하고, 동적 라우팅을 활성화한 후 라우팅 테이블을 구성하면 된다.
+
