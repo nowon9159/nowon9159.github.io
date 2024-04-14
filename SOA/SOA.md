@@ -281,6 +281,22 @@ $contents
     - [**[SAA/DVA] 3rd Party Domains & Route 53**](#saadva-3rd-party-domains--route-53)
     - [**S3 Website with Route 53**](#s3-website-with-route-53)
     - [**Route 53 Resolvers & Hybrid DNS**](#route-53-resolvers--hybrid-dns)
+    - [**[SAA] CIDR, Private vs Public IP**](#saa-cidr-private-vs-public-ip)
+    - [**[SAA] VPC Overview**](#saa-vpc-overview)
+    - [**[SAA] Subnet Overview**](#saa-subnet-overview)
+    - [**[SAA] Internet Gateways & Route Tables**](#saa-internet-gateways--route-tables)
+    - [**[SAA] Bastion Hosts**](#saa-bastion-hosts)
+    - [**[SAA] NAT Instances**](#saa-nat-instances)
+    - [**[SAA] NAT Gateways**](#saa-nat-gateways)
+    - [**[SAA] DNS Resolution Options & Route 53 Private Zones**](#saa-dns-resolution-options--route-53-private-zones)
+    - [**[SAA] NACL & Security Groups**](#saa-nacl--security-groups)
+    - [**[SAA] VPC Reachability Analyzer**](#saa-vpc-reachability-analyzer)
+    - [**[SAA] VPC Peering**](#saa-vpc-peering)
+    - [**[SAA] VPC Endpoints**](#saa-vpc-endpoints)
+    - [**[SAA] VPC Flow Logs**](#saa-vpc-flow-logs)
+    - [**[SAA] Site to Site VPN, Virtual Private Gateway & Customer Gateway**](#saa-site-to-site-vpn-virtual-private-gateway--customer-gateway)
+    - [**[SAA] Direct Connect & Direct Connect Gateway**](#saa-direct-connect--direct-connect-gateway)
+    - [**[SAA] Direct Connect & Direct Connect Gateway**](#saa-direct-connect--direct-connect-gateway)
 
 <!-- /TOC -->
 
@@ -11132,3 +11148,17 @@ Direct Connect에 대한 Resiliency 문제가 나올 수 있다.
 두 개의 기업 데이터 센터와 두 개의 서로 다른 Direct Connect Location을 사용해 이중화를 제공한다.
 
 [링크](https://aws.amazon.com/ko/directconnect/resiliency-recommendation/) 에서 High Resiliency와 Maximum Resiliency를 참고하면 된다.
+
+## **[SAA] Site to Site VPN as a backup to Direct Connect**
+
+시험에서 다룰 수 있는 간단한 아키텍쳐
+
+기업 데이터 센터가 DX를 통해 VPC에 연결되어 있고, 이것이 주요 연결 방식이며 비용이 많이 든다.
+
+때때로 DX 연결에 문제가 생길 수 있다. VPC로 인터넷 연결이 전혀 없게 되는 것은 바람직 하지 않고, DX를 보조 연결로 사용할 수 있지만, 그것 또한 비용이 많이 든다.
+
+백업 연결로 Site-to-Site VPN 연결을 설정하고, 주 연결에 장애가 발생하면 VPN이 작동하도록 설정할 수 있다.
+
+공용 인터넷을 통해 연결되므로 공용 인터넷이 언제나 접속 가능하다면 좀 더 안정적일 수 있다.
+
+[다이어그램](https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/images/aws-direct-connect-and-aws-transit-gateway-and-vpn-with-transit-vif.png)
