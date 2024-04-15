@@ -8027,6 +8027,27 @@ Aurora에 대한 CloudWatch Metric에 대해 알아보자
 - InsertLatency
   - INSERT 작업의 평균 지속 시간이다.
 
+**정리**
+- 각 Read Replica에는 우선 순위를 설정할 수 있다.
+  - 0 ~ 15까지 설정 가능
+  - 장애 조치 우선 순위를 제어하고자 할 때 도움이 된다.
+  - RDS는 우선 순위가 가장 높은(티어가 가장 낮은) Read Replica를 승격 시킨다.
+  - replica가 동일한 우선 순위를 가진 경우 크기가 가장 큰 것을 승격 시킨다.
+  - 동일한 우선 순위와 동일한 크기를 가진 경우 무작위로 하나를 승격 시킨다.
+- RDS MySQL 스냅샷을 Aurora MySQL 클러스터로 마이그레이션할 수 있다.
+- Aurora CloudWatch Metric
+  - AuroraReplicaLag
+    - Primary instance에서 업데이트를 복제할 때의 지연량
+    - 데이터를 Aurora 클러스터에 기록할 때 해당 데이터가 복제될 수 있으므로 그에 따른 지연이 발생할 수 있다.
+  - AuroraReplicaLagMaximum/AuroraReplicaLagMinimum
+    - Primary instance와 DB 클러스터의 Aurora DB 인스턴스 사이에 발생하는 최대/최소 지연시간
+    - ReplicaLag가 높은 경우 최종 일관성에 의해 사용자가 데이터를 가져오는 복제본에 따라 다른 경험을 할 수 있다. 
+    - 예를 들어 사용자가 장바구니에 항목을 추가하고 새로고침을 하면 항목이 누락될 수 있다.
+  - DatabaseConnections
+    - 데이터베이스 인스턴스에 대한 현재 연결 수를 의미한다.
+  - InsertLatency
+    - INSERT 작업의 평균 지속 시간
+
 ## **[SAA/DVA] ElastiCache Overview**
 
 RDS가 관리형 관계형 데이터베이스를 제공하는 것처럼 ElastiCache는 관리형 Redis 또는 Memcached를 제공하여 캐시 기술을 얻을 수 있다.
