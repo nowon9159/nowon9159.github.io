@@ -8142,9 +8142,6 @@ Memcached는 데이터 손실을 감수할 수 있는 분산 캐시이다.
     - Multi-thread 아키텍쳐이다. memcached는 sharding을 통해 여러 인스턴스가 함께 작동한다.
 - 기억해야할 점은 Redis는 고가용성, 백업, 읽기 복제본 등을 지원하지만, Memcached는 데이터 손실을 감수할 수 있는 순수 분산 캐시라는 것이다. 고가용성이나 백업, 복원 기능이 없다.
 
-
-
-
 ## **ElastiCache Redis Cluster Modes**
 
 Redis의 경우 두 가지 유형의 ElastiCache Replication가 있다.
@@ -8326,6 +8323,9 @@ Cluster Enabled의 경우의 수평 및 수직 확장을 살펴보자
   - 클러스터 낸 데이터의 복제에 관한 정보
   - 복제 지연은 낮아야한다.
   - 복제 노드와 주 노드 사이에 지연이 없어야 한다.
+
+**정리**
+- 
 
 ## **ElastiCache Memcached for SysOps**
 
