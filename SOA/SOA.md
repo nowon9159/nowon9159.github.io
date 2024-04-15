@@ -7946,9 +7946,10 @@ Aurora 백트래킹을 사용해 데이터베이스를 최대 72시간 전후로
   - 현재는 Aurora MySQL에서만 지원된다.
 - Aurora Database Cloning
   - 새로운 데이터베이스 클러스터를 만든다. 초기에는 원본 클러스터와 동일한 DB 클러스터 볼륨을 사용하지만, 그 후에는  쓰기 시 데이터가 새 볼륨으로 복사되는 copy-on-write 프로토콜이 사용된다.
+  - copy-on-write를 사용하면 초기 복제본을 생성하기 위해 최소한의 추가 공간을 사용하는 이점이 있음
   - 그래서 프로덕션 데이터를 사용해 테스트 환경을 만들고자할 때 사용한다.
   - 한 번의 클릭으로 새로운 환경에 액세스할 수 있어 매우 편리하다.
-  - 클로닝에 대한 이해를 돕기 위한 [링크](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html#Aurora.Managing.Clone.Protocol)
+  - Cloning에 대한 이해를 돕기 위한 [링크](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html#Aurora.Managing.Clone.Protocol)
 
 ## **[SAA/DVA] RDS & Aurora Security**
 
@@ -7979,6 +7980,26 @@ AWS의 RDS 사용자 정의 서비스를 사용하는 경우를 제외하고는 
 
 감사 로그를 원한다면 RDS 및 오로라에서 시간이 지남에 따라 수행되는 쿼리 및 데이터베이스에서 발생하는 작업을 확인하기 위해 감사 로그를 사용할 수 있다.
 원하는 경우 CloudWatch Logs 서비스로 전송하여 장기간 보관할 수 있다.
+
+**정리**
+- RDS와 Aurora 보안에 관해 알아보자
+- At-rest 암호화가 될수 있다.
+  - 데이터베이스 최초 실행시 설정되는 데이터 암호화를 통해 볼륨에 있는 데이터가 암호화된다. 이를 위해 마스터와 모든 복제본은 KMS를 사용해 암호화된다.
+  - 만약 마스터 데이터베이스를 암호화하지 않는다면, 읽기 전용 복제본은 암호화할 수 없다.
+  - 이미 존재하는 암호화되지 않은 데이터베이스를 암호화하려면, 암호화되지 않은 데이터베이스에서 스냅샷을 만든 다음 그 스냅샷을 암호화된 데이터베이스로 복원해야한다.
+- 전송 중 암호화 (In-Flight Encryption)
+  - 클라이언트와 데이터베이스 간 암호화이며, RDS와 Aurora의 각 데이터베이스는 기본적으로 전송 중 암호화가 가능하다.
+  - 클라이언트는 AWS에서 제공하는 TLS 루트 인증서를 사용해야 한다.
+- IAM Authentication
+  - 인증에 대해서는 전통적인 사용자 이름과 비밀번호 조합을 사용할 수 있다.
+  - 또한 AWS 서비스이므로 IAM 역할을 사용해 데이터베이스에 연결할 수도 있다.
+- Security Group을 사용해 데이터베이스에 대한 네트워크 액세스를 제어할 수 있다.
+  - 특정 포트, IP, 보안 그룹을 허용하거나 차단할 수 있다.
+- RDS와 Aurora는 관리형 서비스이므로 SSH 액세스가 없다.
+  - AWS의 RDS Custom Service를 사용하는 경우는 예외이다.
+- 감사 로그를 활성화할 수 있다.
+  - 시간에 따른 RDS와 Aurora의 쿼리 및 데이터베이스 활동을 파악할 수 있도록 활성화할 수 있다.
+  - 시간이 지나면 사라지며, 장기간 보관하려면 AWS의 CloudWatch Logs 서비스로 로그를 전송해야 한다.
 
 ## **Amazon Aurora for SysOps**
 
