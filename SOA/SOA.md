@@ -8110,6 +8110,41 @@ Memcached는 데이터 손실을 감수할 수 있는 분산 캐시이다.
 
 이것들이 두 기술 간의 주요 차이점이다.
 
+**정리**
+- ElastiCache Overview
+  - ElastiCache는 관리형 Redis 또는 Memcached를 제공해 캐시 기술을 얻을 수 있다.
+  - 캐시는 매우 높은 성능과 낮은 대기 시간을 갖는 In-Memory 데이터베이스이다.
+  - 주로 읽기 중심 워크로드로 인한 데이터베이스 부하를 줄이는 데 도움이 된다.
+  - 즉, 공통 쿼리가 캐시되므로 데이터베이스가 매번 쿼리되지 않고 캐시를 사용해 이러한 쿼리의 결과를 검색할 수 있다.
+  - 또한 애플리케이션의 상태를 ElastiCache에 넣음으로써 애플리케이션을 Stateless 상태로 만드는 데도 도움이 된다.
+  - RDS와 마찬가지로 AWS가 운영 체제, 패치, 최적화, 설정, 구성, 모니터링, 장애 복구 및 백업과 같은 유지 보수 작업을 수행한다.
+  - ElastiCache를 사용하면 캐시를 활성화하고 단순히 사용하는 것만으로는 충분하지 않고, 데이터베이스 쿼리 전후에 캐시를 조회하도록 애플리케이션을 변경해야 하므로 애플리케이션 코드를 상당히 변경해야 한다.
+- ElastiCache Architecture - DB Cache
+  - ElastiCache와 RDS 데이터베이스 그리고 애플리케이션이 있다고 가정해보자.
+  - 애플리케이션은 ElastiCache에 쿼리를 실행해 해당 쿼리가 이미 수행되었는지 확인하고, 이미 수행 돼 저장된 경우 이를 Cache Hit라고 하고, 저장되지 않은 경우를 Cache Miss 라고 한다.
+    - Cache Miss의 경우 DB에서 데이터를 가져와야 하고, 가져오는 과정에서 동일한 쿼리를 수행할 다른 애플리케이션 또는 인스턴스를 위해 데이터를 캐시에 다시 기록한다.
+    - Cache Hit의 경우 데이터베이스의 부하를 줄이는데 도움이 된다. 데이터베이스 쿼리를 실행하기 위한 과정을 절약하기 때문이다.
+  - Cache의 경우 무효화 전략이 필요하다. 가장 최근의 데이터를 Cache에 유지하기 위해서이다.
+- ElastiCache Architecture - User Session Store
+  - 애플리케이션 상태를 ElastiCache에 저장해 애플리케이션을 Stateless로 만들 수 있다.
+  - 사용자가 애플리케이션에 로그인하면 애플리케이션은 세션 데이터를 ElastiCache에 기록한다. 사용자가 애플리케이션의 다른 인스턴스로 리디렉션 되더라도 ElastiCache에서 세션 캐시를 검색하기 때문에 사용자는 다시 로그인할 필요가 없다.
+- Redis vs Memcached
+  - Redis의 경우 
+    - Multi AZ with Auro-Failover가 있고, 읽기를 확장하고 고가용성을 확보하기 위한 Read Replicas가 있다.
+    - AOF Persistence를 사용해 데이터 내구성을 확보하며, 백업 및 복원 기능도 있다.
+    - Redis는 데이터 내구성에 중점을 둔다.
+    - 집합(Sets) 및 정렬된 집합(Sorted Sets)를 지원해 캐시로서의 기능적 측면도 있다.
+    - 정리하자면 Redis는 복제되고 고가용성을 갖춘 지속적인 캐시로 보인다.
+  - Memcached
+    - 샤딩이라고 불리는 데이터 분할을 위해 다중 노드를 사용하는 방식을 사용한다.
+    - 고가용성이 없으며, 복제가 발생하지 않는다.
+    - 지속적인 캐시도 아니며, 백업과 복원 기능도 없다.
+    - Multi-thread 아키텍쳐이다. memcached는 sharding을 통해 여러 인스턴스가 함께 작동한다.
+- 기억해야할 점은 Redis는 고가용성, 백업, 읽기 복제본 등을 지원하지만, Memcached는 데이터 손실을 감수할 수 있는 순수 분산 캐시라는 것이다. 고가용성이나 백업, 복원 기능이 없다.
+
+
+
+
 ## **ElastiCache Redis Cluster Modes**
 
 Redis의 경우 두 가지 유형의 ElastiCache Replication가 있다.
