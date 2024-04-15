@@ -8220,6 +8220,47 @@ Standalone Node
 - 클러스터 모드와 호환되는 모든 읽기 및 쓰기 작업에 대해 사용되는 Configuration 엔드포인트가 있다.
 - 그리고 개별 노드에 액세스하여 읽기 작업을 수행하는 Node 엔드포인트가 있다.
 
+**정리**
+- Redis는 두 가지 ElastiCache 복제 유형이 있다.
+- ElastiCache Replication: Cluster Mode Disabled
+  - 하나의 샤드 안에 모든 데이터가 있고, 하나의 Primary Cache Node와 옵션으로 최대 5개의 Cache Replica node를 설정할 수 있다.
+  - Primary node에 장애가 발생했을 때 Replica가 인계받을 수 있다.
+  - Cache 간 복제는 동기식으로 진행됨
+  - Primary 노드는 읽기와 쓰기에 사용되고 Replica 노드는 읽기 전용이다.
+  - 재해 복구 외에도 읽기 전용 복제본을 활성화해 ElastiCache for Redis의 읽기 능력을 확장할 수 있다.
+  - 하나의 샤드안의 모든 노드에 모든 데이터가 분산되어 있으므로 노드 장애 시 데이터 손실을 방지할 수 있다.
+  - Multi-AZ도 기본적으로 활성화되어 Multi-AZ 장애조치도 가능하다.
+  -  스케일링은 두 가지 방식이 있다.
+    - Horizontal
+      - 읽기 전용 복제본을 추가하거나 제거하는 수평 확장이다.
+      - 최대 5개의 읽기 전용 복제본을 가질 수 있다.
+    - Vertical
+      - 노드 유형을 더 크거나 작게 하는 수직 확장
+      - 이전 노드 그룹이 업그레이드되며, 새 노드 그룹이 만들어지고 자동으로 복제 된다.
+      - 새 노드 그룹이 최신 상태가 되면 DNS가 업데이트되고 애플리케이션이 새 노드 그룹을 사용하게 된다.
+- ElastiCache Replication: Cluster Mode Enabled
+  - 데이터가 여러 샤드에 걸쳐 파티셔닝되므로 쓰기 확장에 유용하다.
+  - 샤드 1, 샤드 2 ... 샤드 N 등 확장 가능하다.
+  - 샤드는 하나의 Primary 노드와 최대 5개의 복제본 노드가 있을 수 있다.
+  - 모든 샤드에 동일한 수의 복제본을 설정하고 데이터는 복제된다.
+  - Multi-AZ 기능이 기본으로 활성화되어 있어 AZ 장애 시 Primary와 Replica 간 장애 조치가 가능하다.
+  - 클러스터 당 최대 500개 노드를 가질 수 있다. 즉, 복제본을 설정하지 않으면 500개의 단일 마스터 샤드를 가질 수 있다.
+  - Auro Scaling을 설정할 수 있다.
+    - 클러스터의 샤드 또는 Replica 수를 자동으로 늘리거나 줄일 수 있다.
+    - 대상 추적 및 예약 스케일링 정책을 모두 지원한다.
+    - 대상 추적의 경우 CPUUtilization 60% 등 추적할 메트릭을 설정하고 임계치를 넘어가면 CloudWatch 알람이 트리거되고 이 알람을 통해 클러스터의 샤드 수를 늘릴 수 있다.
+    - 클러스터에 연결하려면 Cluster Configuration Endpoint라고 하는 방식을 사용해야 한다.
+- Redis Connection Endpoint
+  - Standalone Node(단일 노드)
+    - 노드 엔드포인트 하나를 사용해 읽기, 쓰기 연산을 할 수 있다.
+  - Cluster Mode Disabled Cluster
+    - Primary Endpoint: 모든 읽기/쓰기 연산에 사용된다.
+    - Reader Endpoint: 모든 읽기 전용 복제본에 대한 읽기 연산에 사용된다.
+    - Node Endpoint: 개별 노드에 대한 읽기 연산에 사용 된다.
+  - Cluster Mode Enabled Cluster
+    - Configuration Endpoint: 클러스터 모드와 호환되는 모든 읽기, 쓰기 연산에 사용된다. 
+    - Node Endpoint: 개별 노드에 대한 읽기 연산에 사용 된다.
+
 ## **ElastiCache Redis for SysOps**
 
 Redis가 SysOps 시험에서 어떻게 나오는지 알아보자
