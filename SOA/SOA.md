@@ -11340,3 +11340,30 @@ VPC 엔드포인트를 설정해 S3 버킷의 데이터에 프라이빗으로 �
 NAT 게이트웨이 대신 VPC 엔드포인트를 사용하면 비용을 상당히 절감할 수 있다. 시험에서 이 부분을 다룰 수 있다.
 
 https://aws.amazon.com/ko/blogs/networking-and-content-delivery/exploring-data-transfer-costs-for-classic-and-application-load-balancers/
+
+## **[SAA] Network Firewall**
+
+NACL, Security Group, WAF, Shield 등의 네트워크 보호 방법이 있었는데 AWS Firewall Manager를 사용하면 여러 계정에 걸쳐 WAF, Shield 등의 규칙을 통합 관리할 수 있다.
+
+AWS Firewall Manager은 전체 VPC를 방화벽으로 보호하는 데 상요된다. VPC 주변에 방화벽이 배치되어 레이어 3에서 레이어 7까지 모든 종류의 트래픽을 모든 방향에서 검사할 수 있다. VPC 간 트래픽, 인터넷 아웃바운드/인바운드, Direct Connect 및 Site-to-Site VPN 연결로부터의 트래픽까지 전부 보호한다.
+
+Rule을 정의하여 모든 트래픽을 제어할 수 있다.
+Network Firewall은 내부적으로 AWS Gateway Load Balancer를 사용하지만, 트래픽 검사를 위해 타사 어플라이언스를 설치할 필요 없이 AWS 자체 어플라이언스로 관리된다.
+
+방화벽에 대한 규칙을 직접 설정할 수 있으며, AWS Firewall Manager 서비스를 통해 여러 계정과 VPC에 걸쳐 중앙 집중식으로 관리할 수 있다.
+
+Network Firewall을 사용하면 모든 네트워크 트래픽에 대해 세밀한 제어가 가능하다.
+- VPC 수준에서 수천 개의 규칙을 지원
+- IP와 포트로 필터링할 수 있고 수만 개의 IP가 가능
+- 프로토콜 별로 필터링할 수 있음. 예를 들어 SMB 프로토콜의 아웃바운드 통신을 비활성화할 수 있음
+- 도메인 수준에서 필터링하여 우리 VPC에서 *.mycorp.com이나 허용된 타사 소프트웨어 저장소로만 아웃바운드 트래픽을 허용할 수 있다.
+- 정규 표현식을 사용한 일반 패턴 일치도 가능하다.
+
+트래픽을 Allow, Drop 하거나 규칙과 매칭되는 트래픽에 대해 알람을 받도록 설정할 수 있다.
+
+Gateway Load Balancer와 마찬가지로 능동적인 트래픽 검사와 침입 방지 기능도 AWS에서 모두 관리한다.
+
+규칙 일치 내역은 Amazon S3, CloudWatch Logs, Kinesis Data Firehose로 전송되어 분석할 수 있다.
+
+Network Firewall은 VPC 수준에서 작동하는 방화벽이며, 트래픽 필터링과 흐름 검사가 가능하다는 점을 기억하면 된다.
+
