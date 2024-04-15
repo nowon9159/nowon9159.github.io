@@ -7934,6 +7934,22 @@ Aurora 백트래킹을 사용해 데이터베이스를 최대 72시간 전후로
 
 데이터베이스 클론을 사용하는 경우는 예를 들어 프로덕션 데이터를 사용해 테스트 환경을 생성하고 싶을 때이다. 한번 클릭하면 새로운 환경에 접근할 수 있어 편리하다.
 
+**정리**
+- Aurora는 백업, Backtrack, Restore가 있다.
+- Automatic Backup
+  - 1일 부터 35일까지 기간을 설정하고 자동 백업을 진행한다. 자동 백업은 비활성화 할 수 없다.
+  - PITR(Point-In-Time Recovery)를 수행해 현재 시간에서 5분 이내에 DB 클러스터를 복원할 수 있게 한다.
+  - RDS와 마찬가지로 새로운 DB 클러스터를 생성하여 복원된다.
+- Aurora Backtracking
+  - 데이터베이스를 최대 72시간 전후로 되감을 수 있다.
+  - Backtracking은 백업과 달리 새 클러스터를 생성하지 않고 같은 위치에서 복원된다.
+  - 현재는 Aurora MySQL에서만 지원된다.
+- Aurora Database Cloning
+  - 새로운 데이터베이스 클러스터를 만든다. 초기에는 원본 클러스터와 동일한 DB 클러스터 볼륨을 사용하지만, 그 후에는  쓰기 시 데이터가 새 볼륨으로 복사되는 copy-on-write 프로토콜이 사용된다.
+  - 그래서 프로덕션 데이터를 사용해 테스트 환경을 만들고자할 때 사용한다.
+  - 한 번의 클릭으로 새로운 환경에 액세스할 수 있어 매우 편리하다.
+  - 클로닝에 대한 이해를 돕기 위한 [링크](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html#Aurora.Managing.Clone.Protocol)
+
 ## **[SAA/DVA] RDS & Aurora Security**
 
 RDS와 Aurora 보안에 관해 알아보자
