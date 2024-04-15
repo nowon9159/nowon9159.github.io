@@ -11288,3 +11288,14 @@ EC2 인스턴스에 IPv6 프라이빗 IP가 있다고 했을 때 인터넷에 �
 
 IPv6 활성화 VPC에서 EC2 인스턴스를 시작할 수 없다면 서브넷에 사용 가능한 IPv4 주소가 없기 때문에 서브넷에 IPv4 CIDR을 추가하면 된다.
 
+## **[SAA] Egress Only Internet Gateway**
+
+Egress Only Internet Gateway은 IPv6 트래픽에만 사용됨.
+IPv6 버전의 NAT 게이트웨이와 유사하다.
+
+NAT 게이트웨이가 IPv4 용이라면 Egress Only Internet Gateway는 IPv6 용이다.
+
+이 게이트웨이는 VPC 내 인스턴스가 IPv6를 통해 아웃바운드 연결을 할 수 있게 해주지만, 인터넷에서 IPv6 연결을 인스턴스에 초기화하는 것은 방지한다. 이를 위해서는 라우팅 테이블을 업데이트 해야 함
+
+라우팅 테이블에 등록할 때는 ::/0 등으로 Egress Only Internet Gateway를 타겟으로 하는 IPv6 트래픽을 나타내도록 해야한다.
+
