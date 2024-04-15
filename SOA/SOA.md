@@ -11162,3 +11162,38 @@ Direct Connect에 대한 Resiliency 문제가 나올 수 있다.
 공용 인터넷을 통해 연결되므로 공용 인터넷이 언제나 접속 가능하다면 좀 더 안정적일 수 있다.
 
 [다이어그램](https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/images/aws-direct-connect-and-aws-transit-gateway-and-vpn-with-transit-vif.png)
+
+## **[SAA] AWS PrivateLink - VPC Endpoint Services**
+
+VPC 내 서비스를 다른 VPC에 노출하는 방법은 여러 개 있다.
+1.  Public으로 노출하는 것.
+  - 이 경우 인터넷을 통해 트래픽이 이동하므로 접근 관리가 어렵다.
+  - 공용 인터넷을 통해 통신할 수 있지만 최적화되지 않고, 신뢰성이 낮다.
+2.  VPC 피어링 사용
+  - 하나의 VPC를 여러 고객 VPC에 연결해야 한다면 모든 VPC 간에 피어링 연결을 설정해야 하므로 관리가 어렵다.
+  - VPC 피어링 연결을 설정하면 한 VPC의 전체 네트워크가 다른 VPC에 열리게 되지만 실제로는 특정 애플리케이션 서비스만 외부에 노출하고 싶을 것이다.
+
+위 방법들을 개선한 방법이 바로 AWS PrivateLink 또는 VPC Endpoint 서비스이다.
+
+서비스를 수천 개의 VPC에 노출하려면 PrivateLink를 사용해야 한다.
+PrivateLink는 VPC 피어링, 인터넷 게이트웨이, NAT, 라우팅 테이블이 필요 없다.
+
+작동 방식은 다음과 같다.
+서비스 VPC에 애플리케이션 서비스가 있고, 고객 VPC에 소비자 애플리케이션이 있다.
+
+서비스를 노출하려면 네트워크 로드 밸런서와 ENI 또는 Gateway 로드 밸런서가 필요하다.
+네트워크 로드 밸런서가 가장 일반적이며, 네트워크 로드 밸런서가 애플리케이션 서비스를 노출한다.
+
+고객 VPC 쪽에서는 ENI를 생성하고, 이 ENI가 PrivateLink를 통해 네트워크 로드 밸런서에 연결된다.
+
+모든 것이 AWS Private 네트워크를 통해 이뤄진다.
+
+NLB와 ENI간 연결을 설정할 때 VPC 피어링을 설정할 필요가 없다는 것이 PrivateLink의 강력한 개념이다.
+
+NLB가 여러 가용성 영역에 있다면 ENI도 여러 영역에 있어야 하며, 이렇게 하면 내결함성 솔루션이 된다.
+
+ECS와 함께 PrivateLink를 설정할 수 있다.
+여러 개의 태스크가 있는 ECS 서비스가 ALB에 노출되어 있다고 가정했을 때, 이를 노출하려면 NLB가 필요하다.
+
+ALB를 NLB의 대상으로 연결하고, PrivateLink를 NLB에 직접 연결할 수 있어서 다른 VPC의 경우 ENI와 PrivateLink를 직접적으로 연결하고, 기업 데이터 센터의 경우 Direct Connect나 VPN 연결과 같은 Private 연결을 사용할 수 있다.
+
