@@ -11197,3 +11197,48 @@ ECS와 함께 PrivateLink를 설정할 수 있다.
 
 ALB를 NLB의 대상으로 연결하고, PrivateLink를 NLB에 직접 연결할 수 있어서 다른 VPC의 경우 ENI와 PrivateLink를 직접적으로 연결하고, 기업 데이터 센터의 경우 Direct Connect나 VPN 연결과 같은 Private 연결을 사용할 수 있다.
 
+
+
+## **[SAA] Transit Gateway**
+
+일반적인 네트워크 토폴로지는 많은 VPC가 있고 서로 피어링 하고, 일부 VPN 연결과 DX를 설정하고 등등 네트워크 토폴로지가 꽤 복잡해질 수 있다.
+
+이러한 문제를 해결하기 위해 AWS는 Transit Gateway를 도입했다.
+이를 통해 수천 개의 VPC, 온프레미스 데이터 센터, Site-to-Site VPN, Direct Connect 등이 Hub-and-Spoke Star 형태로 전이적인 피어링 연결을 구축할 수 있다.
+
+중앙에 Transit Gateway를 두고 여러 VPC가 Transit Gateway에 연결되어 있는 다이어그램이 있다. 이렇게 구성하면 VPC 간 피어링이 필요 없다. VPC들이 Transit Gateway를 통해 전이적으로 연결되어 있기 때문이다.
+
+또한 Direct Connect 게이트웨이를 Transit Gateway에 연결해 Direct Connect 연결을 다양한 VPC에 바로 연결할 수 있다.
+
+Site-to-Site VPN을 선호한다면 Customer Gateway와 VPN 연결을 Transit Gateway에 연결할 수 있다.
+
+Transit Gateway는 리전 리소스이며 교차 리전에서 작동하고, Resource Access Manager(RAM)을 사용해 여러 계정 간 공유가 가능하다. 리전 간에도 Transit Gateway 피어링이 가능하다.
+
+어떤 VPC가 서로 통신할 수 있는지 정의하려면 Transit Gateway의 라우팅 테이블을 생성해 VPC 간 통신과 액세스 등을 제한해야 한다. 이렇게 하면 Transit Gateway 내 모든 트래픽 라우팅을 완전히 제어해 네트워크 보안을 강화할 수 있다.
+
+Transit Gateway는 Direct Connect 게이트웨이와 VPN 연결을 지원하며, AWS에서 유일하게 IP 멀티캐스트를 지원하는 서비스이다.
+시험에서 IP 멀티캐스트가 나오면 Transit Gateway를 사용해야 한다는 것을 기억하면 좋다.
+
+또한 Transit Gateway는 ECMP(Equal-Cost Multi-Path Routing)를 사용해 Site-to-Site VPN 연결 대역폭을 높일 수 있다.
+ECMP는 패킷을 다중 최적 경로로 전달할 수있는 라우팅 전략이다. Site-to-Site VPN을 사용해 AWS 연결 대역폭을 늘리는 데 사용된다.
+
+Site-to-Site VPN을 설정하면 실제로는 순방향과 역방향의 두 개 터널이 생긴다. Transit Gateway를 사용하면 두 개의 터널이 하나의 연결로 사용된다. Transit Gateway를 사용하면 두 개의 터널을 동시에 사용할 수 있기 때문에 다이어그램에서는 두 개의 선으로 표시되는 것으로 보인다.
+
+결국 Transit Gateway를 사용하면 여러 개의 Site-to-Site VPN 연결을 Transit Gateway에 추가할 수 있고, 추가할 수록 2개의 터널이 늘어나는 것이다.
+
+이렇게 Site-to-Site VPN 터널이 늘어나면 기업 데이터 센터를 VPC에 직접 연결했을 때보다 연결 대역폭이 늘어나게 된다.
+
+VPC의 VGW에 VPN 연결을 하면 하나의 터널로 하나의 VPC 연결만 가능하고 최대 처리량은 1.25Gbps로 제한된다.
+
+반면 Transit Gateway에 VPN 연결을 하면 하나의 Site-to-Site VPN 연결로 여러 VPC에 연결할 수 있다. ECMP 전략 덕분에 하나의 Site-to-Site VPN 연결로 2.5Gbps의 처리량을 얻을 수 있다.
+
+Transit Gateway에 Site-to-Site VPN 연결을 2~3개 더 추가하면 ECMP를 통해 처리량을 2배 또는 3배까지 높일 수 있다.
+
+
+Transit Gateway를 사용하면 Direct Connect 연결을 여러 계정 간에 공유할 수 있다.
+
+방법은 기업 데이터 센터와 Direct Connect Location 사이에 Direct Connect Connection을 설정하고, 두 개의 다른 계정에 Transit Gateway를 설정한다.
+
+그 다음 Direct Connect Location을 Direct Connect 게이트웨이에 연결하고 그 게이트웨이를 Transit Gateway에 연결한다.
+
+정확한 다이어그램은 아니지만 유사한 그림은 [링크](https://docs.aws.amazon.com/ko_kr/vpc/latest/tgw/images/direct-connect-tgw.png)에서 확인할 수 있다.
