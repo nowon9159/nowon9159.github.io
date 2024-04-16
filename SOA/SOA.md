@@ -7,9 +7,7 @@
 
 강의 내용을 기반으로 번역이 매끄럽게 되지 않는 부분은 AWS Docs를 참조하려고 했습니다.
 
-시간이 없으신 분들은 각 파트의 `정리` 부분을 중점으로 참고하시거나 [Cheat Sheet]()를 참고하시면 됩니다.
-
-***이 문서는 240403 기준 아직 미완성입니다. Route53을 기준으로 이후 내용이 빠져 있습니다.***
+시간이 없으신 분들은 각 파트의 `정리` 부분을 중점으로 참고하시거나 [Cheat Sheet](https://github.com/nowon9159/nowon9159.github.io/blob/main/SOA/SOA-C02_Cheat_Sheet.md)를 참고하시면 됩니다.
 
 참고하시는 분들께 제 합격 기운을 나눠 드립니다.
 부디 공부에 큰 도움이 되셨음 좋겠습니다.
@@ -40,7 +38,6 @@ $contents
 
 # 목차
 
-
 <!-- TOC -->
 
 - [Overview](#overview)
@@ -48,7 +45,7 @@ $contents
     - [What would you like ChatGPT to know about you to provide better responses?](#what-would-you-like-chatgpt-to-know-about-you-to-provide-better-responses)
     - [How would you like ChatGPT to respond?](#how-would-you-like-chatgpt-to-respond)
 - [목차](#%EB%AA%A9%EC%B0%A8)
-- [SOA 시험 대비](#soa-%EC%8B%9C%ED%97%98-%EB%8C%80%EB%B9%84)
+- [Contents](#contents)
     - [**Enhanced Networking 향상된 네트워킹**](#enhanced-networking-%ED%96%A5%EC%83%81%EB%90%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9)
     - [**EC2 Placement Groups 배치 그룹**](#ec2-placement-groups-%EB%B0%B0%EC%B9%98-%EA%B7%B8%EB%A3%B9)
         - [Cluster Placement Group 클러스터 배치 그룹](#cluster-placement-group-%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0-%EB%B0%B0%EC%B9%98-%EA%B7%B8%EB%A3%B9)
@@ -296,11 +293,19 @@ $contents
     - [**[SAA] VPC Flow Logs**](#saa-vpc-flow-logs)
     - [**[SAA] Site to Site VPN, Virtual Private Gateway & Customer Gateway**](#saa-site-to-site-vpn-virtual-private-gateway--customer-gateway)
     - [**[SAA] Direct Connect & Direct Connect Gateway**](#saa-direct-connect--direct-connect-gateway)
-    - [**[SAA] Direct Connect & Direct Connect Gateway**](#saa-direct-connect--direct-connect-gateway)
+    - [**[SAA] Site to Site VPN as a backup to Direct Connect**](#saa-site-to-site-vpn-as-a-backup-to-direct-connect)
+    - [**[SAA] AWS PrivateLink - VPC Endpoint Services**](#saa-aws-privatelink---vpc-endpoint-services)
+    - [**[SAA] Transit Gateway**](#saa-transit-gateway)
+    - [**[SAA] VPC Traffic Mirroring**](#saa-vpc-traffic-mirroring)
+    - [**[SAA] IPv6 for VPC**](#saa-ipv6-for-vpc)
+    - [**[SAA] Egress Only Internet Gateway**](#saa-egress-only-internet-gateway)
+    - [**[SAA] Networking Costs in AWS**](#saa-networking-costs-in-aws)
+    - [**[SAA] Network Firewall**](#saa-network-firewall)
+    - [**[CCP] X-Ray**](#ccp-x-ray)
 
 <!-- /TOC -->
 
-# SOA 시험 대비
+# Contents
 
 ## **Enhanced Networking (향상된 네트워킹)**
 
@@ -8324,8 +8329,6 @@ Cluster Enabled의 경우의 수평 및 수직 확장을 살펴보자
   - 복제 지연은 낮아야한다.
   - 복제 노드와 주 노드 사이에 지연이 없어야 한다.
 
-**정리**
-- 
 
 ## **ElastiCache Memcached for SysOps**
 
