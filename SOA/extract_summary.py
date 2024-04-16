@@ -48,7 +48,7 @@ def extract_sections(input_file_path, output_file_path):
                 output_file.write(section_title + "\n\n")
                 output_file.write(section_content.strip() + "\n\n")
 
-input_file = r"C:\Users\Administrator\Documents\nowon9159.github.io\SOA\SOA.md"  # 입력 파일 경로
-output_file = r"C:\Users\Administrator\Documents\nowon9159.github.io\SOA\SOA_ext.md"  # 출력 파일 경로
+input_file = r"C:\Users\Administrator\Documents\nowon9159.github.io\SOA\SOA-C02.md"  # 입력 파일 경로
+output_file = r"C:\Users\Administrator\Documents\nowon9159.github.io\SOA\SOA-C02_ext.md"  # 출력 파일 경로
 
 extract_sections(input_file, output_file)
