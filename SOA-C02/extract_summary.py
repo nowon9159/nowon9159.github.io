@@ -14,10 +14,8 @@ def extract_sections(input_file_path, output_file_path):
                 # 파일을 한 줄씩 읽기
                 for line in input_file:
                     # 빈 줄이거나 TOC인 경우 무시
-                    if line.strip() == "" or line.strip().startswith("# TOC"):
-                        continue
                     # 섹션 시작을 나타내는 **정리** 라인인 경우
-                    elif line.strip() == "**정리**":
+                    if line.strip() == "**정리**":
                         # 섹션 시작을 표시
                         section_started = True
                         # 섹션 제목과 내용을 출력 파일에 쓰기
