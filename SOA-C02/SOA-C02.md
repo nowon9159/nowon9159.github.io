@@ -9336,7 +9336,7 @@ DDos 공격은 분산 서비스 거부 공격이다.
 
 AWS Shiled Standard를 사용하면 모든 고객에게 추가 비용 없이 웹사이트 및 응용 프로그램에 대한 DDoS 공격으로부터 보호한다.
 
-프리미엄 DDoS 공격에 대한 24/7 보호를 제공한다.
+AWS Shield Advanced는 프리미엄 DDoS 공격에 대한 24/7 보호를 제공한다.
 
 그런 다음 규칙을 기반으로 특정 요청을 필터링하는 웹 애플리케이션 방화벽(WAF)를 사용할 수 있다. CloudFront 및 Route 53을 사용해 Global Edge Network를 활용해 보호를 제공할 수 있다.
 
