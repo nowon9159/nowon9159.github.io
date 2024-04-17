@@ -9409,13 +9409,12 @@ AWS의 고객은 8개의 서비스에 대해 사전 승인 없이 자체 인프�
 
 Inspector는 몇 가지 대상에 대해 자동 보안 평가를 실행할 수 있는 서비스이다.
 
-먼저 EC2 인스턴스에 대한 것이다.
-
-- EC2 인스턴스에서 System Manager Agent를 활용하고, Inspector가 해당 EC2 인스턴스의 보안을 평가한다.
-- 의도하지 않은 네트워크 접근성과 알려진 취약점을 가진 운영 체제를 지속적으로 분석한다.
-  ECR에 Push된 컨테이너 이미지
-- Docker 이미지의 경우 이미지가 ECR로 푸시되는 동안, 아마존 인스펙터가 알려진 취약점을 대상으로 분석한다.
-  Lambda Function
+EC2의 경우
+- System Manager Agent를 활용, Inspector가 해당 EC2 인스턴스의 보안을 평가한다.
+- 의도하지 않은 네트워크 접근성과 알려진 취약점을 가진 운영 체제를 지속적으로 분석
+ECR에 Push할 때의 경우
+- Docker 이미지의 경우 이미지가 ECR로 Push될 때 Inspector가 알려진 취약점을 대상으로 이미지를 분석한다.
+Lambda Function
 - 함수가 배포될 때 함수 코드 및 패키지 종속성의 소프트웨어 취약점을 위해 Inspector가 분석한다.
 
 Inspector가 작업을 완료하면 AWS Security Hub에 보고하고 이러한 결과 및 이벤트를 EventBridge로 전송할 수도 있다.
