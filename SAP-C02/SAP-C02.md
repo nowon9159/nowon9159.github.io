@@ -136,3 +136,24 @@ IAM 권한 경계를 사용하는 이유는 비관리자에게 권한 경계 내
 즉, 권한 에스컬레이션을 방지한다.
 
 또한 조직과 SCP를 사용해 전체 계정을 제한하는 대신 특정 사용자를 제한하는 데 매우 유용하다.
+
+## IAM Access Analyzer
+
+외부에 공유할 리소스를 찾는 데 사용한다.
+-   S3 Bucket, IAM Role, KMS Key, Lambda and Layer, SQS Queue, Secrets Manager Secrets 등에 적용된다.
+
+이 리소스들이 Resource Based Policy가 첨부되어 있을 수도 있고 그에따라 다른 계정과 공유할 수 있다. 그러나 공유된 사실을 잊어버릴 수도 있다.
+
+외부 리소스가 데이터에 액세스할 수 있기 때문에 회사에 보안 위험이 될 수도 있다. 그래서 AWS Account 또는 AWS Organization와 같이 전체에 **Zone of Trust를 정의**한다.
+
+Zone of Trust 외부에 있는 것들 중에서 위에 언급한 리소스에 액세스할 수 있는 것들은 findings로 보고될 것이다.
+
+IAM Access Analyzer는 다른 측면도 있는데, IAM Access Analyzer에서 우리의 정책을 검증해서 우리 정책이 정책 문법이나 모범 관행에 부합하는지 검증할 수 있다. (Access Analyzer Policy Validation)
+-   General warnings, security warnings, errors, suggestions 등의 제안 사항을 받게 된다.
+-   또한 우리가 정책을 개선할 방법에 대한 조치 가능한 권고도 받게 된다.
+
+IAM Access Analyzer에서 직접 정책을 생성할 수도 있다. (Access Analyzer Policy Generation)
+-   이미 호출되어진 API 기반으로 우리의 액세스 활동에 맞춤화된 IAM Policy를 생성한다.
+-   예를들어 S3 버킷이나 Kinesis Data Stream에 API 호출을하는 람다 함수의 경우 CloudTrail에 로깅될 것이고, Access Analyzer 기능이 CloudTrail 로그를 검토해서 정책을 생성하게 된다.
+-   최대 90일까지의 로그를 검토하고, 로그를 이용해서 IAM Policy를 생성하게 된다.
+
