@@ -282,3 +282,28 @@ STS에서 세션 태그를 사용할 수 있다.
 
 대략적으로 이것들이 알아야할 중요한 API이고, 앞 네 가지가 가장 중요한 API이다. 다섯 번째(GetFederationToken)는 시험에 나오지 않는다.
 
+## STS
+**Identity Federation in AWS**
+-   기본적으로 AWS 외부에 있는 사용자에게 AWS 계정 내 리소스에 대한 액세스 권한을 부여하는 것이다.
+-   그리고 이미 기업 Directory 내에 사용자가 있으므로 별도의 IAM 사용자를 생성하고 싶지 않은 경우이다.
+-   AWS 외부에서 사용자 관리를 하고 싶기 때문에 ID Federation이 필요하다.
+-   사용 사례
+    -   기업에 Active Directory와 같은 자체 ID 시스템이 있거나, 
+    -   웹/모바일 애플리케이션에서 AWS 리소스에 액세스해야 하는 경우가 있다.
+-   기본적으로 사용자가 AWS에 액세스하려고 하면 ID Provider와의 신뢰 관계를 설정해야 한다. 그렇지 않으면 AWS가 해당 Provider로부터 ID를 받아들이지 않는다.
+-   신뢰 관계가 형성되고 사용자가 ID Provider에 로그인하면 AWS 자격 증명을 받게 되고, 이 임시 자격 증명을 사용해 AWS에 액세스하게 된다.
+-   ID Federation은 여러 유형이 있다.
+    -   SAML 2.0
+    -   Custom Identity Broker
+    -   Amazon Cognito를 사용하거나 또는 사용하지 않는 Web Identity Federation 
+    -   Single Sign-On(SSO)
+
+**SAML 2.0 Federation**
+
+SAML은 Security Assertion Markup Language의 약자로, ADFS 등 많은 ID Provider에서 사용하는 오픈 표준이다.
+Microsoft Active Directory와 통합할 수 있고, AWS와 SAML 2.0 호환 IdP를 통합할 수 있다.
+
+이를 통해 콘솔, CLI 또는 모든 API에 임시 자격 증명으로 액세스할 수 있으므로, 각 직원에 대해 IAM 사용자를 만들 필요가 없다.
+
+
+
