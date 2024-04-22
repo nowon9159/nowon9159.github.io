@@ -157,3 +157,128 @@ IAM Access Analyzer에서 직접 정책을 생성할 수도 있다. (Access Anal
 -   예를들어 S3 버킷이나 Kinesis Data Stream에 API 호출을하는 람다 함수의 경우 CloudTrail에 로깅될 것이고, Access Analyzer 기능이 CloudTrail 로그를 검토해서 정책을 생성하게 된다.
 -   최대 90일까지의 로그를 검토하고, 로그를 이용해서 IAM Policy를 생성하게 된다.
 
+## STS
+
+STS를 이용하면 동일한 계정에서 다수의 계정들에 걸쳐 역할을 Assuem하게 되고 자격 증명 페더레이션을 사용할 수 있게 된다.
+
+**Using STS to Assume a Role**
+-   먼저 우리의 계정이나 다수의 계정에 걸쳐 Assume하려는 IAM Role을 정의한다.
+-   다음으로 어떤 Principal이 이 IAM 역할에 액세스할 수 있는지 정의하고, Security Token Service의 약자인 STS 서비스를 이용해서 자격 증명을 받는다.
+-   STS 서비스를 이용하면 일시적인 자격 증명이 될 것이고, AssumeRole API를 이용해서 우리가 액세스할 수 있는 IAM Role을 맡을 수 있게 된다. 
+-   일시적인 기간은 15분에서 12시간 사이이다.
+
+**Assuming a Role with STS**
+-   어떤 상황에서 STS를 이용해 Assume을 받아야 하는가?
+-   먼저 우리가 보유한 AWS 계정에 있는 사용자에게 우리가 보유한 다른 계정에 있는 리소스에 대한 액세스 권한을 제공하려고 하는 경우가 있다.
+-   또는 제3자가 보유한 AWS 계정에 있는 사용자에게 액세스 권한을 부여하려할 수도 있고
+-   또는 서비스 역할을 이용해서 AWS가 제공하는 서비스에게 AWS 리소스에 대한 액세스 권한을 줄 수도 있다. 
+-   그리고 자격 증명 페더레이션을 사용할 수도 있다.
+
+또한 STS에는 살아 있는 세션과 역할에 대한 자격 증명을 취소하도록 하는 기능이 있다.
+-   time statement를 이용하거나 AWSRevokeOlderSessions를 사용해서 정책을 관리하면 된다.
+-   시간 조건을 이용해서 추가적인 보안 수준을 제공할 수 있다.
+
+**STS에서 기억해야할 중요한 사항**은 특정 사용자, 애플리케이션, 또는 서비스를 위해 역할을 Assume하게 되면 원래 가졌던 권한을 포기하게 되고, 그 역할에 할당된 권한을 갖게 된다는 점을 기억해야 된다.
+
+**Providing Access to an IAM User in Your or Another AWS Account That You Own**
+
+우리가 보유하지 않은 제3자 계정의 경우에 사용자는 역할을 Assume하게 되고, 그 역할을 통해 EC2 인스턴스를 종료하는 등의 작업을 수행할 수 있다. 그리고 이렇게 할 경우 사용자가 Role을 Assume하도록 명시적으로 권한을 부여해야 한다.
+
+관리 콘솔이나 CLI, AssumeRole API를 이용해서 사용자가 그 역할로 전환하도록 강제할 수도 있는데 여기서는 추가적인 수준의 보안을 갖게 된다는 이점이 있다.
+
+또 MFA를 Role에 추가해서 MFA를 이용하도록 지정된 사용자만 그 역할을 Assume할수 있도록 가능하다. 그러면 최소 권한과 CloudTrail을 이용한 감사라는 이점도 갖게 된다. 중간 단계를 거쳐 EC2 인스턴스를 종료함으로써 우리는 많은 보안상 이점을 추가할 수 있다.
+
+**Cross account access with STS**
+그러면 STS 교차 계정 액세스는 실제로 어떻게 사용되는가?
+
+Production Account / Development Account가 있을 때, S3 버킷인 productionapp에 대한 액세스를 개발자들에게 제공하려 한다.
+
+Production Account에서 관리자는 Development Account에 대해 productionapp 버킷에 대한 읽기, 쓰기 권한을 부여하는 역할인 UpdateApp을 생성하게 된다. 즉, 이 역할을 이용해 S3 버킷에 액세스할 수 있게 된다.
+
+그 다음 Development Account에서 우리는 개발자 그룹의 구성원들에게 이 UpdateApp이라는 역할을 Assume할 수 있도록 액세스 권한을 부여한다.
+
+그러면 개발자 그룹의 사용자들만 STS API를 이용해서 해당 역할에 액세스하거나 액세스 권한을 요청할 수 있다. 요청을 받으면 STS는 역할 임시 자격 증명을 리턴한다.
+이 임시 자격 증명을 이용해서 사용자들은 S3 버킷에 액세스할 수 있다.
+
+**Providing Access to AWS Accounts Owned by Third Parties**
+제 3자가 보유한 계정에 대한 액세스를 제공하려고 하는 경우에는 **External ID**라는 게 추가로 있다.
+
+Zone of Trust라는 개념에 대해 이해했을 것이다. 이것은 우리가 보유한 모든 계정과 Organization을 말한다. 그리고 이 Zone 외부는 제 3자가 될 것이다.
+
+예를 들어 파트너와 협력하고 그들이 서비스를 제공하거나, 컨설팅 회사가 있어서 그 컨설팅 회사에게 우리 계정에 대한 액세스를 제공하려고 할 때 그들은 신뢰 구역의 바깥에 있다.
+-   IAM Access Analyzer를 이용하면 계정 안의 어떤 리소스가 신뢰 구역 바깥에 있는지 검색할 수 있다.
+
+우리가 제3자에게 우리 리소스에 대한 액세스 권한을 부여하려고 한다면 3rd Party AWS Account ID라는 걸 정의해야한다.
+-   이 외부 ID는 우리외 3rd Party의 비밀이고 우리가 외부 ID를 정의해야 한다.
+-   이 외부 ID를 정의하는 이유는 계정에 있는 역할에 대한 액세스 권한을 제3자에게 부여하면 제3자만 그 역할에 액세스하게 해야하기 때문이다.
+-   즉, 우리와 제3자 간에 고유하게 역할을 연계하는 것이고, 신뢰를 정의하고 역할을 Assume할 때 반드시 External ID를 제공해야 한다.
+
+**Confused deputy**
+
+외부 ID가 왜 중요한지 이해하기 위해서는 Confused deputy(혼동된 대리인)에 대해 이해해야 한다.
+
+자세한 설명은 [링크](https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/confused-deputy.html)에서 확인 가능하다.
+
+-   A 계정 그리고 A 계정에 속해있는 ExampleRole이 있다고 가정해보자. 
+-   그리고 3rd Party 회사에서 사용하고 있는 AWS 계정이 있다.
+-   그리고 두 계정에 어느곳에도 속하지 않는 외부의 계정이 있다.
+-   ExampleRole은 3rd Party 회사의 AWS 계정에 신뢰 관계가 형성되어 있다.
+
+아래와 같은 과정을 거쳐서 문제가 발생한다.
+-   3rd Party 회사에서 서비스를 사용할 때 ExampleRole의 ARN을 제공한다.
+-   3rd Party는 ExampleRole의 ARN을 사용해 임시 보안 인증을 얻어 A 계정의 리소스에 액세스한다. 3rd Party를 A 계정에서는 "대리자"라고 인식하게 된다.
+-   두 계정에 속하지 않는 외부의 계정은 3rd Party의 서비스를 사용하게 되고, 이 계정도 A 계정의 ExampleRole ARN을 알고 있거나 짐작해서 제공한다. 
+-   외부 계정은 3rd Party에게 계정의 권한을 요청하면 3rd Party는 ExampleRole을 사용해서 계정의 리소스에 액세스하게 된다.
+
+결국 외부 계정은 무단으로 A 계정의 ExampleRole에 액세스하게 되는 것이다.
+3rd Party는 아무것도 모른 채 리소스에 대한 작업을 하게 했으므로 3rd Party는 "혼동된 대리자"가 되었다.
+
+그래서 External ID를 정의하게 되었다.
+
+```JSON
+{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Allow",
+    "Principal": {
+      "AWS": "Example Corp's AWS Account ID"
+    },
+    "Action": "sts:AssumeRole",
+    "Condition": {
+      "StringEquals": {
+        "sts:ExternalId": "12345"
+      }
+    }
+  }
+}
+```
+
+결국 신뢰 관계를 형성할 때 "sts:ExternalId": "12345"와 같은 구문을 통해 외부 ID를 지정한다.
+
+이 외부 ID는 A 계정과 3rd Party 계정이 공유하는 일종의 비밀이다.
+
+공격을 시도하는 외부 계정은 External ID를 모르기 때문에 접속하지 못하게 되고, 결국 우리는 추가적인 수준의 보안을 갖게되는 것이다.
+
+**Session Tags in STS**
+STS에서 세션 태그를 사용할 수 있다.
+
+우리가 IAM Role을 Assume하거나 STS를 사용하는 사용자 페더레이션이 있다면 우리는 세션 태그를 전달할 수 있다.
+
+작동 방식
+-   사용자는 예를 들어 STS AssumeRole API 호출을할 것이고, 그 API 호출의 일부로서 Department=HR 이라는 세션 태그를 전달할 것이다.
+-   그리고 STS는 세션 태그와 함께 사용자에 대한 임시 보안 자격 증명을 리턴할 것이다.
+-   우리는 aws:PrincipalTag라는 조건을 사용할 수 있다. 이 조건 태그와 AssumeRole에 전달된 태그를 비교하게 되는 것이다.
+-   예를 들어 hr-docs라는 이름의 S3 버킷이 있고 그 안에는 Bucket Policy를 통해 "StringEquals": {"awsPrincipalTag/Department": "HR"} 조건을 설정하고, 특정한 세션 태그를 이용해서 AssumeRole을 사용한 사용자만 S3 버킷에 대한 API 호출을 할 수 있게 된다.
+
+그래서 이건 우리가 STS 안에서 사용자 페더레이션을 사용하고 IAM 정책에 페더레이션을 통해 전달되는 태그를 기반으로 하는 조건을 넣으려고 할 때 특히 유용하다.
+
+**STS Important APls**
+-   AssumeRole: 가장 기본적인 API, 우리 계정이나 다수의 계정 안에서 역할에 액세스하기 위한 것
+-   AssumeRoleWithSAML: SAML을 이용해서 로그인했을 때 자격 증명을 얻기 위한 API
+-   AssumeRoleWithWebIdentity: IdP를 이용할 때 사용하는 API이다. Provider는 Amazon Cognito, Amazon, Facebook, Google, OpenID Connect 호환 IdP가 포함된다.
+    -   AssumeRoleWithWebIdentity API는 사용을 권장하지 않는다. **AssumeRoleWithWebIdentity 대신 Cognito를 사용하도록 권장**한다.
+-   GetSessionToken: MFA에 사용된다. MFA를 이용해서 자격 증명을 되돌려 받는 경우
+-   GetFederationToken: 프록시 앱을 사용해서 임시 자격 증명을 받기 위해 사용한다. 가령 회사 네트워크 안에서 토큰을 배포하는 것이 있을 때 사용한다.
+
+대략적으로 이것들이 알아야할 중요한 API이고, 앞 네 가지가 가장 중요한 API이다. 다섯 번째(GetFederationToken)는 시험에 나오지 않는다.
+
