@@ -300,10 +300,106 @@ STS에서 세션 태그를 사용할 수 있다.
 
 **SAML 2.0 Federation**
 
-SAML은 Security Assertion Markup Language의 약자로, ADFS 등 많은 ID Provider에서 사용하는 오픈 표준이다.
-Microsoft Active Directory와 통합할 수 있고, AWS와 SAML 2.0 호환 IdP를 통합할 수 있다.
+-   SAML은 Security Assertion Markup Language의 약자로, ADFS 등 많은 ID Provider에서 사용하는 오픈 표준이다.
+-   Microsoft Active Directory와 통합할 수 있고, AWS와 SAML 2.0 호환 IdP를 통합할 수 있다.
+-   이를 통해 콘솔, CLI 또는 모든 API에 임시 자격 증명으로 액세스할 수 있으므로, 각 직원에 대해 IAM 사용자를 만들 필요가 없다. 물론 이렇게 하기 위해서는 IAM과 SAML 2.0 제공업체 간에 양방향 신뢰를 설정해야 한다.
+-   내부적으로 STS 서비스의 AssumeRoleWithSAML API를 사용해 SAML Assertion을 통해 임시 자격 증명을 받는다.
+-   SAML 2.0은 이전 방식이고 최신 Amazon Single Sign-On 서비스가 관리형 방식으로 새롭게 나왔지만, SAML 2.0 Federation에 대해서도 알아야 한다.
 
-이를 통해 콘솔, CLI 또는 모든 API에 임시 자격 증명으로 액세스할 수 있으므로, 각 직원에 대해 IAM 사용자를 만들 필요가 없다.
+>   SAML Assertion이란?
+>   SAML 어설션은 서비스 공급자에게 로그인하는 직원이 인증되었음을 알려 주는 데이터를 포함하는 XML 문서입니다.
+>   사용자가 누구인지, 어떤 관련 정보가 사용자인지, 사용자에게 액세스할 수 있는 권한이 무엇인지를 식별하는 ID 공급자(IdP) 서비스 공급자(SP)에 대해 교환되는 메시지
+
+**SAML 2.0 Federation - AWS API Access**
+우리 기업에 ID Provider가 있고, AWS가 있으며 사용자가 S3 버킷에 액세스하려고 한다고 가정해보자
+기업 내부에 포털 또는 ID 제공업체가 있다.
+1.  사용자는 IdP에 인증 요청을 보낸다.
+2.  IdP는 LDAP 기반 ID 저장소 등을 통해 요청을 확인하고, 로그인이 성공하면 SAML Assertion을 반환한다. 
+    -   이 SAML Assertion은 사용자가 본인임을 증명하는 것이다. 
+3.  이 SAML Assertion을 가지고 사용자는 AssumeRoleWithSAML API로 STS 서비스를 호출할 수 있다. 사용자는 SAML Provider의 ARN, 맡을 역할의 ARN, IdP의 SAML Assertion을 전달한다.
+4.  STS는 SAML Assertion을 신뢰할 수 있는지 확인하고
+5.  임시 보안 자격 증명을 제공한다.
+
+사용자는 이 메커니즘을 통해 AWS API에 액세스할 수 있다.
+
+자세한 설명은 [링크](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html#CreatingSAML-configuring)에서 참조하면 된다.
+
+**SAML 2.0 Federation - AWS Console Access**
+
+IdP와 LDAP 기반 저장소가 있고 앞의 경우와 동일하게 인증 루프가 있다.
+그러나 이번에는 https://signin.aws.amazon.com/saml 엔드포인트에 AWS 로그인 요청을 보낸다.
+
+1.  /saml 엔드포인트에 AWS 로그인 요청을 보낸다.
+2.  그러면 STS 서비스를 통해 보안 자격 증명을 반환하고
+3.  AWS 콘솔의 로그인 URL이라는 특수 URL을 반환한다.
+4.  사용자는 이 URL을 사용해서 AWS 관리 콘솔로 리디렉션된다.
+
+자세한 설명은 [링크](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html)에서 참조하면 된다.
 
 
+위 두 가지 흐름은 동일한 SAML 2.0 Federation을 사용해서 매우 유사하다.
+
+**SAML 2.0 Federation - Active Directory FS (ADFS)**
+ADFS를 사용하는 경우는 IdP가 Microsoft Active Directory Federation Services가 되고, LDAP Identity Store가 Active Directory가 된다.
+
+IdP인 ADFS와 디렉터리 자체인 Active Directory의 차이점을 이해하는 것이 중요하다.
+
+**Custom Identity Broker Application**
+더 복잡하고 오래된 방식으로 ID Provider가 SAML 2.0과 호환되지 않는 경우 Custom ID Broker를 사용해야 한다.
+
+AWS 서비스와 관리 콘솔에 액세스하려면 기업 ID Provider와 사용자 지정 ID 브로커가 필요하다.
+
+1. 사용자는 ID 브로커에 로그인하면 브로커가 로그인 자체를 확인한다.
+2.  ID 브로커가 AWS에 인증하고 임시 자격 증명을 요청한다. 
+    -   이 때 AWS API를 사용할 수 없으므로 Custom ID 브로커에 관리 권한이 있어야 하며, STS 서비스에서 직접 임시 자격 증명을 요청할 수 있어야 한다.
+    -   즉, ID 브로커가 해당 사용자에 대한 적절한 IAM 역할을 결정해야 하므로 사용자 관리가 ID 브로커 자체로 이동한다.
+    -   사용자 지정 ID 브로커에서 STS의 AssumeRole 또는 GetFederationToken API를 직접 사용하는 방법 밖에는 안된다.
+3.  보안 자격 증명을 검색하면 사용자에게 전달되고, 사용자는 AWS API에 액세스하거나 관리 콘솔로 리디렉션 된다.
+
+**Web Identity Federation - Without Cognito**
+web ID Federation은 Cognito 없이 하는 방식과 Cognito를 사용하는 방식 두 가지가 있다. AWS에서는 Cognito 사용을 권장한다.
+
+Web ID Federation은 신뢰할 수 없는 환경에서 사용하는 것이다.
+이전에는 기업 내부에서 서비스에 액세스했지만, 이번에는 클라이언트가 클라우드에 직접 액세스하려는 상황이다. 또한 Amazon, Google, Facebook 또는 OpenID Connect 호환 IdP를 통해 인증할 것이다.
+
+이 방식은 AWS와 신뢰 메커니즘으로 설정되어 있다.
+
+1.  클라이언트가 제3자 IdP에 로그인한다.
+2.  웹 ID 토큰이 클라이언트와 공유된다.
+3.  AssumeRoleWithWebIdentity API라는 STS API를 사용해 토큰을 주고 받으며
+4.  이를 통해 AWS에 대한 임시 보안 자격 증명을 받는다.
+5.  이 자격 증명을 사용해 AWS 리소스에 직접 액세스할 수 있다.
+
+**Web Identity Federation - With Cognito**
+Cognito를 사용하면 좀 더 안전하고 간단하다. 웹 ID Federation보다 선호되는데, Cognito에서는 최소 권한의 IAM Role을 만들고 OIDC IdP와 AWS 간에 신뢰만 구축하면 된다.
+
+1.  Cognito 서비스가 있고, 클라이언트는 제3자 IdP에 인증하여 토큰을 받는다.
+2.  ID Token은 Amazon Cognito와 교환되어 Cognito 토큰을 반환 받는다.
+3.  Cognito 토큰을 STS와 교환하면 AWS에 대한 임시 보안 자격 증명을 받을 수 있다.
+4.  클라이언트가 AWS 리소스에 직접 액세스할 수 있다.
+
+왜 Cognito 매커니즘을 사용해야 하는가?
+-   Cognito는 익명 사용자를 지원하고, MFA를 지원하며, 데이터 동기화 기능이 있다.
+-   이 경우 Amazon Cognito는 Token Vending Machine의 역할을 하여 토큰과 자격 증명을 교환한다.
+
+자세한 설명은 [링크](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc_cognito.html)에서 참조하면 된다.
+
+
+Web ID Federation에서 IAM 정책을 제한하는 방법이 있다.
+IAM Policy Variable을 이용하면 된다.
+
+-   cognito-identity.amazonaws.com:sub
+-   www.amazon.com:user_id
+
+이 IAM Policy 변수를 사용하면 IAM 정책을 조건으로 제한할 수 있어, 사용자가 정말로 필요한 제한을 받게 할 수 있다.
+
+```Yaml
+"Condition": {
+    "StringLike": {
+        "s3:prefix": "Amazon/mynumbersgame/${www.amazon.com:user_id}/*"
+    }
+}
+```
+
+위와 같이 User_id 접두사로 버킷을 나열하고 해당 접두사로 객체를 가져오고 업데이트하고 넣을 수 있도록 허용하면 된다.
 
