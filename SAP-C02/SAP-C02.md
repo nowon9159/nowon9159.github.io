@@ -597,3 +597,121 @@ Organization은 두 가지 기능 모드가 있다.
 -   마지막으로 Member 계정에서 그 초대를 수락해서 Member 계정이 새로운 Organization에 가입하게 할 수 있다.
 
 
+## AWS Organizations Policies
+**Service Control Policies (SCP)**
+-   allowlist 또는 blocklist IAM action을 정의할 수 있다.
+-   OU 수준이나 계정 수준에서 적용되며, Management Account에는 적용되지 않는다.
+-   SCP는 루트 사용자를 포함해서 계정 안에 있는 모든 사용자와 역할에 직접 적용된다.
+    -   그러나, 서비스에 연계된(Service-linked) 역할에는 영향을 미치지 않는다. 예를 들어 EC2에 부여된 역할. 서비스에 연계된 역할들은 다른 서비스와 AWS Organization의 통합을 해서 SCP로 제한할 수 없다.
+-   SCP는 반드시 명시적인 허용이 필요하다. 기본값으로 아무것도 허용되어 있지 않기 때문이다.
+-   사용 사례
+    -   EMR을 사용하지 못하게 하는 등 특정 서비스에 대한 액세스를 제한하는 경우
+    -   명시적으로 서비스를 비활성화해서 PCI 준수를 강제하는 경우도 있다.
+
+**SCP Hierarchy**
+-   OU나 계정 수준마다 다른 SCP가 적용될 수 있고, Management는 모든 관리 능력을 유지하기 위해 SCP가 있어도 적용되지 않는다.
+-   계정은 상위에 있는 SCP를 무조건 상속 받는다. 예를 들어 A OU SCP에 DenyRedshift SCP를 할당하면 하위에 있는 Account에 AuthorizedRedshift SCP를 할당해도 명시적으로 OU에서 거부 당하기 때문에 하위 Account는 Redshift에 액세스할 수 없다.
+-   OU안에 OU가 있는 경우도 동일하다. A OU 안에 있는 B OU의 경우 Root OU, A OU의 SCP를 상속 받는다.
+
+![SCP_diagram](https://docs.aws.amazon.com/images/organizations/latest/userguide/images/scp_deny_1.png)
+
+
+**IAM Policy Evaluation Logic**
+
+![Policy_evaluation_logic](https://docs.aws.amazon.com/images/IAM/latest/UserGuide/images/PolicyEvaluationHorizontal111621.png)
+
+이 그림은 AWS 안에서 액션이 어떻게 승인되거나 거부되는지 설명되어 있다.
+
+1.  먼저 정책을 살펴보고 명시적인 거부가 있다면 자동으로 거부된다.
+2.  Organizations SCP를 확인하고 허용되어 있다면 다음 단계로 가고 그렇지 않으면 거부된다.
+3.  리소스 기반 정책을 확인한다. 정책이 있다면 허용되어 있는지 확인한다.
+4.  자격 증명 기반 정책이 있는지 확인하고 허용되어 있는지 확인한다.
+5.  IAM 권한 경계를 확인한다.
+6.  마지막으로는 세션 정책을 확인한다.
+
+**Restricting Tags with IAM Policies**
+-   태그를 이용해서 AWS 리소스를 제한할 수도 있다.
+-   aws:TagKeys 의 조건 키를 사용해서 특정 AWS 리소스를 제한할 수 있다.
+    -   IAM 정책에 있는 태그 키와 리소스에 첨부된 태그 키를 비교해서 검증할 수도 있다. (시험에 출제됨)
+    -   예를들어 "Env", "CostCenter" 태그가 있을 때만 EBS 볼륨을 생성하도록 허용하려면 이런 정책이 있어야 한다.
+-   모든 키를 매칭 시키는 경우 "Condition"에 "ForAllValues:StringEquals"를 이용해서 "Env", "CostCenter" 태그가 반드시 모두 있어야 한다고 요구하거나, ForAnyValue를 사용해 최소한 그 태그들 중 하나가 있어야 한다고 요구할 수 있다.
+-   EBS를 생성할 때 ForAllValues로 조건을 할당하면 두 태그 모두 있어야 생성이 가능하며 ForAnyValue로 조건을 할당하면 둘 중 하나만 있어도 생성이 가능하다.
+
+**Using SCP to Deny a Region aws:RequestRegion**
+-   aws:RequestRegion를 사용해서 전체 리전을 거부하는 SCP도 있을 수 있다.
+-   우리는 "Effect": "Deny"를 지정하고 모든 걸 거부할 리전을 지정할 수 있다. 
+-   "ArnNotLike" 를 이용해서 특정 Role을 바이패스 설정할 수도 있다.
+
+**Using SCP to Restrict Creating Resources without appropriate Tags**
+-   SCP를 이용해서 적절한 태그가 없는 경우에 리소스 생성을 제한할 수도 있다.
+-   IAM 사용자와 역할이 금지된 행동을 하지 못하도록 막기 위한 것이다.
+-   예를 들어 "Project", "CostCenter" 태그가 없다면 EC2 인스턴스 실행을 제한할 수 있다.
+-   "Condition" {"aws:RequestTag/Project": "true"} 으로 설정하면 Project 태그가 없는 요청을 거부할 수 있다.
+
+**AWS Organizations - Tag Policies**
+-   태그 정책은 Organization 수준에서 정의되고, 어떤 Organization 안에 있는 모든 리소스에 걸쳐 태그를 표준화하는 데 도움을 준다.
+-   그래서 태그 일관성을 유지하고, 태그 리소스를 감독하며 적절하게 태그를 분류하는 등의 목적으로 사용된다.
+-   태그 키와 허용되는 값들을 정의한다.
+-   비용 할당 태그(Cost Allocation Tags)와 속성 기반 액세스 제어(Attribute-based Access Control)에 도움을 준다.
+-   정책을 준수하지 않을 경우 지정된 서비스와 리소스에 대한 태깅 작업이 모두 금지된다.
+-   모든 태그 또는 미준수 리소스가 나열된 보고서도 받을 수 있고, 미준수 태그를 검색하려면 Amazon EventBridge를 사용할 수 있다.
+
+```json
+{   
+    "tags": {
+        "costcenter": {
+            "tag_key": {
+                "@@assign": "CostCenter"
+            },
+            "tag_value" : {
+                "@@assign": ["100", "200"]
+            },
+            "enforced_for" : {
+                "@@assign": ["secretsmanager:*"]
+            }
+        }
+    }
+}
+```
+
+-   이와 같이 구성되어 있을 때 secretsmanager 서비스에 대해 CostCenter라는 키만 있고 값은 100 또는 200만 있다.
+-   결국 규정을 준수하기 위해서는 CostCenter key 에 100 또는 200의 Value가 있어야만 규정이 준수된다.
+
+**AWS Organizations - AI Services Opt-out Policies**
+-   Organization에는 AI 서비스 기반 거부 정책도 있다.
+-   AWS의 Amazon Lex, Amazon Comprehend, Amazon Polly와 같은 AI 서비스가 우리가 실제로 제공하는 콘텐츠를 이용해 Amazon AI 또는 머신러닝 서비스를 개선할 수 있다.
+-   AWS가 우리의 데이터를 이용해서 서비스를 개선하는 것이다. 그러나 우리는 저장된 콘텐츠를 서비스가 개선에 활용하는 것을 거부할 수 있다. 그러려면 우리는 모든 멤버 계정과 모든 AWS 리전에 걸쳐 적용될 DENY 정책을 생성해야 한다.
+-   이걸 이용해서 모든 서비스를 거부하거나, 특정 서비스만 거부할 수도 있다.
+-   정책은 Organization Root 나 특정 OU에 첨부하거나 직접 개별 멤버 계정에 첨부할 수 있다.
+
+```Json
+{
+    "services": {
+        "default": {
+            "opt_out_policy": {
+                "@@assign": "optOut"
+            }
+        },
+        "comprehend": {
+            "opt_out_policy": {
+                "@@operators_allowed_for_child_policies": ["@@none"],
+                "@@assign": "optOut"
+            }
+        },
+        "rekognition": {
+            "opt_out_policy": {
+                "@@assign": "optIn"
+            }
+        }
+    }
+}
+```
+
+자세한 설명은 [링크](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)에서 확인 가능하다.
+
+
+**AWS Organizations - Backup Policies**
+-   백업 정책은 우리가 AWS Backup을 이용해서 백업 계획을 정의하도록 도와준다.
+-   우리는 조직 수준에서 JSON 문서로 백업 정책을 정의하고 빈도, 기간, 백업 리전 등 리소스 백업을 자세하게 통제할 수 있게 된다.
+-   이걸 Organization Root 또는 특정한 OU 또는 개별 멤버 계정에 첨부할 수 있다.
+-   이렇게 설정하게 되면 이것은 Immutable(불변하는)한 백업 계획이고, AWS Backup의 Member 계정에 표시된다. 그러나, Member 계정에서는 열람만 가능할 것이고 Organization Management 계정 안에서만 관리할 수 있다.
