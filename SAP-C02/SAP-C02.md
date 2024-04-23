@@ -403,3 +403,118 @@ IAM Policy Variable을 이용하면 된다.
 
 위와 같이 User_id 접두사로 버킷을 나열하고 해당 접두사로 객체를 가져오고 업데이트하고 넣을 수 있도록 허용하면 된다.
 
+## AWS Directory Service
+**What is Microsoft Active Directory (AD)?**
+-   Microsoft AD는 AD Domain Service라고 하는 것이 설치된 모든 Windows 서버에서 찾을 수 있다.
+-   사용자 계정, 컴퓨터, 프린터, 파일 공유, 보안 그룹 등의 개체로 이루어진 데이터베이스가 될 것이다.
+-   Windows, Microsoft 환경에서 보안 관리, 새 계정 생성, 권한 할당을 중앙 집중식으로 할 수 있다.
+-   개체, 사용자, 계정, 프린터는 트리라고 하는 것으로 구성되고 조직될 것이다.
+-   여러 개의 트리 모임은 포레스트라고 한다.
+
+Microsoft AD는 Domain Controller가 있고, 이 도메인 컨트롤러에 다른 Microsoft 머신들이 연결되어 있다.
+
+도메인 컨트롤러에는 John 사용자가 있고 password라는 비밀 번호가 있을 때 이제 John의 비밀번호를 사용해 이들 머신 중 어디에서나 연결할 수 있고, 액티브 디렉터리가 로그인 자체를 확인한다는 것이다.
+
+그래서 이 로그인들을 도메인 컨트롤러 전반에 걸쳐 동기화할 수 있게 해준다.
+
+**What is ADFS (AD Federation Services)?**
+ADFS는 애플리케이션 전반에 걸쳐 SSO(Single Sign On)을 제공하고 서드 파티에 대해 SAML 통합(AWS Console, Dropbox, Office 365 등)을 갖추고 있다.
+
+ADFS는 사용자가 Microsoft Active Directory 서비스의 URL로 이동하면 사용자를 Microsoft Active Directory에 대해 인증할 것이다.
+그러면 SAML 토큰이 사용자에게 반환되고, 그 다음 콘솔에 대해 로그인 URL을 얻기 위해 AWS와 토큰을 교환할 것이다.
+
+**AWS Directory Service**
+세 가지 유형이 있고 AWS Managed 서비스이다.
+
+-   AWS Managed Microsoft AD
+    -   Microsoft AD를 클라우드에서 운영하는 것이다.
+    -   고유의 AD를 AWS에서 만들 수 있고, 사용자를 로컬에서 관리하며, MFA를 지원한다.
+    -   온프레미스 AD와 신뢰 관계를 설정해야 한다.
+    -   온프레미스와 클라우드 두 곳 사이에 신뢰 관계가 있어 사용자가 정의된 곳이 두 군데이다.
+-   AD Connector
+    -   클라우드 AD에서 온프레미스 AD로의 링크를 만드는 프록시, MFA 지원
+    -   사용자는 온프레미스 AD 한 곳에서만 관리된다.
+    -   인증은 프록시인 AD Connector로 이동한 다음 응답을 얻기 위해 온프레미스 AD로 프록시된다.
+-   Simple AD
+    -   Microsoft AD가 아니라 AD 호환 API이다.
+    -   Samba라고도 하며 AWS에서 관리되지만 독립 실행형이고 온프레미스 AD에 조인할 수 없다.
+    -   Simple AD는 저렴한 대안이며, 기능이 많지 않다.
+    -   MFA를 지원하지 않고, SQL 서버 등 AWS에 조인할 수 없지만 단순하고 저렴하며 문제에 따라 좋은 솔루션이 될 ㅅ수 있다.
+
+**AWS Directory Services AWS Managed Microsoft AD**
+AWS Managed Microsoft AD의 경우 VPC 내에 Microsoft Active Directory를 배포하게 된다.
+-   고가용성을 위해 두 개의 AZ가 있고, 두 AZ에 두 개의 AD Domain Controller(AD DC)가 배포된다.
+-   Windows 인스턴스를 생성해 SharePoint 같은 전통적인 애플리케이션을 배포하거나, 여러 계정과 VPC의 Amazon EC2 인스턴스에서 직접 도메인 컨트롤러에 원활한 도메인 조인을 할 수 있다.
+-   Integration: RDS for SQL Server, Workspaces, QuickSight와 원활하게 통합하여 사용할 수 있다. 그리고 SSO를 생성해 서드파티 애플리케이션에 대한 액세스를 제공할 수도 있다.
+-   AWS 내에서 독립 저장소가 될 수 있거나 온프레미스 AD에 조인될 수 있다.
+-   Multi AZ 배포는 최소 2개의 AZ이지만, 스케일링 및 가용성을 높이려면 더 많은 Domain Controller를 추가할 수 있다.
+-   필요한 경우 자동 백업을 받을 수 있다.
+-   또한 디렉터리의 자동 다중 리전 복제를 받을 수도 있다.
+
+**AWS Microsoft Managed AD - Integrations**
+Managed AA DC는 AD two-way forest trust라는 것을 사용해 온프레미스 Active Directory와 통합된다.
+
+또한 다양한 데이터베이스 서비스와 통합된다.
+
+가장 중요한 것은 RDS for SQL Server, Amazon WorkSpaces, QuickSight, Connect, WorkDocs 및 Single Sign-On이다.
+
+그리고 Single Sign-On을 통해 GitHub, Box, Dropbox, Offiece 365 등의 더 많은 SAML 비즈니스 애플리케이션에 액세스할 수 있다.
+
+마지막으로 EC2 인스턴스에 배포하는 .NET 앱, SharePoint, SQL Server 등의 전통적인 Active Directory 애플리케이션을 AWS에서 관리하는 Active Directory와 통합할 수 있다.
+
+**Connect to on-premise AD**
+온프레미스 Active Directory에 연결하는 방법을 이해하는 것이 시험에서 매우 중요하다.
+
+온프레미스 AD를 AWS Managed Microsoft AD에 연결하기 위해서는 Direct Connect 또는 VPN 연결을 설정해야 한다.
+
+이 경우 세 가지 유형의 Forest Trust를 설정할 수 있다.
+1.  AWS가 온프레미스를 신뢰하는 One-way trust
+2.  온프레미스가 AWS를 신뢰하는 One-way trust
+3.  서로를 신뢰하는 Two-way trust
+
+중요한 점은 이 Forest Trust는 동기화와 다르다는 것이다. 복제는 AWS Managed Microsoft AD에서 지원되지 않는다.
+사용자가 두 개의 다른 Microsoft Active Directory에 독립적으로 존재하며, 이 Forest Trust 덕분에 한 쪽에 사용자가 없으면 다른 DC(Domain Controller)에 "나는 너를 믿는데 너는 그 사용자가 있니?" 라고 질의할 수 있는 것이다.
+
+온프레미스에 있는 AD App은 온프레미스 AD에 연결할 수 있다.
+
+EC2 인스턴스는 Microsoft Managed AD에 원활한 도메인 조인을 할 수 있다.
+
+Two-way Forest Trust를 설정한 경우 온프레미스에 있는 AD App이 AWS에 속한 도메인을 요청하는 경우, 신뢰 관계 덕분에 Microsoft Managed AD에서 사용자를 확인할 수 있다.
+
+**Solution Architecture: Active Directory Replication**
+요구 사항은 이렇다. 예를 들어 온프레미스의 AD를 AWS에 복제해 지연시간을 최소화 하려고 한다고 가정하고, Direct Connect나 VPN이 다운되더라도 사용자가 연결을 유지하고 정상적으로 작동할 수 있도록 온프레미스 AD의 복제본을 AWS에 두려고 한다.
+
+그러려면 온프레미스와 AWS의 AD들 사이에 신뢰 관계를 설정해야 한다.
+
+복제를 설정할 유일한 방법은 EC2 Windows 인스턴스에 액티브 디렉터리를 배포하고 복제를 설정하는 것이다.
+
+그러면 온프레미스 Microsoft AD가 VPC에 복제되어 지연 시간을 최소화하고 재해 복구 전략을 갖출 수 있다.
+
+그리고 이 EC2 인스턴스와 동일한 VPC 내 AWS Managed Microsoft AD DC 사이에 Two-way Trust를 설정할 수 있다.
+
+온프레미스 AD --Replication--> EC2 Windows 인스턴스 <--Two-way Trust--> AWS Managed Microsoft AD DC
+
+**AD Connector**
+-   게이트웨이 역할을 하는 프록시로, 요청을 온프레미스 microsoft Active Directory로 리디렉션 한다. 
+-   캐싱 기능은 없다.
+-   사용자는 온프레미스에서만 관리되며, 신뢰 관계를 설정할 필요가 없다.
+-   VPN 또는 Direct Connect가 필요하다.
+-   SQL Server와 통합되지 않고 원활한 도메인 조인을 지원하지 않는다.
+
+AD Connector는 어떻게 작동하는가?
+-   예를들어 기업 사무실과 AWS 환경이 있으며, 두 곳 사이에 VPN 또는 Direct Connect 연결이 있다. 그리고 기업 사무실 내에 직접 Active Directory를 사용할 수 있다.
+-   사용자가 인증을 원하게 되면 다음과 같다.
+1.  먼저 사용자 자격 증명을 사용자 정의 로그인 페이지에 입력한다. 
+2.  로그인 페이지는 멀티 AZ일 수 있는 AD Connector에 연결된다.
+3.  AD Connector는 기업 사무실의 Active Directory로 요청을 프록시 하며 LDAP 인증을 수행한다.
+4.  인증이 완료되면 AD Connector는 STS AssumeRole IAM을 수행하여 임시 자격 증명을 가져온다.
+5.  사용자가 AWS에 인증된다.
+
+
+**Simple AD**
+-   Simple AD는 매우 저렴한 Active Directory이며 가장 일반적인 디렉터리 기능을 제공한다.
+-   EC2 인스턴스 조인, 사용자 및 그룹 관리를 지원한다.
+-   MFA, RDS SQL Server, SSO와의 통합을 지원하지 않으며, 소규모 사용자를 위한 것이다.
+-   사용하려는 계층에 따라 최대 500명에서 5,000명까지의 사용자만 지원한다.
+-   Samba 4를 기반으로 하며 API 측면에서 Microsoft AD와 호환되지만 비용이 낮고 규모가 작다.
+-   기본적인 AD 기능이나 LDAP 호환성만 제공되며 온프레미스 Microsoft AD와 신뢰 관계를 설정할 수 없다.
