@@ -518,3 +518,82 @@ AD Connector는 어떻게 작동하는가?
 -   사용하려는 계층에 따라 최대 500명에서 5,000명까지의 사용자만 지원한다.
 -   Samba 4를 기반으로 하며 API 측면에서 Microsoft AD와 호환되지만 비용이 낮고 규모가 작다.
 -   기본적인 AD 기능이나 LDAP 호환성만 제공되며 온프레미스 Microsoft AD와 신뢰 관계를 설정할 수 없다.
+
+
+## AWS Organizations
+AWS Organizations는 다수의 계정을 한꺼번에 관리할 수 있게 해준다.
+
+Organizations는 상단에 Root Organizational Unit, OU가 있고 그 안에는 관리 목적에 사용할 계정인 Management Account가 있다.
+
+그리고 Root OU 안에는 다양한 OU가 있을 수 있다.
+개발 환경을 위한 OU가 있어 OU 안에 다수의 Member Account가 있을 수 있다.
+
+우리는 모든 계정을 관리하는 Management Account와 보통 계정인 Member Account를 구분해야 한다.
+
+DEV OU만 존재할 수 있는 것은 아니고 다른 Member Account가 있는 Prod OU가 있을 수 있다.
+
+그리고 OU 안에 또 OU가 있을 수도 있다.
+
+**OrganizationAccountAccessRole**
+Organizations는 어떻게 관리를 수행하게 될까?
+OrganizationAccountAccessRole 를 이용해서 수행하게 된다. 시험에 나온다.
+
+Organization이 있고 Management Account가 있는 상태에서 우리가 AWS Organization 서비스의 API를 이용해서 Member Account를 생성하면 그 Member Account 안에 자동으로 IAM Role이 생성되고 그 역할의 이름이 바로 OrganizationAccountAccessRole 이다.
+
+Management Account가 Member Account에 대한 관리 임무를 수행해야 할 때 우리는 외부에서 AssumeRole API를 이용해서 관리 역할을 맡게 된다.
+
+이제 Management Account는 이 역할을 이용해서 IAM 사용자 생성 같은 관리 작업을 Member Account에서 수행한다.
+
+만약 승인을 한다면 Management Account에 있는 IAM User가 Member 계정에 있는 역할을 맡을 수도 있다.
+
+Organization의 API로 생성된 새로운 멤버 계정에 자동으로 이 역할이 추가된다.
+그러나 어떠한 계정을 Organization에 초대하고 그 계정이 이미 존재하고 있었다면 우리는 수동으로 이 역할을 생성해야 한다.
+
+**Multi Account Strategies**
+우리는 department, cost center, dev / test / prod 등의 다수의 계정 전략이 있다.
+
+(재작성)
+
+가령 dev, test, prod의 환경 별로 계정을 생성하거나, 규제에 따른 제한 조건을 기초로 생성하거나, 리소스 분리를 최적화하기 위해 계정을 생성할 수 있다.
+
+VPC 마다 하나의 계정을 두거나, 계정 당 별도의 서비스 한도를 원할 수도 있으며 로깅을 위한 별도의 계정을 원하는 등 다양한 경우가 있을 수 있다.
+
+(재작성)
+
+
+**Organizational Units (OU) - Examples**
+비즈니스 단위의 형태에 따라 OU가 있을 수도 있다.
+
+Management Account를 기준으로 Sales, Retail 등등의 OU를 가지고 있는 Business Unit으로 구성하거나,
+Enviroment Unit으로 구성해 DEV, TEST, PROD 형태의 OU를 두거나,
+Project Unit으로 구성해 Project1, Project2 등의 OU를 둘 수도 있다.
+결국 우리가 선택하기 나름이고, 몇 가지 아이디어가 있을 뿐이다.
+
+![Example of a basic organization](https://docs.aws.amazon.com/images/whitepapers/latest/organizing-your-aws-environment/images/example-basic-organization.png)
+
+**AWS Organization - Feature Modes**
+Organization은 두 가지 기능 모드가 있다.
+
+-   Consolidated billing feature(통합 청구 기능 모드)
+    -   이 기능 모드를 이용하면 모든 계정의 청구서를 집계하게 되고, 관리 계정으로부터 직접 하나의 결제 방식이 제공된다.
+    -   이렇게 하는 이유는 합계 사용량으로 가격 혜택을 받을 수 있기 때문이다.
+    -   모든 계정에 걸쳐 EC2나 S3 등에 대해 대량 사용 할인을 받게 된다.
+-   All Feature (Default)
+    -   통합 청구 기능도 포함 되지만 그것 외에도 SCP 기능이 추가된다.
+    -   어떤 계정을 초대하게 되면, 그 계정은 전체 기능 활성화를 승인해야 한다.
+    -   전체 기능 활성화를 하면 SCP(Service Control Policy)를 사용할 수 있는데 Member 계정이 organization을 떠나지 못하게 하는 정책이다.
+    -   만약 All Feature를 활성화했다면 다시 통합 청구 기능만을 사용할 수는 없다.
+
+**AWS Organizations - Reserved Instances**
+-   청구 목적으로 AWS Organization의 통합 청구 기능은 모든 계정을 하나의 계정으로 간주하게 된다. 그래서 Organization 안의 모든 계정은 다른 어떤 계정이 구매한 Reserved Instance의 시간 당 비용 혜택을 받게 된다. 
+-   설령 어떤 계정이 Reserved Instance를 사용하지 않더라도 절약 금액이 극대화 되는 것이다.
+-   Organization의 결제 계정인 Management 계정은 Payer 계정을 포함해서 어떠한 계정의 Reserved Instance 공유 또는 Savings Plans 할인 공유를 끌수 있다.
+-   반면에 두 계정에 걸쳐 Reserved Instance나 Savings Plans를 공유하려면 두 계정이 공유를 켜야한다.
+
+**AWS Organizations - Moving Accounts**
+-   Organizations 간에 계정을 옮길 수도 있다.
+-   예를들어 두 개의 AWS Organization이 있고 Member 계정을 둘 사이에 옮기려고 할 때 먼저 기존에 등록되어 있는 Organization에서 Member 계정을 삭제해야 한다.
+-   그러면 Member 계정은 독립된 계정이 될 것이고, 새로운 Organization에서 Member 계정을 초대할 수 있다.
+-   마지막으로 Member 계정에서 그 초대를 수락해서 Member 계정이 새로운 Organization에 가입하게 할 수 있다.
+
+
