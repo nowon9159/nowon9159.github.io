@@ -766,4 +766,60 @@ Identity Center는 권한 세트를 이용해서 사용자가 무엇에 액세�
     -   이걸 이용해서 우리는 어떤 사용자를 Cost Center에 할당하던지, 주니어나 시니어 같은 명칭을 제공하던지, 특정한 영역에만 액세스할 수 있도록 local을 설정한다든지 할 수 있다.
     -   활용 사례를 보면 실제로 권한 세트를 한 번만 정의하고 권한 세트가 이런 속성들을 활용하게 된다. 그리고 간단히 그 기본 속성을 변경해서 사용자나 그룹의 AWS 액세스 권한을 수정한다.
 
-## 
+## AWS Control Tower
+
+Control Tower는 안전하고 규정을 준수하는 다중계정 AWS 환경을 설정하고 관리하는 모범 사례에 기반한 간편한 방법이다.
+
+Control Tower의 이점
+-   몇 번의 클릭 만에 우리의 관리 환경을 자동화할 수 있다.
+-   guardrail을 활용해 지속되는 정책 관리 능력을 얻을 것이다.
+-   정책 위반 사항을 탐지하고 자동으로 교정해준다.
+-   대화형 대시보드를 통해 규정 준수를 감시할 수 있다.
+
+Control Tower는 다중 계정 모범 사례를 자동화하는 방법이고, AWS Organization의 통제 하에 운영된다.
+
+Organization을 설정해 줄것이고 계정을 체계화해 줄 것이다.
+그리고 필요로 하는 SCP를 자동으로 구현한다.
+
+**AWS Control Tower - Account Factory**
+
+Account Factory는 계정 프로비저닝과 배포를 자동화한다.
+
+이 기능은 사전 승인된 베이스라인과 Configuration 옵션을 생성할 수 있다.
+이는 우리 조직의 모든 계정에 해당되고, 기본 VPC 구성하기 또는 서브넷과 리전 구성하기 등이 있다.
+
+이를 수행하기 위해 AWS Service Catalog라고 불리는 기본 인프라 서비스를 이용한다. 새로운 계정을 프로비저닝하기 위함이다.
+
+Account Factory가 아주 도움이 되는 경우를 살펴보자
+-   예를들어 클라우드 컴퓨팅 환경이 있고 ADFS와 Active Directory를 탑재한 데이터 센터가 있다.
+-   그리고 클라우드와 기업 데이터 센터 간 VPN 또는 Direct Connect를 구축할 것이다.
+-   그래서, Control Tower와 랜딩 존을 사용할 때와 Account Factory 용 계정을 생성할 때 중심은 IAM Identity Center가 될 것이다.
+-   여러 설정 방법이 있겠지만 기업 데이터 센터에 AD를 통합하고자 한다면 AWS Managed AD를 생성하게 될 것이고, 이는 IAM Identity Center가 담당하는 인증 소스이다.
+-   그리고 기업 데이터 센터의 AD와 AWS 간 양방향 신뢰를 구축한다.
+-   이 상황에서 랜딩 존과 Account Factory를 통해 생성된 어떤 계정이던 간에 IAM Identity Center를 통해 인증하기 위해 구성될 것이다.
+-   그러므로, 클라우드와 기업 데이터 센터에 있는 Active Directory를 기본적으로 사용하도록 해야한다.
+
+**AWS Control Tower - Detect and Remediate Policy Violations**
+-   Guardrail
+    -   이는 정책 위반 사항을 탐지하고 교정하기 위해 사용된다. 그래서 가드레일은 지속적인 거버넌스를 제공할 것이다.
+    -   Preventive:
+        -   SCP를 사용한다.
+        -   예를 들어 루트 사용자의 액세스 키 생성 권한을 비활성하거나, 금지하는 작업을 수행
+    -   Detective:
+        -   계정에 모든 권한을 부여하는 대신 루트 사용자에 대한 MFA 활성화 여부를 탐지하기 위해 Config를 사용한다.
+        -   Config의 경우 리소스의 규정 준수 또는 비준수 상태를 제공하기 때문에 유용할 것이다.
+    -   예시로는 어떤 리소스가 태그되지 않았는지 등의 컴플라이언스에 부합하지 않는 리소스를 파악하기 위해 사용한다.
+    -   구체적인 예시로는 Config를 사용하는 Control Tower의 detective guardrail이 있고, 해당 가드레일이 멤버 계정 내 태그되지 않은 리소스에 대해 감시할 것이다. 만약 규정 비준수 상태라면 SNS 토픽을 트리거하고 람다 함수를 호출할 수도 있다. 그 람다 함수 자체가 이를 해결하고 필요한 곳에 태그를 추가할 수 있다.
+
+**AWS Control Tower - Guardrails Levels**
+
+-   Mandatory (필수 가드레일)
+    -   AWS Control Tower에 의해 자동으로 활성화되기도 하고 강제되기도 한다.
+    -   예를들어 로그 아카이브 계정에 대한 퍼블릭 읽기 액세스를 허용하지 않을 때 사용하기도 한다.
+-   Strongly Recommended
+    -   말 그대로 강력히 권장되는 지침이다.
+    -   예시로 EC2 인스턴스에 연결된 EBS 볼륨을 활성화하는 경우이다.
+-   Elective
+    -   선택적 가드레일이다.
+    -   기업에서 일반적으로 사용되는 경우이다.
+    -   MFA 없이 S3 버킷 삭제 작업을 허용하지 않는 등의 선택 사항을 위해 사용된다.
