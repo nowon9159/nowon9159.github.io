@@ -439,7 +439,7 @@ ADFS는 사용자가 Microsoft Active Directory 서비스의 URL로 이동하면
     -   Microsoft AD가 아니라 AD 호환 API이다.
     -   Samba라고도 하며 AWS에서 관리되지만 독립 실행형이고 온프레미스 AD에 조인할 수 없다.
     -   Simple AD는 저렴한 대안이며, 기능이 많지 않다.
-    -   MFA를 지원하지 않고, SQL 서버 등 AWS에 조인할 수 없지만 단순하고 저렴하며 문제에 따라 좋은 솔루션이 될 ㅅ수 있다.
+    -   MFA를 지원하지 않고, SQL 서버 등 AWS에 조인할 수 없지만 단순하고 저렴하며 문제에 따라 좋은 솔루션이 될 수 있다.
 
 **AWS Directory Services AWS Managed Microsoft AD**
 AWS Managed Microsoft AD의 경우 VPC 내에 Microsoft Active Directory를 배포하게 된다.
@@ -715,3 +715,55 @@ Organization은 두 가지 기능 모드가 있다.
 -   우리는 조직 수준에서 JSON 문서로 백업 정책을 정의하고 빈도, 기간, 백업 리전 등 리소스 백업을 자세하게 통제할 수 있게 된다.
 -   이걸 Organization Root 또는 특정한 OU 또는 개별 멤버 계정에 첨부할 수 있다.
 -   이렇게 설정하게 되면 이것은 Immutable(불변하는)한 백업 계획이고, AWS Backup의 Member 계정에 표시된다. 그러나, Member 계정에서는 열람만 가능할 것이고 Organization Management 계정 안에서만 관리할 수 있다.
+
+## AWS IAM Identity Center
+
+**AWS IAM Identity Center**
+-   이전에 AWS Single Sign-On 서비스에서 이름만 바뀐 똑같은 서비스이다.
+-   Organizations 안에 모든 AWS 계정 뿐만 아니라 우리의 비즈니스 클라우드 애플리케이션(Salesforce, Box, Microsoft 365)에게도 단 한 번의 로그인을 제공한다.
+-   그리고 SAML 2.0이 통합된 모든 애플리케이션에 접속할 수 있다.
+-   EC2 Windows 인스턴스도 Single Login을 제공한다.
+-   단 한번의 로그인으로 모든 것에 액세스할 수 있어서 편리하고, 시험에는 다수의 AWS 계정에 한번에 로그인하는 방법에 대해 물어볼 것이다.
+-   Id Provider는 두 가지가 있을 수 있다.
+    -   IAM Identity Center에 있는 내장형 자격 증명 저장소가 있고
+    -   Active Directory 또는 OneLogin, Okta 등의 써드파티 자격 증명 제공자에 접속할 수도 있다.
+
+**AWS IAM Identity Center - Login Flow**
+-   로그인 페이지로 가서 사용자 이름과 패스워드를 입력하고 AWS IAM Idnetity Center로 간다.
+-   Identity Center에서 원하는 계정을 클릭하면 관리 콘솔에 직접 접속할 수 있다.
+-   그래서 특정한 콘솔에 로그인하는 방법을 알 필요가 없고 내 IAM Identity Center 포털에 로그인하고 거기서 싱글 사인온하면 패스워드를 입력할 필요가 없다.
+-   다수의 AWS 계정을 갖고 있다면 이 서비스를 사용하는 게 좋다.
+
+**AWS IAM Identity Center**
+브라우저 인터페이스는 우리의 IAM Identity Center의 로그인 페이지에 접속할 것이고, 우리는 다양한 사용자 저장소와 통합해야 한다.
+-   저장소는 Active Directory가 될수 있다.
+    -   Active Directory를 사용해서 사용자와 그룹을 관리할 수 있다.
+-   또한 저장소는 IAM Identity Center를 사용할 수도 있다. 내장형 자격 증명 저장소이고, IAM에서 많이 해본 것 처럼 우리는 사용자와 그룹을 정의할 수 있다.
+
+SSO로서 Identity Center, AWS Organization, Windows EC2 인스턴스 또는 비즈니스 클라우드 애플리케이션 또는 커스텀 SAML2.0 적용 애플리케이션을 통합할 수 있다.
+
+SSO를 사용하면 한 번에 로그인하면 되기 때문에 흐름을 크게 단축시킬 수 있어서 편리하다.
+
+Identity Center는 권한 세트를 이용해서 사용자가 무엇에 액세스할 수 있는지 정의한다.
+
+-   IAM Identity Center 안에서 권한과 사용자, 그리고 그룹들은 어떻게 연계되어 있는가?
+    -   AWS Organization이 있고, Management 계정에서 IAM Identity Center를 설정한 경우, Development와 Production OU가 있을 때 Developer라는 그룹에 있는 Bob과 Alice라는 두 명의 개발자가 있다고 가정해보자.
+    -   Bob과 Alice가 Development OU에 완전히 액세스할 수 있으려면 권한 세트를 생성해야 한다. 그리고 관리자 액세스를 허용해야 한다. 그리고 권한 세트를 특정한 OU와 연계해야 한다.
+    -   권한 세트를 개발자 그룹에게 할당하고 Development OU와 연계하면, Bob과 Alice는 Development 계정에 있는 역할을 Assume할 수 있고, 해당 계정에 완벽히 액세스할 수 있게 된다.
+
+결과적으로 권한 세트를 생성하고 해당 권한 세트에 대해 권한을 부여한 뒤 특정 그룹 또는 사용자에게 부여해 그룹 또는 사용자가 Assume을 이용해서 다른 OU 또는 동일한 OU에 액세스할 수 있는 것
+
+**AWS IAM Identity Center Fine-grained Permissions and Assignments**
+
+-   Multi-Account Permission
+    -   Identity Center를 이용하면 다수의 계정에 걸쳐 액세스를 관리할 수 있고, 권한 세트를 이용해 하나 또는 다수의 IAM 정책을 사용자와 그룹에 할당하고 그들이 AWS에서 무엇에 액세스할 수 있는지 정의할 수 있다.
+    -   예를들어 Dev, Prod 두 개의 계정이 있고, DB에 대한 Admin 권한이 있을 때 Identity Center에서 권한 세트를 설정해 DB에 대한 Admin을 할당하고, 특정 계정의 IAM 역할을 자동으로 Assume 되어 역할에 따른 권한을 받게 된다.
+-   Application Assignment
+    -   애플리케이션 할당도 Multi-Account Permission과 같은 방식으로 작동하고 어떤 사용자나 그룹이 어떤 애플리케이션에 액세스할 수 있는지 정의할 수 있다.
+    -   필요한 URL과 인증서, 메타데이터 등을 제공한다.
+-   Attributed-Based Access Control (ABAC)
+    -   IAM Identity Center 저장소에 저장된 사용자의 속성을 기초로 세부적인 권한을 태그 기반으로 권한을 부여할 수 있다.
+    -   이걸 이용해서 우리는 어떤 사용자를 Cost Center에 할당하던지, 주니어나 시니어 같은 명칭을 제공하던지, 특정한 영역에만 액세스할 수 있도록 local을 설정한다든지 할 수 있다.
+    -   활용 사례를 보면 실제로 권한 세트를 한 번만 정의하고 권한 세트가 이런 속성들을 활용하게 된다. 그리고 간단히 그 기본 속성을 변경해서 사용자나 그룹의 AWS 액세스 권한을 수정한다.
+
+## 
