@@ -777,9 +777,7 @@ Control Tower의 이점
 -   대화형 대시보드를 통해 규정 준수를 감시할 수 있다.
 
 Control Tower는 다중 계정 모범 사례를 자동화하는 방법이고, AWS Organization의 통제 하에 운영된다.
-
-Organization을 설정해 줄것이고 계정을 체계화해 줄 것이다.
-그리고 필요로 하는 SCP를 자동으로 구현한다.
+Organization을 설정해 줄것이고 계정을 체계화해 줄 것이다. 그리고 필요로 하는 SCP를 자동으로 구현한다.
 
 **AWS Control Tower - Account Factory**
 
@@ -823,3 +821,69 @@ Account Factory가 아주 도움이 되는 경우를 살펴보자
     -   선택적 가드레일이다.
     -   기업에서 일반적으로 사용되는 경우이다.
     -   MFA 없이 S3 버킷 삭제 작업을 허용하지 않는 등의 선택 사항을 위해 사용된다.
+
+## AWS Resource Access Manager
+
+RAM이란
+-   보유한 리소스를 다른 AWS 계정과 공유하기 위해 사용
+-   모든 계정 또는 내 조직에 있는 계정들과 리소스를 공유할 수 있다.
+-   리소스 중복을 피할 수 있다.
+-   RAM을 통해 VPC 서브넷을 공유할 수 있다.
+    -   VPC 서브넷을 공유하면 모든 리소스를 동일한 서브넷에서 실행할 수 있다.
+    -   모든 서브넷은 동일한 AWS Organizations의 서브넷이어야 한다.
+    -   Security Group과 Default VPC는 공유할 수 없다.
+    -   Participants는 서브넷 안에서 각자의 리소스를 관리할 수 있지만 다른 Participants나 소유자에게 속한 리소스를 열람, 수정 또는 삭제할 수 없다. 사실상 네트워킹만 공유하는 것이다.
+-   Transit Gateway, Route 53 (Resolver Rule, DNS Firewall Rule Group), License Manager Configurations, Aurora DB Cluster, ACM Private Certificate Authority, CodeBuild Project, EC2(Dedicated Host, Capacity Reservation), AWS Glue(Catalog, Database, Table), AWS Network Firewall Policies, AWS Resource Group, System Manager Incident Manager(Contacts, Response Plans), AWS Outposts(Outpost, Site) 등등 여러 공유 가능한 자원이 있다.
+
+
+**AWS Resource Access Manager - VPC Example**
+
+시험 관점에서 가장 중요한 사용 사례는 VPC이다.
+
+예를 들어 여러개의 어카운트가 있고, VPC를 소유하는 계정 A가 있다고 가정해보자.
+이 VPC는 계정 B와 계정 C 간에 공유되어 있을 거고 각각 계정은 각자의 리소스를 담당하게 된다.
+
+계정들은 다른 계정에 있는 다른 리소스를 열람, 수정 또는 삭제할 수 없다.
+
+예를 들어 EC2 인스턴스와 ALB를 계정 B에 배포하고, 계정 C에 EC2 인스턴스가 있으면 서로 통신을 할수는 있지만 서로를 볼 수는 없다.
+왜냐하면 별개의 계정이 있기 때문이다.
+
+그러면 결국 우리 데이터베이스가 A 계정에 있는 VPC의 프라이빗 서브넷에 위치할 수 있고, 그럼 네트워크가 공유된다.
+
+즉, 이 모든 것들이 서로 대화하고 사설 IP를 이용해 서로 액세스할 수 있게 된다.
+
+그러면 VPC 피어링을 할 필요가 없어진다.
+보안 그룹 또한 계정을 넘나들며 참조할 수 있어 보안 극대화에 도움이 된다.
+
+활용 사례는 동일한 신뢰 경계 안에 있는 애플리케이션이 있을 수 있고, 동일한 VPC 안에서 배포되기 때문에 네트워크가 단순해진다.
+
+그리고 상호 연결 정도가 매우 심한 애플리케이션이 있는 경우에도 역시 네트워크 설정이 훨씬 단순해진다. VPC가 하나만 있고, 기본적으로 그 안에 배포된 모든 애플리케이션은 서로 대화할 수 있기 때문이다.
+
+**Resource Access Manager Managed Prefix List**
+
+RAM은 Managed Prefix List(관리형 접두사 목록)을 공유할 수 있다.
+
+관리형 접두사 목록은 하나 또는 다수의 CIDR 블록 세트를 말한다.
+
+보안 그룹과 라우트 테이블을 손쉽게 설정하고 관리하도록 해준다.
+
+예를 들어
+-   계정 A에는 접두사 목록이 있고 CIDR 1, CIDR 2, CIDR 3가 있다. 이 접두사 목록을 X라고 한다.
+-   이것들은 회사의 내부 네트워크를 나타내는 세트 또는 규칙이다.
+-   그리고 가령 이 규칙들을 적용하려 하면 모든 보안 그룹에 IP 기반으로 추가하는 대신 접두사 목록을 참조하게 해 목록에 해당하는 리스트를 허용하게 하는 것이다. 그리고 이 접두사 목록을 공유할 수도 있다.
+-   RAM을 이용해서 접두사 목록 X를 공유하고 계정 B에서 SSH Port 22를 허용하면 해당하는 CIDR 1, CIDR 2, CIDR 3에 대해 전부 허용할 수 있는 것
+-   Custom-Managed Prefix List
+    -   우리만의 고객 관리 접두사 목록을 사용한다면 우리는 CIDR을 정의하고 그걸 다른 계정이나 Organization와 공유할 수 있고, 수정할 수 있다.
+    -   접두사 목록을 수정하면 그 접두사 목록을 사용하던 모든 보안 그룹 또는 라우트 테이블은 한꺼번에 자동으로 업데이트 된다.
+-   AWS Managed Prefix List
+    -   AWS의 자체 서비스에 대한 CIDR이고, AWS에 의해 정의되어 우리는 생성, 수정, 공유 또는 삭제할 수 없다.
+
+
+**Resource Access Manager Route 53 Outbound Resolver**
+
+Outbound Resolver도 RAM으로 공유할 수 있는데 하이브리드 설정이나 다수 계정 및 다수 VPC를 갖고 있는 경우에 포워딩 규칙을 DNS로 확장할 수 있다.
+
+예를 들어 주 계정에서 원하는 도메인 이름과 타겟 IP가 있는 포워딩 규칙인 Route53 리졸버 규칙을 정의하고 다른 계정에 이를 공유하고 다른 계정이 수락하면 다른 VPC와 연계될 수 있고, 이 규칙을 가진 다른 모든 VPC는 우리가 지정한 도메인 이름을 리졸빙할 수 있다.
+
+그럼 우리는 DNS를 위해 중앙 집중적으로 관리되는 리졸버 규칙을 가질 수 있게 된다.
+
