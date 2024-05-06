@@ -123,7 +123,7 @@ IAM CreateUser는 IAM 정책에서 허용되지만, IAM 권한 경계에서는 S
 
 **결과적으로 둘다 공통적으로 허용되는 경우의 권한만 허용된다는 의미이다.**
 
-또한 권한 경계는 AWS Organization의 SCP(서비스 제어 정책)와 함께 사용할 수 있다.
+또한 권한 경계는 AWS Organization의 SCP(서비스 제어 정책, Service Control Policy)와 함께 사용할 수 있다.
 
 SCP 또한 교집합에 해당하는 부분의 권한만 허용된다.
 
