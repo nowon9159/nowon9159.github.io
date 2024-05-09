@@ -889,3 +889,59 @@ Outbound Resolver도 RAM으로 공유할 수 있는데 하이브리드 설정이
 
 그럼 우리는 DNS를 위해 중앙 집중적으로 관리되는 리졸버 규칙을 가질 수 있게 된다.
 
+## AWS CloudTrail
+
+**CloudTrail**
+-   CloudTrail은 우리의 AWS 계정에 거버넌스, 컴플라이언스, 감사를 구현 해주는 방법이다.
+-   Default로 CloudTrail은 활성화된다.
+-   CloudTrail을 이용하면 콘솔, SDK, CLI 또는 기타 AWS 서비스에 의해 우리 AWS 계정 안에서 이뤄진 모든 이벤트와 API 호출 이력을 얻을 수 있다.
+-   모든 로그를 CloudTrail에서 CloudWatch 로그나 Amazon S3에 넣을 수도 있다.
+-   모든 리전에 걸쳐 누적된 모든 이벤트 이력을 모든 리전 또는 하나의 리전에 생성할 수 있다.
+-   AWS의 어떠한 리소스가 삭제되었다고 한다면 CloudTrail을 조사하면 된다. CloudTrail 안에는 삭제하는 과정에서 발생한 API 호출이 기록되어 있기 때문이다.
+
+**CloudTrail 구조**
+결국 (SDK, CLI 또는 콘솔, IAM 사용자와 IAM 역할, 기타 서비스의 액션) --API 호출--> CloudTrail (CloudTrail에서 조사하고 감사) --기본적으로 CloudTrail은 90일까지만 로그를 남기기 때문에 90일 넘는 기간 동안의 모든 이벤트를 알고 싶으면 CloudWatch 또는 S3 버킷으로 전송--> CloudWatch Logs, S3 버킷
+
+**CloudTrail Events**
+기본적으로 CloudTrail에서 세 가지 이벤트를 볼 수 있다.
+
+-   Management Events
+    -   우리 AWS 계정 안에서 리소스에 대해 수행된 작업을 나타낸다.
+    -   예를들어
+        -   누군가가 보안을 설정하면 IAM AttachRolePolicy라는 API 호출을 사용
+        -   서브넷을 생성하면 EC2 CreateSubnet API 호출을 사용
+        -   CloudTrail 로깅을 설정하면 CloudTrail CreateTrail API를 사용
+    -   기본적으로 Management Events를 로깅하도록 설정되어 있다.
+    -   Management Events는 누군가 IAM에 있는 모든 사용자를 나열하거나 EC2에 있는 모든 EC2 인스턴스를 나열하는 등 리소스를 수정하지 않는 Read Events가 있고, 누군가 DynamoDB 테이블을 삭제하거나 삭제를 시도할 수 있는 리소스를 수정할 수도 있는 Write Events가 있다.
+    -   Write Events는 우리 인프라에 피해를 입힐 수 있기 때문에 훨씬 더 중요할 것이고, Read Events는 정보를 얻는 것이기 때문에 상대적으로 파괴력은 덜하다.
+-   Data Events
+    -   용량이 크기 때문에 Default로 데이터 이벤트는 로깅되지 않는다.
+    -   GetObject, DeleteObject, PutObject 등의 Amazon S3 객체 수준의 활동이 예가 될 수 있다.
+    -   읽기와 쓰기 이벤트를 분리할 수 있는 옵션이 있어 GetObject와 같은 읽기 이벤트, DeleteObject PutObject와 같은 쓰기 이벤트를 따로 설정할 수 있다.
+    -   Invoke API를 사용하면 람다 함수가 몇 번이나 호출되었는지 알수 있는 AWS 람다 함수 execution activity도 있다.
+-   또한 Insight Events도 있다.
+
+**CloudTrail Insight Events**
+모든 서비스에서 많은 Management Events가 발생하고 우리 계정에서 빠르게 API가 실행되면 어떤 활동이 이상하고 비정상인지, 무엇이 정상인지 판단하기 어려워질 수 있다. 
+
+그래서 이상활동을 탐지하기 위해 사용하게 된다.
+
+CloudTrail Insight는 활성화하고 요금을 지불해야하고, 활성화하면 우리의 Events를 분석하고 계정에서 일어나는 이상 활동을 탐지하게 된다.
+예를들어
+-   부정확한 리소스 프로비저닝
+-   서비스 한도 도달
+-   IAM의 급격하고 과도한 활동
+-   주기적인 유지보수 활동의 미달
+등을 분석하고 탐지한다.
+
+CloudTrail Insights는 정상적인 관리 활동을 분석해서 Baseline을 생성하고 올바른 유형의 모든 이벤트를 지속적으로 분석(Continous analysis)하게 된다.
+
+즉, 뭔가가 변경되었거나 변경을 시도하는 경우(Write) 항상 이상한 패턴이 있는지 탐지하게 된다.
+무언가가 탐지되면 Insights Events가 생성되고, CloudTrail Console에 표시된다.
+
+원하는 경우 S3와 EventBridge Event 등에 전송할 수 있다.
+
+**CloudTrail Events Retention**
+-   Default로 이벤트는 CloudTrail에 90일 동안 보관된다. 그리고 자동으로 삭제된다.
+-   만약 90일 이상의 기간동안 이벤트를 보관하려면 S3에 로깅해야 한다. 그리고 Athena로 분석할 수 있다.
+-   정리하자면 모든 Management Event, Data Event, Insight Event는 90일의 보관 기간 동안 유지되고, 장기 보관시에는 S3 버킷에 로깅해야한다.
