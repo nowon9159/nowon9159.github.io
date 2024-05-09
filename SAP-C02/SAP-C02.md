@@ -965,3 +965,71 @@ CloudTrail과 EventBridge는 API 호출을 인터셉트 해 특정 작업을 할
 -   보안 그룹 인바운드 규칙을 변경하는 API 호출을 인터셉트할 수도 있다.
 -   보안 그룹 호출은 AuthorizeSecurityGroupIngress 이고 CloudTrail에 로깅되고, EventBridge에 표시될 것이다.
 -   마지막으로 SNS 알림을 트리거할 수 있다.
+
+## CloudTrail - Solutions Atchitect Professional
+CloudTrail 관련 아키텍처를 살펴보자
+
+**CloudTrial Delivery to S3**
+먼저 CloudTrail에서 S3로 파일을 전달하는 방법을 보고 이 방법이 사용되는 사용 사례의 유형을 확인해보자
+
+-   CloudTrail에서 Log 파일을 5분 이내로 S3 버킷에 넣는다. 이 과정에서 기본적으로 SSE-S3 암호화를 사용하지만 SSE-KMS를 설정할수도 있다.
+-   S3 버킷에 수명 주기 정책을 설정하고 Glacier Tier에 파일을 전송하기도 한다. 파일을 보관하고 액세스할 때 6시간, 12시간이 걸려도 괜찮을 경우 Glacier에 파일을 보내기도 한다.
+-   S3로 파일이 전달되면 S3 Event를 통해 SQS, SNS Topic, Labmda 함수에 알릴 수 있다.
+-   그런데, CloudTrail을 사용해서 직접 SNS에 알림을 전달하고 이 SNS에서 SQS 또는 Lambda를 호출해도 된다.
+
+아키텍처에 한 가지 방법만 있는 게 아니고 다양한 옵션들이 있다.
+
+이때 어떤 방식으로 함께 어울리는지에 대해 생각하는 것이 SAP 시험에 합격할 열쇠이다.
+
+이때 S3에서 얻을 수 있는 모든 개선점을 생각해보자.
+-   Versioning을 활성화해서 실수로 삭제하는 일을 방지하고
+-   MFA로 파일 삭제를 예방할 수 있으며
+-   S3 수명 주기 정책으로 파일을 S3 IA나 Glacier로 옮길 수 있고
+-   S3 Object Lock을 사용해 S3 객체가 삭제/수정 되지 않게 할 수 있다.
+-   CloudTrail 로그 파일 무결성 검증을 수행하는 기능도 있다. S3에 전달된 파일이 그대로 유지되는지 또는 삭제되거나 수정되는지를 확인하는 기능이다.
+
+**CloudTrial Multi Account, Multi Region Logging**
+CloudTrail은 다중 계정 혹은 다중 리전에서 사용 가능하다.
+
+예를들어
+-   A와 B 두 계정이 있고, 로그를 보낼 Security Account가 있다.
+-   A와 B 계정에 CloudTrail의 로그를 저장할 S3 버킷을 설정한다.
+-   로그 파일이 전달할때 S3 버킷은 Security Account에 위치하는데 이를 해결할 방법은 S3 Bucket Policy를 정의하는 것이다.
+-   S3 버킷 정책은 계정 간 전달에 있어 꼭 필요하고 유지하기 쉽다.
+-   또한 CloudTrail 버킷의 로그에 A가 액세스해야 할 경우 즉, A Account에서 Security Account에 있는 S3에 액세스해야 하는 경우
+    -   Cross-Account 간 역할을 생성해서 Assume role을 이용하거나
+    -   Bucket Policy를 수정해서 A 계정에서 읽기를 허용하도록 할 수 있다.
+
+이 처럼 모든 CloudTrail 로그를 한 계정에 두고 보관하는 방법은 안전하다.
+보안 계정의 경우 사용자 관리 때문에 보안이 훨씬 엄격할 것이기 때문에 로그 또한 오랫동안 안전할 것이다.
+
+**CloudTrial Alert for API Calls**
+-   특정한 API 호출이 완료되면 Alarm을 생성하려고 한다.
+-   CloudTrail이 모든 이벤트를 CloudWatch Logs로 스트리밍하고, CloudWatch 로그에 많은 API 사용 사례가 생긴다.
+-   이때 CloudWatch 로그로 Metric Filter를 생성하고 CloudWatch Alarm을 만들 수 있다.
+-   이 Filter는 우리가 원하는 API 호출을 필터링한다. 예를들면 인스턴스 종료를 감지하려면 해당하는 지표 필터를 만들어야 한다. 그리고 필터에 감지되는 이벤트가 발생하면 지표가 1씩 증가하게 된다.
+-   CloudWatch Alarm은 지표 필터가 1이 될 때 트리거 되도록 설정하고, CloudWatch Alarm은 SNS Topic에 전달될 수 있다. SNS Topic에는 Lambda 함수, SQS Queue 등 여러가지로 API 호출에 대해 Alarm을 생성할 수 있다.
+-   특정 API에 국한되지 않고 TerminateInstances 같은 특정 API의 발생 횟수, 사용자 별 API 호출 수, 거부된 API 호출에 대한 높은 수준의 감지를 할 수 있다.
+-   따라서 한 API 호출에만 해당하는 것이 아니라 메트릭 필터를 만들고 CloudWatch Alarm을 사용해 해당 API 호출을 계산하거나 이상 활동을 감지할 수 있다.
+
+**CloudTrail Organizational Trail**
+-   AWS Organization이 있다면 Management 계정과 다른 여러 Member Account가 있다. Management 계정에 Organizational Trail을 설정할 수 있다.
+-   이 Trail을 설정하면 모든 Member 계정에서 발생하는 이벤트가 직접 모니터링 도니다.
+-   예를들어 Prod OU, Dev OU가 있다고 가정하면 이 OU들에 있는 모든 계정이 모니터링 될 것을 의미한다.
+-   이 모든 계정에서 정보를 Management 계정에 있는 S3 버킷으로 보낼 수 있다.
+-   이 S3 버킷은 특정 유형의 Organization을 포함하고, my-organization-bucket/Logs/o-exampleorgid/111111111111 등의 이름으로 구성되고, S3 접미사가 CloudTrail에 의해 모니터링되는 계정 번호를 나타낸다.
+
+**CloudTrail How to react to events the fastest?**
+
+CloudTrail은 이벤트를 전달하는데 최대 15분이 걸릴 수 있다. 우리는 이벤트에 어떻게 가장 빠르게 반응할 수 있는가?
+
+-   CloudWatch Events
+    -   CloudTrail에서 발생하는 모든 API 호출에 대해 CloudWatch Events를 트리거할 수 있으며, 이것은 가장 반응이 빠른 방법이 될 것이다.
+-   CloudWatch Logs로 CloudTrail 전달
+    -   CloudTrail을 CloudWatch Logs로 전달하는 경우 이벤트가 스트리밍 되지만 전달되기까지 시간이 걸릴 수 있다.
+    -   그래서 우리는 메트릭 필터를 생성해서 발생 횟수를 분석하고 이상 징후를 감지할 수 있다.
+-   S3로 CloudTrail 전달
+    -   매 5분마다 전달되며, 로그 무결성을 분석하고 다른 계정으로 전달 가능하고, 장기 저장소로 사용할 수 있다.
+    -   Athena와 QuickSight 같은 것을 사용해서 로그를 종합적으로 살펴볼 수 있다.
+
+정리하자면 CloudTrail을 S3에 전달하는 것은 반응성은 떨어지지만 더 포괄적이며, 요구 사항에 따라 다른 솔루션을 가질수 있다. CloudWatch Events, CloudWatch Logs, S3 모두 나쁜것이나 좋은 것이 아니라는 것을 이해해야 한다.
