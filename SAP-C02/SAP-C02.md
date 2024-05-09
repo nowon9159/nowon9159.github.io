@@ -945,3 +945,23 @@ CloudTrail Insights는 정상적인 관리 활동을 분석해서 Baseline을 �
 -   Default로 이벤트는 CloudTrail에 90일 동안 보관된다. 그리고 자동으로 삭제된다.
 -   만약 90일 이상의 기간동안 이벤트를 보관하려면 S3에 로깅해야 한다. 그리고 Athena로 분석할 수 있다.
 -   정리하자면 모든 Management Event, Data Event, Insight Event는 90일의 보관 기간 동안 유지되고, 장기 보관시에는 S3 버킷에 로깅해야한다.
+
+## CloudTrail - EventBridge integration
+CloudTrail과 EventBridge는 API 호출을 인터셉트 해 특정 작업을 할 때 유용하다.
+
+예를들어
+-   어떤 사용자가 DeleteTable API 호출로 DynamoDB의 테이블을 삭제할 때마다 우리가 SNS 알림을 받고 싶다고 가정해보자.
+-   우리가 AWS에서 API를 호출하면 API 호출 자체가 CloudTrail에 로깅되고, 모든 API 호출이 로깅된다.
+-   그런데, 모든 API 호출이 결국 Amazon EventBridge에 이벤트로 남게 된다.
+-   그래서 우리는 구체적인 DeleteTable API 호출을 찾아보고 Rule을 생성할 수 있다.
+-   Rule은 수신처가 있을 것이고, SNS가 수신처인 경우 Alert를 생성할 수 있다.
+
+또한 예를 들어
+-   어떤 사용자가 우리 계정에서 어떤 역할을 Assume할 때마다 알림을 받길 원한다고 해보자
+-   IAM에서 AssumeRole API를 호출하면 CloudTrail은 그걸 로깅한다.
+-   그리고 EventBridge 통합을 이용해서 SNS 토픽으로 가는 메시지를 트리거할 수 있다.
+
+또한 
+-   보안 그룹 인바운드 규칙을 변경하는 API 호출을 인터셉트할 수도 있다.
+-   보안 그룹 호출은 AuthorizeSecurityGroupIngress 이고 CloudTrail에 로깅되고, EventBridge에 표시될 것이다.
+-   마지막으로 SNS 알림을 트리거할 수 있다.
