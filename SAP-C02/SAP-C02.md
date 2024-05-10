@@ -1147,3 +1147,69 @@ CloudHSM으로 지원되는 사용자 지정 키 스토어를 사용하는 경�
     -   여러 Region에 걸친 Active-Active 애플리케이션
     -   분산된 서명 애플리케이션 등
 
+## Parameter Store
+
+**SSM Parameter Store**
+-   우리의 Configuration과 Secret을 위한 안전한 저장소
+-   KMS 서비스를 이용해 Configuration을 암호화해서 비밀로 만들 수 있음
+-   서버리스이며, 확장성 있고, 안정성 있고, SDK 사용법도 간단함
+-   파라미터에 대한 Version Tracking도 가능하다.
+-   보안은 IAM을 통해 제공된다.
+-   특정한 경우 Amazon EventBridge로 알림을 받을 수 있다.
+-   CloudFormation과 통합되어 스택을 위한 입력 파라미터로서 SSM Parameter Store의 파라미터를 활용할 수 있다.
+
+예를들어
+-   애플리케이션과 SSM Parameter Store가 있다.
+-   우리는 평문 Configuration을 저장할 수 있고, SSM Parameter Store는 EC2에 있는 역할을 확인한다.
+-   이 경우 SSM Parameter Store는 Configuration을 KMS를 통해 암호화하고 KMS 서비스가 암/복호화에 사용될 것이다.
+-   물론 우리는 애플리케이션이 암/복호화를 수행하기 위한 KMS 키에 액세스할 수 있는지 확인해야 한다.
+
+**SSM Parameter Store Hierarchy**
+
+계층 구조로 파라미터를 Parameter Store에 저장할 수 있다.
+
+예를들어
+-   /my-department/
+    -   my-app/
+        -   dev/
+            -   db-url/
+            -   db-password/
+        -   prod/
+            -   db-url/
+            -   db-password/
+    -   other-app/
+-   /other-department/
+
+이런 식으로 원하는 대로 구조를 갖춰 파라미터를 관리할 수 있다.
+
+그럼 우리 IAM 정책이 단순화되어서 애플리케이션들이 전체 부서에 액세스하거나 전체 앱에 액세스하거나 부서 환경의 특정한 경로로 액세스할 수 있게 된다.
+
+또한 laws/reference/secretsmanager/secret_ID_in_Secrets_Manager 와 같이 Parameter Store를 통해 Secrets Manager의 Secret에 액세스할 수도 있다.
+
+또한 laws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 (public) 과 같이 퍼블릭 파라미터라는 것도 있는데 AWS가 발행한 것이다. 예를 들어 Amazon Linux 2의 최신 AMI를 찾고 싶으면 Parameter Store에 API 호출 형태로 제공되어 있다.
+
+예를들어
+-   Lambda 함수가 있다고 가정했을 때 my-app/dev/에 있는 db-url 과 db-password에 액세스할 수 있게 해주는 IAM 역할이 함수에 있다면 함수에서는 해당 파라미터에 액세스할 수 있다.
+-   GetParameters 또는 GetParametersByPath API 를 이용해서
+
+**Standard and advanced parameter tiers**
+
+||Standard|Advanced|
+|---|:-:|:-:|
+|Total number of parameters allowed (per AWS account and Region)|10,000|100,000|
+|Maximum size of a parameter value|4 KB|8 KB|
+|Parameter policies available|No|Yes|
+|Cost|No additional charge|Charge apply|
+|Storage Pricing|Free|$0.05 per advanced parameter per month|
+
+-   위의 표로 간단히 Standard와 Advanced의 차이를 알 수 있다.
+
+**Parameters Policies (for advanced parameters)**
+
+-   Advanced Parameter에만 적용되는 내용
+-   정책을 쓰면 만료 날짜를 의미하는 TTL(Time To Live)을 파라미터에 할당할 수 있고, 사용자가 패스워드 같은 민감한 데이터를 업데이트하거나 삭제하도록 강제할 수 있다.
+-   한 번에 다수의 정책을 할당할 수 있다.
+-   파라미터를 삭제하기 위한 만료 정책이 있다.
+    -   Expiration : 관리자는 특정 타임 스탬프에 반드시 이 파라미터를 삭제해야 한다고 지정한다. 그러면 EventBridge Integration을 통해 이에 대한 알림을 받게 된다.
+    -   ExpirationNotification : 예를들어 15일 전에 EventBridge에서 알림을 받는다고 하면 파라미터를 업데이트하고 TTL 때문에 파라미터가 삭제되는 걸 막을 충분한 시간이 있을 것이다.
+    -   NoChangeNotification : 예를들어 20일 동안 파라미터가 업데이트되지 않으면 알림을 받게될 것이다.
