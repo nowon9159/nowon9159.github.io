@@ -1213,3 +1213,105 @@ CloudHSM으로 지원되는 사용자 지정 키 스토어를 사용하는 경�
     -   Expiration : 관리자는 특정 타임 스탬프에 반드시 이 파라미터를 삭제해야 한다고 지정한다. 그러면 EventBridge Integration을 통해 이에 대한 알림을 받게 된다.
     -   ExpirationNotification : 예를들어 15일 전에 EventBridge에서 알림을 받는다고 하면 파라미터를 업데이트하고 TTL 때문에 파라미터가 삭제되는 걸 막을 충분한 시간이 있을 것이다.
     -   NoChangeNotification : 예를들어 20일 동안 파라미터가 업데이트되지 않으면 알림을 받게될 것이다.
+
+## Secrets Manager
+-   패스워드나 API Key 등의 Secret을 저장하기 위한 서비스이다.
+-   우리가 Secret을 X일마다 자동으로 교체할 수 있다.
+    -   Lambda를 이용해 새로운 secret으로 자동적으로 교체되고 생성된다.
+    -   RDS의 모든 DB 엔진에 지원되며, Redshift, DocumentDB 등도 지원된다.
+    -   특별히 자동으로 교체하려는 다른 서비스나 데이터베이스가 있다면 scret을 생성하는 Custom Lambda 함수를 작성하고 그걸 Secrets Manager에 삽입하면 된다.
+-   Secret에 대한 액세스를 통제하기 위해 Resource Based Policy를 사용할 수 있다.
+-   Secert을 사용하는 다른 많은 서비스들과 통합될 것이다. 예를들면 CloudFormation 템플릿에서 Secrets Manager Secert을 참조하거나, CodeBuild, ECS, EMR, Fargate, EKS, Parameter Store등도 통합된다.
+
+
+예를들어
+-   Database Password라는 Secret과, ECS 태스크, RDS가 있다.
+-   ECS 태스크는 RDS 데이터베이스에 액세스해야 하는데, ECS와 Secret Manager는 자동으로 통합되기 때문에 부팅할 때 자동으로 Secret을 가져와서 그걸 태스크의 환경 변수로서 주입할 수 있다.
+
+**Secrets Manager - with CloudFormation**
+
+CloudFormation에서 Secrets Manager로 Secret을 생성하는 템플릿 구문이 있다.
+
+```Yaml
+# 정확한 예시는 아니니 대략적인 구조만 보시면 됩니다.
+Resources:
+  CloudFormationCreatedSecret:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Description: Simple secret created by AWS CloudFormation.
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "saanvi"}'
+        GenerateStringKey: password
+        PasswordLength: 32
+```
+
+이런 식으로 되어 있는데 이 부분에서 비밀을 생성하고
+
+```Yaml
+# 정확한 예시는 아니니 대략적인 구조만 보시면 됩니다.
+MyDBInstance:
+  Type: AWS::RDS::DBInstance
+  Properties:
+    DBName: '{{resolve:secretsmanager:dev/whatever/db:SecretString:dbname}}'
+    Engine: postgres
+    MasterUsername: '{{resolve:secretsmanager:dev/whatever/db:SecretString:username}}'
+    MasterUserPassword: '{{resolve:secretsmanager:dev/whatever/db:SecretString:dbpassword}}'
+    DBInstanceClass: db.m5.large
+    AllocatedStorage: 20
+    DBSubnetGroupName: !Ref MyDBSubnetGroup
+    VPCSecurityGroups:
+      - !GetAtt DBSecurityGroup.GroupId
+    MultiAZ: false
+    PubliclyAccessible: false
+```
+
+이런 식으로 DB에서 참조하고 
+
+```Yaml
+# 정확한 예시는 아니니 대략적인 구조만 보시면 됩니다.
+SecretRDSInstanceAttachment:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+        SecretId: !Ref MyRDSSecret
+        TargetId: !Ref MyRDSInstance
+        TargetType: AWS::RDS::DBInstance
+```
+
+이런 식으로 Attachment라는 걸 생성해서 Secret을 RDS DB 인스턴스에 연결하고, 교체될 경우 우리 RDS 데이터베이스에 있는 패스워드도 변경해야 한다고 Secrets Manager에게 알려주게 된다.
+
+**Secrets Manager - Sharing Across Accounts**
+
+우리는 Secrets Manager에서 계정들에 걸쳐 비밀을 공유하는 과정을 알아야 한다.
+
+예를들어
+-   Secret이 있는 Security 계정이 있고, Secret을 사용해야하는 Dev 계정이 있다고 하자.
+-   Secerts Manager Secret은 KMS 키를 통해 보호되고 암호화된다.
+-   Dev 계정에 있는 사용자가 우리 Secret에 액세스하게 하려면 어떻게 해야하는가? 리소스 기반 정책을 이용하면 된다.
+-   먼저 우리 KMS 키에 KMS 정책을 첨부해 사용자가 우리 KMS 키에 대해 KMS 복호화를 하도록 해야한다. 
+-   그 뿐만 아니라 key를 공유할 때(Policy를 생성할때) "Action":"kms:Decrypt","kms:ViaService":"secretsmanager.{region}.amazonaws.com" 을 이용해서 오직 secretsmanager 서비스를 통해 호출되었을 때만 복호화 작업을 사용하도록 하면 된다.
+-   그 다음 Secerts Manager 비밀에 리소스 기반 정책을 생성하면 된다. GetSecretValue
+-   그리고 이 두 권한으로 Dev 계정에서 우리 비밀에 대한 액세스가 허용된 누구라도 액세스를 하고 복호화를 할 수 있다.
+
+**SSM Parameter Store vs Secrets Manager**
+-   Secrets Manager
+    -   비싸다.
+    -   람다를 이용해서 Secret을 자동으로 교체해준다. RDS, Redshift, DocumentDB에 대해 람다 함수가 제공된다.
+    -   Secret을 KMS로 필수적으로 암호화해야 한다.
+    -   CloudFormation과 Integration 가능하다.
+-   SSM Parameter Store
+    -   더 단순한 API이다.
+    -   자동으로 Secret이 교체되지 않는다. 그러나, EventBridge와 Lambda를 이용해서 일종의 교체 매커니즘을 생성할 수 있다.
+    -   KMS 암호화는 선택 사항이다.
+    -   Secret이 아닌 값도 저장할 수 있다.
+    -   CloudFormation과 긴밀히 통합된다.
+    -   Parameter Store API를 이용해서 Secert Manager를 가져올 수 있다.
+
+**SSM Parameter Store vs. Secrets Manager - Rotation**
+-   Secrets Manager
+    -   RDS와 긴밀히 통합된다.
+    -   백엔드에서 람다 함수가 30일마다 호출되고, RDS의 패스워드를 변경하고 Secrets Manager에서도 패스워드를 변경한다.
+-   SSM Parameter Store
+    -   RDS Secret을 Parameter Store에 저장하고 30일마다 람다 함수를 호출하기 위한 Amazon EventBridge 규칙을 생ㅅ어해야 한다.
+    -   람다 함수가 패스워드와 Parameter 값을 변경할 것이다.
+-   Secrets Manager는 교체 기능이 자동으로 제공된다는 것을 알아야 한다.
+
