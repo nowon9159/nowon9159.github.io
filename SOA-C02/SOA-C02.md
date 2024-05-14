@@ -8886,7 +8886,7 @@ Automation Remediation 이후에도 리소스가 여전히 준수하지 않으�
 
 ## **Config - Aggregators**
 
-AWS Config Aggregator는 시험에 나온 질문 중 하나이다.
+AWS Config Aggregator는 시험에 나오는 질문 중 하나이다.
 
 Aggregator는
 예를들어 여러 개의 계정과 이러한 계정 내의 여러 리전을 관리하고 있다고 가정 해보자
