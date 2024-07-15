@@ -14,38 +14,10 @@
 부디 공부에 큰 도움이 되셨음 좋겠습니다.
 
 # Custom Instructions
-
-## What would you like ChatGPT to know about you to provide better responses?
-
-1. 나는 현재 AWS를 공부하고 있는 DevOps 엔지니어이다.
-2. AWS SysOps 자격증을 기반으로 공부를 진행하고 있다.
-
-## How would you like ChatGPT to respond?
-
-1. 공부하는 내용을 정리하고 있으니, 형식을 구조화해서 동일한 형식으로 답변해줘
-2. 형식은 아래 코드형식을 참조하면 돼. $overview는 개요 제목을 적어주면 돼. $title은 각 내용에 대한 주제의 제목을 적어주면 돼 $contents는 그 주제에 대한 내용을 일목 요연하게 정리해서 적어주면 돼 $tidr은 총 내용에 대한 정리를 해줬으면 좋겠어.
-
-```markdown
-**$overview**
-
-**$title**
-$contents
-
-**$tidr**
-```
-
-3. 모든 문장은 영문으로 줄 건데, 영문은 출력할 필요 없고 한글로 출력해줘.
-4. 제시해준 문장에 대해서 틀린 것 같은 내용이 있다면 해당 내용에 취소선 처리를 하고 아래에 왜 틀린지에 대한 설명을 부탁해. 설명은 Bold 처리해서 가시성을 확보해줘
-
-# 목차
-
 <!-- TOC -->
 
 - [Overview](#overview)
 - [Custom Instructions](#custom-instructions)
-    - [What would you like ChatGPT to know about you to provide better responses?](#what-would-you-like-chatgpt-to-know-about-you-to-provide-better-responses)
-    - [How would you like ChatGPT to respond?](#how-would-you-like-chatgpt-to-respond)
-- [목차](#%EB%AA%A9%EC%B0%A8)
 - [Contents](#contents)
     - [**Enhanced Networking 향상된 네트워킹**](#enhanced-networking-%ED%96%A5%EC%83%81%EB%90%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9)
     - [**EC2 Placement Groups 배치 그룹**](#ec2-placement-groups-%EB%B0%B0%EC%B9%98-%EA%B7%B8%EB%A3%B9)
@@ -260,6 +232,51 @@ $contents
     - [**STS & Cross Account Access**](#sts--cross-account-access)
     - [**[DVA] Cognito User Pools Overview**](#dva-cognito-user-pools-overview)
     - [**[DVA] Cognito Identity Pools Overview**](#dva-cognito-identity-pools-overview)
+    - [**[DVA] Cognito User Pools vs Cognito Identity Pools**](#dva-cognito-user-pools-vs-cognito-identity-pools)
+    - [**[SAA/DVA] What is a DNS?**](#saadva-what-is-a-dns)
+    - [**[SAA/DVA] Route 53 Overview**](#saadva-route-53-overview)
+    - [**[SAA/DVA] Route 53 - Registering a Domain**](#saadva-route-53---registering-a-domain)
+    - [**[SAA/DVA] Route 53 - TTL**](#saadva-route-53---ttl)
+    - [**[SAA/DVA] CNAME vs Alias**](#saadva-cname-vs-alias)
+    - [**[SAA/DVA] Routing Policy - Simple**](#saadva-routing-policy---simple)
+    - [**[SAA/DVA] Routing Policy - Weighted**](#saadva-routing-policy---weighted)
+    - [**[SAA/DVA] Routing Policy - Latency**](#saadva-routing-policy---latency)
+    - [**[SAA/DVA] Route 53 Health Checks**](#saadva-route-53-health-checks)
+    - [**[SAA/DVA] Routing Policy - Failover**](#saadva-routing-policy---failover)
+    - [**[SAA/DVA] Routing Policy - Geolocation**](#saadva-routing-policy---geolocation)
+    - [**[SAA/DVA] Routing Policy - Geoproximity**](#saadva-routing-policy---geoproximity)
+    - [**[SAA/DVA] Routing Policy - Traffic Flow & Geoproximity Hands On**](#saadva-routing-policy---traffic-flow--geoproximity-hands-on)
+    - [**[SAA/DVA] Routing Policy - IP-based**](#saadva-routing-policy---ip-based)
+    - [**[SAA/DVA] Routing Policy - Multi Value**](#saadva-routing-policy---multi-value)
+    - [**[SAA/DVA] 3rd Party Domains & Route 53**](#saadva-3rd-party-domains--route-53)
+    - [**S3 Website with Route 53**](#s3-website-with-route-53)
+    - [**Route 53 Resolvers & Hybrid DNS**](#route-53-resolvers--hybrid-dns)
+    - [**[SAA] CIDR, Private vs Public IP**](#saa-cidr-private-vs-public-ip)
+    - [**[SAA] VPC Overview**](#saa-vpc-overview)
+    - [**[SAA] Subnet Overview**](#saa-subnet-overview)
+    - [**[SAA] Internet Gateways & Route Tables**](#saa-internet-gateways--route-tables)
+    - [**[SAA] Bastion Hosts**](#saa-bastion-hosts)
+    - [**[SAA] NAT Instances**](#saa-nat-instances)
+    - [**[SAA] NAT Gateways**](#saa-nat-gateways)
+    - [**[SAA] DNS Resolution Options & Route 53 Private Zones**](#saa-dns-resolution-options--route-53-private-zones)
+    - [**[SAA] NACL & Security Groups**](#saa-nacl--security-groups)
+    - [**[SAA] VPC Reachability Analyzer**](#saa-vpc-reachability-analyzer)
+    - [**[SAA] VPC Peering**](#saa-vpc-peering)
+    - [**[SAA] VPC Endpoints**](#saa-vpc-endpoints)
+    - [**[SAA] VPC Flow Logs**](#saa-vpc-flow-logs)
+    - [**[SAA] Site to Site VPN, Virtual Private Gateway & Customer Gateway**](#saa-site-to-site-vpn-virtual-private-gateway--customer-gateway)
+    - [**[SAA] Direct Connect & Direct Connect Gateway**](#saa-direct-connect--direct-connect-gateway)
+    - [**[SAA] Site to Site VPN as a backup to Direct Connect**](#saa-site-to-site-vpn-as-a-backup-to-direct-connect)
+    - [**[SAA] AWS PrivateLink - VPC Endpoint Services**](#saa-aws-privatelink---vpc-endpoint-services)
+    - [**[SAA] Transit Gateway**](#saa-transit-gateway)
+    - [**[SAA] VPC Traffic Mirroring**](#saa-vpc-traffic-mirroring)
+    - [**[SAA] IPv6 for VPC**](#saa-ipv6-for-vpc)
+    - [**[SAA] Egress Only Internet Gateway**](#saa-egress-only-internet-gateway)
+    - [**[SAA] Networking Costs in AWS**](#saa-networking-costs-in-aws)
+    - [**[SAA] Network Firewall**](#saa-network-firewall)
+    - [**[CCP] X-Ray**](#ccp-x-ray)
+
+<!-- /TOC -->
     - [**[DVA] Cognito User Pools vs Cognito Identity Pools**](#dva-cognito-user-pools-vs-cognito-identity-pools)
     - [**[SAA/DVA] What is a DNS?**](#saadva-what-is-a-dns)
     - [**[SAA/DVA] Route 53 Overview**](#saadva-route-53-overview)
@@ -8208,7 +8225,7 @@ Multi-AZ 기능도 사용 가능하며 클러스터 당 최대 500개의 노드�
 Target Tracking 을 진행하기 위해서 추적할 지표가 있어야 한다.
 예를 들어 CPU 사용률이 있다.
 
-Target Tracking 정책을 설ㅈ어해 대상 CPU 사용률이 약 60%로 유지되도록 하면 CloudWatch 경보를 트리거하고 이 CloudWatch 경보를 이용해 클러스터 내의 샤드 수를 증가시키고, 새로운 샤드가 생성된다.
+Target Tracking 정책을 설정해 대상 CPU 사용률이 약 60%로 유지되도록 하면 CloudWatch 경보를 트리거하고 이 CloudWatch 경보를 이용해 클러스터 내의 샤드 수를 증가시키고, 새로운 샤드가 생성된다.
 
 물론 응용 프로그램이 이러한 샤드를 활용할 수 있어야 한다.
 
@@ -8281,7 +8298,7 @@ Redis에는 Cluster Enabled 모드와 Cluster Disabled 모드가 있다.
 다른 종류로는 수직 확장이 있다.
 이 경우 ElastiCache 클러스터의 내부 인스턴스 유형을 변경하는 것이다.
 
-이 작업은 Redis 에서 한 번의 클릭으로 수행된다. 그러나 내부적으로는 ElastiCache가 새로운 노드 그룹을 생ㅅ어하고 이전 노드 그룹에서 새로운 노드 그룹으로 데이터 복제가 수행될 것이다.
+이 작업은 Redis 에서 한 번의 클릭으로 수행된다. 그러나 내부적으로는 ElastiCache가 새로운 노드 그룹을 생성하고 이전 노드 그룹에서 새로운 노드 그룹으로 데이터 복제가 수행될 것이다.
 
 그리고 마지막으로 복제가 완료되면 ElastiCache 서비스에서 DNS 업데이트가 수행되어 응용 프로그램이 새로운 노드 그룹에 직접 연결할 수 있도록 투명하게 처리될 것이다.
 
@@ -8331,6 +8348,47 @@ Cluster Enabled의 경우의 수평 및 수직 확장을 살펴보자
   - 클러스터 낸 데이터의 복제에 관한 정보
   - 복제 지연은 낮아야한다.
   - 복제 노드와 주 노드 사이에 지연이 없어야 한다.
+
+**정리**
+- Redis 확장 방법에는 Cluster Enabled 모드, Cluster Disabled 모드가 있다.
+  - Cluster Disabled
+    - 하나의 노드 그룹이 있으며, 주 노드와 최대 5개의 레플리카 노드가 있다.
+    - 수평 확장을 수행하려면 노드 그룹에서 Read Replica를 추가하거나 제거하면 되어서 간단하다.
+    - 수직 확장 방법도 있다. 이 경우 Elasticache 클러스터 내부 인스턴스 유형을 변경한다. 수직 확장은 한번의 클릭으로 수행된다. 내부적으로는 Elasticache가 새로운 노드 그룹을 생성하고 이전 노드 그룹에서 새로운 노드 그룹으로 데이터 복제가 수행된다. 복제가 완료되면 ElastiCache 서비스에서 DNS 업데이트가 수행 돼 응용 프로그램이 새로운 노드 그룹에 직접 연결할 수 있도록 처리된다.
+  - Cluster Enabled
+    - 두 가지 확장이 있다.
+    - 온라인 확장
+      - 클러스터가 확장되는 동안 클러스터가 계속 가동 됨
+      - 다운 타임이 없고, 성능 저하가 발생할 수 있지만 Redis 클러스터는 계속 가동됨
+    - 오프라인 확장
+      - 클러스터를 오프라인 상태로 가져간다.
+      - 확장 프로세스 중에 요청을 처리할 수 없게 된다.
+    - Enabled에서는 레디스는 리샤딩(샤드 추가 및 제거에 따른 스케일링) 및 샤드 리밸런싱을 수행하여 키 공간을 가능한 많이 분산시킬 수 있다. 이 방법은 수평 확장으로 온/오프라인 모두에서 지원된다.
+    - 수직 확장은 노드 유형을 변경하는 것으로, 온라인 확장을 지원하고, 한 번의 클릭으로 내부에서 수행된다.
+- Redis 메트릭
+  - Evictions
+    - 공간을 확보하기 위해 새로운 쓰기 작업을 위해 만료되지 않은 항목을 캐시가 삭제한 횟수를 나타낸다.
+    - 쉽게 생각해 메모리가 과다하게 사용되는 경우를 의미한다.
+    - 해결하기 위해서는 만료된 항목을 자동 삭제하는 eviction policy 를 선택하면 된다.
+  - CPUUtilization
+    - CPU 사용률이 너무 높으면 더 큰 노드 유형으로 확장하거나, 더 많은 노드를 추가해 수평으로 확장해야 한다.
+  - SwapUsage
+    - Swap 사용량은 50MB를 초과해서는 안되고, 메모리 설정을 확인해야 한다.
+  - CurrConnections
+    - Redis 클러스터에 대한 현재 활성 연결 수를 나타낸다.
+    - 값이 너무 높으면 애플리케이션이 매번 Redis에 연결을 초기화하고 있을수도 있으니 확인해야한다.
+  - DatabaseMemoryUsagePercentage
+    - 메모리 사용률의 백분율
+  - NetworkBytesIn/Out & NetworkPacketsIn/Out
+  - ReplicationBytes
+    - 클러스터 내 데이터의 복제에 관한 정보
+    - 높은 지표를 유지하는 것이 좋다.
+  - ReplicationLag
+    - 클러스터 내 데이터 복제에 관한 정보이며, 복제 지연을 의미하므로 낮을수록 좋다.
+    - 복제 노드와 주 노드 사이에 지연이 없어야 한다.
+  
+    
+
 
 
 ## **ElastiCache Memcached for SysOps**
