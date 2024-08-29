@@ -1,5 +1,6 @@
 // Select element using modified XPath
-const xpath = '//*[@id="ct-sidebar-scroll-container"]//div/*/p/span';
+const xpath = '//*[@id="ct-sidebar-scroll-container"]//div/div[*]/p/span';
+
 const targetSpans = document.evaluate(xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 
 // Extract text from all span tags within the selected divs
