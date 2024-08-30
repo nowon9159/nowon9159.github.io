@@ -277,6 +277,25 @@
     - [**[CCP] X-Ray**](#ccp-x-ray)
 
 <!-- /TOC -->
+    - [**[SAA] DNS Resolution Options & Route 53 Private Zones**](#saa-dns-resolution-options--route-53-private-zones)
+    - [**[SAA] NACL & Security Groups**](#saa-nacl--security-groups)
+    - [**[SAA] VPC Reachability Analyzer**](#saa-vpc-reachability-analyzer)
+    - [**[SAA] VPC Peering**](#saa-vpc-peering)
+    - [**[SAA] VPC Endpoints**](#saa-vpc-endpoints)
+    - [**[SAA] VPC Flow Logs**](#saa-vpc-flow-logs)
+    - [**[SAA] Site to Site VPN, Virtual Private Gateway & Customer Gateway**](#saa-site-to-site-vpn-virtual-private-gateway--customer-gateway)
+    - [**[SAA] Direct Connect & Direct Connect Gateway**](#saa-direct-connect--direct-connect-gateway)
+    - [**[SAA] Site to Site VPN as a backup to Direct Connect**](#saa-site-to-site-vpn-as-a-backup-to-direct-connect)
+    - [**[SAA] AWS PrivateLink - VPC Endpoint Services**](#saa-aws-privatelink---vpc-endpoint-services)
+    - [**[SAA] Transit Gateway**](#saa-transit-gateway)
+    - [**[SAA] VPC Traffic Mirroring**](#saa-vpc-traffic-mirroring)
+    - [**[SAA] IPv6 for VPC**](#saa-ipv6-for-vpc)
+    - [**[SAA] Egress Only Internet Gateway**](#saa-egress-only-internet-gateway)
+    - [**[SAA] Networking Costs in AWS**](#saa-networking-costs-in-aws)
+    - [**[SAA] Network Firewall**](#saa-network-firewall)
+    - [**[CCP] X-Ray**](#ccp-x-ray)
+
+<!-- /TOC -->
     - [**[SAA] VPC Reachability Analyzer**](#saa-vpc-reachability-analyzer)
     - [**[SAA] VPC Peering**](#saa-vpc-peering)
     - [**[SAA] VPC Endpoints**](#saa-vpc-endpoints)
@@ -7709,7 +7728,7 @@ RDS에서 백업과 스냅샷의 차이에 대해 알아보자
   - 스냅샷 공유에 대해 이야기 해보자
     - 백업은 공유할 수 없지만 스냅샷은 공유할 수 있다. EBS 스냅샷을 공유하는 방법과 매우 유사하다.
     - 수동 스냅샷은 공유가 가능하지만, 자동 스냅샷은 공유할 수 없다.
-    - 공유되지 않은 암호화된 스냅샷은 다른 계정과 공유할 수 있다.
+    - 암호화된 스냅샷은 다른 계정과 공유할 수 있다.
     하지만, 암호화된 스냅샷을 공유하려면 해당 스냅샷과 관련된 CMK(Customer Managed Key)도 같이 공유해야 한다.
     또는 다른 계정이 해당 스냅샷에 대한 액세스 권한을 얻으려면 CMK에 대한 권한이 있어야한다.
 
