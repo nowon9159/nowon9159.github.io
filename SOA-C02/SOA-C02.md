@@ -277,6 +277,23 @@
     - [**[CCP] X-Ray**](#ccp-x-ray)
 
 <!-- /TOC -->
+    - [**[SAA] VPC Reachability Analyzer**](#saa-vpc-reachability-analyzer)
+    - [**[SAA] VPC Peering**](#saa-vpc-peering)
+    - [**[SAA] VPC Endpoints**](#saa-vpc-endpoints)
+    - [**[SAA] VPC Flow Logs**](#saa-vpc-flow-logs)
+    - [**[SAA] Site to Site VPN, Virtual Private Gateway & Customer Gateway**](#saa-site-to-site-vpn-virtual-private-gateway--customer-gateway)
+    - [**[SAA] Direct Connect & Direct Connect Gateway**](#saa-direct-connect--direct-connect-gateway)
+    - [**[SAA] Site to Site VPN as a backup to Direct Connect**](#saa-site-to-site-vpn-as-a-backup-to-direct-connect)
+    - [**[SAA] AWS PrivateLink - VPC Endpoint Services**](#saa-aws-privatelink---vpc-endpoint-services)
+    - [**[SAA] Transit Gateway**](#saa-transit-gateway)
+    - [**[SAA] VPC Traffic Mirroring**](#saa-vpc-traffic-mirroring)
+    - [**[SAA] IPv6 for VPC**](#saa-ipv6-for-vpc)
+    - [**[SAA] Egress Only Internet Gateway**](#saa-egress-only-internet-gateway)
+    - [**[SAA] Networking Costs in AWS**](#saa-networking-costs-in-aws)
+    - [**[SAA] Network Firewall**](#saa-network-firewall)
+    - [**[CCP] X-Ray**](#ccp-x-ray)
+
+<!-- /TOC -->
     - [**[DVA] Cognito User Pools vs Cognito Identity Pools**](#dva-cognito-user-pools-vs-cognito-identity-pools)
     - [**[SAA/DVA] What is a DNS?**](#saadva-what-is-a-dns)
     - [**[SAA/DVA] Route 53 Overview**](#saadva-route-53-overview)
@@ -7683,7 +7700,7 @@ RDS에서 백업과 스냅샷의 차이에 대해 알아보자
     - 백업에는 보존 기간이 있으며, 0일부터 35일까지 설정할 수 있다. 따라서 지난 35일 동안 중 특정 시점으로 되돌아가고 싶다면 백업을 사용할 수 있다.
     - 백업을 비활성화하려면 백업의 보존 기간을 0으로 설정하면 된다.
   - 스냅샷
-    - 스냅샷은 IO 작업을 수행하고, 스냅샷이 생성되는 동안 데이터베이스가 몇 초에서 몇 분동안 중지된다.
+    - 스냅샷은 IO 작업을 수행하고, 스냅샷이 생성되는 동안 데이터베이스가 몇 초에서 몇 분동안 중지된다. (짧은 IO 중단)
     - Multi AZ가 활성화된 경우 스냅샷은 마스터에서 진행되는 것이 아니라 Standby 인스턴스에서 수행된다.
     - 스냅샷은 첫 번째 스냅샷만 Full 백업이 수행되고, 그 이후로는 증분 백업이다.
     - 스냅샷은 복사와 여러 계정 간 공유할 수 있다.
