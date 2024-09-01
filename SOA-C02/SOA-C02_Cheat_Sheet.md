@@ -18,6 +18,8 @@ SOA.md 파일보다 정확할 수 있으며, 강의 내용 + AWS Docs 기반 재
 
 - [Overview](#overview)
 - [목차](#%EB%AA%A9%EC%B0%A8)
+- [정리 내용](#%EC%A0%95%EB%A6%AC-%EB%82%B4%EC%9A%A9)
+    - [**Enhanced Networking 향상된 네트워킹**](#enhanced-networking-%ED%96%A5%EC%83%81%EB%90%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9)
     - [**EC2 Placement Groups 배치 그룹**](#ec2-placement-groups-%EB%B0%B0%EC%B9%98-%EA%B7%B8%EB%A3%B9)
     - [EC2 Shutdown Behavior & Termination Protection](#ec2-shutdown-behavior--termination-protection)
     - [Troubleshooting EC2 Launch Issues](#troubleshooting-ec2-launch-issues)
@@ -257,7 +259,41 @@ SOA.md 파일보다 정확할 수 있으며, 강의 내용 + AWS Docs 기반 재
     - [**[SAA] Network Firewall**](#saa-network-firewall)
     - [**[CCP] X-Ray**](#ccp-x-ray)
 
-<!-- /TOC -->치 그룹 당 7개의 인스턴스로 개수가 제한된다.
+<!-- /TOC -->
+
+
+# 정리 내용
+
+## **Enhanced Networking (향상된 네트워킹)**
+**정리**
+
+
+- 인스턴스의 네트워크는 SR-IOV 유형을 사용해 더 높은 대역폭, 더 높은 PPS(초당 패킷), 낮은 지연을 제공한다.
+- SR-IOV는 ENA(Elastic Network Adapter)와 Intel VF(intel 82599 Virtual Function)가 있다.
+  - ENA의 경우 최대 100Gbps의 성능을 제공한다. 또한 t2를 제외한 최신 세대의 EC2 인스턴스에 기본적으로 설치되어 있다.
+  - Intel VF의 경우 10Gbps의 성능을 제공한다.
+- EFA(Elastic Fabric Adapter)가 있다.
+  - 이는 HPC(고성능 컴퓨팅) 전용으로 개선된 ENA이다.
+  - Linux에서만 작동하고, MPI (Message Passing Interface) 표준을 활용해서 같은 클러스터 내에 있는 경우 서로 결합된 내부 노드 통신이 있다면 서로 더 나은 네트워크 성능을 얻는다.
+  - EFA는 EC2 인스턴스 간 고성능 통신을 제공하고, 기본 Linux OS를 우회하여 더 낮은 지연과 신뢰성 있는 전송을 제공한다.
+- 결과적으로 단순히 낮은 지연 시간을 위해 Enhanced Networking을 원한다면 ENA를, HPC 클러스터를 사용한다면 고성능을 위해 EFA를 선택하는 것이 좋다.
+
+## **EC2 Placement Groups (배치 그룹)**
+**정리**
+
+
+- 배치 그룹은 EC2 인스턴스가 어떻게 배치될지를 제어하려고 할 때 사용된다.
+- 배치 그룹은 선택 사항이며, 배치 그룹으로 시작하지 않으면 EC2는 기본 하드웨어 전반에 분산되어 인스턴스를 배치하려 한다.
+- 배치 그룹은 세 가지 전략이 있다.
+  - **클러스터 배치 그룹**
+    - 단일 가용 영역 내에서 저지연 하드웨어 설정에 그룹화된다. 높은 성능을 제공하지만 단일 가용 영역 내에 있기 때문에 높은 위험도 제공한다.
+    - 모든 EC2 인스턴스가 동일한 랙에 배치되어 동일한 하드웨어, 동일한 가용 영역에 속한다.
+    - 렉에 장애가 발생하면 모든 EC2 인스턴스가 동시에 실패하기 때문에 위험이 있다.
+    - HPC와 같은 매우 높은 대역폭과 낮은 대기 시간이 필요한 애플리케이션의 경우 클러스터 배치 그룹이 좋은 방법이다.
+  - **분산 배치 그룹**
+    - EC2가 여러 가용 영역에 걸쳐 확장할 수 있으며 동시에 발생하는 실패의 위험이 줄어든다.
+    - EC2 인스턴스가 각기 다른 랙에 분산된다.
+    - AZ 당, 배치 그룹 당 7개의 인스턴스로 개수가 제한된다.
     - 높은 가용성을 극대화하고 리스크를 줄이며 어느 정도 큰 규모의 애플리케이션에 적합하다.
   - **파티션 배치 그룹**
     - 인스턴스가 여러 개의 파티션으로 여러 가용 영역에서 분산된다.
