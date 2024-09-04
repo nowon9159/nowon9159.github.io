@@ -3037,10 +3037,69 @@ SOA.md 파일보다 정확할 수 있으며, 강의 내용 + AWS Docs 기반 재
 ## **ElastiCache Redis for SysOps**
 **정리**
 
-- 
+**정리**
+- Redis 확장 방법에는 Cluster Enabled 모드, Cluster Disabled 모드가 있다.
+  - Cluster Disabled
+    - 하나의 노드 그룹이 있으며, 주 노드와 최대 5개의 레플리카 노드가 있다.
+    - 수평 확장을 수행하려면 노드 그룹에서 Read Replica를 추가하거나 제거하면 되어서 간단하다.
+    - 수직 확장 방법도 있다. 이 경우 Elasticache 클러스터 내부 인스턴스 유형을 변경한다. 수직 확장은 한번의 클릭으로 수행된다. 내부적으로는 Elasticache가 새로운 노드 그룹을 생성하고 이전 노드 그룹에서 새로운 노드 그룹으로 데이터 복제가 수행된다. 복제가 완료되면 ElastiCache 서비스에서 DNS 업데이트가 수행 돼 응용 프로그램이 새로운 노드 그룹에 직접 연결할 수 있도록 처리된다.
+  - Cluster Enabled
+    - 두 가지 확장이 있다.
+    - 온라인 확장
+      - 클러스터가 확장되는 동안 클러스터가 계속 가동 됨
+      - 다운 타임이 없고, 성능 저하가 발생할 수 있지만 Redis 클러스터는 계속 가동됨
+    - 오프라인 확장
+      - 클러스터를 오프라인 상태로 가져간다.
+      - 확장 프로세스 중에 요청을 처리할 수 없게 된다.
+    - Enabled에서는 레디스는 리샤딩(샤드 추가 및 제거에 따른 스케일링) 및 샤드 리밸런싱을 수행하여 키 공간을 가능한 많이 분산시킬 수 있다. 이 방법은 수평 확장으로 온/오프라인 모두에서 지원된다.
+    - 수직 확장은 노드 유형을 변경하는 것으로, 온라인 확장을 지원하고, 한 번의 클릭으로 내부에서 수행된다.
+- Redis 메트릭
+  - Evictions
+    - 공간을 확보하기 위해 새로운 쓰기 작업을 위해 만료되지 않은 항목을 캐시가 삭제한 횟수를 나타낸다.
+    - 쉽게 생각해 메모리가 과다하게 사용되는 경우를 의미한다.
+    - 해결하기 위해서는 만료된 항목을 자동 삭제하는 eviction policy 를 선택하면 된다.
+  - CPUUtilization
+    - CPU 사용률이 너무 높으면 더 큰 노드 유형으로 확장하거나, 더 많은 노드를 추가해 수평으로 확장해야 한다.
+  - SwapUsage
+    - Swap 사용량은 50MB를 초과해서는 안되고, 메모리 설정을 확인해야 한다.
+  - CurrConnections
+    - Redis 클러스터에 대한 현재 활성 연결 수를 나타낸다.
+    - 값이 너무 높으면 애플리케이션이 매번 Redis에 연결을 초기화하고 있을수도 있으니 확인해야한다.
+  - DatabaseMemoryUsagePercentage
+    - 메모리 사용률의 백분율
+  - NetworkBytesIn/Out & NetworkPacketsIn/Out
+  - ReplicationBytes
+    - 클러스터 내 데이터의 복제에 관한 정보
+    - 높은 지표를 유지하는 것이 좋다.
+  - ReplicationLag
+    - 클러스터 내 데이터 복제에 관한 정보이며, 복제 지연을 의미하므로 낮을수록 좋다.
+    - 복제 노드와 주 노드 사이에 지연이 없어야 한다.
 
 ## **ElastiCache Memcached for SysOps**
+
+**정리**
+- Memcached 스케일링
+  - Memcached 클러스터가 있고 캐시 노드가 2개 있다고 가정했을 때 클러스터는 1부터 40 사이의 노드를 가질 수 있다. (소프트 limit)
+  - 수평 확장
+    - 클러스터에서 노드를 추가하거나 제거해야한다.
+    - Auto-discovery를 사용해 애플리케이션이 새 노드를 찾을 수 있다.
+    - 클러스터에 캐시 노드를 추가하기만 하면 되고, Auto-discovery를 사용해 원활히 수평 확장이 된다.
+  - 수직 확장
+    - 더 크거나 작은 노드 유형으로 확장할 수 있다.
+    - 스케일 업은 새로운 노드 유형을 가진 새 클러스터를 생성하고 애플리케이션을 새 클러스터의 엔드포인트를 사용하도록 업데이트하고 이전 클러스터를 삭제 해야한다. 이 작업은 수동으로 해야한다.
+- Memcached는 백업 시스템이 없다. Memcached 클러스터 또는 노드는 데이터가 없는 상태로 시작된다. 그리고 애플리케이션에서 데이터를 직접 채워 넣어야 한다.
+- Auto-discovery는 클라이언트가 DNS 엔드포인트를 사용해서 연결하고자 할 때 시간이 지나고 새 노드를 추가하거나 제거하면 클라이언트가 모든 노드에 대한 업데이트를 받을 수 있게 캐시 노드가 다른 노드를 알고 있고, 클라이언트는 Configuration endpoint에 연결되어 endpoint에서 제공해주는 cache node 중 하나의 IP 주소를 클라이언트에게 반환하는 것이다. 그리고 cache node 중 하나는 클러스터 내 모든 노드의 IP 주소 메타데이터를 응답하고 클라이언트는 이를 사용해 클러스터에서 올바른 데이터를 찾아 연결하는 것
+- 모니터링 메트릭은 Redis와 매우 유사하다.
+  - Evictions
+  - CPUUtilization
+  - SwapUsage
+  - CurrConnections
+  - FreeableMemory
+
 ## **CloudWatch Metrics**
+
+
+
 ## **CloudWatch Custom Metrics**
 ## **CloudWatch Dashboards**
 ## **CloudWatch Logs**
