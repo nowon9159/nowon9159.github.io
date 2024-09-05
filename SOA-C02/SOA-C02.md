@@ -8475,6 +8475,16 @@ AWS CLI CloudWatch 문서의 put-metric-data 섹션을 참고해보면 timestamp
 
 CloudWatch의 Agent는 정기적으로 PutMetricData API 호출을 사용해 메트릭을 CloudWatch로 푸시한다.
 
+**정리**
+- CloudWatch Custom Metrics
+  - 활성화된 내부 서비스에서 기본적으로 메트릭이 푸시된다. 그러나 사용자 정의 메트릭을 가져올 수 있는 방법이 있다.
+  - 사용자는 PutMetricData라는 API 호출을 사용해 RAM의 메모리 사용률이나, 디스크 사용률 같은 메트릭을 푸시할 수 있다.
+  - Instance.id, Environment.name 등의 Dimension 또는 Attribute를 segment 메트릭에 추가할 수 있다.
+  - StorageResolution 같은 경우 API 파라미터를 통해 메트릭 해상도를 조절할 수 있다.
+    1. Standard로 지정하면 1분마다 메트릭을 푸시할 수 있음
+    2. High Resolution의 경우 1/5/10/30초로 설정가능하나 비쌈
+  - Custom Metric의 중요한 점중 하나는 메트릭을 보낼 때 메트릭의 시간을 조정해 과거 2주 또는 향후 2시간까지 메트릭을 푸시하는 경우 CloudWatch에서 오류라고 받아들이지 않는다. 중요한 시험 포인트이다. 그래서 EC2 인스턴스의 시간이 현재 AWS의 실제 시간과 동기화되어 있는지 확인해야 함
+
 ## **CloudWatch Dashboards**
 
 CloudWatch 대시보드는 메트릭을 표시할 수 있다.
