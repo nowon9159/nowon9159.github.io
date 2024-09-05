@@ -14,7 +14,6 @@
 부디 공부에 큰 도움이 되셨음 좋겠습니다.
 
 # Custom Instructions
-
 <!-- TOC -->
 
 - [Overview](#overview)
@@ -8433,6 +8432,23 @@ EC2 Detailed Monitoring
 CloudWatch 메트릭은 시간 범위를 선택하고 다양한 방식으로 필터링하여 사용할 수 있다.
 
 필터링, 대시보드에 추가, CSV로 다운로드, 공유 등 다양한 작업을 수행할 수 있으며 리전, Dimension, 리소스 등을 기준으로 메트릭을 필터링할 수 있다.
+
+**정리**
+- CloudWatch Metrics
+  - AWS의 모든 서비스에 대한 메트릭을 제공하며, 메트릭의 이름을 보면 해당 메트릭이 의미하는 것을 대략적으로 알 수 있다. 예: CPUUtilization, NetworkIn 등
+  - 메트릭은 Namespace로 그룹화된다.
+  - 메트릭은 dimension이라는 측정 기준을 가지며, 한 메트릭 당 최대 30개의 Dimension을 선택할 수 있다. 예: InstanceId, Environment 등
+  - 메트릭은 타임 스탬프가 포함되며, CloudWatch 대시보드를 사용해 메트릭을 볼 수 있다.
+- EC2 Detailed Monitoring
+  - 기본적으로 EC2 인스턴스는 5분 주기로 수집되지만, EC2 Detailed Monitoring을 활성화하면 1분마다 메트릭 데이터를 얻는다. 대신 비용이 추가됨
+  - 활성화 하면 EC2 인스턴스의 메트릭 변화에 빠르게 대응할 수 있으며, ASG와 같이 사용하면 로드의 변화에 빠르게 대응할 수 있는 이점이 있다.
+  - EC2 Detailed Monitoring는 10개까지 Free Tier이다.
+  - RAM 사용량은 Detailed Monitoring을 활성화해도 푸시되지 않으며 Agent를 설치해야 한다.
+- CloudWatch 대시보드에서 All Metric을 확인하면 여러가지 서비스를 네임스페이스 별로 메트릭을 확인할 수 있다.
+- 메트릭은 시간 범위를 선택하고, 다양한 방식으로 필터링 해 사용 가능하다.
+- 필터링, 대시보드에 추가, CSV로 다운로드, 공유 등 다양한 작업을 수행할 수 있으며 리전, Dimension, 리소스 등을 기준으로 메트릭을 필터링할 수 있다.
+
+
 
 ## **CloudWatch Custom Metrics**
 
