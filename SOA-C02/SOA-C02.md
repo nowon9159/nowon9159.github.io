@@ -11735,3 +11735,29 @@ X-Ray의 장점은
 
 X-Ray는 분산 추적, 문제 해결, 서비스 그래프 시각화가 필요한 경우 매우 유용하다.
 
+## **AWS Amplify**
+
+Amplify는 핵심적으로 웹 및 모바일 애플리케이션 개발 도구이다.
+
+Amplify를 사용하면 AWS의 다양한 스택을 한곳에 통합해 웹 및 모바일 애플리케이션을 구축할 수 있다.
+
+먼저 백엔드를 만들기 위해 Amplify CLI를 사용해 Amplify 백엔드를 만든다.
+
+이 백엔드는 내부적으로 우리가 잘 아는 AWS의 많은 리소스를 사용한다.
+S3는 데이터 스토리지로, Amazon Cognito는 인증으로, AppSync는 API로, API Gateay는 API로, SageMaker는 머신 러닝으로, Lex는 텍스트 감지로, Lambda는 함수 데이터 서비스로, DynamoDB는 데이터베이스로 활용된다.
+
+Amplify 덕분에 인증, 스토리지, REST API 또는 GraphQL API, CI/CD, Pub/Sub, 분석, AI/ML 예측, 모니터링 등을 한 곳에서 구성할 수 있다.
+
+그 다음 GitHub, AWS의 CodeCommit, Bitbucket, GitLab 등 어디에서나 코드를 가져오거나, 직접 업로드해 코드를 연결한다.
+
+이처럼 Amplify 내에서 백엔드 서비스를 모두 통합할 수 있다.
+
+그 후 Amplify 프런트엔드 라이브러리를 추가하여 Amplify 백엔드에 연결한다. 
+
+프런트엔드 라이브러리는 웹 애플리케이션, 모바일 애플리케이션뿐만 아니라 여러 프레임워크를 지원한다.
+
+마지막으로, 준비가 되면 Amplify 콘솔을 사용하여 Amplify 자체와 Amazon CloudFront를 통해 웹 또는 모바일 애플리케이션을 배포한다.
+
+복잡해보일 수 있지만, Amplify를 웹 및 모바일 애플리케이션을 위한 Elastic Beanstalk라고 생각하면 된다.
+
+AWS의 다양한 기능을 하나의 플랫폼에서 통합하여 개발자가 웹 및 모바일 애플리케이션을 쉽게 만들 수 있도록 도와준다.
