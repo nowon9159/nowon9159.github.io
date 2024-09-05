@@ -8745,6 +8745,25 @@ Heartbeat Monitor
   GUI Workflow Builder
 - 로그인 양식을 사용하여 웹 페이지에서 수행한 작업이 제대로 작동하는지 확인할 수 있는
 
+**정리**
+- CloudWatch Synthetics
+  - CloudWatch에서 실행되는 스크립트를 통해 API, URL 또는 웹 사이트를 모니터링하는 툴
+  - 스크립트를 통해 고객의 동작을 프로그래밍 방식으로 재현하는 것.
+    예를 들어 고객이 제품 웹 페이지에 들어가고 클릭하고 장바구니에 담고 체크 아웃으로 이동하고 등등 이 모든 것을 CloudWatch Synthetics Canary로 테스트하고 재현할 수 있다.
+  - 스크립트가 실패하면 문제를 발견하게 되고, 고객이 발견하기 전에 특정 흐름을 작동해 문제 여부를 발견하는 것이다.
+  - 일부 엔드포인트의 가용성 및 지연 시간을 확인하거나, 로드 시간 데이터를 저장하고 UI의 스크린샷을 찍을 수도 있다.
+  - 애플리케이션을 모니터링할 경우 문제 발생 시 CloudWatch Alarm이 트리거되어 Lambda 함수를 호출하고 Route53의 레코드를 다른 리전의 애플리케이션으로 업데이트해 리디렉션하는 장애조치를 할 수도 있다.
+  - Synthetics Canary는 Node.js 또는 Python으로 작성 가능하고, Canary 내에서 headless Google Chrome 브라우저에 액세스할 수 있다. 그래서 Canary 내에서 Chrome으로 수행하는 모든 작업을 수행 가능.
+  - 스크립트를 한 번 실행하거나 정기적으로 실행 가능. 예를 들어 엔드포인트의 가용성을 확인하려는 경우
+  - 몇 가지 블루프린트가 있다.
+    - Heartbeat Monitor: URL을 로드하고, 스크린샷을 저장하고 HTTP 아카이브 파일을 저장하여 모든 것이 올바르게 작동하는지 확인
+    - API Canary: REST API의 기본 읽기 및 쓰기 기능을 테스트
+    - Broken link Checker: 테스트하는 URL 내의 모든 링크를 확인하여 깨진 링크로 연결되지 않는지 확인
+    - Visual Monitoring: Canary Run 중에 캡쳐된 스크린샷을 Baseline 스크린샷과 비교
+    - Canary Recorder: CloudWatch Synthetics Recorder와 함께 사용되며, 웹사이트에서 수행한 작업을 기록하고 자동으로 스크립트가 생성됨
+    - GUI Workflow Builder: 로그인 양식을 사용해 웹 페이지에서 수행한 작업이 제대로 작동하는지 확인할 수 있음
+
+
 ## **[SAA/DVA] Amazon EventBridge**
 
 EventBridge를 사용하면 많은 일을 할 수 있다. 예를들어 우리는 클라우드에서 cron 작업을 예약할 수 있다.
