@@ -8619,12 +8619,6 @@ Logs Subscription을 수행하는 방법의 핵심은 목적지를 사용해야 
         - 그 다음 받는 계정이 Kinesis Data Stream으로 Record를 보낼 수 있는 권한이 있는 IAM 역할을 생성하고 이 역할이 첫 번째 계정에 의해 Assume 될 수 있도록 확인한다.
         - 이렇게 모든 사항이 갖춰지면 하나의 계정에서 CloudWatch Logs에서 다른 계정의 목적지로 데이터를 보낼 수 있다.
 
-
-      
-      
-    
-
-
 ## **CloudWatch Alarms**
 
 CloudWatch의 알람에 대해 논의해보자
@@ -8684,6 +8678,35 @@ CloudWatch Logs 메트릭 필터 위에 알람을 생성할 수 있다.
 알람을 테스트하려면 set-alarm-state라는 CLI 호출을 사용할 수 있다. 이것은 특정 임계값에 도달하지 않았더라도 알람을 트리거하려는 경우에 유용하다.
 
 왜냐면 인프라에 대한 올바른 조치를 취하는지 여부를 확인하기 위해 알람이 트리거되는 것이 올바른지 확인하려고 할 때 도움이 된다.
+
+**정리**
+- CloudWatch Alarms
+  - 알람은 모든 메트릭에서 알림을 트리거하는 데 사용된다. 샘플링, %, 최대/최소 등 다양한 옵션에 대해 복잡한 알람을 정의할 수 있다.
+  - 알람은 세 가지 상태가 있다. 
+    "OK" 는 알람이 트리거되지 않은 상태를 나타낸다.
+    "INSUFFICIENT_DATA"는 알람이 상태를 결정할 데이터가 충분하지 않은 상태를 나타낸다.
+    "ALARM"은 임계 값이 위반되었으며 알림이 전송될 것임을 의미한다.
+  - period는 알람이 메트릭을 평가하는 데 걸리는 시간을 의미한다. High Resolution 사용자 정의 메트릭의 경우 10초, 30초 또는 60초의 배수로 설정 가능하다.
+  - 알람은 세 가지 주요 대상이 있다.
+    - EC2 인스턴스
+      - Stopping, Terminating, rebooting, recovering
+    - EC2 Auto Scaling Group의 작업을 트리거
+      - Scail out, Scail in
+    - SNS 서비스에 알림을 보내는 것
+      - SNS 서비스에서 Lambda 함수에 연결하여 알람이 트리거 되었을 때 Lambda 함수가 원하는 작업을 수행하도록 할 수 있음
+  - Composite Alarms (복합 알람)
+    - CloudWatch Alarms는 기본적으로 단일 메트릭에 대한 것이지만, 여러 메트릭을 사용하고자 한다면 Composite Alarm을 사용해야 한다.
+    - Composite Alarm은 실제로 여러 다른 알람의 상태를 측정하고 알람들은 각기 다른 메트릭에 의존할 수 있다.
+    - AND 및 OR 조건을 사용해 검사 조건을 유연히 지정할 수 있다.
+    - "alarm noise"를 줄이기 위해 복잡한 Composite Alarm을 만들어서 "CPU가 높고 IOPS도 높을 때만 알람을 받고 싶다" 같은 조건을 지정할 수 있다.
+  - EC2 Instance Recovery
+    - Status Check 중에 EC2 VM의 상태를 확인하는 Instance status와 기본 하드웨어를 확인하는 System status가 있다.
+    - 두 check에 대한 CloudWatch 알람을 정의할 수 있고, 이를 통해서 EC2 인스턴스 복구를 시작할 수 있다. 예를 들어 EC2 인스턴스를 현재의 호스트에서 다른 호스트로 이동할 수 있다.
+    - Recovery의 경우 StatusCheckFailed_Instance가 아닌 StatusCheckFailed_System을 통해서만 사용 가능
+    - 복구를 수행하면 인스턴스에 대해 동일한 PrivateIP,PublicIP, EIP, 메타데이터, Placement Group을 유지한다.
+    - EC2 인스턴스의 복구 알람을 SNS Topic으로 보낼 수도 있다.
+  - CloudWatch Logs 메트릭 필터에 알람을 생성할 수 있다. 예를 들어 EC2 인스턴스가 "ERROR" 과 같은 단어가 너무 많이 발생하면 알람을 보내고 SNS 메시지를 보낸다.
+  - 알람을 테스트하려면 set-alarm-state라는 CLI 호출을 사용할 수 있고, 특정 임계값에 도달하지 않았더라도 알람을 트리거하려는 경우에 유용하다.
 
 ## **CloudWatch Synthetics**
 
