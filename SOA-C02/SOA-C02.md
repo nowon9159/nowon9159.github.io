@@ -275,6 +275,7 @@
     - [**[SAA] Networking Costs in AWS**](#saa-networking-costs-in-aws)
     - [**[SAA] Network Firewall**](#saa-network-firewall)
     - [**[CCP] X-Ray**](#ccp-x-ray)
+    - [**AWS Amplify**](#aws-amplify)
 
 <!-- /TOC -->
 
@@ -8896,6 +8897,15 @@ AWS가 SaaS와 같은 파트너와 통합되어 있으며 파트너가 직접 �
 그러나 모든 결과는 여전히 CloudWatch에 저장되므로 서비스 Limit을 확인하려면 CloudWatch와 연결하고 다시 알림을 트리거할 수 있다.
 
 주로 계정 내의 모든 할다량을 모니터링하기 위해 서비스 쿼터 서비스에 CloudWatch 알람을 사용하는 것을 권장한다.
+
+**정리**
+- Service Quotas Overview
+  - Service Quotas는 계정 내에서 가용한 할당량 및 임계값에 얼마나 가까운지 알려주는 서비스이다.
+  - 서비스 쿼터 콘솔에서 CloudWatch 알람을 생성해 Lambda Concurrent Execution 값을 모니터링할 수 있다. 임계값에 도달하면 CloudWatch 알람을 받게된다.
+  - Service Quotas는 여러가지 할당량을 계정 내에서 모니터링할 수 있다. 람다 뿐만 아니라 error나 throttling이 발생할 수 있는 종류의 작업에 대해서도 유용하다.
+  - 대안으로는 Trusted Advisor와 CloudWatch 알람을 설정해 사용할 수도 있지만 Trusted Advisor는 약 50개의 제한된 수의 서비스 Limit 검사만 수행돼 모니터링 할 Limit이 제한된다.
+  - Trusted Advisor는 결과를 CloudWatch에 저장하므로 서비스 Limit을 확인하려면 CloudWatch와 연결하고 알림을 트리거할 수 있다.
+  - 주로 계정 내의 모든 할당량을 모니터링하기 위해 Service Quotas 서비스에 CloudWatch 알람을 사용하는 것을 권장한다.
 
 ## **[SAA/DVA] CloudTrail**
 
