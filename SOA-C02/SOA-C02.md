@@ -9027,6 +9027,14 @@ AssumeRole은 IAM 서비스의 API이며, 따라서 CloudTrail에 의해 로깅�
 
 이러한 호출은 다시 한번 CloudTrail에 의해 기록되며, 그런 다음 EventBridge에 나타나고, SNS에서 알림을 트리거할 수 있다.
 
+**정리**
+- CloudTrail - EventBridge Integration
+  - CloudTrail과 EventBridge를 통합해 DynamoDB에서 테이블을 삭제할 때마다 SNS 알림을 수신할 수 있다. DeleteTable API 호출을 통해 DynamoDB에서 테이블을 삭제할 때마다 SNS 알림을 수신하고자 하는 것
+  - AWS에서 API 호출을 할 때 CloudTrail 뿐만 아니라 EventBridge에서도 이벤트로 기록된다. 구체적인 테이블 삭제 API 호출을 찾아 이를 기준으로 규칙을 생성할 수 있으며, 규칙은 목적지로 Amazon SNS를 설정해 알람을 생성할 수 있다.
+  - 사용자가 계정에서 AssumeRole할 때마다 알림을 받고 싶으면 EventBridge Integration을 사용해 SNS Topic으로 메시지를 트리거할 수 있다.
+  - API 호출은 CloudTrail에 의해 기록되고, EventBridge에 나타나고, SNS에서 알림을 트리거할 수 있다.
+  
+
 ## **CloudTrail for SysOps**
 
 시험을 준비할 때 CloudTrail에 대해 알아야 할 몇가지 사항이 있다.
