@@ -9211,6 +9211,17 @@ AWS Organization을 사용하는 경우 개별 계정에서 인증을 수행할 
 
 여러 개의 계정 및 여러 리전에 걸쳐 규칙을 배포하려면 클라우드포메이션 스택셋을 사용하는 것이 가장 좋은 방법이다. 클라우드포메이션 스택셋을 사용하면 여러 계정 및 여러 지역에 클라우드포메이션 스택을 배포할 수 있다.
 
+**정리**
+- Config - Aggregators
+  - 시험에 나오는 질문 중 하나이다.
+  - Aggregator는 여러 계정 환경에서 단일 중앙 계정을 두어 Config에 대한 정보를 중앙 집중화하고 싶을때 사용한다.
+  - Aggregator 계정에서만 Aggregator를 생성하면 되고, 모든 계정 및 리전에서 준수 및 비준수 리소스를 모두 볼수 있는 Aggreagted View를 얻게 된다.
+  - AWS Organization을 사용하는 경우 개별 계정에서 인증을 할 필요 없이 Organization의 Management 계정에서 Aggregator를 생성하면 인증이 자동으로 이루어진다.
+  - Organization을 사용하지 않는 경우 개별 계정에서 Aggregator가 데이터를 수집할 수 있도록 허용하는 인가를 생성해야 한다.
+  - Aggregator는 데이터를 집계하는 용도로만 사용되고, Rule을 중앙화하는 것은 아니다. Rule에 대한 관리는 개별 계정 수준에서 이뤄진다.
+  - 여러 계정 및 여러 리전에서 규칙을 배포하려면 CloudFormation StackSets를 사용하면 여러 계정 및 여러 Region에 Stack을 배포할 수 있어 가장 좋은 방법이다.
+  
+
 ## **[SAA] CloudWatch vs CloudTrail vs Config**
 
 CloudWatch CloudTrail Config 사이의 차이점을 명확하게 이해해야 하는 것이 시험에서 매우 흔한 문제이다.
